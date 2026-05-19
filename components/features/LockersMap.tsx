@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
+import 'leaflet/dist/leaflet.css'
 import { lockers, type Locker } from '@/lib/constants'
 
 // React-Leaflet ne peut pas être rendu côté serveur (utilise window).
@@ -37,8 +38,6 @@ export default function LockersMap({
 
   useEffect(() => {
     setMounted(true)
-    // Charge les CSS et le default icon Leaflet (sinon les markers cassent)
-    import('leaflet/dist/leaflet.css')
     import('leaflet').then((L) => {
       delete (L.Icon.Default.prototype as unknown as { _getIconUrl?: () => string })
         ._getIconUrl
