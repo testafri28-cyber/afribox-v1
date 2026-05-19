@@ -2,126 +2,127 @@
 
 import Link from 'next/link'
 import { Twitter, Linkedin, Instagram, Box } from 'lucide-react'
-import GridBackground from '@/components/ui/GridBackground'
 import { footerLinks } from '@/lib/constants'
 
 const socials = [
-  { Icon: Twitter, label: 'Twitter' },
-  { Icon: Linkedin, label: 'LinkedIn' },
-  { Icon: Instagram, label: 'Instagram' },
+  { Icon: Twitter, label: 'Twitter', href: '#' },
+  { Icon: Linkedin, label: 'LinkedIn', href: '#' },
+  { Icon: Instagram, label: 'Instagram', href: '#' },
 ]
 
-const legalLinks = ['Mentions légales', 'Confidentialité', 'Conditions']
+const legalLinks = ['Mentions légales', 'Confidentialité', 'Cookies']
 
 export default function Footer() {
   return (
     <footer
-      className="relative overflow-hidden"
-      style={{ background: '#222422' }}
+      className="relative text-white pt-20 pb-10 overflow-hidden"
+      style={{ background: '#1A1F1C' }}
     >
-      <GridBackground opacity={0.05} size={56} />
-      <div className="relative z-10 max-w-container mx-auto px-6 md:px-10 lg:px-20 py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-          {/* Colonne gauche — span 2 */}
-          <div className="lg:col-span-2">
-            {/* Logo bloc */}
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-[#2E302E] border border-[#3A3C3A] flex items-center justify-center">
-                <Box className="text-green-primary" size={22} />
+      {/* Motif grille fine avec masque radial en haut */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
+          opacity: 0.3,
+          maskImage:
+            'radial-gradient(ellipse at top, black 30%, transparent 75%)',
+          WebkitMaskImage:
+            'radial-gradient(ellipse at top, black 30%, transparent 75%)',
+        }}
+      />
+
+      {/* Filigrane — ancré en bas, déborde sous le footer (overflow-hidden coupe) */}
+      <div
+        aria-hidden
+        className="absolute left-1/2 -translate-x-1/2 font-heading font-bold leading-none pointer-events-none select-none whitespace-nowrap"
+        style={{
+          bottom: '-8rem',
+          fontSize: 'clamp(180px, 22vw, 280px)',
+          color: 'rgba(255,255,255,0.03)',
+        }}
+      >
+        Afribox
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-6 md:px-10">
+        {/* Grille 12 colonnes */}
+        <div className="grid lg:grid-cols-12 gap-12 pb-14">
+          {/* Logo + description + newsletter — span 5 */}
+          <div className="lg:col-span-5">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-12 h-12 rounded-2xl bg-white/95 ring-1 ring-white/20 flex items-center justify-center p-1.5 overflow-hidden">
+                <Box className="text-green-primary w-full h-full" />
               </div>
-              <div>
-                <p className="font-heading font-bold text-white text-lg leading-tight">
-                  Afribox
-                </p>
-                <p className="font-mono text-[10px] tracking-widest text-green-primary">
-                  SMART LOCKER NETWORK
-                </p>
+              <div className="leading-tight">
+                <div className="font-heading font-bold text-xl">Afribox</div>
+                <div className="text-[9px] font-bold tracking-[0.22em] uppercase text-green-light/70">
+                  Smart Locker Network
+                </div>
               </div>
             </div>
-
-            {/* Description */}
-            <p className="font-body text-sm text-[#9CA3A0] leading-relaxed max-w-xs mb-8">
-              Casiers connectés intelligents pour particuliers, opérateurs et villes.
-              Une infrastructure logistique pensée pour l&apos;avenir.
+            <p className="text-white/65 max-w-md leading-relaxed text-[15px]">
+              Casiers connectés intelligents pour particuliers, opérateurs et
+              villes. Une infrastructure logistique pensée pour l&apos;avenir.
             </p>
 
             {/* Newsletter */}
-            <p className="font-mono text-[11px] tracking-widest text-[#6B7280] uppercase mb-3">
-              Restez informé
-            </p>
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="flex gap-1 bg-[#2E302E] border border-[#3A3C3A] rounded-full p-1 max-w-sm"
-            >
-              <input
-                type="email"
-                placeholder="vous@email.com"
-                className="flex-1 bg-transparent text-white text-sm px-4 outline-none placeholder:text-[#6B7280] font-body"
-              />
-              <button
-                type="submit"
-                className="bg-green-primary text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-green-dark transition font-body"
-              >
-                S&apos;abonner →
-              </button>
+            <form onSubmit={(e) => e.preventDefault()} className="mt-8 max-w-md">
+              <label className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/50 block mb-3">
+                Restez informé
+              </label>
+              <div className="flex gap-2 bg-white/5 border border-white/10 rounded-full p-1.5 focus-within:border-green-primary transition-colors">
+                <input
+                  type="email"
+                  placeholder="vous@email.com"
+                  className="flex-1 bg-transparent px-4 py-2 text-sm placeholder-white/40 focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-full bg-green-primary text-white text-sm font-semibold hover:bg-green-dark disabled:opacity-60 transition-colors flex items-center gap-1.5"
+                >
+                  S&apos;abonner →
+                </button>
+              </div>
             </form>
           </div>
 
-          {/* Colonnes liens — droite */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:col-span-3">
-            <FooterColumn title="Produit" links={footerLinks.product} />
-            <FooterColumn
-              title="Société"
-              links={footerLinks.company.concat([])}
-            />
-            <FooterColumn title="Ressources" links={footerLinks.resources} />
+          {/* Colonnes liens */}
+          <FooterColumn title="Produit" links={footerLinks.product} />
+          <FooterColumn title="Société" links={footerLinks.company} />
+          <FooterColumn title="Ressources" links={footerLinks.resources} />
 
-            {/* Colonne Suivre */}
-            <div>
-              <p className="font-mono text-[11px] tracking-widest text-[#6B7280] uppercase mb-4">
-                Suivre
-              </p>
-              <div className="flex flex-row md:flex-col gap-2">
-                {socials.map(({ Icon, label }) => (
-                  <button
-                    key={label}
-                    aria-label={label}
-                    className="w-9 h-9 rounded-lg bg-[#2E302E] border border-[#3A3C3A] flex items-center justify-center text-[#9CA3A0] hover:bg-[#3A3C3A] hover:border-green-primary hover:text-white transition"
-                  >
-                    <Icon size={16} />
-                  </button>
-                ))}
-              </div>
+          {/* Suivre — span 1 */}
+          <div className="lg:col-span-1">
+            <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/50 mb-5">
+              Suivre
+            </div>
+            <div className="flex flex-row lg:flex-col gap-3">
+              {socials.map(({ Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  aria-label={label}
+                  className="w-9 h-9 rounded-lg bg-white/5 hover:bg-green-primary border border-white/10 flex items-center justify-center transition-colors"
+                >
+                  <Icon className="w-4 h-4" />
+                </a>
+              ))}
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Barre copyright avec filigrane */}
-      <div className="relative border-t border-[#3A3C3A] overflow-hidden">
-        {/* Filigrane */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
-          <span
-            className="font-heading font-bold whitespace-nowrap"
-            style={{
-              fontSize: 'clamp(80px, 12vw, 160px)',
-              color: 'rgba(255,255,255,0.03)',
-              lineHeight: 1,
-            }}
-          >
-            Afribox
-          </span>
-        </div>
-        <div className="relative z-10 max-w-container mx-auto px-6 md:px-10 lg:px-20 py-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-          <p className="font-body text-sm text-[#6B7280]">
-            © 2026 Afribox. Tous droits réservés.
-          </p>
-          <div className="flex gap-4 md:gap-6 flex-wrap">
+        {/* Barre du bas */}
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-white/50">
+          <div>© 2026 Afribox. Tous droits réservés.</div>
+          <div className="flex gap-6">
             {legalLinks.map((l) => (
               <a
                 key={l}
                 href="#"
-                className="font-body text-sm text-[#6B7280] hover:text-white transition"
+                className="hover:text-white transition-colors"
               >
                 {l}
               </a>
@@ -133,19 +134,24 @@ export default function Footer() {
   )
 }
 
-type Link = { label: string; href: string }
-function FooterColumn({ title, links }: { title: string; links: Link[] }) {
+function FooterColumn({
+  title,
+  links,
+}: {
+  title: string
+  links: { label: string; href: string }[]
+}) {
   return (
-    <div>
-      <p className="font-mono text-[11px] tracking-widest text-[#6B7280] uppercase mb-4">
+    <div className="lg:col-span-2">
+      <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/50 mb-5">
         {title}
-      </p>
-      <ul className="space-y-3">
+      </div>
+      <ul className="space-y-3.5">
         {links.map((link) => (
           <li key={link.label}>
             <Link
               href={link.href}
-              className="font-body text-sm text-[#D1D5DB] hover:text-white transition"
+              className="text-white/80 hover:text-green-primary text-sm transition-colors"
             >
               {link.label}
             </Link>
