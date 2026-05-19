@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { Star } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
+import GridBackground from '@/components/ui/GridBackground'
 import { testimonials, type Testimonial } from '@/lib/constants'
 
 export default function TestimonialSection() {
@@ -63,36 +64,39 @@ export default function TestimonialSection() {
 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <article className="flex-shrink-0 w-[320px] md:w-[380px] bg-white border border-brand-border rounded-2xl p-6 md:p-7 shadow-sm">
-      {/* Étoiles */}
-      <div className="flex gap-1 mb-5">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Star
-            key={i}
-            size={16}
-            className="text-green-primary"
-            fill="currentColor"
-          />
-        ))}
-      </div>
-
-      {/* Citation */}
-      <p className="font-body text-brand-gray leading-relaxed mb-6 min-h-[6rem]">
-        &laquo;&nbsp;{testimonial.quote}&nbsp;&raquo;
-      </p>
-
-      {/* Auteur */}
-      <div className="flex items-center gap-3 pt-5 border-t border-brand-border">
-        <div className="w-10 h-10 rounded-full bg-green-primary text-white font-heading font-bold text-sm flex items-center justify-center flex-shrink-0">
-          {testimonial.initials}
+    <article className="relative overflow-hidden flex-shrink-0 w-[320px] md:w-[380px] bg-white border border-brand-border rounded-2xl p-6 md:p-7 shadow-sm">
+      <GridBackground tone="green" />
+      <div className="relative">
+        {/* Étoiles */}
+        <div className="flex gap-1 mb-5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star
+              key={i}
+              size={16}
+              className="text-green-primary"
+              fill="currentColor"
+            />
+          ))}
         </div>
-        <div className="min-w-0">
-          <p className="font-body font-semibold text-brand-gray text-sm truncate">
-            {testimonial.name}
-          </p>
-          <p className="font-body text-xs text-brand-sub truncate">
-            {testimonial.role}
-          </p>
+
+        {/* Citation */}
+        <p className="font-body text-brand-gray leading-relaxed mb-6 min-h-[6rem]">
+          &laquo;&nbsp;{testimonial.quote}&nbsp;&raquo;
+        </p>
+
+        {/* Auteur */}
+        <div className="flex items-center gap-3 pt-5 border-t border-brand-border">
+          <div className="w-10 h-10 rounded-full bg-green-primary text-white font-heading font-bold text-sm flex items-center justify-center flex-shrink-0">
+            {testimonial.initials}
+          </div>
+          <div className="min-w-0">
+            <p className="font-body font-semibold text-brand-gray text-sm truncate">
+              {testimonial.name}
+            </p>
+            <p className="font-body text-xs text-brand-sub truncate">
+              {testimonial.role}
+            </p>
+          </div>
         </div>
       </div>
     </article>

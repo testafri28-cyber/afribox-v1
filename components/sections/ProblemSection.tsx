@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
+import GridBackground from '@/components/ui/GridBackground'
 import { problems } from '@/lib/constants'
 
 const fadeUp = {
@@ -43,15 +44,18 @@ export default function ProblemSection() {
             <motion.div
               key={p.title}
               variants={fadeUp}
-              className="bg-brand-off rounded-2xl p-6 md:p-8 border border-brand-border"
+              className="relative overflow-hidden bg-brand-off rounded-2xl p-6 md:p-8 border border-brand-border"
             >
-              <p className="font-mono text-xs tracking-widest text-green-primary uppercase mb-3">
-                0{i + 1}
-              </p>
-              <h3 className="font-heading font-bold text-xl text-brand-gray mb-3">
-                {p.title}
-              </h3>
-              <p className="font-body text-brand-sub leading-relaxed">{p.text}</p>
+              <GridBackground tone="green" />
+              <div className="relative">
+                <p className="font-mono text-xs tracking-widest text-green-primary uppercase mb-3">
+                  0{i + 1}
+                </p>
+                <h3 className="font-heading font-bold text-xl text-brand-gray mb-3">
+                  {p.title}
+                </h3>
+                <p className="font-body text-brand-sub leading-relaxed">{p.text}</p>
+              </div>
             </motion.div>
           ))}
         </motion.div>

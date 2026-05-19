@@ -78,32 +78,35 @@ export default function ServicesSection() {
             viewport={{ once: true, amount: 0.2 }}
             variants={fadeUp}
             transition={{ delay: 0.1 }}
-            className="bg-white border border-brand-border rounded-2xl p-8 md:p-10 flex flex-col"
+            className="relative overflow-hidden bg-white border border-brand-border rounded-2xl p-8 md:p-10 flex flex-col"
           >
-            <Badge tone="soft" className="mb-6 self-start">
-              Particuliers & Entreprises
-            </Badge>
-            <h3 className="font-heading font-bold text-2xl md:text-3xl leading-tight mb-4 text-brand-gray">
-              Envoyez. Recevez. À votre rythme.
-            </h3>
-            <p className="font-body text-brand-sub leading-relaxed mb-6">
-              Réservez un locker en ligne en quelques clics. Déposez ou récupérez
-              votre colis quand ça vous arrange. Pas de file d&apos;attente, pas
-              d&apos;horaires.
-            </p>
-            <ul className="space-y-3 mb-8">
-              {consumerBenefits.map((b) => (
-                <li key={b} className="flex items-start gap-3">
-                  <Check size={18} className="text-green-primary mt-0.5 flex-shrink-0" />
-                  <span className="font-body text-sm text-brand-gray">{b}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-auto">
-              <Button href="/reserver" variant="primary">
-                Réserver un locker
-                <ArrowRight size={16} className="ml-2" />
-              </Button>
+            <GridBackground tone="green" />
+            <div className="relative flex flex-col h-full">
+              <Badge tone="soft" className="mb-6 self-start">
+                Particuliers & Entreprises
+              </Badge>
+              <h3 className="font-heading font-bold text-2xl md:text-3xl leading-tight mb-4 text-brand-gray">
+                Envoyez. Recevez. À votre rythme.
+              </h3>
+              <p className="font-body text-brand-sub leading-relaxed mb-6">
+                Réservez un locker en ligne en quelques clics. Déposez ou récupérez
+                votre colis quand ça vous arrange. Pas de file d&apos;attente, pas
+                d&apos;horaires.
+              </p>
+              <ul className="space-y-3 mb-8">
+                {consumerBenefits.map((b) => (
+                  <li key={b} className="flex items-start gap-3">
+                    <Check size={18} className="text-green-primary mt-0.5 flex-shrink-0" />
+                    <span className="font-body text-sm text-brand-gray">{b}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-auto">
+                <Button href="/reserver" variant="primary">
+                  Réserver un locker
+                  <ArrowRight size={16} className="ml-2" />
+                </Button>
+              </div>
             </div>
           </motion.div>
         </div>

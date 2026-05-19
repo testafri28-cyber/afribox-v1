@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
+import GridBackground from '@/components/ui/GridBackground'
 import { channels } from '@/lib/constants'
 
 const fadeUp = {
@@ -39,15 +40,18 @@ export default function ChannelsSection() {
             <motion.div
               key={title}
               variants={fadeUp}
-              className="bg-white rounded-2xl p-6 md:p-8 border border-brand-border"
+              className="relative overflow-hidden bg-white rounded-2xl p-6 md:p-8 border border-brand-border"
             >
-              <div className="w-12 h-12 rounded-xl bg-green-bg flex items-center justify-center mb-5">
-                <Icon size={22} className="text-green-primary" />
+              <GridBackground tone="green" />
+              <div className="relative">
+                <div className="w-12 h-12 rounded-xl bg-green-bg flex items-center justify-center mb-5">
+                  <Icon size={22} className="text-green-primary" />
+                </div>
+                <h3 className="font-heading font-bold text-xl text-brand-gray mb-3">
+                  {title}
+                </h3>
+                <p className="font-body text-brand-sub leading-relaxed">{text}</p>
               </div>
-              <h3 className="font-heading font-bold text-xl text-brand-gray mb-3">
-                {title}
-              </h3>
-              <p className="font-body text-brand-sub leading-relaxed">{text}</p>
             </motion.div>
           ))}
         </motion.div>

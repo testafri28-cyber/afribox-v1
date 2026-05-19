@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
+import GridBackground from '@/components/ui/GridBackground'
 import { previewSteps } from '@/lib/constants'
 
 const fadeUp = {
@@ -41,25 +42,28 @@ export default function HowItWorksPreview() {
             <motion.article
               key={number}
               variants={fadeUp}
-              className="relative bg-white rounded-2xl p-7 md:p-8 border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] hover:shadow-[0_8px_32px_-8px_rgba(31,71,40,0.15)] transition-shadow"
+              className="relative overflow-hidden bg-white rounded-2xl p-7 md:p-8 border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] hover:shadow-[0_8px_32px_-8px_rgba(31,71,40,0.15)] transition-shadow"
             >
-              {/* Ligne sup : icône à gauche, gros numéro fantôme à droite */}
-              <div className="flex items-start justify-between mb-6">
-                <div className="w-11 h-11 rounded-xl bg-green-bg flex items-center justify-center">
-                  <Icon size={22} className="text-green-primary" />
+              <GridBackground tone="green" />
+              <div className="relative">
+                {/* Ligne sup : icône à gauche, gros numéro fantôme à droite */}
+                <div className="flex items-start justify-between mb-6">
+                  <div className="w-11 h-11 rounded-xl bg-green-bg flex items-center justify-center">
+                    <Icon size={22} className="text-green-primary" />
+                  </div>
+                  <span
+                    className="font-heading font-bold text-5xl md:text-6xl leading-none select-none"
+                    style={{ color: 'rgba(39, 174, 96, 0.12)' }}
+                  >
+                    {number}
+                  </span>
                 </div>
-                <span
-                  className="font-heading font-bold text-5xl md:text-6xl leading-none select-none"
-                  style={{ color: 'rgba(39, 174, 96, 0.12)' }}
-                >
-                  {number}
-                </span>
-              </div>
 
-              <h3 className="font-heading font-bold text-xl md:text-2xl text-brand-gray mb-3">
-                {title}
-              </h3>
-              <p className="font-body text-brand-sub leading-relaxed">{text}</p>
+                <h3 className="font-heading font-bold text-xl md:text-2xl text-brand-gray mb-3">
+                  {title}
+                </h3>
+                <p className="font-body text-brand-sub leading-relaxed">{text}</p>
+              </div>
             </motion.article>
           ))}
         </motion.div>

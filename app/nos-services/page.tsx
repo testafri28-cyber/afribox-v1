@@ -132,12 +132,13 @@ export default function ServicesPage() {
               {consumerSteps.map((s) => (
                 <div
                   key={s.n}
-                  className="flex gap-4 p-5 bg-brand-off border border-brand-border rounded-2xl"
+                  className="relative overflow-hidden flex gap-4 p-5 bg-brand-off border border-brand-border rounded-2xl"
                 >
-                  <p className="font-mono font-bold text-2xl text-green-primary leading-none">
+                  <GridBackground tone="green" />
+                  <p className="relative font-mono font-bold text-2xl text-green-primary leading-none">
                     {s.n}
                   </p>
-                  <p className="font-body text-brand-gray leading-relaxed">
+                  <p className="relative font-body text-brand-gray leading-relaxed">
                     {s.text}
                   </p>
                 </div>
@@ -169,17 +170,20 @@ export default function ServicesPage() {
                 <ArrowRight size={18} className="ml-2" />
               </Button>
             </div>
-            <ul className="space-y-4 bg-white border border-brand-border rounded-2xl p-6 md:p-8">
-              {entrepriseBenefits.map((b) => (
-                <li key={b} className="flex items-start gap-3">
-                  <Check
-                    size={18}
-                    className="text-green-primary mt-0.5 flex-shrink-0"
-                  />
-                  <span className="font-body text-brand-gray">{b}</span>
-                </li>
-              ))}
-            </ul>
+            <div className="relative overflow-hidden bg-white border border-brand-border rounded-2xl p-6 md:p-8">
+              <GridBackground tone="green" />
+              <ul className="relative space-y-4">
+                {entrepriseBenefits.map((b) => (
+                  <li key={b} className="flex items-start gap-3">
+                    <Check
+                      size={18}
+                      className="text-green-primary mt-0.5 flex-shrink-0"
+                    />
+                    <span className="font-body text-brand-gray">{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </Container>
       </section>
@@ -257,17 +261,20 @@ export default function ServicesPage() {
             {whyAfribox.map(({ icon: Icon, title, text }) => (
               <div
                 key={title}
-                className="bg-white border border-brand-border rounded-2xl p-6"
+                className="relative overflow-hidden bg-white border border-brand-border rounded-2xl p-6"
               >
-                <div className="w-11 h-11 rounded-xl bg-green-bg flex items-center justify-center mb-4">
-                  <Icon size={20} className="text-green-primary" />
+                <GridBackground tone="green" />
+                <div className="relative">
+                  <div className="w-11 h-11 rounded-xl bg-green-bg flex items-center justify-center mb-4">
+                    <Icon size={20} className="text-green-primary" />
+                  </div>
+                  <h3 className="font-heading font-bold text-lg text-brand-gray mb-2">
+                    {title}
+                  </h3>
+                  <p className="font-body text-sm text-brand-sub leading-relaxed">
+                    {text}
+                  </p>
                 </div>
-                <h3 className="font-heading font-bold text-lg text-brand-gray mb-2">
-                  {title}
-                </h3>
-                <p className="font-body text-sm text-brand-sub leading-relaxed">
-                  {text}
-                </p>
               </div>
             ))}
           </div>
@@ -318,12 +325,14 @@ function CTACard({ tag, title, href, cta, tone }: CTACardProps) {
   const isDark = tone === 'dark'
   return (
     <div
-      className={`rounded-2xl p-6 md:p-8 flex flex-col border ${
+      className={`relative overflow-hidden rounded-2xl p-6 md:p-8 flex flex-col border ${
         isDark
           ? 'bg-green-dark text-white border-green-dark'
           : 'bg-brand-off border-brand-border'
       }`}
     >
+      <GridBackground tone={isDark ? 'white' : 'green'} opacity={isDark ? 0.06 : 0.06} />
+      <div className="relative flex flex-col h-full">
       <p
         className={`font-mono text-[11px] tracking-widest uppercase mb-3 ${
           isDark ? 'text-green-light' : 'text-green-primary'
@@ -347,6 +356,7 @@ function CTACard({ tag, title, href, cta, tone }: CTACardProps) {
         {cta}
         <ArrowRight size={14} className="ml-1.5" />
       </Button>
+      </div>
     </div>
   )
 }

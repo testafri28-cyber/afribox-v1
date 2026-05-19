@@ -98,15 +98,18 @@ export default function AboutPage() {
             {values.map(({ icon: Icon, title, text }) => (
               <div
                 key={title}
-                className="bg-white border border-brand-border rounded-2xl p-6 md:p-8"
+                className="relative overflow-hidden bg-white border border-brand-border rounded-2xl p-6 md:p-8"
               >
-                <div className="w-12 h-12 rounded-xl bg-green-bg flex items-center justify-center mb-5">
-                  <Icon size={22} className="text-green-primary" />
+                <GridBackground tone="green" />
+                <div className="relative">
+                  <div className="w-12 h-12 rounded-xl bg-green-bg flex items-center justify-center mb-5">
+                    <Icon size={22} className="text-green-primary" />
+                  </div>
+                  <h3 className="font-heading font-bold text-xl text-brand-gray mb-3">
+                    {title}
+                  </h3>
+                  <p className="font-body text-brand-sub leading-relaxed">{text}</p>
                 </div>
-                <h3 className="font-heading font-bold text-xl text-brand-gray mb-3">
-                  {title}
-                </h3>
-                <p className="font-body text-brand-sub leading-relaxed">{text}</p>
               </div>
             ))}
           </div>
@@ -126,17 +129,20 @@ export default function AboutPage() {
             {team.map((m) => (
               <div
                 key={m.name}
-                className="bg-brand-off border border-brand-border rounded-2xl p-6 text-center"
+                className="relative overflow-hidden bg-brand-off border border-brand-border rounded-2xl p-6 text-center"
               >
-                <div className="w-16 h-16 rounded-full bg-green-primary text-white font-heading font-bold text-xl flex items-center justify-center mx-auto mb-4">
-                  {m.initials}
+                <GridBackground tone="green" />
+                <div className="relative">
+                  <div className="w-16 h-16 rounded-full bg-green-primary text-white font-heading font-bold text-xl flex items-center justify-center mx-auto mb-4">
+                    {m.initials}
+                  </div>
+                  <p className="font-heading font-bold text-brand-gray mb-1">
+                    {m.name}
+                  </p>
+                  <p className="font-mono text-[11px] text-brand-mid tracking-widest uppercase">
+                    {m.role}
+                  </p>
                 </div>
-                <p className="font-heading font-bold text-brand-gray mb-1">
-                  {m.name}
-                </p>
-                <p className="font-mono text-[11px] text-brand-mid tracking-widest uppercase">
-                  {m.role}
-                </p>
               </div>
             ))}
           </div>
