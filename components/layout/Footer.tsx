@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Twitter, Linkedin, Instagram, Box } from 'lucide-react'
+import { Twitter, Linkedin, Instagram } from 'lucide-react'
 import { footerLinks } from '@/lib/constants'
 
 const socials = [
@@ -54,7 +54,12 @@ export default function Footer() {
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3 mb-5">
               <div className="w-12 h-12 rounded-2xl bg-white/95 ring-1 ring-white/20 flex items-center justify-center p-1.5 overflow-hidden">
-                <Box className="text-green-primary w-full h-full" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/logo.svg"
+                  alt="Afribox"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div className="leading-tight">
                 <div className="font-heading font-bold text-xl">Afribox</div>

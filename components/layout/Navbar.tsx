@@ -42,10 +42,9 @@ export default function Navbar() {
     >
       <div className="max-w-container mx-auto px-4 md:px-10 lg:px-20 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
-          <span className="font-heading font-bold text-xl text-green-dark">
-            Afribox
-          </span>
+        <Link href="/" className="flex items-center" aria-label="Afribox">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="Afribox" className="h-10 w-auto" />
         </Link>
 
         {/* Liens centre — desktop */}
@@ -102,9 +101,8 @@ export default function Navbar() {
               transition={{ type: 'tween', duration: 0.25, ease: 'easeOut' }}
             >
               <div className="flex items-center justify-between h-16 px-6 border-b border-brand-border">
-                <span className="font-heading font-bold text-xl text-green-dark">
-                  Afribox
-                </span>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/logo.svg" alt="Afribox" className="h-10 w-auto" />
                 <button
                   aria-label="Fermer le menu"
                   onClick={() => setOpen(false)}
