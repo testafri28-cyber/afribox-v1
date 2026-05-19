@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
+import GridBackground from '@/components/ui/GridBackground'
 import CTASection from '@/components/sections/CTASection'
 import { values, team } from '@/lib/constants'
 import { buildMetadata } from '@/lib/metadata'
@@ -143,8 +144,9 @@ export default function AboutPage() {
       </section>
 
       {/* Vision */}
-      <section className="bg-green-dark text-white">
-        <Container className="py-16 md:py-24">
+      <section className="relative overflow-hidden bg-green-dark text-white">
+        <GridBackground opacity={0.06} />
+        <Container className="relative z-10 py-16 md:py-24">
           <div className="max-w-3xl">
             <SectionLabel className="mb-4" tone="white">
               Notre vision

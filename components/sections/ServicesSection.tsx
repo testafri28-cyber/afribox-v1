@@ -6,6 +6,7 @@ import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import Badge from '@/components/ui/Badge'
 import Button from '@/components/ui/Button'
+import GridBackground from '@/components/ui/GridBackground'
 import { merchantBenefits, consumerBenefits } from '@/lib/constants'
 
 const fadeUp = {
@@ -38,32 +39,35 @@ export default function ServicesSection() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             variants={fadeUp}
-            className="bg-green-dark text-white rounded-2xl p-8 md:p-10 flex flex-col"
+            className="relative overflow-hidden bg-green-dark text-white rounded-2xl p-8 md:p-10 flex flex-col"
           >
-            <Badge tone="green" className="mb-6 self-start">
-              Marchands & E-commerce
-            </Badge>
-            <h3 className="font-heading font-bold text-2xl md:text-3xl leading-tight mb-4">
-              Livrez vos clients. Sans vous en occuper.
-            </h3>
-            <p className="font-body text-white/80 leading-relaxed mb-6">
-              Confiez le dernier kilomètre à notre réseau de lockers. Vos clients
-              récupèrent leurs commandes quand ils veulent, sans appel, sans
-              attente. Et vous gardez la main sur tout via notre tableau de bord.
-            </p>
-            <ul className="space-y-3 mb-8">
-              {merchantBenefits.map((b) => (
-                <li key={b} className="flex items-start gap-3">
-                  <Check size={18} className="text-green-light mt-0.5 flex-shrink-0" />
-                  <span className="font-body text-sm text-white/90">{b}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-auto">
-              <Button href="/nos-services" variant="white">
-                Découvrir l&apos;offre marchand
-                <ArrowRight size={16} className="ml-2" />
-              </Button>
+            <GridBackground opacity={0.06} />
+            <div className="relative z-10 flex flex-col h-full">
+              <Badge tone="green" className="mb-6 self-start">
+                Marchands & E-commerce
+              </Badge>
+              <h3 className="font-heading font-bold text-2xl md:text-3xl leading-tight mb-4">
+                Livrez vos clients. Sans vous en occuper.
+              </h3>
+              <p className="font-body text-white/80 leading-relaxed mb-6">
+                Confiez le dernier kilomètre à notre réseau de lockers. Vos clients
+                récupèrent leurs commandes quand ils veulent, sans appel, sans
+                attente. Et vous gardez la main sur tout via notre tableau de bord.
+              </p>
+              <ul className="space-y-3 mb-8">
+                {merchantBenefits.map((b) => (
+                  <li key={b} className="flex items-start gap-3">
+                    <Check size={18} className="text-green-light mt-0.5 flex-shrink-0" />
+                    <span className="font-body text-sm text-white/90">{b}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-auto">
+                <Button href="/nos-services" variant="white">
+                  Découvrir l&apos;offre marchand
+                  <ArrowRight size={16} className="ml-2" />
+                </Button>
+              </div>
             </div>
           </motion.div>
 

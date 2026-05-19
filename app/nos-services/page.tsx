@@ -4,6 +4,7 @@ import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import Badge from '@/components/ui/Badge'
 import Button from '@/components/ui/Button'
+import GridBackground from '@/components/ui/GridBackground'
 import {
   merchantBenefits,
   pricing,
@@ -53,8 +54,9 @@ export default function ServicesPage() {
       </section>
 
       {/* Service B2B — pleine largeur fond vert sombre */}
-      <section id="b2b" className="bg-green-dark text-white">
-        <Container className="py-16 md:py-24">
+      <section id="b2b" className="relative overflow-hidden bg-green-dark text-white">
+        <GridBackground opacity={0.06} />
+        <Container className="relative z-10 py-16 md:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div>
               <Badge tone="green" className="mb-6">

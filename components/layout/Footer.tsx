@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { Twitter, Linkedin, Instagram, Box } from 'lucide-react'
+import GridBackground from '@/components/ui/GridBackground'
 import { footerLinks } from '@/lib/constants'
 
 const socials = [
@@ -14,8 +15,12 @@ const legalLinks = ['Mentions légales', 'Confidentialité', 'Conditions']
 
 export default function Footer() {
   return (
-    <footer style={{ background: '#222422' }}>
-      <div className="max-w-container mx-auto px-6 md:px-10 lg:px-20 py-16">
+    <footer
+      className="relative overflow-hidden"
+      style={{ background: '#222422' }}
+    >
+      <GridBackground opacity={0.05} size={56} />
+      <div className="relative z-10 max-w-container mx-auto px-6 md:px-10 lg:px-20 py-16">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
           {/* Colonne gauche — span 2 */}
           <div className="lg:col-span-2">

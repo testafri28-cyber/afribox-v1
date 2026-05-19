@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import Button from '@/components/ui/Button'
+import GridBackground from '@/components/ui/GridBackground'
 
 type CTASectionProps = {
   eyebrow?: string
@@ -39,19 +40,7 @@ export default function CTASection({
           }}
         >
           {/* Motif grille fine blanche en arrière-plan */}
-          <div
-            aria-hidden
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              backgroundImage:
-                'linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)',
-              backgroundSize: '48px 48px',
-              maskImage:
-                'radial-gradient(ellipse at center, black 40%, transparent 90%)',
-              WebkitMaskImage:
-                'radial-gradient(ellipse at center, black 40%, transparent 90%)',
-            }}
-          />
+          <GridBackground opacity={0.08} />
 
           {/* Halo doux en haut à droite */}
           <div
