@@ -24,7 +24,9 @@ type ButtonAsLink = CommonProps & {
   href: string
   type?: never
   disabled?: never
-  onClick?: never
+  onClick?: () => void
+  target?: string
+  rel?: string
 }
 
 type ButtonProps = ButtonAsButton | ButtonAsLink

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, Clock, ShieldCheck, Smartphone } from 'lucide-react'
+import { ArrowRight, Clock, ShieldCheck, Smartphone, Download } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import Button from '@/components/ui/Button'
 
@@ -49,8 +49,9 @@ export default function Hero() {
                 Réserver un locker
                 <ArrowRight size={18} className="ml-2" />
               </Button>
-              <Button href="/nos-services#b2b" variant="secondary" size="lg">
-                Je suis marchand
+              <Button href="#download" variant="secondary" size="lg">
+                <Download size={18} className="mr-2" />
+                Télécharger l&apos;application
               </Button>
             </div>
 

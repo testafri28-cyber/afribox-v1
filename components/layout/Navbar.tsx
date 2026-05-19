@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { Menu, X, ArrowRight } from 'lucide-react'
+import { Menu, X, ArrowRight, Download } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '@/components/ui/Button'
 
@@ -63,8 +63,9 @@ export default function Navbar() {
 
         {/* CTAs — desktop */}
         <div className="hidden lg:flex items-center gap-3">
-          <Button href="/nos-services#b2b" variant="ghost" size="sm">
-            Je suis marchand
+          <Button href="#download" variant="ghost" size="sm">
+            <Download size={14} className="mr-1.5" />
+            Télécharger l&apos;application
           </Button>
           <Button href="/reserver" variant="primary" size="sm">
             Réserver un locker
@@ -126,12 +127,13 @@ export default function Navbar() {
               </nav>
               <div className="flex flex-col gap-3 px-6 pb-8">
                 <Button
-                  href="/nos-services#b2b"
+                  href="#download"
                   variant="ghost"
                   fullWidth
                   onClick={() => setOpen(false)}
                 >
-                  Je suis marchand
+                  <Download size={16} className="mr-1.5" />
+                  Télécharger l&apos;application
                 </Button>
                 <Button
                   href="/reserver"
