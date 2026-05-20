@@ -13,18 +13,7 @@ const features = [
 
 export default function Hero() {
   return (
-    <>
-      {/* Bandeau de disponibilité */}
-      <div className="bg-green-primary text-white">
-        <Container className="py-2.5 flex items-center justify-center gap-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-white" />
-          <p className="font-mono text-[11px] tracking-widest uppercase text-center">
-            Disponible à Abidjan · Réseau en expansion
-          </p>
-        </Container>
-      </div>
-
-      <section className="bg-white">
+    <section className="bg-white">
         <Container className="pt-16 pb-20 md:pt-24 md:pb-28">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -32,9 +21,6 @@ export default function Hero() {
             transition={{ duration: 0.6, ease: 'easeOut' }}
             className="max-w-3xl"
           >
-            <p className="font-mono text-xs tracking-widest text-green-primary uppercase mb-6">
-              AFR-2025 · Smart Locker Network
-            </p>
             <h1 className="font-heading font-bold text-[36px] md:text-[56px] leading-[1.05] tracking-tight text-brand-gray mb-6">
               Vos colis vous attendent.{' '}
               <span className="text-green-primary">Toujours.</span>
@@ -68,7 +54,6 @@ export default function Hero() {
             </div>
           </motion.div>
         </Container>
-      </section>
-    </>
+    </section>
   )
 }

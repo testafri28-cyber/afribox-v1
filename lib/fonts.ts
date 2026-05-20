@@ -5,6 +5,7 @@ export const spaceGrotesk = Space_Grotesk({
   weight: ['400', '500', '600', '700'],
   variable: '--font-space-grotesk',
   display: 'swap',
+  preload: false,
 })
 
 export const dmSans = DM_Sans({
@@ -12,6 +13,7 @@ export const dmSans = DM_Sans({
   weight: ['400', '500', '600', '700'],
   variable: '--font-dm-sans',
   display: 'swap',
+  preload: false,
 })
 
 export const dmMono = DM_Mono({
@@ -19,4 +21,5 @@ export const dmMono = DM_Mono({
   weight: ['400', '500'],
   variable: '--font-dm-mono',
   display: 'swap',
+  preload: false,
 })
