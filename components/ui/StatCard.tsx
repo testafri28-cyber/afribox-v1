@@ -1,15 +1,13 @@
 'use client'
 
 import { motion, useInView } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 type StatCardProps = {
   value: string
   label: string
 }
 
-// Tente d'extraire un nombre pour animation count-up.
-// Si la valeur n'est pas un nombre (ex: "24/7"), on l'affiche telle quelle.
 function parseNumeric(value: string): { num: number; suffix: string } | null {
   const match = value.match(/^(\d+)(.*)$/)
   if (!match) return null
@@ -19,7 +17,7 @@ function parseNumeric(value: string): { num: number; suffix: string } | null {
 export default function StatCard({ value, label }: StatCardProps) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.5 })
-  const numeric = parseNumeric(value)
+  const numeric = useMemo(() => parseNumeric(value), [value])
   const [display, setDisplay] = useState<string>(numeric ? '0' + numeric.suffix : value)
 
   useEffect(() => {
@@ -27,15 +25,19 @@ export default function StatCard({ value, label }: StatCardProps) {
       if (!numeric) setDisplay(value)
       return
     }
-    const duration = 900
+    const duration = 1600
     const start = performance.now()
     let raf = 0
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / duration)
       const eased = 1 - Math.pow(1 - t, 3)
       const current = Math.round(numeric.num * eased)
-      setDisplay(current + numeric.suffix)
-      if (t < 1) raf = requestAnimationFrame(tick)
+      setDisplay(current.toLocaleString('fr-FR') + numeric.suffix)
+      if (t < 1) {
+        raf = requestAnimationFrame(tick)
+      } else {
+        setDisplay(numeric.num.toLocaleString('fr-FR') + numeric.suffix)
+      }
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)

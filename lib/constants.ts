@@ -84,10 +84,10 @@ export const lockers: Locker[] = [
 // ---------------------------------------------------------------------------
 export type Stat = { value: string; label: string }
 export const stats: Stat[] = [
-  { value: '24/7', label: 'Disponibilité' },
-  { value: '60s', label: 'Dépôt' },
-  { value: '0', label: 'Coordination' },
-  { value: '3', label: 'Étapes' },
+  { value: '4800', label: 'Livraisons réussies' },
+  { value: '98%', label: 'Satisfaction client' },
+  { value: '24', label: 'Marchands partenaires' },
+  { value: '60s', label: 'Secondes de dépôt' },
 ]
 
 // ---------------------------------------------------------------------------

@@ -2,11 +2,13 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { Menu, X, ArrowRight, Download } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '@/components/ui/Button'
 
 const navLinks = [
+  { label: 'Accueil', href: '/' },
   { label: 'À propos', href: '/a-propos' },
   { label: 'Nos services', href: '/nos-services' },
   { label: 'Comment ça marche', href: '/comment-ca-marche' },
@@ -16,6 +18,10 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+
+  const isActive = (href: string) =>
+    href === '/' ? pathname === '/' : pathname.startsWith(href)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -24,7 +30,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Bloque le scroll quand le drawer mobile est ouvert
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => {
@@ -49,22 +54,32 @@ export default function Navbar() {
 
         {/* Liens centre — desktop */}
         <nav className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="font-body text-sm text-brand-gray hover:text-green-primary transition"
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const active = isActive(link.href)
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`relative font-body text-sm transition group ${
+                  active ? 'text-green-primary font-medium' : 'text-brand-gray hover:text-green-primary'
+                }`}
+              >
+                {link.label}
+                <span
+                  className={`absolute -bottom-1 left-0 h-0.5 bg-green-primary rounded-full transition-all duration-300 ${
+                    active ? 'w-full' : 'w-0 group-hover:w-full'
+                  }`}
+                />
+              </Link>
+            )
+          })}
         </nav>
 
         {/* CTAs — desktop */}
         <div className="hidden lg:flex items-center gap-3">
           <Button href="#download" variant="ghost" size="sm">
             <Download size={14} className="mr-1.5" />
-            Télécharger l&apos;application
+            Télécharger l&apos;appli
           </Button>
           <Button href="/reserver" variant="primary" size="sm">
             Réserver un locker
@@ -112,16 +127,26 @@ export default function Navbar() {
                 </button>
               </div>
               <nav className="flex flex-col gap-1 px-6 py-6 flex-1">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className="font-body text-lg text-brand-gray hover:text-green-primary py-3 border-b border-brand-border"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {navLinks.map((link) => {
+                  const active = isActive(link.href)
+                  return (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-center justify-between font-body text-lg py-3 border-b border-brand-border transition ${
+                        active
+                          ? 'text-green-primary font-medium'
+                          : 'text-brand-gray hover:text-green-primary'
+                      }`}
+                    >
+                      {link.label}
+                      {active && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-green-primary" />
+                      )}
+                    </Link>
+                  )
+                })}
               </nav>
               <div className="flex flex-col gap-3 px-6 pb-8">
                 <Button
