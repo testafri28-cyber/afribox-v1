@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock, ShieldCheck, Smartphone } from 'lucide-react'
 import Container from '@/components/layout/Container'
@@ -12,7 +13,44 @@ const features = [
   { icon: Smartphone,  title: 'Mobile',    sub: 'App · Web · WhatsApp' },
 ]
 
+const WORDS        = ['Toujours.', 'Sans stress.']
+const TYPE_SPEED   = 75    // ms par caractère
+const ERASE_SPEED  = 42    // ms par caractère (effacement plus rapide)
+const PAUSE_AFTER  = 2400  // ms d'attente après mot complet
+
+function useTypewriter(words: string[]) {
+  const [wordIdx, setWordIdx]   = useState(0)
+  const [text, setText]         = useState(words[0])
+  const [erasing, setErasing]   = useState(false)
+  const timer = useRef<ReturnType<typeof setTimeout>>()
+
+  useEffect(() => {
+    const full = words[wordIdx]
+
+    if (!erasing) {
+      if (text.length < full.length) {
+        timer.current = setTimeout(() => setText(full.slice(0, text.length + 1)), TYPE_SPEED)
+      } else {
+        timer.current = setTimeout(() => setErasing(true), PAUSE_AFTER)
+      }
+    } else {
+      if (text.length > 0) {
+        timer.current = setTimeout(() => setText(text.slice(0, -1)), ERASE_SPEED)
+      } else {
+        setErasing(false)
+        setWordIdx((i) => (i + 1) % words.length)
+      }
+    }
+
+    return () => clearTimeout(timer.current)
+  }, [text, erasing, wordIdx, words])
+
+  return text
+}
+
 export default function HeroSection() {
+  const typedText = useTypewriter(WORDS)
+
   return (
     <section id="hero" className="relative bg-white overflow-hidden pt-20 pb-0">
 
@@ -23,7 +61,6 @@ export default function HeroSection() {
         viewBox="0 0 1440 560"
         preserveAspectRatio="xMidYMid slice"
       >
-        {/* Ligne gauche — tracé progressif */}
         <motion.path
           d="M 0 130 L 200 130 L 200 360"
           stroke="#27AE60" strokeWidth="1.5" fill="none" strokeLinecap="round"
@@ -32,7 +69,6 @@ export default function HeroSection() {
           animate={{ pathLength: 1 }}
           transition={{ duration: 1.6, ease: 'easeOut', delay: 0.2 }}
         />
-        {/* Ligne droite — tracé progressif */}
         <motion.path
           d="M 1440 100 L 1240 100 L 1240 310"
           stroke="#27AE60" strokeWidth="1.5" fill="none" strokeLinecap="round"
@@ -41,35 +77,14 @@ export default function HeroSection() {
           animate={{ pathLength: 1 }}
           transition={{ duration: 1.6, ease: 'easeOut', delay: 0.4 }}
         />
-
-        {/* Point voyageur — ligne gauche */}
-        <motion.circle
-          r={3.5} fill="#27AE60"
-          animate={{
-            cx: [0,   200, 200, 200],
-            cy: [130, 130, 360, 360],
-            opacity: [0, 0.8, 0.8, 0],
-          }}
-          transition={{
-            duration: 3.5, repeat: Infinity, repeatDelay: 1.6,
-            ease: 'linear', times: [0, 0.46, 0.9, 1],
-          }}
+        <motion.circle r={3.5} fill="#27AE60"
+          animate={{ cx: [0, 200, 200, 200], cy: [130, 130, 360, 360], opacity: [0, 0.8, 0.8, 0] }}
+          transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 1.6, ease: 'linear', times: [0, 0.46, 0.9, 1] }}
         />
-        {/* Point voyageur — ligne droite */}
-        <motion.circle
-          r={3.5} fill="#27AE60"
-          animate={{
-            cx: [1440, 1240, 1240, 1240],
-            cy: [100,  100,  310,  310],
-            opacity: [0, 0.6, 0.6, 0],
-          }}
-          transition={{
-            duration: 3.5, repeat: Infinity, repeatDelay: 1.6,
-            ease: 'linear', delay: 0.9, times: [0, 0.49, 0.9, 1],
-          }}
+        <motion.circle r={3.5} fill="#27AE60"
+          animate={{ cx: [1440, 1240, 1240, 1240], cy: [100, 100, 310, 310], opacity: [0, 0.6, 0.6, 0] }}
+          transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 1.6, ease: 'linear', delay: 0.9, times: [0, 0.49, 0.9, 1] }}
         />
-
-        {/* Nœuds de jonction — pulse */}
         <motion.circle cx={200} cy={130} fill="#27AE60"
           animate={{ r: [3, 5, 3], opacity: [0.35, 0.7, 0.35] }}
           transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
@@ -87,13 +102,20 @@ export default function HeroSection() {
           initial="hidden"
           animate="visible"
         >
-          {/* H1 */}
+          {/* H1 avec mot cyclique */}
           <motion.h1
             variants={fadeInUp}
             className="font-heading font-bold text-5xl md:text-6xl leading-[1.05] tracking-tight text-brand-gray mb-5"
           >
             Vos colis vous attendent.{' '}
-            <span className="text-green-primary">Toujours.</span>
+            <span className="text-green-primary italic whitespace-nowrap">
+              {typedText}
+              {/* Curseur clignotant */}
+              <span
+                className="inline-block w-[3px] h-[0.85em] bg-green-primary ml-1 align-middle rounded-sm"
+                style={{ animation: 'cursorBlink 1s step-end infinite' }}
+              />
+            </span>
           </motion.h1>
 
           {/* Sous-titre */}
@@ -147,6 +169,14 @@ export default function HeroSection() {
           </motion.div>
         </motion.div>
       </Container>
+
+      {/* Animation curseur */}
+      <style jsx>{`
+        @keyframes cursorBlink {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0; }
+        }
+      `}</style>
     </section>
   )
 }
