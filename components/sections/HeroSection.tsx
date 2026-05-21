@@ -107,8 +107,8 @@ export default function HeroSection() {
             variants={fadeInUp}
             className="font-heading font-bold text-5xl md:text-6xl leading-[1.05] tracking-tight text-brand-gray mb-5"
           >
-            Vos colis vous attendent.{' '}
-            <span className="text-green-primary italic whitespace-nowrap">
+            <span className="block">Vos colis vous attendent.</span>
+            <span className="block text-green-primary italic whitespace-nowrap">
               {typedText}
               {/* Curseur clignotant */}
               <span
