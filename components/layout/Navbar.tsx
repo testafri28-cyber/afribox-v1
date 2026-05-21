@@ -67,8 +67,8 @@ export default function Navbar() {
 
         {/* CTAs — desktop */}
         <div className="hidden lg:flex items-center gap-3">
-          <Button href="/#services" variant="ghost" size="sm">
-            Je suis marchand
+          <Button href="/#app-mobile" variant="ghost" size="sm">
+            Télécharger l&apos;appli
           </Button>
           <Button href="/reserver" variant="primary" size="sm">
             Réserver un locker
@@ -119,8 +119,8 @@ export default function Navbar() {
                 ))}
               </nav>
               <div className="flex flex-col gap-3 px-6 pb-8">
-                <Button href="/#services" variant="ghost" fullWidth onClick={() => setOpen(false)}>
-                  Je suis marchand
+                <Button href="/#app-mobile" variant="ghost" fullWidth onClick={() => setOpen(false)}>
+                  Télécharger l&apos;appli
                 </Button>
                 <Button href="/reserver" variant="primary" fullWidth onClick={() => setOpen(false)}>
                   Réserver un locker

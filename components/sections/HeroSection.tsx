@@ -70,8 +70,8 @@ export default function HeroSection() {
                 <ArrowRight size={18} className="ml-1" />
               </Button>
             </div>
-            <Button href="/#services" variant="secondary" size="lg">
-              Je suis marchand
+            <Button href="/#app-mobile" variant="secondary" size="lg">
+              Télécharger l&apos;appli
             </Button>
           </motion.div>
 
@@ -83,9 +83,13 @@ export default function HeroSection() {
                 variants={fadeInUp}
                 className="inline-flex items-center gap-3 bg-brand-off border border-brand-border rounded-2xl px-4 py-3"
               >
-                <div className="w-9 h-9 bg-green-bg rounded-xl flex items-center justify-center flex-shrink-0">
+                <motion.div
+                  whileHover={{ scale: 1.2, rotate: 8 }}
+                  transition={{ type: 'spring', stiffness: 380, damping: 12 }}
+                  className="w-9 h-9 bg-green-bg rounded-xl flex items-center justify-center flex-shrink-0"
+                >
                   <Icon size={16} className="text-green-primary" />
-                </div>
+                </motion.div>
                 <div className="text-left">
                   <p className="font-heading font-bold text-sm text-brand-gray leading-none">{title}</p>
                   <p className="font-body text-xs text-brand-sub mt-0.5">{sub}</p>

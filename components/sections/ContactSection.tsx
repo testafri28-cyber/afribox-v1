@@ -38,9 +38,13 @@ export default function ContactSection() {
             <motion.div variants={staggerContainer} className="space-y-5">
               {contactInfo.map(({ icon: Icon, label, value }) => (
                 <motion.div key={label} variants={fadeInUp} className="flex items-center gap-4">
-                  <div className="w-11 h-11 rounded-xl bg-green-bg flex items-center justify-center flex-shrink-0">
+                  <motion.div
+                    whileHover={{ scale: 1.18, rotate: 6 }}
+                    transition={{ type: 'spring', stiffness: 380, damping: 12 }}
+                    className="w-11 h-11 rounded-xl bg-green-bg flex items-center justify-center flex-shrink-0"
+                  >
                     <Icon size={18} className="text-green-primary" />
-                  </div>
+                  </motion.div>
                   <div>
                     <p className="font-mono text-[10px] tracking-widest text-brand-mid uppercase">
                       {label}
