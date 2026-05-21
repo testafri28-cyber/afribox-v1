@@ -40,7 +40,7 @@ export default function ProblemSection() {
           variants={stagger}
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
-          {problems.map((p) => {
+          {problems.map((p, i) => {
             const Icon = p.icon
             return (
               <motion.article
@@ -54,8 +54,14 @@ export default function ProblemSection() {
                 <div className="relative">
                   <div className="flex items-start justify-between mb-6">
                     <motion.div
-                      whileHover={{ scale: 1.18, rotate: 6 }}
-                      transition={{ type: 'spring', stiffness: 380, damping: 12 }}
+                      animate={{
+                        y: [0, -5, 0],
+                        transition: { duration: 2.2 + i * 0.3, repeat: Infinity, ease: 'easeInOut', delay: i * 0.2 },
+                      }}
+                      whileHover={{
+                        scale: 1.18, rotate: 6, y: 0,
+                        transition: { type: 'spring', stiffness: 380, damping: 12 },
+                      }}
                       className="w-11 h-11 rounded-xl bg-green-bg flex items-center justify-center"
                     >
                       <Icon size={22} className="text-green-primary" />

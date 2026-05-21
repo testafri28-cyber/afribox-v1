@@ -15,16 +15,69 @@ const features = [
 export default function HeroSection() {
   return (
     <section id="hero" className="relative bg-white overflow-hidden pt-20 pb-0">
-      {/* Lignes SVG décoratives */}
+
+      {/* Lignes SVG animées */}
       <svg
         aria-hidden
         className="absolute inset-0 w-full h-full pointer-events-none z-0"
-        preserveAspectRatio="none"
+        viewBox="0 0 1440 560"
+        preserveAspectRatio="xMidYMid slice"
       >
-        <path d="M 0 120 L 180 120 L 180 320" stroke="#27AE60" strokeWidth="1.2" fill="none" opacity="0.13" strokeLinecap="round" />
-        <path d="M 100% 80 L calc(100% - 160px) 80 L calc(100% - 160px) 280" stroke="#27AE60" strokeWidth="1.2" fill="none" opacity="0.1" strokeLinecap="round" />
-        <circle cx="180" cy="120" r="3" fill="#27AE60" opacity="0.35" />
-        <circle cx="180" cy="320" r="3" fill="#27AE60" opacity="0.25" />
+        {/* Ligne gauche — tracé progressif */}
+        <motion.path
+          d="M 0 130 L 200 130 L 200 360"
+          stroke="#27AE60" strokeWidth="1.5" fill="none" strokeLinecap="round"
+          opacity={0.18}
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.6, ease: 'easeOut', delay: 0.2 }}
+        />
+        {/* Ligne droite — tracé progressif */}
+        <motion.path
+          d="M 1440 100 L 1240 100 L 1240 310"
+          stroke="#27AE60" strokeWidth="1.5" fill="none" strokeLinecap="round"
+          opacity={0.13}
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 1.6, ease: 'easeOut', delay: 0.4 }}
+        />
+
+        {/* Point voyageur — ligne gauche */}
+        <motion.circle
+          r={3.5} fill="#27AE60"
+          animate={{
+            cx: [0,   200, 200, 200],
+            cy: [130, 130, 360, 360],
+            opacity: [0, 0.8, 0.8, 0],
+          }}
+          transition={{
+            duration: 3.5, repeat: Infinity, repeatDelay: 1.6,
+            ease: 'linear', times: [0, 0.46, 0.9, 1],
+          }}
+        />
+        {/* Point voyageur — ligne droite */}
+        <motion.circle
+          r={3.5} fill="#27AE60"
+          animate={{
+            cx: [1440, 1240, 1240, 1240],
+            cy: [100,  100,  310,  310],
+            opacity: [0, 0.6, 0.6, 0],
+          }}
+          transition={{
+            duration: 3.5, repeat: Infinity, repeatDelay: 1.6,
+            ease: 'linear', delay: 0.9, times: [0, 0.49, 0.9, 1],
+          }}
+        />
+
+        {/* Nœuds de jonction — pulse */}
+        <motion.circle cx={200} cy={130} fill="#27AE60"
+          animate={{ r: [3, 5, 3], opacity: [0.35, 0.7, 0.35] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
+        />
+        <motion.circle cx={1240} cy={100} fill="#27AE60"
+          animate={{ r: [3, 5, 3], opacity: [0.25, 0.6, 0.25] }}
+          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
+        />
       </svg>
 
       <Container className="relative z-10 pb-20 md:pb-28">
@@ -34,17 +87,6 @@ export default function HeroSection() {
           initial="hidden"
           animate="visible"
         >
-          {/* Pill disponibilité */}
-          <motion.div variants={fadeInUp} className="flex justify-center mb-8">
-            <span className="inline-flex items-center gap-2 bg-green-bg text-green-dark rounded-full px-4 py-2 font-mono text-xs tracking-wide">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-primary opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-primary" />
-              </span>
-              Disponible à Abidjan · Réseau en expansion
-            </span>
-          </motion.div>
-
           {/* H1 */}
           <motion.h1
             variants={fadeInUp}
@@ -77,15 +119,21 @@ export default function HeroSection() {
 
           {/* Feature pills */}
           <motion.div variants={staggerContainer} className="flex flex-wrap gap-3 justify-center">
-            {features.map(({ icon: Icon, title, sub }) => (
+            {features.map(({ icon: Icon, title, sub }, i) => (
               <motion.div
                 key={title}
                 variants={fadeInUp}
                 className="inline-flex items-center gap-3 bg-brand-off border border-brand-border rounded-2xl px-4 py-3"
               >
                 <motion.div
-                  whileHover={{ scale: 1.2, rotate: 8 }}
-                  transition={{ type: 'spring', stiffness: 380, damping: 12 }}
+                  animate={{
+                    y: [0, -4, 0],
+                    transition: { duration: 2.4 + i * 0.3, repeat: Infinity, ease: 'easeInOut', delay: i * 0.25 },
+                  }}
+                  whileHover={{
+                    scale: 1.2, rotate: 8, y: 0,
+                    transition: { type: 'spring', stiffness: 380, damping: 12 },
+                  }}
                   className="w-9 h-9 bg-green-bg rounded-xl flex items-center justify-center flex-shrink-0"
                 >
                   <Icon size={16} className="text-green-primary" />
