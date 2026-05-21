@@ -95,9 +95,9 @@ export default function Footer() {
           </div>
 
           {/* Colonnes liens */}
-          <FooterColumn title="Produit" links={footerLinks.product} />
-          <FooterColumn title="Société" links={footerLinks.company} />
-          <FooterColumn title="Ressources" links={footerLinks.resources} />
+          <FooterColumn title="Produit" links={footerLinks.produit} />
+          <FooterColumn title="Société" links={footerLinks.societe} />
+          <FooterColumn title="Ressources" links={footerLinks.ressources} />
 
           {/* Suivre — span 1 */}
           <div className="lg:col-span-1">

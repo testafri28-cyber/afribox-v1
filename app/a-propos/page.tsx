@@ -95,17 +95,25 @@ export default function AboutPage() {
             </h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {values.map(({ icon: Icon, title, text }) => (
+            {values.map(({ icon: Icon, title, text }, i) => (
               <div
                 key={title}
-                className="relative overflow-hidden bg-white border border-brand-border rounded-2xl p-6 md:p-8"
+                className="relative overflow-hidden bg-white border border-brand-border rounded-2xl p-7 md:p-8 shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] hover:shadow-[0_8px_32px_-8px_rgba(31,71,40,0.15)] transition-shadow"
               >
                 <GridBackground tone="green" />
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-xl bg-green-bg flex items-center justify-center mb-5">
-                    <Icon size={22} className="text-green-primary" />
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="w-11 h-11 rounded-xl bg-green-bg flex items-center justify-center">
+                      <Icon size={22} className="text-green-primary" />
+                    </div>
+                    <span
+                      className="font-heading font-bold text-5xl md:text-6xl leading-none select-none"
+                      style={{ color: 'rgba(39, 174, 96, 0.12)' }}
+                    >
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
                   </div>
-                  <h3 className="font-heading font-bold text-xl text-brand-gray mb-3">
+                  <h3 className="font-heading font-bold text-xl md:text-2xl text-brand-gray mb-3">
                     {title}
                   </h3>
                   <p className="font-body text-brand-sub leading-relaxed">{text}</p>

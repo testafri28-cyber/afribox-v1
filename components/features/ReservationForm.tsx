@@ -251,7 +251,7 @@ function StepLocker({
                 </p>
                 <div className="flex items-center justify-between">
                   <p className="font-mono text-xs text-brand-mid">
-                    {l.distance}
+                    {l.available ? 'Disponible' : 'Complet'}
                   </p>
                   <div className="flex gap-1">
                     {(['S', 'M', 'L'] as LockerSize[]).map((s) => (

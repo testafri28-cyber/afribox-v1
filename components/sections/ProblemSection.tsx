@@ -40,24 +40,35 @@ export default function ProblemSection() {
           variants={stagger}
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
         >
-          {problems.map((p, i) => (
-            <motion.div
-              key={p.title}
-              variants={fadeUp}
-              className="relative overflow-hidden bg-brand-off rounded-2xl p-6 md:p-8 border border-brand-border"
-            >
-              <GridBackground tone="green" />
-              <div className="relative">
-                <p className="font-mono text-xs tracking-widest text-green-primary uppercase mb-3">
-                  0{i + 1}
-                </p>
-                <h3 className="font-heading font-bold text-xl text-brand-gray mb-3">
-                  {p.title}
-                </h3>
-                <p className="font-body text-brand-sub leading-relaxed">{p.text}</p>
-              </div>
-            </motion.div>
-          ))}
+          {problems.map((p) => {
+            const Icon = p.icon
+            return (
+              <motion.article
+                key={p.title}
+                variants={fadeUp}
+                className="relative overflow-hidden bg-white rounded-2xl p-7 md:p-8 border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] hover:shadow-[0_8px_32px_-8px_rgba(31,71,40,0.15)] transition-shadow"
+              >
+                <GridBackground tone="green" />
+                <div className="relative">
+                  <div className="flex items-start justify-between mb-6">
+                    <div className="w-11 h-11 rounded-xl bg-green-bg flex items-center justify-center">
+                      <Icon size={22} className="text-green-primary" />
+                    </div>
+                    <span
+                      className="font-heading font-bold text-5xl md:text-6xl leading-none select-none"
+                      style={{ color: 'rgba(39, 174, 96, 0.12)' }}
+                    >
+                      {p.number}
+                    </span>
+                  </div>
+                  <h3 className="font-heading font-bold text-xl md:text-2xl text-brand-gray mb-3">
+                    {p.title}
+                  </h3>
+                  <p className="font-body text-brand-sub leading-relaxed">{p.text}</p>
+                </div>
+              </motion.article>
+            )
+          })}
         </motion.div>
       </Container>
     </section>
