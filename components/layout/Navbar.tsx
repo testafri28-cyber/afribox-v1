@@ -15,10 +15,34 @@ const navLinks = [
   { label: 'Contact',        href: '/#contact' },
 ]
 
+const sectionIds = navLinks.map((l) => l.href.replace('/#', ''))
+
+function useActiveSection(): string {
+  const [active, setActive] = useState('')
+
+  useEffect(() => {
+    const observers = sectionIds.map((id) => {
+      const el = document.getElementById(id)
+      if (!el) return null
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActive(id) },
+        // Zone active : entre 64px (navbar) et le milieu de l'écran
+        { rootMargin: '-64px 0px -50% 0px', threshold: 0 }
+      )
+      obs.observe(el)
+      return obs
+    })
+    return () => observers.forEach((obs) => obs?.disconnect())
+  }, [])
+
+  return active
+}
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen]         = useState(false)
-  const pathname = usePathname()
+  const pathname  = usePathname()
+  const activeId  = useActiveSection()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -53,15 +77,30 @@ export default function Navbar() {
         {/* Liens centre — desktop */}
         {isHome && (
           <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="font-body text-sm text-brand-sub hover:text-brand-gray transition"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const id       = link.href.replace('/#', '')
+              const isActive = activeId === id
+              return (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={`relative pb-1 font-body text-sm transition-colors duration-150 ${
+                    isActive ? 'text-green-primary font-medium' : 'text-brand-sub hover:text-brand-gray'
+                  }`}
+                >
+                  {link.label}
+
+                  {/* Indicateur underline animé */}
+                  {isActive && (
+                    <motion.span
+                      layoutId="nav-underline"
+                      className="absolute left-0 right-0 -bottom-px h-[2px] bg-green-primary rounded-full"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                </a>
+              )
+            })}
           </nav>
         )}
 
@@ -106,18 +145,30 @@ export default function Navbar() {
                   <X size={24} />
                 </button>
               </div>
+
               <nav className="flex flex-col gap-1 px-6 py-6 flex-1">
-                {navLinks.map((link) => (
-                  <a
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className="font-body text-lg text-brand-gray hover:text-green-primary py-3 border-b border-brand-border transition"
-                  >
-                    {link.label}
-                  </a>
-                ))}
+                {navLinks.map((link) => {
+                  const id       = link.href.replace('/#', '')
+                  const isActive = activeId === id
+                  return (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-center gap-3 font-body text-lg py-3 border-b border-brand-border transition-colors ${
+                        isActive ? 'text-green-primary font-medium' : 'text-brand-gray hover:text-green-primary'
+                      }`}
+                    >
+                      {/* Point indicateur mobile */}
+                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors ${
+                        isActive ? 'bg-green-primary' : 'bg-transparent'
+                      }`} />
+                      {link.label}
+                    </a>
+                  )
+                })}
               </nav>
+
               <div className="flex flex-col gap-3 px-6 pb-8">
                 <Button href="/#app-mobile" variant="ghost" fullWidth onClick={() => setOpen(false)}>
                   Télécharger l&apos;appli
