@@ -3,6 +3,7 @@ import { spaceGrotesk, dmSans, dmMono } from '@/lib/fonts'
 import { buildMetadata } from '@/lib/metadata'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
+import ScrollToTop from '@/components/layout/ScrollToTop'
 import './globals.css'
 
 export const metadata: Metadata = buildMetadata({
@@ -21,6 +22,7 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${dmSans.variable} ${dmMono.variable}`}
     >
       <body className="bg-brand-off text-brand-gray font-body antialiased">
+        <ScrollToTop />
         <Navbar />
         <main>{children}</main>
         <Footer />

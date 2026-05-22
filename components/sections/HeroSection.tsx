@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Clock, ShieldCheck, Smartphone, MessageCircle } from 'lucide-react'
+import { ArrowRight, Clock, ShieldCheck, Smartphone } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import Button from '@/components/ui/Button'
 import LockerMockup from '@/components/features/LockerMockup'
@@ -138,7 +138,9 @@ export default function HeroSection() {
                 </Button>
               </div>
               <Button href="https://wa.me/2250759595959" variant="secondary" size="lg">
-                <MessageCircle size={18} className="mr-1.5" />
+                <svg viewBox="0 0 32 32" width={18} height={18} fill="currentColor" className="mr-1.5 flex-shrink-0">
+                  <path d="M16 3.2C9 3.2 3.2 9 3.2 16c0 2.26.59 4.46 1.73 6.4L3.2 28.8l6.58-1.71A12.74 12.74 0 0016 28.68h.005C23.07 28.68 28.8 22.95 28.8 16c0-3.42-1.33-6.63-3.75-9.05A12.71 12.71 0 0016 3.2zm7.52 18.31c-.32.9-1.84 1.71-2.57 1.82-.66.1-1.49.14-2.41-.15-.55-.18-1.27-.41-2.18-.8-3.83-1.65-6.33-5.51-6.52-5.76-.19-.26-1.56-2.08-1.56-3.96 0-1.89.99-2.81 1.34-3.2.35-.38.76-.48 1.02-.48.25 0 .51 0 .73.013.23.011.55-.089.86.66.32.76 1.08 2.65 1.18 2.84.1.19.16.41.03.67-.13.26-.19.41-.38.64-.19.22-.4.5-.57.67-.19.19-.39.4-.17.78.22.38.99 1.63 2.12 2.64 1.46 1.3 2.69 1.7 3.07 1.89.38.19.61.16.83-.1.22-.25.95-1.11 1.21-1.49.25-.38.51-.32.86-.19.35.13 2.22 1.05 2.6 1.24.38.19.64.29.73.45.1.16.1.93-.22 1.82z"/>
+                </svg>
                 WhatsApp
               </Button>
             </motion.div>
