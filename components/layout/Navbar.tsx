@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { Menu, X, ArrowRight, Download } from 'lucide-react'
+import { Menu, X, ArrowRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '@/components/ui/Button'
 
@@ -106,8 +106,8 @@ export default function Navbar() {
 
         {/* CTAs — desktop */}
         <div className="hidden lg:flex items-center gap-3">
-          <Button href="/#app-mobile" variant="ghost" size="sm">
-            Télécharger l&apos;appli
+          <Button href="/connexion" variant="ghost" size="sm">
+            Se connecter
           </Button>
           <Button href="/reserver" variant="primary" size="sm">
             Réserver un locker
@@ -170,16 +170,12 @@ export default function Navbar() {
               </nav>
 
               <div className="flex flex-col gap-3 px-6 pb-8">
-                <Button href="/#app-mobile" variant="ghost" fullWidth onClick={() => setOpen(false)}>
-                  Télécharger l&apos;appli
+                <Button href="/connexion" variant="ghost" fullWidth onClick={() => setOpen(false)}>
+                  Se connecter
                 </Button>
                 <Button href="/reserver" variant="primary" fullWidth onClick={() => setOpen(false)}>
                   Réserver un locker
                   <ArrowRight size={16} className="ml-1" />
-                </Button>
-                <Button href="#download" variant="secondary" fullWidth onClick={() => setOpen(false)}>
-                  <Download size={16} className="mr-1" />
-                  Télécharger l&apos;appli
                 </Button>
               </div>
             </motion.aside>

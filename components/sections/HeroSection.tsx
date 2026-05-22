@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Clock, ShieldCheck, Smartphone } from 'lucide-react'
+import { ArrowRight, Clock, ShieldCheck, Smartphone, MessageCircle } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import Button from '@/components/ui/Button'
 import LockerMockup from '@/components/features/LockerMockup'
@@ -137,8 +137,9 @@ export default function HeroSection() {
                   <ArrowRight size={18} className="ml-1" />
                 </Button>
               </div>
-              <Button href="/#app-mobile" variant="secondary" size="lg">
-                Télécharger l&apos;appli
+              <Button href="https://wa.me/2250759595959" variant="secondary" size="lg">
+                <MessageCircle size={18} className="mr-1.5" />
+                WhatsApp
               </Button>
             </motion.div>
 
