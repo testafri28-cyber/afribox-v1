@@ -44,3 +44,17 @@ button { font-family: inherit; cursor: pointer; }
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+@keyframes af-float {
+  0%, 100% { transform: translateY(0) rotate(-0.4deg); }
+  50%       { transform: translateY(-10px) rotate(0.3deg); }
+}
+@keyframes af-glow-locker {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 1; }
+}
+@keyframes af-led {
+  0%   { box-shadow: 0 0 0 0 rgba(39,174,96,0.55); }
+  70%  { box-shadow: 0 0 0 6px rgba(39,174,96,0); }
+  100% { box-shadow: 0 0 0 0 rgba(39,174,96,0); }
+}
