@@ -13,7 +13,7 @@ const features = [
   { icon: Smartphone,  title: 'Mobile',    sub: 'App · Web · WhatsApp' },
 ]
 
-const WORDS        = ['no stress,', '24/24,', 'Sécurisé.']
+const WORDS        = ['no stress,', '24h/24 & 7j/7,', 'Sécurisée.']
 const TYPE_SPEED   = 75    // ms par caractère
 const ERASE_SPEED  = 42    // ms par caractère (effacement plus rapide)
 const PAUSE_AFTER  = 2400  // ms d'attente après mot complet
