@@ -18,10 +18,10 @@ export default function LockersMapSection() {
           className="mb-10"
         >
           <SectionLabel className="mb-4">Réseau de lockers</SectionLabel>
-          <h2 className="font-heading font-bold text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
             Trouvez un locker près de vous.
           </h2>
-          <p className="font-body text-lg text-brand-sub max-w-xl">
+          <p className="font-body text-base md:text-lg text-brand-sub max-w-xl">
             4 points de retrait à Abidjan. Le réseau s&apos;étend.
           </p>
         </motion.div>
@@ -32,7 +32,9 @@ export default function LockersMapSection() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
         >
-          <LockersMap height="480px" />
+          <div className="h-[280px] sm:h-[380px] md:h-[480px]">
+            <LockersMap height="100%" />
+          </div>
         </motion.div>
       </Container>
     </section>

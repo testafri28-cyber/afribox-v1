@@ -52,7 +52,7 @@ export default function HeroSection() {
   const typedText = useTypewriter(WORDS)
 
   return (
-    <section id="hero" className="relative bg-white overflow-hidden pt-20 pb-0">
+    <section id="hero" className="relative bg-white overflow-hidden pt-14 md:pt-20 pb-0">
 
       {/* Lignes SVG animées */}
       <svg
@@ -105,7 +105,7 @@ export default function HeroSection() {
           {/* H1 avec mot cyclique */}
           <motion.h1
             variants={fadeInUp}
-            className="font-heading font-bold text-5xl md:text-6xl leading-[1.05] tracking-tight text-brand-gray mb-5"
+            className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-brand-gray mb-5"
           >
             <span className="block">Vos colis vous attendent.</span>
             <span className="block text-green-primary italic whitespace-nowrap">
@@ -119,7 +119,7 @@ export default function HeroSection() {
           </motion.h1>
 
           {/* Sous-titre */}
-          <motion.p variants={fadeInUp} className="font-body text-base md:text-lg text-brand-sub leading-relaxed max-w-xl mx-auto mb-10">
+          <motion.p variants={fadeInUp} className="font-body text-sm sm:text-base md:text-lg text-brand-sub leading-relaxed max-w-xl mx-auto mb-8 md:mb-10">
             Des casiers intelligents accessibles 24h/24.
             Pas de rendez-vous. Pas d&apos;attente.
             Juste votre code et votre colis.

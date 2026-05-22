@@ -18,7 +18,7 @@ export default function FaqSection() {
           className="mb-12 max-w-2xl"
         >
           <SectionLabel className="mb-4">FAQ</SectionLabel>
-          <h2 className="font-heading font-bold text-3xl md:text-5xl leading-tight text-brand-gray">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray">
             Questions fréquentes.
           </h2>
         </motion.div>

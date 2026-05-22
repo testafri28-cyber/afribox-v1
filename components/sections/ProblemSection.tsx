@@ -23,10 +23,10 @@ export default function ProblemSection() {
           variants={fadeUp}
         >
           <SectionLabel className="mb-4">Le problème que nous résolvons</SectionLabel>
-          <h2 className="font-heading font-bold text-3xl md:text-5xl leading-tight text-brand-gray mb-6 max-w-3xl">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-6 max-w-3xl">
             La livraison en Afrique mérite mieux.
           </h2>
-          <p className="font-body text-lg text-brand-sub leading-relaxed max-w-3xl mb-12 md:mb-16">
+          <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed max-w-3xl mb-12 md:mb-16">
             Commander en ligne, c&apos;est prendre un risque. Adresse introuvable,
             livreur injoignable, colis perdu. Afribox règle ça simplement : un
             casier près de chez vous, un code par SMS, et c&apos;est tout.

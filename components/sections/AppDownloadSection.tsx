@@ -15,7 +15,7 @@ export default function AppDownloadSection() {
   return (
     <section id="app-mobile" className="bg-white">
       <Container className="py-16 md:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-center">
 
           {/* Left — content */}
           <motion.div
@@ -26,10 +26,10 @@ export default function AppDownloadSection() {
           >
             <motion.div variants={fadeInUp}>
               <SectionLabel className="mb-4">L&apos;application</SectionLabel>
-              <h2 className="font-heading font-bold text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
+              <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
                 Vos lockers dans votre poche.
               </h2>
-              <p className="font-body text-lg text-brand-sub leading-relaxed mb-8">
+              <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed mb-8">
                 Gérez vos envois, suivez vos colis et récupérez vos codes directement depuis l&apos;appli Afribox.
               </p>
             </motion.div>
@@ -79,7 +79,7 @@ export default function AppDownloadSection() {
             transition={{ duration: 0.6, ease: 'easeOut' }}
             className="flex justify-center"
           >
-            <div className="relative w-64 h-[480px] bg-brand-gray rounded-[3rem] border-4 border-brand-gray shadow-2xl overflow-hidden">
+            <div className="relative w-52 h-[400px] sm:w-64 sm:h-[480px] bg-brand-gray rounded-[3rem] border-4 border-brand-gray shadow-2xl overflow-hidden">
               <div className="absolute inset-2 rounded-[2.5rem] bg-green-bg flex flex-col items-center justify-center p-5 text-center overflow-hidden">
 
                 {/* Logo — pop in */}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Check } from 'lucide-react'
 import Image from 'next/image'
@@ -8,27 +8,15 @@ import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import { services } from '@/lib/constants'
 
-function useIsMobile() {
-  const [mobile, setMobile] = useState(false)
-  useEffect(() => {
-    const check = () => setMobile(window.matchMedia('(hover: none)').matches)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
-  return mobile
-}
-
 export default function ServicesAccordion() {
   const [active, setActive] = useState(0)
-  const isMobile = useIsMobile()
 
   return (
     <section id="services" className="bg-brand-off">
       <Container className="py-16 md:py-24">
         <div className="mb-12">
           <SectionLabel className="mb-4">Nos services</SectionLabel>
-          <h2 className="font-heading font-bold text-3xl md:text-5xl leading-tight text-brand-gray">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray">
             Pour chaque besoin, une solution.
           </h2>
         </div>

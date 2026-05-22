@@ -18,10 +18,10 @@ export default function HowItWorksSection() {
           className="mb-12"
         >
           <SectionLabel className="mb-4">Comment ça marche</SectionLabel>
-          <h2 className="font-heading font-bold text-3xl md:text-5xl leading-tight text-brand-gray max-w-2xl">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray max-w-2xl">
             De la commande à la récupération.
           </h2>
-          <p className="font-body text-lg text-brand-sub leading-relaxed max-w-2xl mt-4">
+          <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed max-w-2xl mt-4">
             6 étapes entièrement automatisées. Pas de coup de fil. Pas d&apos;attente.
           </p>
         </motion.div>

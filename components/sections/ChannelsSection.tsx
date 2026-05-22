@@ -24,7 +24,7 @@ export default function ChannelsSection() {
           className="mb-12 md:mb-16 max-w-2xl"
         >
           <SectionLabel className="mb-4">Canaux d&apos;accès</SectionLabel>
-          <h2 className="font-heading font-bold text-3xl md:text-5xl leading-tight text-brand-gray">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray">
             Utilisez Afribox comme vous le souhaitez.
           </h2>
         </motion.div>

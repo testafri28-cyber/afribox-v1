@@ -17,7 +17,7 @@ export default function ContactSection() {
   return (
     <section id="contact" className="bg-white">
       <Container className="py-16 md:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
           {/* Left — info */}
           <motion.div
             initial="hidden"
@@ -27,10 +27,10 @@ export default function ContactSection() {
           >
             <motion.div variants={fadeInUp}>
               <SectionLabel className="mb-4">Contact</SectionLabel>
-              <h2 className="font-heading font-bold text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
+              <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
                 Parlons de votre projet.
               </h2>
-              <p className="font-body text-lg text-brand-sub leading-relaxed mb-10">
+              <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed mb-8 md:mb-10">
                 Marchand, entreprise, investisseur ou simple curieux — notre équipe répond sous 24h ouvrées.
               </p>
             </motion.div>

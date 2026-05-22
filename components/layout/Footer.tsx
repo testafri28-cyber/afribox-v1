@@ -47,9 +47,9 @@ export default function Footer() {
         Afribox
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 md:px-10">
+      <div className="relative max-w-7xl mx-auto px-4 md:px-6 lg:px-10">
         {/* Grille 12 colonnes */}
-        <div className="grid lg:grid-cols-12 gap-12 pb-14">
+        <div className="grid lg:grid-cols-12 gap-8 md:gap-12 pb-14">
           {/* Logo + description + newsletter — span 5 */}
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3 mb-5">
@@ -68,7 +68,7 @@ export default function Footer() {
                 </div>
               </div>
             </div>
-            <p className="text-white/65 max-w-md leading-relaxed text-[15px]">
+            <p className="text-white/65 max-w-md leading-relaxed text-sm md:text-[15px]">
               Casiers connectés intelligents pour particuliers, opérateurs et
               villes. Une infrastructure logistique pensée pour l&apos;avenir.
             </p>

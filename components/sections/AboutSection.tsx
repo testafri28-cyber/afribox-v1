@@ -20,7 +20,7 @@ export default function AboutSection() {
           className="mb-12 max-w-2xl"
         >
           <SectionLabel className="mb-4">À propos</SectionLabel>
-          <h2 className="font-heading font-bold text-3xl md:text-5xl leading-tight text-brand-gray">
+          <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray">
             Construire l&apos;infrastructure logistique de demain.
           </h2>
         </motion.div>
@@ -84,7 +84,7 @@ export default function AboutSection() {
         >
           <motion.div variants={fadeInUp} className="mb-10">
             <SectionLabel className="mb-4">L&apos;équipe</SectionLabel>
-            <h3 className="font-heading font-bold text-2xl md:text-4xl text-brand-gray">
+            <h3 className="font-heading font-bold text-xl sm:text-2xl md:text-4xl text-brand-gray">
               Des gens qui s&apos;engagent.
             </h3>
           </motion.div>
