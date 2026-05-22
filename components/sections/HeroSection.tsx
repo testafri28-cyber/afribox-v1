@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Clock, ShieldCheck, Smartphone } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import Button from '@/components/ui/Button'
-import LockerMockup from '@/components/features/LockerMockup'
+import PhoneMockup from '@/components/features/PhoneMockup'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 const features = [
@@ -14,20 +14,19 @@ const features = [
   { icon: Smartphone,  title: 'Mobile',    sub: 'App · Web · WhatsApp' },
 ]
 
-const WORDS        = ['no stress,', '24h/24 & 7j/7,', 'sécurisée.']
-const TYPE_SPEED   = 75    // ms par caractère
-const ERASE_SPEED  = 42    // ms par caractère (effacement plus rapide)
-const PAUSE_AFTER  = 2400  // ms d'attente après mot complet
+const WORDS       = ['no stress,', '24h/24 & 7j/7,', 'sécurisée.']
+const TYPE_SPEED  = 75
+const ERASE_SPEED = 42
+const PAUSE_AFTER = 2400
 
 function useTypewriter(words: string[]) {
-  const [wordIdx, setWordIdx]   = useState(0)
-  const [text, setText]         = useState(words[0])
-  const [erasing, setErasing]   = useState(false)
+  const [wordIdx, setWordIdx] = useState(0)
+  const [text, setText]       = useState(words[0])
+  const [erasing, setErasing] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout>>()
 
   useEffect(() => {
     const full = words[wordIdx]
-
     if (!erasing) {
       if (text.length < full.length) {
         timer.current = setTimeout(() => setText(full.slice(0, text.length + 1)), TYPE_SPEED)
@@ -42,7 +41,6 @@ function useTypewriter(words: string[]) {
         setWordIdx((i) => (i + 1) % words.length)
       }
     }
-
     return () => clearTimeout(timer.current)
   }, [text, erasing, wordIdx, words])
 
@@ -99,13 +97,12 @@ export default function HeroSection() {
       <Container className="relative z-10 pb-20 md:pb-28">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-16 items-center">
 
-          {/* Left — text content */}
+          {/* Left — texte */}
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
           >
-            {/* H1 avec mot cyclique */}
             <motion.h1
               variants={fadeInUp}
               className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-brand-gray mb-5"
@@ -113,7 +110,6 @@ export default function HeroSection() {
               <span className="block">AFRIBOX, la livraison</span>
               <span className="block text-green-primary italic whitespace-nowrap">
                 {typedText}
-                {/* Curseur clignotant */}
                 <span
                   className="inline-block w-[3px] h-[0.85em] bg-green-primary ml-1 align-middle rounded-sm"
                   style={{ animation: 'cursorBlink 1s step-end infinite' }}
@@ -121,14 +117,12 @@ export default function HeroSection() {
               </span>
             </motion.h1>
 
-            {/* Sous-titre */}
             <motion.p variants={fadeInUp} className="font-body text-sm sm:text-base md:text-lg text-brand-sub leading-relaxed max-w-xl mb-8 md:mb-10">
               Des casiers intelligents accessibles 24h/24.
               Pas de rendez-vous. Pas d&apos;attente.
               Juste votre code et votre colis.
             </motion.p>
 
-            {/* CTAs */}
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-3 mb-12">
               <div className="relative inline-flex">
                 <span className="animate-pulse-ring absolute inset-0 rounded-full bg-green-primary opacity-30 pointer-events-none" />
@@ -145,7 +139,6 @@ export default function HeroSection() {
               </Button>
             </motion.div>
 
-            {/* Feature pills */}
             <motion.div variants={staggerContainer} className="flex flex-wrap gap-3">
               {features.map(({ icon: Icon, title, sub }, i) => (
                 <motion.div
@@ -175,22 +168,19 @@ export default function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right — animated locker (desktop only) */}
+          {/* Right — phone animé (desktop only) */}
           <motion.div
-            className="hidden lg:flex justify-center items-center"
+            className="hidden lg:flex justify-center items-center py-12"
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 }}
           >
-            <div style={{ transform: 'scale(0.84)', transformOrigin: 'center center' }}>
-              <LockerMockup />
-            </div>
+            <PhoneMockup />
           </motion.div>
 
         </div>
       </Container>
 
-      {/* Animation curseur */}
       <style jsx>{`
         @keyframes cursorBlink {
           0%, 100% { opacity: 1; }

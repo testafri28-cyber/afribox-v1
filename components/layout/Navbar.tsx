@@ -8,25 +8,33 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Button from '@/components/ui/Button'
 
 const navLinks = [
-  { label: 'Services',       href: '/#services' },
-  { label: 'Fonctionnement', href: '/#fonctionnement' },
-  { label: "L'app",          href: '/#app-mobile' },
-  { label: 'À propos',       href: '/#a-propos' },
-  { label: 'Contact',        href: '/#contact' },
+  { label: 'Services',       id: 'services' },
+  { label: 'Fonctionnement', id: 'fonctionnement' },
+  { label: "L'app",          id: 'app-mobile' },
+  { label: 'À propos',       id: 'a-propos' },
+  { label: 'Contact',        id: 'contact' },
 ]
 
-const sectionIds = navLinks.map((l) => l.href.replace('/#', ''))
+/* Scroll to a section without putting a hash in the URL.
+   This prevents the browser from trying to auto-scroll to an anchor
+   on the next page load. */
+function scrollTo(id: string) {
+  const el = document.getElementById(id)
+  if (!el) return
+  const top = el.getBoundingClientRect().top + window.scrollY - 64 // 64px navbar offset
+  window.scrollTo({ top, behavior: 'smooth' })
+}
 
 function useActiveSection(): string {
   const [active, setActive] = useState('')
 
   useEffect(() => {
-    const observers = sectionIds.map((id) => {
+    const ids = navLinks.map((l) => l.id)
+    const observers = ids.map((id) => {
       const el = document.getElementById(id)
       if (!el) return null
       const obs = new IntersectionObserver(
         ([entry]) => { if (entry.isIntersecting) setActive(id) },
-        // Zone active : entre 64px (navbar) et le milieu de l'écran
         { rootMargin: '-64px 0px -50% 0px', threshold: 0 }
       )
       obs.observe(el)
@@ -41,8 +49,8 @@ function useActiveSection(): string {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen]         = useState(false)
-  const pathname  = usePathname()
-  const activeId  = useActiveSection()
+  const pathname = usePathname()
+  const activeId = useActiveSection()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -78,19 +86,16 @@ export default function Navbar() {
         {isHome && (
           <nav className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => {
-              const id       = link.href.replace('/#', '')
-              const isActive = activeId === id
+              const isActive = activeId === link.id
               return (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  className={`relative pb-1 font-body text-sm transition-colors duration-150 ${
+                <button
+                  key={link.id}
+                  onClick={() => scrollTo(link.id)}
+                  className={`relative pb-1 font-body text-sm transition-colors duration-150 bg-transparent border-none cursor-pointer ${
                     isActive ? 'text-green-primary font-medium' : 'text-brand-sub hover:text-brand-gray'
                   }`}
                 >
                   {link.label}
-
-                  {/* Indicateur underline animé */}
                   {isActive && (
                     <motion.span
                       layoutId="nav-underline"
@@ -98,7 +103,7 @@ export default function Navbar() {
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
-                </a>
+                </button>
               )
             })}
           </nav>
@@ -148,23 +153,20 @@ export default function Navbar() {
 
               <nav className="flex flex-col gap-1 px-6 py-6 flex-1">
                 {navLinks.map((link) => {
-                  const id       = link.href.replace('/#', '')
-                  const isActive = activeId === id
+                  const isActive = activeId === link.id
                   return (
-                    <a
-                      key={link.href}
-                      href={link.href}
-                      onClick={() => setOpen(false)}
-                      className={`flex items-center gap-3 font-body text-lg py-3 border-b border-brand-border transition-colors ${
+                    <button
+                      key={link.id}
+                      onClick={() => { scrollTo(link.id); setOpen(false) }}
+                      className={`flex items-center gap-3 font-body text-lg py-3 border-b border-brand-border transition-colors text-left bg-transparent border-x-0 border-t-0 cursor-pointer w-full ${
                         isActive ? 'text-green-primary font-medium' : 'text-brand-gray hover:text-green-primary'
                       }`}
                     >
-                      {/* Point indicateur mobile */}
                       <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors ${
                         isActive ? 'bg-green-primary' : 'bg-transparent'
                       }`} />
                       {link.label}
-                    </a>
+                    </button>
                   )
                 })}
               </nav>
