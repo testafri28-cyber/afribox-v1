@@ -13,7 +13,7 @@ const features = [
   { icon: Smartphone,  title: 'Mobile',    sub: 'App · Web · WhatsApp' },
 ]
 
-const WORDS        = ['Toujours.', 'Sans stress.']
+const WORDS        = ['no stress,', '24/24,', 'Sécurisé.']
 const TYPE_SPEED   = 75    // ms par caractère
 const ERASE_SPEED  = 42    // ms par caractère (effacement plus rapide)
 const PAUSE_AFTER  = 2400  // ms d'attente après mot complet
@@ -107,7 +107,7 @@ export default function HeroSection() {
             variants={fadeInUp}
             className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-brand-gray mb-5"
           >
-            <span className="block">Vos colis vous attendent.</span>
+            <span className="block">AFRIBOX, la livraison</span>
             <span className="block text-green-primary italic whitespace-nowrap">
               {typedText}
               {/* Curseur clignotant */}
