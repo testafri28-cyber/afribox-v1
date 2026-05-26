@@ -124,13 +124,10 @@ export default function HeroSection() {
             </motion.p>
 
             <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-3 mb-12">
-              <div className="relative inline-flex">
-                <span className="animate-pulse-ring absolute inset-0 rounded-full bg-green-primary opacity-30 pointer-events-none" />
-                <Button href="/reserver" variant="primary" size="lg">
-                  Réserver un locker
-                  <ArrowRight size={18} className="ml-1" />
-                </Button>
-              </div>
+              <Button href="/reserver" variant="primary" size="lg">
+                Réserver un locker
+                <ArrowRight size={18} className="ml-1" />
+              </Button>
               <Button href="https://wa.me/2250759595959" variant="secondary" size="lg">
                 <svg viewBox="0 0 32 32" width={18} height={18} fill="currentColor" className="mr-1.5 flex-shrink-0">
                   <path d="M16 3.2C9 3.2 3.2 9 3.2 16c0 2.26.59 4.46 1.73 6.4L3.2 28.8l6.58-1.71A12.74 12.74 0 0016 28.68h.005C23.07 28.68 28.8 22.95 28.8 16c0-3.42-1.33-6.63-3.75-9.05A12.71 12.71 0 0016 3.2zm7.52 18.31c-.32.9-1.84 1.71-2.57 1.82-.66.1-1.49.14-2.41-.15-.55-.18-1.27-.41-2.18-.8-3.83-1.65-6.33-5.51-6.52-5.76-.19-.26-1.56-2.08-1.56-3.96 0-1.89.99-2.81 1.34-3.2.35-.38.76-.48 1.02-.48.25 0 .51 0 .73.013.23.011.55-.089.86.66.32.76 1.08 2.65 1.18 2.84.1.19.16.41.03.67-.13.26-.19.41-.38.64-.19.22-.4.5-.57.67-.19.19-.39.4-.17.78.22.38.99 1.63 2.12 2.64 1.46 1.3 2.69 1.7 3.07 1.89.38.19.61.16.83-.1.22-.25.95-1.11 1.21-1.49.25-.38.51-.32.86-.19.35.13 2.22 1.05 2.6 1.24.38.19.64.29.73.45.1.16.1.93-.22 1.82z"/>
@@ -139,12 +136,12 @@ export default function HeroSection() {
               </Button>
             </motion.div>
 
-            <motion.div variants={staggerContainer} className="flex flex-wrap gap-3">
+            <motion.div variants={staggerContainer} className="flex flex-nowrap gap-2 sm:gap-3">
               {features.map(({ icon: Icon, title, sub }, i) => (
                 <motion.div
                   key={title}
                   variants={fadeInUp}
-                  className="inline-flex items-center gap-3 bg-brand-off border border-brand-border rounded-2xl px-4 py-3"
+                  className="flex-1 min-w-0 inline-flex items-center gap-2 sm:gap-2.5 bg-brand-off border border-brand-border rounded-2xl px-2.5 sm:px-3 py-2 sm:py-2.5"
                 >
                   <motion.div
                     animate={{
@@ -155,13 +152,13 @@ export default function HeroSection() {
                       scale: 1.2, rotate: 8, y: 0,
                       transition: { type: 'spring', stiffness: 380, damping: 12 },
                     }}
-                    className="w-9 h-9 bg-green-bg rounded-xl flex items-center justify-center flex-shrink-0"
+                    className="w-8 h-8 bg-green-bg rounded-lg flex items-center justify-center flex-shrink-0"
                   >
-                    <Icon size={16} className="text-green-primary" />
+                    <Icon size={14} className="text-green-primary" />
                   </motion.div>
-                  <div className="text-left">
-                    <p className="font-heading font-bold text-sm text-brand-gray leading-none">{title}</p>
-                    <p className="font-body text-xs text-brand-sub mt-0.5">{sub}</p>
+                  <div className="text-left min-w-0">
+                    <p className="font-heading font-bold text-xs sm:text-sm text-brand-gray leading-none truncate">{title}</p>
+                    <p className="font-body text-[10px] sm:text-xs text-brand-sub mt-0.5 truncate">{sub}</p>
                   </div>
                 </motion.div>
               ))}

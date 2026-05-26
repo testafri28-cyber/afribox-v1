@@ -46,8 +46,8 @@ const config: Config = {
           to:   { transform: 'translateX(-50%)' },
         },
         pulseRing: {
-          '0%':   { transform: 'scale(1)',   opacity: '0.6' },
-          '100%': { transform: 'scale(1.6)', opacity: '0' },
+          '0%, 100%': { opacity: '0.15' },
+          '50%':      { opacity: '0.5' },
         },
       },
       animation: {

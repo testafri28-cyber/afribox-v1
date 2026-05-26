@@ -67,7 +67,7 @@ export default function Navbar() {
   const isHome = pathname === '/'
 
   return (
-    <header className="sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none">
+    <header className="sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none bg-white">
       <div className="max-w-container mx-auto px-4 md:px-10 lg:px-20">
         <div className={`pointer-events-auto h-14 md:h-16 px-4 md:px-6 flex items-center justify-between rounded-full border transition-all duration-200 ${
           scrolled
