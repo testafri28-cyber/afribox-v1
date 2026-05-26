@@ -9,19 +9,24 @@ import { processSteps, type ProcessStep } from '@/lib/constants'
 export default function ProcessStepper() {
   const [active, setActive] = useState(1)
   const scrollerRef = useRef<HTMLDivElement>(null)
+  const isFirstRun = useRef(true)
 
   const step = processSteps.find((s) => s.id === active) as ProcessStep
 
-  // Centre l'étape active sur mobile
+  // Centre l'étape active dans le scroller horizontal (sans scroller la page)
   useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false
+      return
+    }
     const scroller = scrollerRef.current
     if (!scroller) return
     const btn = scroller.querySelector<HTMLButtonElement>(
       `[data-step="${active}"]`,
     )
-    if (btn) {
-      btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' })
-    }
+    if (!btn) return
+    const offset = btn.offsetLeft - (scroller.clientWidth - btn.clientWidth) / 2
+    scroller.scrollTo({ left: offset, behavior: 'smooth' })
   }, [active])
 
   const goPrev = () => setActive((s) => Math.max(1, s - 1))

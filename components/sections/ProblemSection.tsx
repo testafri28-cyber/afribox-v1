@@ -1,16 +1,15 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { ShoppingBag, Truck, User, type LucideIcon } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import GridBackground from '@/components/ui/GridBackground'
-import { problems } from '@/lib/constants'
+import BentoTriple from '@/components/features/BentoTriple'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
 }
-const stagger = { hidden: {}, visible: { transition: { staggerChildren: 0.1 } } }
 
 export default function ProblemSection() {
   return (
@@ -33,56 +32,64 @@ export default function ProblemSection() {
           </p>
         </motion.div>
 
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={stagger}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-        >
-          {problems.map((p, i) => {
-            const Icon = p.icon
-            return (
-              <motion.article
-                key={p.title}
-                variants={fadeUp}
-                whileHover={{ y: -4 }}
-                transition={{ duration: 0.2 }}
-                className="relative overflow-hidden bg-white rounded-2xl p-7 md:p-8 border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] hover:shadow-[0_8px_32px_-8px_rgba(31,71,40,0.15)] transition-shadow"
-              >
-                <GridBackground tone="green" />
-                <div className="relative">
-                  <div className="flex items-start justify-between mb-6">
-                    <motion.div
-                      animate={{
-                        y: [0, -5, 0],
-                        transition: { duration: 2.2 + i * 0.3, repeat: Infinity, ease: 'easeInOut', delay: i * 0.2 },
-                      }}
-                      whileHover={{
-                        scale: 1.18, rotate: 6, y: 0,
-                        transition: { type: 'spring', stiffness: 380, damping: 12 },
-                      }}
-                      className="w-11 h-11 rounded-xl bg-green-bg flex items-center justify-center"
-                    >
-                      <Icon size={22} className="text-green-primary" />
-                    </motion.div>
-                    <span
-                      className="font-heading font-bold text-5xl md:text-6xl leading-none select-none"
-                      style={{ color: 'rgba(39, 174, 96, 0.12)' }}
-                    >
-                      {p.number}
-                    </span>
-                  </div>
-                  <h3 className="font-heading font-bold text-xl md:text-2xl text-brand-gray mb-3">
-                    {p.title}
-                  </h3>
-                  <p className="font-body text-brand-sub leading-relaxed">{p.text}</p>
-                </div>
-              </motion.article>
-            )
-          })}
-        </motion.div>
+        <BentoTriple
+          accent={{
+            label: '01',
+            title: 'Pour les marchands',
+            description:
+              "Chaque livraison ratée, c'est une vente perdue. Afribox automatise le dernier kilomètre de bout en bout.",
+            visual: <Visual3D icon={ShoppingBag} tone="dark" />,
+          }}
+          hero={{
+            label: '02',
+            title: 'Pour les livreurs',
+            description:
+              'Finis les allers-retours et les appels sans réponse. Déposer un colis prend 60 secondes.',
+            visual: <Visual3D icon={Truck} tone="light" />,
+          }}
+          tertiary={{
+            label: '03',
+            title: 'Pour vous',
+            description:
+              "Récupérez votre colis quand ça vous convient. Pas quand ça convient au livreur.",
+            visual: <Visual3D icon={User} tone="light" />,
+          }}
+        />
       </Container>
     </section>
+  )
+}
+
+/* -------------------------------------------------------------- Visual 3D
+   Placeholder en attendant de vrais assets 3D (PNG/WebP) :
+   - grosse icône Lucide
+   - dégradé radial + halo + ombre portée pour un rendu "3D-ish"
+   - léger tilt
+   Pour swap : remplace par <Image src="/images/xxx.png" .../>. */
+function Visual3D({
+  icon: Icon,
+  tone,
+}: {
+  icon: LucideIcon
+  tone: 'light' | 'dark'
+}) {
+  const bgGradient =
+    tone === 'dark'
+      ? 'from-green-light to-green-primary'
+      : 'from-green-primary to-green-dark'
+  const iconColor = 'text-white'
+  const haloColor = tone === 'dark' ? 'bg-green-dark/40' : 'bg-green-primary/15'
+
+  return (
+    <div className="relative w-full aspect-square max-w-[170px] flex items-center justify-center">
+      {/* halo */}
+      <div className={`absolute inset-0 rounded-full blur-2xl ${haloColor}`} />
+      {/* main blob */}
+      <div
+        className={`relative w-[78%] aspect-square rounded-[2rem] bg-gradient-to-br ${bgGradient} shadow-[0_18px_40px_-12px_rgba(31,71,40,0.45),inset_0_-8px_24px_rgba(0,0,0,0.18),inset_0_8px_16px_rgba(255,255,255,0.18)] rotate-[-8deg] flex items-center justify-center`}
+      >
+        <Icon size={56} className={`${iconColor} drop-shadow-md`} strokeWidth={2} />
+      </div>
+    </div>
   )
 }
