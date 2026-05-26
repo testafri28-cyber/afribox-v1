@@ -31,12 +31,13 @@ export type Stat = {
   label: string
   icon: LucideIcon
   hint?: string
+  progress: number   // 0–100, drives the progress bar at the bottom of the card
 }
 export const stats: Stat[] = [
-  { value: '24/7',  label: 'Disponibilité',         icon: Clock,        hint: 'Toujours actif' },
-  { value: '60',    label: 'Secondes pour déposer', icon: Zap,          hint: 'Sans rendez-vous' },
-  { value: '4800',  label: 'Livraisons réussies',   icon: Package,      hint: '+42% vs an dernier' },
-  { value: '98%',   label: 'Satisfaction client',   icon: Smile,        hint: '+3pt cette année' },
+  { value: '24/7',  label: 'Disponibilité',         icon: Clock,   hint: 'Toujours actif',     progress: 100 },
+  { value: '60',    label: 'Secondes pour déposer', icon: Zap,     hint: 'Sans rendez-vous',   progress: 75  },
+  { value: '4800',  label: 'Livraisons réussies',   icon: Package, hint: '+42% vs an dernier', progress: 82  },
+  { value: '98%',   label: 'Satisfaction client',   icon: Smile,   hint: '+3pt cette année',   progress: 98  },
 ]
 
 // ---------------------------------------------------------------------------

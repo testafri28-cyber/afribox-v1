@@ -2,34 +2,16 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { TrendingUp, type LucideIcon } from 'lucide-react'
+import { ArrowUpRight, type LucideIcon } from 'lucide-react'
 
 type StatCardProps = {
   value: string
   label: string
   icon: LucideIcon
   hint?: string
-  tone?: 'green' | 'soft'
+  index?: number
+  progress: number
 }
-
-const toneMap = {
-  green: {
-    band:    'bg-green-primary',
-    bandText:'text-white',
-    iconBg:  'bg-white text-green-dark',
-    inset:   'bg-brand-gray text-white',
-    insetHint: 'text-white/75',
-    hintIcon:'text-green-light',
-  },
-  soft: {
-    band:    'bg-green-bg',
-    bandText:'text-green-dark',
-    iconBg:  'bg-green-primary text-white',
-    inset:   'bg-white text-brand-gray border border-brand-border',
-    insetHint: 'text-brand-sub',
-    hintIcon:'text-green-primary',
-  },
-} as const
 
 function parseNumeric(value: string): { num: number; suffix: string } | null {
   const match = value.match(/^(\d+)(.*)$/)
@@ -37,8 +19,7 @@ function parseNumeric(value: string): { num: number; suffix: string } | null {
   return { num: parseInt(match[1], 10), suffix: match[2] }
 }
 
-export default function StatCard({ value, label, icon: Icon, hint, tone = 'green' }: StatCardProps) {
-  const t = toneMap[tone]
+export default function StatCard({ value, label, icon: Icon, hint, index = 0, progress }: StatCardProps) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.5 })
   const numeric = useMemo(() => parseNumeric(value), [value])
@@ -67,37 +48,52 @@ export default function StatCard({ value, label, icon: Icon, hint, tone = 'green
     return () => cancelAnimationFrame(raf)
   }, [inView, numeric, value])
 
+  const pct = Math.max(0, Math.min(100, progress))
+
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 16 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      className={`relative rounded-2xl p-3 pb-1 shadow-[0_8px_24px_-12px_rgba(0,0,0,0.18)] ${t.band}`}
+      initial={{ opacity: 0, y: 24, scale: 0.96 }}
+      animate={inView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{ duration: 0.55, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+      className="relative rounded-2xl bg-gradient-to-br from-white to-brand-off border border-brand-border p-5 md:p-6 shadow-[0_10px_30px_-14px_rgba(31,71,40,0.18),inset_0_1px_0_rgba(255,255,255,0.9)] overflow-hidden"
     >
-      {/* Top band — label + icon button */}
-      <div className="flex items-center justify-between px-2 pt-1 pb-3">
-        <span className={`font-heading font-semibold text-sm md:text-base ${t.bandText}`}>
-          {label}
+      {/* Top — icon + label */}
+      <div className="flex items-center gap-2 mb-5 min-w-0">
+        <span className="flex-shrink-0 w-7 h-7 rounded-lg bg-green-bg flex items-center justify-center">
+          <Icon size={14} className="text-green-primary" />
         </span>
-        <span className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${t.iconBg}`}>
-          <Icon size={14} />
+        <span className="font-heading font-semibold text-sm text-brand-gray truncate">
+          {label}
         </span>
       </div>
 
-      {/* Inset card — big number + hint */}
-      <div className={`rounded-xl px-4 py-4 md:px-5 md:py-5 ${t.inset}`}>
-        <p className="font-heading font-bold text-3xl md:text-4xl leading-none tracking-tight">
-          {display}
-        </p>
-        {hint && (
-          <div className="flex items-center gap-1.5 mt-3">
-            <TrendingUp size={12} className={`flex-shrink-0 ${t.hintIcon}`} />
-            <span className={`font-body text-[11px] md:text-xs leading-tight ${t.insetHint}`}>
-              {hint}
-            </span>
-          </div>
-        )}
+      {/* Big number */}
+      <p className="font-heading font-bold text-4xl md:text-5xl leading-none tracking-tight text-brand-gray">
+        {display}
+      </p>
+
+      {/* Trend pill — sits between number and progress bar */}
+      {hint && (
+        <span className="inline-flex items-center gap-1 mt-3 px-2 py-1 rounded-full bg-green-bg text-green-dark font-body text-[10px] font-medium">
+          <ArrowUpRight size={10} />
+          {hint}
+        </span>
+      )}
+
+      {/* Progress bar */}
+      <div className="mt-4">
+        <div className="h-1.5 rounded-full bg-green-bg overflow-hidden">
+          <motion.span
+            initial={{ width: 0 }}
+            animate={inView ? { width: `${pct}%` } : {}}
+            transition={{ duration: 0.9, delay: index * 0.12 + 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="block h-full rounded-full bg-green-primary"
+          />
+        </div>
+        <span className="block mt-2 font-mono text-[10px] tracking-widest uppercase text-brand-sub">
+          {pct}%
+        </span>
       </div>
     </motion.div>
   )
