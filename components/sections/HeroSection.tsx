@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Clock, ShieldCheck, Smartphone } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import Button from '@/components/ui/Button'
-import PhoneMockup from '@/components/features/PhoneMockup'
+import LockerPhoto from '@/components/features/LockerPhoto'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 const features = [
@@ -51,7 +51,7 @@ export default function HeroSection() {
   const typedText = useTypewriter(WORDS)
 
   return (
-    <section id="hero" className="relative bg-white overflow-hidden pt-14 md:pt-20 pb-0">
+    <section id="hero" className="relative bg-white overflow-hidden pt-4 md:pt-8 pb-0">
 
       {/* Lignes SVG animées */}
       <svg
@@ -94,7 +94,7 @@ export default function HeroSection() {
         />
       </svg>
 
-      <Container className="relative z-10 pb-20 md:pb-28">
+      <Container className="relative z-10 pb-8 md:pb-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-16 items-center">
 
           {/* Left — texte */}
@@ -172,7 +172,7 @@ export default function HeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 }}
           >
-            <PhoneMockup />
+            <LockerPhoto />
           </motion.div>
 
         </div>

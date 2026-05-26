@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/metadata'
 
 import HeroSection         from '@/components/sections/HeroSection'
+import HeroDivider         from '@/components/layout/HeroDivider'
 import StatsBar            from '@/components/sections/StatsBar'
 import ProblemSection      from '@/components/sections/ProblemSection'
 import ServicesAccordion   from '@/components/sections/ServicesAccordion'
@@ -24,6 +25,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
+      <HeroDivider />
       <StatsBar />
       <ProblemSection />
       <ServicesAccordion />

@@ -14,9 +14,13 @@ export type BentoCard = {
 }
 
 type Props = {
-  accent: BentoCard       // big vertical card on the left, accent background
-  hero: BentoCard         // wide card on the top right (entrance: scale-down)
-  tertiary: BentoCard     // wide card on the bottom right
+  accent: BentoCard       // tall accent-coloured card (animates as a side card)
+  hero: BentoCard         // wide card with the scale-in entrance
+  tertiary: BentoCard     // bottom card
+  /** Optional 4th card. When provided, tertiary and quaternary share the bottom row. */
+  quaternary?: BentoCard
+  /** Where the accent card sits in the bento grid. Default: 'left'. */
+  accentPosition?: 'left' | 'right'
   className?: string
 }
 
@@ -24,7 +28,16 @@ type Props = {
 const easeOutExpo = [0.22, 1, 0.36, 1] as const
 
 /* ------------------------------------------------------------ Component */
-export default function BentoTriple({ accent, hero, tertiary, className = '' }: Props) {
+export default function BentoTriple({
+  accent,
+  hero,
+  tertiary,
+  quaternary,
+  accentPosition = 'left',
+  className = '',
+}: Props) {
+  const accentOnRight = accentPosition === 'right'
+  const hasQuad = !!quaternary
   const reduced = useReducedMotion()
   const [isDesktop, setIsDesktop] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
@@ -84,7 +97,7 @@ export default function BentoTriple({ accent, hero, tertiary, className = '' }: 
           initial="hidden"
           animate={phase}
           custom={0}
-          className="md:col-span-1 md:row-span-2 relative overflow-hidden rounded-2xl p-6 md:p-7 bg-gradient-to-br from-green-dark to-green-primary text-white border border-green-dark shadow-[0_4px_20px_-8px_rgba(31,71,40,0.18)] flex flex-col"
+          className={`${accentOnRight ? 'md:col-start-3 md:col-end-4' : 'md:col-start-1 md:col-end-2'} md:row-start-1 md:row-end-3 relative overflow-hidden rounded-2xl p-6 md:p-7 bg-gradient-to-br from-green-dark to-green-primary text-white border border-green-dark shadow-[0_4px_20px_-8px_rgba(31,71,40,0.18)] flex flex-col`}
         >
           <GridBackground tone="white" />
           <CardBody
@@ -104,7 +117,7 @@ export default function BentoTriple({ accent, hero, tertiary, className = '' }: 
           initial="hidden"
           animate={phase}
           style={{ transformOrigin: 'center center', willChange: 'transform' }}
-          className="md:col-span-2 md:row-span-1 relative overflow-hidden rounded-2xl p-6 md:p-8 bg-white border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] z-10"
+          className={`${accentOnRight ? 'md:col-start-1 md:col-end-3' : 'md:col-start-2 md:col-end-4'} md:row-start-1 md:row-end-2 relative overflow-hidden rounded-2xl p-6 md:p-8 bg-white border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] z-10`}
         >
           <CardBody
             label={hero.label}
@@ -116,14 +129,22 @@ export default function BentoTriple({ accent, hero, tertiary, className = '' }: 
           />
         </motion.article>
 
-        {/* ---------------- Card 3 — Tertiary (bottom-right) ---------------- */}
+        {/* ---------------- Card 3 — Tertiary (bottom) ---------------- */}
         <motion.article
           key={`t-${variantKey}`}
           variants={sideVariants}
           initial="hidden"
           animate={phase}
           custom={1}
-          className="md:col-span-2 md:row-span-1 relative overflow-hidden rounded-2xl p-6 md:p-8 bg-brand-off border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)]"
+          className={`${
+            hasQuad
+              ? accentOnRight
+                ? 'md:col-start-1 md:col-end-2'
+                : 'md:col-start-2 md:col-end-3'
+              : accentOnRight
+                ? 'md:col-start-1 md:col-end-3'
+                : 'md:col-start-2 md:col-end-4'
+          } md:row-start-2 md:row-end-3 relative overflow-hidden rounded-2xl p-6 md:p-8 bg-brand-off border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)]`}
         >
           <CardBody
             label={tertiary.label}
@@ -131,9 +152,32 @@ export default function BentoTriple({ accent, hero, tertiary, className = '' }: 
             description={tertiary.description}
             visual={tertiary.visual}
             tone="light"
-            layout="horizontal"
+            layout={hasQuad ? 'vertical' : 'horizontal'}
           />
         </motion.article>
+
+        {/* ---------------- Card 4 — Quaternary (bottom, optional) ---------------- */}
+        {quaternary && (
+          <motion.article
+            key={`q-${variantKey}`}
+            variants={sideVariants}
+            initial="hidden"
+            animate={phase}
+            custom={2}
+            className={`${
+              accentOnRight ? 'md:col-start-2 md:col-end-3' : 'md:col-start-3 md:col-end-4'
+            } md:row-start-2 md:row-end-3 relative overflow-hidden rounded-2xl p-6 md:p-8 bg-white border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)]`}
+          >
+            <CardBody
+              label={quaternary.label}
+              title={quaternary.title}
+              description={quaternary.description}
+              visual={quaternary.visual}
+              tone="light"
+              layout="vertical"
+            />
+          </motion.article>
+        )}
       </div>
     </div>
   )

@@ -1,9 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { type LucideIcon } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import GridBackground from '@/components/ui/GridBackground'
+import BentoTriple from '@/components/features/BentoTriple'
 import { values, team } from '@/lib/constants'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
@@ -25,54 +26,34 @@ export default function AboutSection() {
           </h2>
         </motion.div>
 
-        {/* Values grid */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20"
-        >
-          {values.map((v, i) => {
-            const Icon = v.icon
-            return (
-              <motion.article
-                key={v.title}
-                variants={fadeInUp}
-                className="relative overflow-hidden bg-white rounded-2xl p-7 md:p-8 border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] hover:shadow-[0_8px_32px_-8px_rgba(31,71,40,0.15)] transition-shadow"
-              >
-                <GridBackground tone="green" />
-                <div className="relative">
-                  <div className="flex items-start justify-between mb-6">
-                    <motion.div
-                      animate={{
-                        y: [0, -5, 0],
-                        transition: { duration: 2.2 + i * 0.3, repeat: Infinity, ease: 'easeInOut', delay: i * 0.2 },
-                      }}
-                      whileHover={{
-                        scale: 1.18, rotate: 6, y: 0,
-                        transition: { type: 'spring', stiffness: 380, damping: 12 },
-                      }}
-                      className="w-11 h-11 rounded-xl bg-green-bg flex items-center justify-center"
-                    >
-                      <Icon size={22} className="text-green-primary" />
-                    </motion.div>
-                    <span
-                      className="font-heading font-bold text-5xl md:text-6xl leading-none select-none"
-                      style={{ color: 'rgba(39, 174, 96, 0.12)' }}
-                    >
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-                  <h3 className="font-heading font-bold text-xl md:text-2xl text-brand-gray mb-3">
-                    {v.title}
-                  </h3>
-                  <p className="font-body text-brand-sub leading-relaxed">{v.text}</p>
-                </div>
-              </motion.article>
-            )
-          })}
-        </motion.div>
+        {/* Values bento — accent on the left (varies from Channels which is on the right) */}
+        <div className="mb-20">
+          <BentoTriple
+            accentPosition="left"
+            accent={{
+              label: '01',
+              title: values[0].title,
+              description: values[0].text,
+              visual: <Visual3D icon={values[0].icon} tone="dark" />,
+            }}
+            hero={{
+              label: '02',
+              title: values[1].title,
+              description: values[1].text,
+              visual: <Visual3D icon={values[1].icon} tone="light" />,
+            }}
+            tertiary={{
+              label: '03',
+              title: values[2].title,
+              description: values[2].text,
+            }}
+            quaternary={{
+              label: '04',
+              title: values[3].title,
+              description: values[3].text,
+            }}
+          />
+        </div>
 
         {/* Team */}
         <motion.div
@@ -110,5 +91,32 @@ export default function AboutSection() {
         </motion.div>
       </Container>
     </section>
+  )
+}
+
+/* Visual 3D placeholder — same shape as the other bento sections,
+   local so each can tweak independently when real 3D assets land. */
+function Visual3D({
+  icon: Icon,
+  tone,
+}: {
+  icon: LucideIcon
+  tone: 'light' | 'dark'
+}) {
+  const bgGradient =
+    tone === 'dark'
+      ? 'from-green-light to-green-primary'
+      : 'from-green-primary to-green-dark'
+  const haloColor = tone === 'dark' ? 'bg-green-dark/40' : 'bg-green-primary/15'
+
+  return (
+    <div className="relative w-full aspect-square max-w-[170px] flex items-center justify-center">
+      <div className={`absolute inset-0 rounded-full blur-2xl ${haloColor}`} />
+      <div
+        className={`relative w-[78%] aspect-square rounded-[2rem] bg-gradient-to-br ${bgGradient} shadow-[0_18px_40px_-12px_rgba(31,71,40,0.45),inset_0_-8px_24px_rgba(0,0,0,0.18),inset_0_8px_16px_rgba(255,255,255,0.18)] rotate-[-8deg] flex items-center justify-center`}
+      >
+        <Icon size={56} className="text-white drop-shadow-md" strokeWidth={2} />
+      </div>
+    </div>
   )
 }
