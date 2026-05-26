@@ -67,12 +67,13 @@ export default function Navbar() {
   const isHome = pathname === '/'
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-200 ${
-      scrolled
-        ? 'bg-white/90 backdrop-blur border-b border-brand-border shadow-sm'
-        : 'bg-white border-b border-brand-border'
-    }`}>
-      <div className="max-w-container mx-auto px-4 md:px-10 lg:px-20 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none">
+      <div className="max-w-container mx-auto px-4 md:px-10 lg:px-20">
+        <div className={`pointer-events-auto h-14 md:h-16 px-4 md:px-6 flex items-center justify-between rounded-full border transition-all duration-200 ${
+          scrolled
+            ? 'bg-white/85 backdrop-blur-md border-brand-border shadow-lg shadow-black/5'
+            : 'bg-white/95 backdrop-blur border-brand-border shadow-md shadow-black/5'
+        }`}>
 
         {/* Logo */}
         <Link href="/" className="flex flex-col" aria-label="Afribox">
@@ -128,6 +129,7 @@ export default function Navbar() {
         >
           <Menu size={24} />
         </button>
+        </div>
       </div>
 
       {/* Drawer mobile */}
