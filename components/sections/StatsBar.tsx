@@ -1,16 +1,25 @@
+'use client'
+
 import Container from '@/components/layout/Container'
 import StatCard from '@/components/ui/StatCard'
-import GridBackground from '@/components/ui/GridBackground'
 import { stats } from '@/lib/constants'
+
+const tones = ['green', 'soft', 'green', 'soft'] as const
 
 export default function StatsBar() {
   return (
-    <section className="relative overflow-hidden bg-green-primary">
-      <GridBackground opacity={0.1} />
-      <Container className="relative z-10 py-8 md:py-12 lg:py-16">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-y-6 gap-x-4 md:gap-y-8 md:gap-x-6">
-          {stats.map((s) => (
-            <StatCard key={s.label} value={s.value} label={s.label} />
+    <section className="bg-white">
+      <Container className="py-12 md:py-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
+          {stats.map((s, i) => (
+            <StatCard
+              key={s.label}
+              value={s.value}
+              label={s.label}
+              icon={s.icon}
+              hint={s.hint}
+              tone={tones[i]}
+            />
           ))}
         </div>
       </Container>

@@ -4,6 +4,7 @@ import {
   ShieldCheck, Zap, MapPin, Globe,
   ScanLine, ShoppingBag, Truck,
   User, Bell, CreditCard, Lightbulb,
+  Clock, Smile,
 } from 'lucide-react'
 
 // ---------------------------------------------------------------------------
@@ -25,12 +26,17 @@ export const lockers: Locker[] = [
 // ---------------------------------------------------------------------------
 // Stats
 // ---------------------------------------------------------------------------
-export type Stat = { value: string; label: string }
+export type Stat = {
+  value: string
+  label: string
+  icon: LucideIcon
+  hint?: string
+}
 export const stats: Stat[] = [
-  { value: '24/7',  label: 'Disponibilité du réseau' },
-  { value: '60',    label: 'Secondes pour déposer' },
-  { value: '4800',  label: 'Livraisons réussies' },
-  { value: '98%',   label: 'Satisfaction client' },
+  { value: '24/7',  label: 'Disponibilité',         icon: Clock,        hint: 'Toujours actif' },
+  { value: '60',    label: 'Secondes pour déposer', icon: Zap,          hint: 'Sans rendez-vous' },
+  { value: '4800',  label: 'Livraisons réussies',   icon: Package,      hint: '+42% vs an dernier' },
+  { value: '98%',   label: 'Satisfaction client',   icon: Smile,        hint: '+3pt cette année' },
 ]
 
 // ---------------------------------------------------------------------------
