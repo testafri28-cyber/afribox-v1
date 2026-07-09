@@ -115,12 +115,12 @@ export function TubelightNavbar({
               item.icon === undefined ? (
                 // CTA buttons styling
                 item.showArrow
-                  ? "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 active:scale-[0.97] whitespace-nowrap bg-green-primary text-white hover:bg-green-dark px-6 py-3 text-sm"
-                  : "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 bg-white text-brand-gray border border-brand-border hover:bg-brand-off px-6 py-3 text-sm whitespace-nowrap"
+                  ? "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 active:scale-[0.97] whitespace-nowrap bg-green-primary text-white hover:bg-green-dark px-4 py-2 text-xs"
+                  : "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 bg-white text-brand-gray border border-brand-border hover:bg-brand-off px-4 py-2 text-xs whitespace-nowrap"
               ) : (
                 // Navigation links styling
                 cn(
-                  "relative cursor-pointer px-4 py-2 rounded-full transition-all duration-150 whitespace-nowrap",
+                  "relative cursor-pointer px-3 py-2 rounded-full transition-all duration-150 whitespace-nowrap",
                   isActive
                     ? "text-green-primary font-semibold"
                     : "text-brand-sub hover:text-brand-gray"
@@ -156,12 +156,12 @@ export function TubelightNavbar({
               item.icon === undefined ? (
                 // CTA buttons styling
                 item.showArrow
-                  ? "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 active:scale-[0.97] whitespace-nowrap bg-green-primary text-white hover:bg-green-dark px-6 py-3 text-sm"
-                  : "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 bg-white text-brand-gray border border-brand-border hover:bg-brand-off px-6 py-3 text-sm whitespace-nowrap"
+                  ? "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 active:scale-[0.97] whitespace-nowrap bg-green-primary text-white hover:bg-green-dark px-4 py-2 text-xs"
+                  : "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 bg-white text-brand-gray border border-brand-border hover:bg-brand-off px-4 py-2 text-xs whitespace-nowrap"
               ) : (
                 // Navigation links styling
                 cn(
-                  "relative cursor-pointer px-4 py-2 rounded-full transition-all duration-150 bg-transparent border-none whitespace-nowrap",
+                  "relative cursor-pointer px-3 py-2 rounded-full transition-all duration-150 bg-transparent border-none whitespace-nowrap",
                   isActive
                     ? "text-green-primary font-semibold"
                     : "text-brand-sub hover:text-brand-gray"

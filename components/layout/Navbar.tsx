@@ -108,7 +108,7 @@ export default function Navbar() {
             <TubelightNavbar 
               items={tubelightItems}
               activeTab={navLinks.find(l => l.id === activeId)?.label}
-              className="gap-3 px-4 py-2"
+              className="gap-0 px-4 py-2"
             />
           </div>
         )}
