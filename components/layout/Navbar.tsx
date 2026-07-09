@@ -6,13 +6,14 @@ import { usePathname } from 'next/navigation'
 import { Menu, X, ArrowRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '@/components/ui/Button'
+import { TubelightNavbar } from '@/components/ui/TubelightNavbar'
 
 const navLinks = [
-  { label: 'Services',       id: 'services' },
-  { label: 'Fonctionnement', id: 'fonctionnement' },
-  { label: "L'app",          id: 'app-mobile' },
-  { label: 'À propos',       id: 'a-propos' },
-  { label: 'Contact',        id: 'contact' },
+  { label: 'Services',       id: 'services',       icon: 'briefcase' as const },
+  { label: 'Fonctionnement', id: 'fonctionnement', icon: 'filetext' as const },
+  { label: "L'app",          id: 'app-mobile',     icon: 'home' as const },
+  { label: 'À propos',       id: 'a-propos',       icon: 'info' as const },
+  { label: 'Contact',        id: 'contact',        icon: 'phone' as const },
 ]
 
 /* Scroll to a section without putting a hash in the URL.
@@ -49,8 +50,14 @@ function useActiveSection(): string {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen]         = useState(false)
+  const [activeId, setActiveId] = useState('')
   const pathname = usePathname()
-  const activeId = useActiveSection()
+  const detectedActiveId = useActiveSection()
+
+  // Update active section
+  useEffect(() => {
+    setActiveId(detectedActiveId)
+  }, [detectedActiveId])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10)
@@ -66,66 +73,51 @@ export default function Navbar() {
 
   const isHome = pathname === '/'
 
+  // Convert navLinks to TubelightNavbar format
+  const tubelightItems = [
+    ...navLinks.map(link => ({
+      name: link.label,
+      url: '',
+      icon: link.icon,
+      onClick: () => scrollTo(link.id)
+    })),
+    { name: 'Se connecter', url: '/connexion', icon: undefined as const },
+    { name: 'Réserver un locker', url: '/reserver', icon: undefined as const, showArrow: true }
+  ]
+
   return (
     <header className="sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none bg-white">
       <div className="max-w-container mx-auto px-4 md:px-10 lg:px-20">
-        <div className={`pointer-events-auto h-14 md:h-16 px-4 md:px-6 flex items-center justify-between rounded-full border transition-all duration-200 ${
+        <div className={`pointer-events-auto h-14 md:h-16 px-3 md:px-4 flex items-center justify-between gap-4 rounded-full border transition-all duration-200 bg-white/50 border-brand-border backdrop-blur-lg ${
           scrolled
-            ? 'bg-white/85 backdrop-blur-md border-brand-border shadow-lg shadow-black/5'
-            : 'bg-white/95 backdrop-blur border-brand-border shadow-md shadow-black/5'
+            ? 'shadow-lg shadow-black/5'
+            : 'shadow-sm shadow-black/5'
         }`}>
 
         {/* Logo */}
-        <Link href="/" className="flex flex-col" aria-label="Afribox">
-          <span className="font-heading font-bold text-xl text-green-dark leading-none">Afribox</span>
-          <span className="hidden sm:block font-mono text-[9px] tracking-widest text-green-primary uppercase mt-0.5">
-            Smart Locker Network
+        <Link href="/" className="flex flex-col flex-shrink-0" aria-label="Afribox">
+          <span className="font-heading font-bold text-lg md:text-xl text-green-dark leading-none">Afribox</span>
+          <span className="hidden sm:block font-mono text-[8px] tracking-widest text-green-primary uppercase mt-0.5">
+            Smart Locker
           </span>
         </Link>
 
-        {/* Liens centre — desktop */}
+        {/* Liens centre — desktop avec TubelightNavbar */}
         {isHome && (
-          <nav className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => {
-              const isActive = activeId === link.id
-              return (
-                <button
-                  key={link.id}
-                  onClick={() => scrollTo(link.id)}
-                  className={`relative pb-1 font-body text-sm transition-colors duration-150 bg-transparent border-none cursor-pointer ${
-                    isActive ? 'text-green-primary font-medium' : 'text-brand-sub hover:text-brand-gray'
-                  }`}
-                >
-                  {link.label}
-                  {isActive && (
-                    <motion.span
-                      layoutId="nav-underline"
-                      className="absolute left-0 right-0 -bottom-px h-[2px] bg-green-primary rounded-full"
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </button>
-              )
-            })}
-          </nav>
+          <div className="hidden lg:flex items-center justify-center flex-1">
+            <TubelightNavbar 
+              items={tubelightItems}
+              activeTab={navLinks.find(l => l.id === activeId)?.label}
+              className="gap-3 px-4 py-2"
+            />
+          </div>
         )}
-
-        {/* CTAs — desktop */}
-        <div className="hidden lg:flex items-center gap-3">
-          <Button href="/connexion" variant="ghost" size="sm">
-            Se connecter
-          </Button>
-          <Button href="/reserver" variant="primary" size="sm">
-            Réserver un locker
-            <ArrowRight size={16} className="ml-1" />
-          </Button>
-        </div>
 
         {/* Hamburger — mobile */}
         <button
           aria-label="Ouvrir le menu"
           onClick={() => setOpen(true)}
-          className="lg:hidden p-2 -mr-2 text-brand-gray"
+          className="lg:hidden p-2 -mr-2 text-brand-gray flex-shrink-0"
         >
           <Menu size={24} />
         </button>
