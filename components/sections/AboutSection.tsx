@@ -46,11 +46,13 @@ export default function AboutSection() {
               label: '03',
               title: values[2].title,
               description: values[2].text,
+              visual: <Visual3D icon={values[2].icon} tone="light" />,
             }}
             quaternary={{
               label: '04',
               title: values[3].title,
               description: values[3].text,
+              visual: <Visual3D icon={values[3].icon} tone="light" />,
             }}
           />
         </div>

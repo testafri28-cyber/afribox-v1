@@ -1,19 +1,14 @@
 'use client'
 
+import Link from 'next/link'
+import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
-import { ArrowRight, Clock, ShieldCheck, Smartphone } from 'lucide-react'
-import Container from '@/components/layout/Container'
-import Button from '@/components/ui/Button'
-import LockerPhoto from '@/components/features/LockerPhoto'
-import { fadeInUp, staggerContainer } from '@/lib/animations'
+import {
+  Clock, ShieldCheck, Smartphone, MapPin,
+  Package, Lock, CreditCard, MessageCircle,
+} from 'lucide-react'
 
-const features = [
-  { icon: Clock,       title: '24h / 24',  sub: 'Sans rendez-vous' },
-  { icon: ShieldCheck, title: 'Sécurisé',  sub: 'Code unique par colis' },
-  { icon: Smartphone,  title: 'Mobile',    sub: 'App · Web · WhatsApp' },
-]
-
+/* Typewriter cycling on the second title line */
 const WORDS       = ['no stress,', '24h/24 & 7j/7,', 'sécurisée.']
 const TYPE_SPEED  = 75
 const ERASE_SPEED = 42
@@ -47,143 +42,233 @@ function useTypewriter(words: string[]) {
   return text
 }
 
+/* Pipeline node — simple pill */
+const PipeNode = ({
+  children,
+  variant = 'default',
+  delay = 0,
+}: {
+  children: React.ReactNode
+  variant?: 'default' | 'success'
+  delay?: number
+}) => (
+  <span
+    className={`hidden md:inline-flex items-center gap-2 rounded-[8px] px-3 py-1.5 text-xs font-medium font-body flex-shrink-0 ${
+      variant === 'success'
+        ? 'bg-green-bg border border-green-primary/45 text-[#444]'
+        : 'bg-[#F7F9F7] border border-[#E0E0E0] text-[#444]'
+    }`}
+    style={{
+      animation: `nodeIn 0.5s cubic-bezier(0.34,1.56,0.64,1) ${delay}s both, heroFloat 3s ease ${delay}s infinite`,
+    }}
+  >
+    {children}
+  </span>
+)
+
+/* Pipeline node — with progress bar */
+const ProgressNode = ({ delay = 0 }: { delay?: number }) => (
+  <span
+    className="hidden md:inline-flex flex-col gap-1 bg-[#F7F9F7] border border-[#E0E0E0] rounded-[8px] px-3 py-1.5 min-w-[130px] flex-shrink-0"
+    style={{
+      animation: `nodeIn 0.5s cubic-bezier(0.34,1.56,0.64,1) ${delay}s both, heroFloat 3s ease ${delay}s infinite`,
+    }}
+  >
+    <span className="flex items-center gap-2">
+      <span className="w-[7px] h-[7px] rounded-full bg-amber-400 flex-shrink-0" />
+      <span className="text-[11px] font-medium font-body text-[#444] flex-1">
+        Dépôt du colis
+      </span>
+      <span className="font-mono text-[10px] font-semibold text-green-primary">60s</span>
+    </span>
+    <span className="h-[3px] bg-[#E0E0E0] rounded-full overflow-hidden">
+      <span
+        className="h-full bg-green-primary rounded-full block"
+        style={{ animation: `progressFill 1.4s cubic-bezier(0.4,0,0.2,1) ${delay + 0.25}s both` }}
+      />
+    </span>
+  </span>
+)
+
 export default function HeroSection() {
   const typedText = useTypewriter(WORDS)
+  const tickerItems = [
+    { icon: MapPin,     label: 'Réseau Côte d’Ivoire'  },
+    { icon: Smartphone, label: 'App, Web ou WhatsApp'        },
+    { icon: Package,    label: 'Tous formats de colis'       },
+    { icon: Clock,      label: 'Sans rendez-vous'            },
+    { icon: Lock,       label: 'Code unique par livraison'   },
+    { icon: CreditCard, label: 'Mobile Money accepté'        },
+  ]
 
   return (
-    <section id="hero" className="relative bg-white overflow-hidden pt-4 md:pt-8 pb-0">
-
-      {/* Lignes SVG animées */}
+    <section
+      id="hero"
+      className="bg-white pt-12 pb-0 px-6 md:px-10 lg:px-20 relative overflow-hidden"
+    >
+      {/* Décoration SVG lignes vertes — droite */}
       <svg
-        aria-hidden
-        className="absolute inset-0 w-full h-full pointer-events-none z-0"
-        viewBox="0 0 1440 560"
-        preserveAspectRatio="xMidYMid slice"
+        className="hidden md:block absolute top-0 right-10 pointer-events-none z-0"
+        width="120" height="200" viewBox="0 0 120 200"
+        aria-hidden="true"
       >
-        <motion.path
-          d="M 0 130 L 200 130 L 200 360"
-          stroke="#27AE60" strokeWidth="1.5" fill="none" strokeLinecap="round"
-          opacity={0.18}
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 1.6, ease: 'easeOut', delay: 0.2 }}
+        <path
+          d="M100 10 L100 80 C100 86 96 90 90 90
+             L30 90 C24 90 20 94 20 100
+             L20 160 C20 166 24 170 30 170 L80 170"
+          fill="none" stroke="#27AE60" strokeWidth="1"
+          strokeDasharray="120"
+          style={{ opacity: 0.35, strokeDashoffset: 120, animation: 'drawLine 1.8s ease 0.8s forwards' }}
         />
-        <motion.path
-          d="M 1440 100 L 1240 100 L 1240 310"
-          stroke="#27AE60" strokeWidth="1.5" fill="none" strokeLinecap="round"
-          opacity={0.13}
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: 1 }}
-          transition={{ duration: 1.6, ease: 'easeOut', delay: 0.4 }}
-        />
-        <motion.circle r={3.5} fill="#27AE60"
-          animate={{ cx: [0, 200, 200, 200], cy: [130, 130, 360, 360], opacity: [0, 0.8, 0.8, 0] }}
-          transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 1.6, ease: 'linear', times: [0, 0.46, 0.9, 1] }}
-        />
-        <motion.circle r={3.5} fill="#27AE60"
-          animate={{ cx: [1440, 1240, 1240, 1240], cy: [100, 100, 310, 310], opacity: [0, 0.6, 0.6, 0] }}
-          transition={{ duration: 3.5, repeat: Infinity, repeatDelay: 1.6, ease: 'linear', delay: 0.9, times: [0, 0.49, 0.9, 1] }}
-        />
-        <motion.circle cx={200} cy={130} fill="#27AE60"
-          animate={{ r: [3, 5, 3], opacity: [0.35, 0.7, 0.35] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.4 }}
-        />
-        <motion.circle cx={1240} cy={100} fill="#27AE60"
-          animate={{ r: [3, 5, 3], opacity: [0.25, 0.6, 0.25] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
-        />
+        {[
+          { cx: 100, cy: 10,  r: 3,   delay: 1.6, fill: '#27AE60' },
+          { cx: 80,  cy: 170, r: 3,   delay: 1.8, fill: '#27AE60' },
+          { cx: 20,  cy: 100, r: 2.5, delay: 2.0, fill: '#6FCF97' },
+        ].map((d, i) => (
+          <circle
+            key={i} cx={d.cx} cy={d.cy} r={d.r} fill={d.fill}
+            style={{ opacity: 0, animation: `fadeUp 0.4s ease ${d.delay}s forwards` }}
+          />
+        ))}
       </svg>
 
-      <Container className="relative z-10 pb-8 md:pb-12">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-16 items-center">
+      {/* Contenu principal */}
+      <div className="relative z-10 max-w-6xl">
 
-          {/* Left — texte */}
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.h1
-              variants={fadeInUp}
-              className="font-heading font-bold text-4xl sm:text-5xl md:text-6xl leading-[1.05] tracking-tight text-brand-gray mb-5"
-            >
-              <span className="block">AFRIBOX, la livraison</span>
-              <span className="block text-green-primary italic whitespace-nowrap">
-                {typedText}
-                <span
-                  className="inline-block w-[3px] h-[0.85em] bg-green-primary ml-1 align-middle rounded-sm"
-                  style={{ animation: 'cursorBlink 1s step-end infinite' }}
-                />
-              </span>
-            </motion.h1>
-
-            <motion.p variants={fadeInUp} className="font-body text-sm sm:text-base md:text-lg text-brand-sub leading-relaxed max-w-xl mb-8 md:mb-10">
-              Des casiers intelligents accessibles 24h/24.
-              Pas de rendez-vous. Pas d&apos;attente.
-              Juste votre code et votre colis.
-            </motion.p>
-
-            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-3 mb-12">
-              <Button href="/reserver" variant="primary" size="lg">
-                Réserver un locker
-                <ArrowRight size={18} className="ml-1" />
-              </Button>
-              <Button href="https://wa.me/2250759595959" variant="secondary" size="lg">
-                <svg viewBox="0 0 32 32" width={18} height={18} fill="currentColor" className="mr-1.5 flex-shrink-0">
-                  <path d="M16 3.2C9 3.2 3.2 9 3.2 16c0 2.26.59 4.46 1.73 6.4L3.2 28.8l6.58-1.71A12.74 12.74 0 0016 28.68h.005C23.07 28.68 28.8 22.95 28.8 16c0-3.42-1.33-6.63-3.75-9.05A12.71 12.71 0 0016 3.2zm7.52 18.31c-.32.9-1.84 1.71-2.57 1.82-.66.1-1.49.14-2.41-.15-.55-.18-1.27-.41-2.18-.8-3.83-1.65-6.33-5.51-6.52-5.76-.19-.26-1.56-2.08-1.56-3.96 0-1.89.99-2.81 1.34-3.2.35-.38.76-.48 1.02-.48.25 0 .51 0 .73.013.23.011.55-.089.86.66.32.76 1.08 2.65 1.18 2.84.1.19.16.41.03.67-.13.26-.19.41-.38.64-.19.22-.4.5-.57.67-.19.19-.39.4-.17.78.22.38.99 1.63 2.12 2.64 1.46 1.3 2.69 1.7 3.07 1.89.38.19.61.16.83-.1.22-.25.95-1.11 1.21-1.49.25-.38.51-.32.86-.19.35.13 2.22 1.05 2.6 1.24.38.19.64.29.73.45.1.16.1.93-.22 1.82z"/>
-                </svg>
-                WhatsApp
-              </Button>
-            </motion.div>
-
-            <motion.div variants={staggerContainer} className="flex flex-nowrap gap-2 sm:gap-3">
-              {features.map(({ icon: Icon, title, sub }, i) => (
-                <motion.div
-                  key={title}
-                  variants={fadeInUp}
-                  className="flex-1 min-w-0 inline-flex items-center gap-2 sm:gap-2.5 bg-brand-off border border-brand-border rounded-2xl px-2.5 sm:px-3 py-2 sm:py-2.5"
-                >
-                  <motion.div
-                    animate={{
-                      y: [0, -4, 0],
-                      transition: { duration: 2.4 + i * 0.3, repeat: Infinity, ease: 'easeInOut', delay: i * 0.25 },
-                    }}
-                    whileHover={{
-                      scale: 1.2, rotate: 8, y: 0,
-                      transition: { type: 'spring', stiffness: 380, damping: 12 },
-                    }}
-                    className="w-8 h-8 bg-green-bg rounded-lg flex items-center justify-center flex-shrink-0"
-                  >
-                    <Icon size={14} className="text-green-primary" />
-                  </motion.div>
-                  <div className="text-left min-w-0">
-                    <p className="font-heading font-bold text-xs sm:text-sm text-brand-gray leading-none truncate">{title}</p>
-                    <p className="font-body text-[10px] sm:text-xs text-brand-sub mt-0.5 truncate">{sub}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* Right — phone animé (desktop only) */}
-          <motion.div
-            className="hidden lg:flex justify-center items-center py-12"
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 }}
-          >
-            <LockerPhoto />
-          </motion.div>
-
+        {/* H1 — Ligne 1 */}
+        <div
+          className="flex items-center gap-3 flex-wrap mb-1"
+          style={{ animation: 'fadeUp 0.6s ease 0.1s both' }}
+        >
+          <Image
+            src="/images/afribox-logo.svg"
+            alt="Afribox"
+            width={320}
+            height={80}
+            priority
+            className="h-[40px] md:h-[56px] w-auto"
+          />
+          <span className="font-heading font-extrabold text-[36px] md:text-[64px] leading-none tracking-[-0.035em] text-[#1a1a1a]">
+            la livraison
+          </span>
+          <PipeNode variant="success" delay={0.55}>
+            <span
+              className="w-[7px] h-[7px] rounded-full bg-green-primary flex-shrink-0"
+              style={{ animation: 'pulseDot 2s ease infinite' }}
+            />
+            Réseau actif
+          </PipeNode>
         </div>
-      </Container>
 
-      <style jsx>{`
-        @keyframes cursorBlink {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0; }
-        }
-      `}</style>
+        {/* H1 — Ligne 2 */}
+        <div
+          className="flex items-center gap-3 flex-wrap mb-6"
+          style={{ animation: 'fadeUp 0.6s ease 0.25s both' }}
+        >
+          <span className="font-heading font-extrabold italic text-[36px] md:text-[64px] leading-none tracking-[-0.035em] text-green-primary whitespace-nowrap">
+            {typedText}
+            <span
+              className="inline-block w-[3px] h-[0.8em] bg-green-primary ml-1 align-middle rounded-sm not-italic"
+              style={{ animation: 'cursorBlink 1s step-end infinite' }}
+            />
+          </span>
+          <span className="hidden md:inline text-[#C0C0C0] text-sm flex-shrink-0">→</span>
+          <ProgressNode delay={0.75} />
+          <span className="hidden md:inline text-[#C0C0C0] text-sm flex-shrink-0">→</span>
+          <PipeNode variant="success" delay={0.95}>
+            <span className="w-[16px] h-[16px] rounded-full bg-green-primary flex items-center justify-center flex-shrink-0">
+              <span className="text-white text-[9px] font-bold">✓</span>
+            </span>
+            Livré
+          </PipeNode>
+        </div>
+
+        {/* Sous-titre */}
+        <p
+          className="font-body text-[15px] text-brand-sub leading-relaxed max-w-[500px] mb-7"
+          style={{ animation: 'fadeUp 0.6s ease 0.5s both' }}
+        >
+          Des casiers intelligents accessibles 24h/24. Pas de rendez-vous.
+          Pas d&apos;attente. Juste votre code et votre colis.
+        </p>
+
+        {/* CTAs */}
+        <div
+          className="flex flex-col sm:flex-row gap-3 flex-wrap mb-10"
+          style={{ animation: 'fadeUp 0.6s ease 0.65s both' }}
+        >
+          <Link
+            href="/reserver"
+            className="bg-green-primary text-white font-body text-sm font-medium px-6 py-3.5 rounded-full inline-flex items-center justify-center gap-2 hover:bg-green-dark hover:scale-[1.02] transition-all duration-200"
+            style={{ animation: 'pulseRing 2.5s ease 2s infinite' }}
+          >
+            Réserver un locker →
+          </Link>
+
+          <a
+            href="https://wa.me/2250759595959"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white text-[#1a1a1a] font-body text-sm font-medium px-6 py-3.5 rounded-full border-[1.5px] border-[#E0E0E0] inline-flex items-center justify-center gap-2 hover:border-[#25D366] transition-colors duration-200"
+          >
+            <span className="w-[18px] h-[18px] rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
+              <MessageCircle size={10} color="white" />
+            </span>
+            WhatsApp
+          </a>
+        </div>
+
+        {/* Feature cards */}
+        <div
+          className="grid grid-cols-1 md:grid-cols-3 gap-3"
+          style={{ animation: 'fadeUp 0.6s ease 0.8s both' }}
+        >
+          {[
+            { icon: Clock,       title: '24h / 24', desc: 'Sans rendez-vous'      },
+            { icon: ShieldCheck, title: 'Sécurisé', desc: 'Code unique par colis' },
+            { icon: Smartphone,  title: 'Mobile',   desc: 'App · Web · WhatsApp'  },
+          ].map(({ icon: Icon, title, desc }) => (
+            <div
+              key={title}
+              className="bg-[#F7F9F7] border border-[#EBEBEB] rounded-[14px] p-3.5 flex items-center gap-3"
+            >
+              <span className="w-[34px] h-[34px] rounded-[10px] bg-green-bg flex items-center justify-center text-green-primary flex-shrink-0">
+                <Icon size={16} />
+              </span>
+              <span>
+                <span className="block font-heading font-bold text-[13px] text-[#1a1a1a]">
+                  {title}
+                </span>
+                <span className="block font-body text-[11px] text-brand-mid mt-0.5">
+                  {desc}
+                </span>
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Ticker défilant */}
+      <div className="relative border-t border-[#EBEBEB] mt-8 py-3 overflow-hidden">
+        <div className="absolute left-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-r from-white to-transparent pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-16 z-10 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+
+        <div
+          className="flex whitespace-nowrap w-max"
+          style={{ animation: 'tickerMove 18s linear infinite' }}
+        >
+          {[...tickerItems, ...tickerItems].map(({ icon: Icon, label }, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-2 px-7 font-body text-xs text-[#999]"
+            >
+              <span className="w-1 h-1 rounded-full bg-[#C0C0C0] flex-shrink-0" />
+              <Icon size={13} className="text-[#BDBDBD]" />
+              {label}
+            </span>
+          ))}
+        </div>
+      </div>
     </section>
   )
 }
