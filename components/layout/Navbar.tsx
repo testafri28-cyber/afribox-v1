@@ -73,22 +73,18 @@ export default function Navbar() {
 
   const isHome = pathname === '/'
 
-  // Convert navLinks to TubelightNavbar format
-  const tubelightItems = [
-    ...navLinks.map(link => ({
-      name: link.label,
-      url: '',
-      icon: link.icon,
-      onClick: () => scrollTo(link.id)
-    })),
-    { name: 'Se connecter', url: '/connexion', icon: undefined as const },
-    { name: 'Réserver un locker', url: '/reserver', icon: undefined as const, showArrow: true }
-  ]
+  // Nav links only — CTAs live in their own right-aligned zone
+  const tubelightItems = navLinks.map((link) => ({
+    name: link.label,
+    url: '',
+    icon: link.icon,
+    onClick: () => scrollTo(link.id),
+  }))
 
   return (
     <header className="sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none bg-white">
       <div className="max-w-container mx-auto px-4 md:px-10 lg:px-20">
-        <div className={`pointer-events-auto h-14 md:h-16 px-3 md:px-4 flex items-center justify-between gap-4 rounded-full border transition-all duration-200 bg-white/50 border-brand-border backdrop-blur-lg ${
+        <div className={`pointer-events-auto h-14 md:h-16 px-3 md:px-5 flex items-center justify-between gap-4 rounded-full border transition-all duration-200 bg-white/70 border-brand-border backdrop-blur-lg ${
           scrolled
             ? 'shadow-lg shadow-black/5'
             : 'shadow-sm shadow-black/5'
@@ -105,13 +101,24 @@ export default function Navbar() {
         {/* Liens centre — desktop avec TubelightNavbar */}
         {isHome && (
           <div className="hidden lg:flex items-center justify-center flex-1">
-            <TubelightNavbar 
+            <TubelightNavbar
               items={tubelightItems}
-              activeTab={navLinks.find(l => l.id === activeId)?.label}
-              className="gap-0 px-4 py-2"
+              activeTab={navLinks.find((l) => l.id === activeId)?.label ?? ''}
+              className="gap-1"
             />
           </div>
         )}
+
+        {/* CTAs — desktop */}
+        <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
+          <Button href="/connexion" variant="ghost" size="sm">
+            Se connecter
+          </Button>
+          <Button href="/reserver" variant="primary" size="sm">
+            Réserver un locker
+            <ArrowRight size={16} className="ml-1.5" />
+          </Button>
+        </div>
 
         {/* Hamburger — mobile */}
         <button

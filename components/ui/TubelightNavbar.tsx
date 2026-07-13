@@ -51,12 +51,12 @@ export function TubelightNavbar({
   activeTab: controlledActiveTab,
   onActiveChange,
 }: TubelightNavbarProps) {
-  const [activeTab, setActiveTab] = useState(controlledActiveTab || items[0]?.name || "")
+  const [activeTab, setActiveTab] = useState(controlledActiveTab ?? "")
   const [isMobile, setIsMobile] = useState(false)
 
-  // Update controlled active tab
+  // Update controlled active tab (respect an explicitly empty value)
   useEffect(() => {
-    if (controlledActiveTab) {
+    if (controlledActiveTab !== undefined) {
       setActiveTab(controlledActiveTab)
     }
   }, [controlledActiveTab])

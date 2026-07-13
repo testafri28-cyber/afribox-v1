@@ -36,3 +36,4 @@ next-env.d.ts
 # Large image files (use .jpg version instead)
 public/adinkra-pattern.svg
 public/adinkra-pattern.png
+dev-server.log
