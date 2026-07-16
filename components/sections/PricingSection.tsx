@@ -33,17 +33,19 @@ export default function PricingSection() {
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeInUp}
         >
-          <div className="overflow-hidden border border-brand-border rounded-2xl">
-            <table className="w-full">
+          {/* overflow-x-auto : sur écran très étroit (<360px) la table défile au
+              lieu de rogner la colonne des prix ; à partir de 360px elle tient. */}
+          <div className="overflow-x-auto border border-brand-border rounded-2xl">
+            <table className="w-full min-w-[300px]">
               <thead className="bg-brand-off">
                 <tr>
-                  <th className="text-left font-mono text-xs tracking-widest text-brand-mid uppercase py-4 px-6">
+                  <th className="text-left font-mono text-xs tracking-widest text-brand-mid uppercase py-4 px-4 md:px-6">
                     Taille
                   </th>
-                  <th className="text-left font-mono text-xs tracking-widest text-brand-mid uppercase py-4 px-6">
+                  <th className="text-left font-mono text-xs tracking-widest text-brand-mid uppercase py-4 px-4 md:px-6">
                     Usage type
                   </th>
-                  <th className="text-right font-mono text-xs tracking-widest text-brand-mid uppercase py-4 px-6">
+                  <th className="text-right font-mono text-xs tracking-widest text-brand-mid uppercase py-4 px-4 md:px-6">
                     Tarif
                   </th>
                 </tr>
@@ -54,11 +56,11 @@ export default function PricingSection() {
                     key={p.size}
                     className={i % 2 === 0 ? 'bg-white' : 'bg-brand-off/50'}
                   >
-                    <td className="py-5 px-6 font-heading font-bold text-brand-gray">
+                    <td className="py-5 px-4 md:px-6 font-heading font-bold text-brand-gray">
                       {p.size}
                     </td>
-                    <td className="py-5 px-6 font-body text-brand-sub">{p.use}</td>
-                    <td className="py-5 px-6 text-right font-mono font-semibold text-green-primary">
+                    <td className="py-5 px-4 md:px-6 font-body text-brand-sub">{p.use}</td>
+                    <td className="py-5 px-4 md:px-6 text-right font-mono font-semibold text-green-primary">
                       {p.price}
                     </td>
                   </tr>
