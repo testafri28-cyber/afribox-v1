@@ -4,8 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, MessageCircle, Clock, Package, Smile, Star, Store, User, Building2, TrendingUp } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import { ArrowRight, MessageCircle, Clock, Package, CalendarClock, Smartphone, Check } from 'lucide-react'
 
 /* Effet machine à écrire sur le dernier mot du titre.
    Le SSR rend WORDS[0] : le titre reste lisible même sans JS. */
@@ -42,7 +41,7 @@ function useTypewriter(words: string[]) {
   return text
 }
 
-/* Card flottante — entre en spring depuis le bord vers Lucky.
+/* Card flottante — entre en spring depuis le bord vers Locky.
    La rotation passe par Framer Motion et non par une classe Tailwind :
    Motion écrit son propre `transform` inline et écraserait la classe. */
 function FloatingCard({
@@ -67,47 +66,6 @@ function FloatingCard({
     >
       {children}
     </motion.div>
-  )
-}
-
-/* Card chiffre — colonne de droite : en-tête + pastille de tendance + valeur.
-   `trend='live'` affiche une puce pulsée ; sinon une pastille de hausse fléchée
-   — c'est ce qui distingue la famille « métrique » des cartes « feature ». */
-function MiniStat({
-  icon: Icon,
-  label,
-  badge,
-  value,
-  trend = 'up',
-}: {
-  icon: LucideIcon
-  label: string
-  badge: string
-  value: string
-  trend?: 'up' | 'live'
-}) {
-  const isLive = trend === 'live'
-  return (
-    <>
-      <div className="flex items-center gap-2 mb-3">
-        <span className="w-7 h-7 rounded-full bg-green-bg flex items-center justify-center flex-shrink-0">
-          <Icon size={14} className="text-green-primary" />
-        </span>
-        <span className="font-heading font-bold text-[12px] text-brand-gray">{label}</span>
-        <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-green-primary/10 text-green-dark font-body font-semibold text-[9px] px-2 py-0.5 whitespace-nowrap">
-          {isLive ? (
-            <span className="w-1.5 h-1.5 rounded-full bg-green-primary animate-pulse" aria-hidden="true" />
-          ) : (
-            <TrendingUp size={10} className="text-green-primary" aria-hidden="true" />
-          )}
-          {badge}
-        </span>
-      </div>
-      <div className="rounded-xl bg-gradient-to-br from-green-bg to-green-bg/40 px-3 py-2.5 flex items-center justify-between gap-2">
-        <span className="font-heading font-bold text-xl text-green-dark leading-none">{value}</span>
-        <Icon size={16} className="text-green-primary/60 flex-shrink-0" />
-      </div>
-    </>
   )
 }
 
@@ -137,97 +95,144 @@ export default function HeroAfribox() {
           <div className="relative px-6 md:px-12 pt-20 md:pt-24 pb-32 md:pb-40">
 
             {/* Mascotte + cards flottantes.
-                `items-end` ancre Lucky au bas du panneau : combiné au léger
+                `items-end` ancre Locky au bas du panneau : combiné au léger
                 translate vers le bas, sa partie inférieure plonge derrière la
                 pilule des CTA posée sur la couture vert/blanc. */}
             <div className="relative mx-auto max-w-5xl flex items-end justify-center min-h-[300px] lg:min-h-[420px]">
 
               {/* ----- Halo + ombre de contact -----
-                  Ancrent Lucky : sans eux il « flotte dans le vide ».
-                  z-0, donc derrière les cards (z-auto) et Lucky (z-10). */}
+                  Ancrent Locky : sans eux il « flotte dans le vide ».
+                  z-0, donc derrière les cards (z-auto) et Locky (z-10). */}
               <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-0 pointer-events-none">
                 <div className="absolute bottom-14 left-1/2 -translate-x-1/2 h-[300px] w-[300px] md:h-[430px] md:w-[430px] rounded-full bg-green-light/25 blur-3xl" />
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 h-[42px] w-[220px] md:w-[300px] rounded-[50%] bg-green-dark/45 blur-2xl" />
               </div>
 
-              {/* ----- Identité de Lucky -----
+              {/* ----- Réseau de liaisons -----
+                  Des pointillés relient Locky (hub central) à chaque carte :
+                  matérialise le « Smart Locker Network ». lg only, derrière les
+                  cartes (z-0). Le viewBox est étiré au conteneur ; les traits
+                  gardent une épaisseur constante (non-scaling-stroke). */}
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 1000 440"
+                preserveAspectRatio="none"
+                className="absolute inset-0 w-full h-full hidden lg:block pointer-events-none z-0"
+                fill="none"
+              >
+                <g
+                  stroke="rgba(233,247,239,0.22)"
+                  strokeWidth="1.25"
+                  strokeDasharray="2 9"
+                  strokeLinecap="round"
+                  style={{ animation: 'dashFlow 22s linear infinite' }}
+                >
+                  <path d="M500,250 C450,150 260,120 150,80"   vectorEffect="non-scaling-stroke" />
+                  <path d="M500,250 C430,360 250,420 140,395"  vectorEffect="non-scaling-stroke" />
+                  <path d="M500,250 C560,150 750,90  855,70"   vectorEffect="non-scaling-stroke" />
+                  <path d="M500,250 C630,300 800,160 890,205"  vectorEffect="non-scaling-stroke" />
+                  <path d="M500,250 C560,360 780,430 850,390"  vectorEffect="non-scaling-stroke" />
+                </g>
+                <g fill="rgba(233,247,239,0.45)">
+                  <circle cx="150" cy="80"  r="2.75" />
+                  <circle cx="140" cy="395" r="2.75" />
+                  <circle cx="855" cy="70"  r="2.75" />
+                  <circle cx="890" cy="205" r="2.75" />
+                  <circle cx="850" cy="390" r="2.75" />
+                </g>
+              </svg>
+
+              {/* ----- Identité de Locky -----
                   Petit cartouche au-dessus de sa tête : lui donne un nom et un
                   rôle (cf. « This is Ona » sur la réf.). lg only, comme les cards. */}
               <motion.div
                 initial={{ opacity: 0, y: -12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
-                className="absolute top-0 left-1/2 -translate-x-1/2 z-20 hidden lg:flex items-center gap-2.5 rounded-full bg-white/95 backdrop-blur px-4 py-2 ring-1 ring-green-dark/[0.06] shadow-[0_14px_35px_-12px_rgba(11,61,27,0.5)]"
+                className="absolute top-0 left-1/2 -translate-x-1/2 z-20 hidden lg:flex items-center gap-2.5 rounded-full pl-2 pr-4 py-1.5 text-white ring-1 ring-white/15 shadow-[0_16px_38px_-10px_rgba(11,61,27,0.65)]"
+                style={{ backgroundImage: 'linear-gradient(135deg, #0B3D1B 0%, #1B5E20 100%)' }}
               >
-                <span className="text-lg leading-none" aria-hidden="true">👋</span>
+                <span className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-base leading-none flex-shrink-0" aria-hidden="true">👋</span>
                 <span className="text-left leading-tight">
-                  <span className="block font-heading font-bold text-[12px] text-green-dark">Voici Lucky</span>
-                  <span className="block font-body text-[10px] text-brand-sub">Votre concierge Afribox</span>
+                  <span className="block font-heading font-bold text-[12px] text-white">Voici Locky</span>
+                  <span className="block font-body text-[10px] text-white/70">Votre concierge Afribox</span>
                 </span>
               </motion.div>
 
               {/* ----- Gauche ----- */}
-              <FloatingCard from="left" delay={0.35} rotate={-3} className="left-0 top-2 w-[210px]">
-                <div className="flex items-center gap-2 mb-3">
-                  {[Store, User, Building2].map((Icon, i) => (
-                    <span
-                      key={i}
-                      className="w-9 h-9 rounded-full bg-green-bg border-2 border-white flex items-center justify-center"
-                    >
-                      <Icon size={15} className="text-green-primary" />
-                    </span>
-                  ))}
-                </div>
-                <p className="font-heading font-bold text-[13px] text-brand-gray leading-snug mb-2">
-                  Une solution par usage
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {['Marchands', 'Particuliers', 'Entreprises'].map((pill) => (
-                    <span
-                      key={pill}
-                      className="inline-flex items-center rounded-full bg-green-bg text-green-dark font-body font-medium text-[10px] px-2 py-0.5"
-                    >
-                      {pill}
-                    </span>
-                  ))}
+              {/* En haut : disponibilité */}
+              <FloatingCard from="left" delay={0.35} rotate={-3} className="left-0 top-2 w-[190px]">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-9 h-9 rounded-xl bg-green-bg flex items-center justify-center flex-shrink-0">
+                    <Clock size={16} className="text-green-primary" />
+                  </span>
+                  <div>
+                    <p className="font-heading font-bold text-[13px] text-brand-gray leading-none flex items-center gap-1.5">
+                      Toujours actif
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-primary animate-pulse" aria-hidden="true" />
+                    </p>
+                    <p className="font-body text-[11px] text-brand-sub mt-1">24 h/24 · 7 j/7</p>
+                  </div>
                 </div>
               </FloatingCard>
 
-              <FloatingCard from="left" delay={0.5} rotate={2} className="-left-4 bottom-0 w-[205px]">
+              {/* À gauche : sans rendez-vous */}
+              <FloatingCard from="left" delay={0.5} rotate={2} className="-left-4 bottom-0 w-[200px]">
                 <div className="flex items-center gap-2.5">
-                  <span className="w-9 h-9 rounded-full bg-green-bg flex items-center justify-center flex-shrink-0 font-heading font-bold text-[11px] text-green-dark">
-                    FK
+                  <span className="w-9 h-9 rounded-xl bg-green-bg flex items-center justify-center flex-shrink-0">
+                    <CalendarClock size={16} className="text-green-primary" />
                   </span>
-                  <span>
-                    <span className="block font-heading font-bold text-[13px] text-brand-gray leading-none">
-                      Fatou K.
-                    </span>
-                    <span className="flex gap-0.5 mt-1.5" aria-label="5 étoiles sur 5">
-                      {Array.from({ length: 5 }, (_, i) => (
-                        <Star key={i} size={11} className="text-amber-400 fill-amber-400" aria-hidden="true" />
-                      ))}
-                    </span>
-                  </span>
+                  <div>
+                    <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">Sans rendez-vous</p>
+                    <p className="font-body text-[11px] text-brand-sub mt-1">Récupérez quand vous voulez</p>
+                  </div>
                 </div>
-                <p className="font-body text-[11px] text-brand-sub leading-snug mt-2.5">
-                  « Mon colis m&apos;attendait. Zéro appel, zéro attente. »
-                </p>
               </FloatingCard>
 
               {/* ----- Droite ----- */}
-              <FloatingCard from="right" delay={0.4} rotate={3} className="right-0 top-0 w-[185px]">
-                <MiniStat icon={Clock} label="Disponibilité" badge="Live" value="24/7" trend="live" />
+              {/* En haut à droite : notification nouveau colis */}
+              <FloatingCard from="right" delay={0.4} rotate={3} className="right-0 top-0 w-[205px]">
+                <div className="flex items-start gap-2.5">
+                  <span className="w-9 h-9 rounded-xl bg-green-primary flex items-center justify-center flex-shrink-0">
+                    <Package size={16} className="text-white" />
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">Nouveau colis</p>
+                      <span className="w-1.5 h-1.5 rounded-full bg-green-primary flex-shrink-0 animate-pulse" aria-hidden="true" />
+                    </div>
+                    <p className="font-body text-[11px] text-brand-sub mt-1 leading-snug">Un casier vous attend · à l&apos;instant</p>
+                  </div>
+                </div>
               </FloatingCard>
 
-              <FloatingCard from="right" delay={0.55} rotate={-2} className="-right-4 top-[calc(50%-40px)] w-[185px]">
-                <MiniStat icon={Package} label="Livraisons" badge="+42%" value="4 800" />
+              {/* À droite : paiement Mobile Money */}
+              <FloatingCard from="right" delay={0.55} rotate={-2} className="-right-4 top-[calc(50%-40px)] w-[190px]">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-9 h-9 rounded-xl bg-green-bg flex items-center justify-center flex-shrink-0">
+                    <Smartphone size={16} className="text-green-primary" />
+                  </span>
+                  <div>
+                    <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">Paiement</p>
+                    <p className="font-body text-[11px] text-green-dark font-medium mt-1">Mobile Money</p>
+                  </div>
+                </div>
               </FloatingCard>
 
+              {/* En bas : colis livré */}
               <FloatingCard from="right" delay={0.7} rotate={2} className="right-6 bottom-0 w-[185px]">
-                <MiniStat icon={Smile} label="Satisfaction" badge="+3pt" value="98%" />
+                <div className="flex items-center gap-2.5">
+                  <span className="w-9 h-9 rounded-full bg-green-primary flex items-center justify-center flex-shrink-0">
+                    <Check size={16} className="text-white" strokeWidth={3} />
+                  </span>
+                  <div>
+                    <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">Colis livré</p>
+                    <p className="font-body text-[11px] text-brand-sub mt-1">Code utilisé</p>
+                  </div>
+                </div>
               </FloatingCard>
 
-              {/* ----- Lucky -----
+              {/* ----- Locky -----
                   Visible par défaut (aucune opacity:0 en SSR) : seul le
                   flottement passe par Framer, l'apparition par CSS. */}
               <div className="relative z-10 translate-y-6 md:translate-y-14" style={{ animation: 'fadeUp 0.6s ease-out both' }}>
@@ -237,7 +242,7 @@ export default function HeroAfribox() {
                 >
                   <Image
                     src="/mascotte.png"
-                    alt="Lucky, la mascotte Afribox, présentant une réservation de locker confirmée"
+                    alt="Locky, la mascotte Afribox, présentant une réservation de locker confirmée"
                     width={480}
                     height={500}
                     priority
@@ -257,16 +262,16 @@ export default function HeroAfribox() {
         className="relative z-10 -mt-28 md:-mt-36 bg-white px-6 pt-4 sm:pt-10 pb-10 md:pb-14 text-center"
         style={{ animation: 'fadeUp 0.6s ease-out 0.15s both' }}
       >
-          {/* CTAs — pilule blanche à cheval sur la couture vert/blanc.
-              Sur sm+ elle est en absolu, centrée sur le bord supérieur du bloc :
-              moitié sur le vert, moitié sur le blanc. Sur mobile, dans le flux. */}
-          <div className="flex justify-center sm:absolute sm:left-0 sm:right-0 sm:-top-[38px] sm:z-30">
-            <div className="inline-flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-white rounded-3xl sm:rounded-full p-2 shadow-[0_16px_40px_-10px_rgba(11,61,27,0.4)]">
+          {/* CTAs — pilule horizontale à cheval sur la couture vert/blanc à
+              TOUTES les tailles ; la mascotte passe derrière (z-30 > mascotte).
+              Sur très petit écran le libellé se raccourcit pour tenir. */}
+          <div className="absolute left-0 right-0 -top-[34px] sm:-top-[38px] z-30 flex justify-center px-4">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-white rounded-full p-1.5 sm:p-2 shadow-[0_16px_40px_-10px_rgba(11,61,27,0.4)]">
               <a
                 href="https://wa.me/2250789444441"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-5 py-3 text-brand-gray hover:bg-brand-off transition-colors duration-150"
+                className="inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-5 py-2.5 sm:py-3 text-brand-gray hover:bg-brand-off transition-colors duration-150"
               >
                 <span className="w-[18px] h-[18px] rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
                   <MessageCircle size={11} color="white" />
@@ -275,9 +280,10 @@ export default function HeroAfribox() {
               </a>
               <Link
                 href="/reserver"
-                className="inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-6 py-3 bg-green-primary text-white hover:bg-green-dark transition-all duration-150 active:scale-[0.97] whitespace-nowrap"
+                className="inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-6 py-2.5 sm:py-3 bg-green-primary text-white hover:bg-green-dark transition-all duration-150 active:scale-[0.97] whitespace-nowrap"
               >
-                Réserver un locker
+                <span className="min-[420px]:hidden">Réserver</span>
+                <span className="hidden min-[420px]:inline">Réserver un locker</span>
                 <ArrowRight size={16} />
               </Link>
             </div>
@@ -300,6 +306,29 @@ export default function HeroAfribox() {
             Des casiers intelligents accessibles à toute heure. Pas de rendez-vous,
             pas d&apos;attente — juste votre code et votre colis.
           </p>
+
+          {/* Bande de bénéfices — mobile/tablette seulement (les cartes
+              flottantes autour de Locky ne s'affichent qu'en lg). Version épurée :
+              3 atouts clés, même univers que les cartes desktop. */}
+          <div className="lg:hidden mt-8 max-w-md mx-auto grid grid-cols-3 rounded-2xl bg-white ring-1 ring-green-dark/[0.06] shadow-[0_10px_30px_-12px_rgba(11,61,27,0.25)] divide-x divide-brand-border overflow-hidden">
+            {[
+              { icon: Clock, title: '24 h/24', sub: 'Toujours actif' },
+              { icon: CalendarClock, title: 'Sans RDV', sub: 'Quand vous voulez' },
+              { icon: Smartphone, title: 'Mobile Money', sub: 'Paiement simple' },
+            ].map(({ icon: Icon, title, sub }) => (
+              <div key={title} className="px-2 py-4 flex flex-col items-center text-center">
+                <span className="w-8 h-8 rounded-lg bg-green-bg flex items-center justify-center mb-2">
+                  <Icon size={15} className="text-green-primary" />
+                </span>
+                <div className="font-heading font-bold text-[13px] text-green-dark leading-tight">
+                  {title}
+                </div>
+                <div className="font-body text-[10px] text-brand-sub leading-tight mt-0.5">
+                  {sub}
+                </div>
+              </div>
+            ))}
+          </div>
       </div>
     </section>
   )

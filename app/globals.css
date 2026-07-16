@@ -97,6 +97,10 @@ button { font-family: inherit; cursor: pointer; }
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
 }
+/* Flux des pointillés le long des liaisons du hero (thème « Network »). */
+@keyframes dashFlow {
+  to { stroke-dashoffset: -100; }
+}
 
 /* ─── CURSEUR CUSTOM AFRIBOX ──────────────────────────────── */
 
