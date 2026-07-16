@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, MessageCircle, Clock, Package, Smile, Star, Store, User, Building2 } from 'lucide-react'
+import { ArrowRight, MessageCircle, Clock, Package, Smile, Star, Store, User, Building2, TrendingUp } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 
 /* Effet machine à écrire sur le dernier mot du titre.
@@ -63,25 +63,30 @@ function FloatingCard({
       initial={{ opacity: 0, x: from === 'left' ? -70 : 70, scale: 0.9, rotate: 0 }}
       animate={{ opacity: 1, x: 0, scale: 1, rotate }}
       transition={{ type: 'spring', stiffness: 120, damping: 14, delay }}
-      className={`absolute hidden lg:block bg-white rounded-2xl shadow-[0_18px_45px_-12px_rgba(11,61,27,0.5)] p-4 text-left ${className}`}
+      className={`absolute hidden lg:block bg-white rounded-2xl ring-1 ring-green-dark/[0.06] shadow-[0_10px_20px_-8px_rgba(11,61,27,0.28),0_28px_55px_-18px_rgba(11,61,27,0.55)] p-4 text-left ${className}`}
     >
       {children}
     </motion.div>
   )
 }
 
-/* Card chiffre — colonne de droite : en-tête + pastille de valeur. */
+/* Card chiffre — colonne de droite : en-tête + pastille de tendance + valeur.
+   `trend='live'` affiche une puce pulsée ; sinon une pastille de hausse fléchée
+   — c'est ce qui distingue la famille « métrique » des cartes « feature ». */
 function MiniStat({
   icon: Icon,
   label,
   badge,
   value,
+  trend = 'up',
 }: {
   icon: LucideIcon
   label: string
   badge: string
   value: string
+  trend?: 'up' | 'live'
 }) {
+  const isLive = trend === 'live'
   return (
     <>
       <div className="flex items-center gap-2 mb-3">
@@ -89,11 +94,16 @@ function MiniStat({
           <Icon size={14} className="text-green-primary" />
         </span>
         <span className="font-heading font-bold text-[12px] text-brand-gray">{label}</span>
-        <span className="ml-auto rounded-full bg-green-bg text-green-dark font-body font-medium text-[9px] px-2 py-0.5 whitespace-nowrap">
+        <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-green-primary/10 text-green-dark font-body font-semibold text-[9px] px-2 py-0.5 whitespace-nowrap">
+          {isLive ? (
+            <span className="w-1.5 h-1.5 rounded-full bg-green-primary animate-pulse" aria-hidden="true" />
+          ) : (
+            <TrendingUp size={10} className="text-green-primary" aria-hidden="true" />
+          )}
           {badge}
         </span>
       </div>
-      <div className="rounded-xl bg-green-bg px-3 py-2.5 flex items-center justify-between gap-2">
+      <div className="rounded-xl bg-gradient-to-br from-green-bg to-green-bg/40 px-3 py-2.5 flex items-center justify-between gap-2">
         <span className="font-heading font-bold text-xl text-green-dark leading-none">{value}</span>
         <Icon size={16} className="text-green-primary/60 flex-shrink-0" />
       </div>
@@ -121,13 +131,40 @@ export default function HeroAfribox() {
             aria-hidden="true"
             className="absolute inset-0 overflow-hidden pointer-events-none"
           >
-            <div className="absolute left-1/2 top-1/3 -translate-x-1/2 w-[460px] h-[460px] rounded-full bg-green-light/20 blur-3xl" />
+            <div className="absolute left-1/2 top-1/3 -translate-x-1/2 w-[460px] h-[460px] rounded-full bg-green-light/25 blur-3xl" />
           </div>
 
-          <div className="relative px-6 md:px-12 pt-20 md:pt-24 pb-44 md:pb-56">
+          <div className="relative px-6 md:px-12 pt-20 md:pt-24 pb-32 md:pb-40">
 
-            {/* Mascotte + cards flottantes */}
-            <div className="relative mx-auto max-w-5xl flex items-center justify-center min-h-[260px] lg:min-h-[380px]">
+            {/* Mascotte + cards flottantes.
+                `items-end` ancre Lucky au bas du panneau : combiné au léger
+                translate vers le bas, sa partie inférieure plonge derrière la
+                pilule des CTA posée sur la couture vert/blanc. */}
+            <div className="relative mx-auto max-w-5xl flex items-end justify-center min-h-[300px] lg:min-h-[420px]">
+
+              {/* ----- Halo + ombre de contact -----
+                  Ancrent Lucky : sans eux il « flotte dans le vide ».
+                  z-0, donc derrière les cards (z-auto) et Lucky (z-10). */}
+              <div aria-hidden="true" className="absolute inset-x-0 bottom-0 z-0 pointer-events-none">
+                <div className="absolute bottom-14 left-1/2 -translate-x-1/2 h-[300px] w-[300px] md:h-[430px] md:w-[430px] rounded-full bg-green-light/25 blur-3xl" />
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 h-[42px] w-[220px] md:w-[300px] rounded-[50%] bg-green-dark/45 blur-2xl" />
+              </div>
+
+              {/* ----- Identité de Lucky -----
+                  Petit cartouche au-dessus de sa tête : lui donne un nom et un
+                  rôle (cf. « This is Ona » sur la réf.). lg only, comme les cards. */}
+              <motion.div
+                initial={{ opacity: 0, y: -12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+                className="absolute top-0 left-1/2 -translate-x-1/2 z-20 hidden lg:flex items-center gap-2.5 rounded-full bg-white/95 backdrop-blur px-4 py-2 ring-1 ring-green-dark/[0.06] shadow-[0_14px_35px_-12px_rgba(11,61,27,0.5)]"
+              >
+                <span className="text-lg leading-none" aria-hidden="true">👋</span>
+                <span className="text-left leading-tight">
+                  <span className="block font-heading font-bold text-[12px] text-green-dark">Voici Lucky</span>
+                  <span className="block font-body text-[10px] text-brand-sub">Votre concierge Afribox</span>
+                </span>
+              </motion.div>
 
               {/* ----- Gauche ----- */}
               <FloatingCard from="left" delay={0.35} rotate={-3} className="left-0 top-2 w-[210px]">
@@ -179,7 +216,7 @@ export default function HeroAfribox() {
 
               {/* ----- Droite ----- */}
               <FloatingCard from="right" delay={0.4} rotate={3} className="right-0 top-0 w-[185px]">
-                <MiniStat icon={Clock} label="Disponibilité" badge="Live" value="24/7" />
+                <MiniStat icon={Clock} label="Disponibilité" badge="Live" value="24/7" trend="live" />
               </FloatingCard>
 
               <FloatingCard from="right" delay={0.55} rotate={-2} className="-right-4 top-[calc(50%-40px)] w-[185px]">
@@ -193,18 +230,18 @@ export default function HeroAfribox() {
               {/* ----- Lucky -----
                   Visible par défaut (aucune opacity:0 en SSR) : seul le
                   flottement passe par Framer, l'apparition par CSS. */}
-              <div className="relative z-10" style={{ animation: 'fadeUp 0.6s ease-out both' }}>
+              <div className="relative z-10 translate-y-6 md:translate-y-14" style={{ animation: 'fadeUp 0.6s ease-out both' }}>
                 <motion.div
                   animate={{ y: [0, -14, 0] }}
                   transition={{ duration: 4, ease: 'easeInOut', repeat: Infinity }}
                 >
                   <Image
-                    src="/lucky.svg"
-                    alt="Lucky, la mascotte Afribox"
-                    width={200}
-                    height={220}
+                    src="/mascotte.png"
+                    alt="Lucky, la mascotte Afribox, présentant une réservation de locker confirmée"
+                    width={480}
+                    height={500}
                     priority
-                    className="w-[170px] md:w-[230px] h-auto drop-shadow-2xl"
+                    className="w-[250px] md:w-[360px] h-auto drop-shadow-2xl"
                   />
                 </motion.div>
               </div>
@@ -223,7 +260,7 @@ export default function HeroAfribox() {
           {/* CTAs — pilule blanche à cheval sur la couture vert/blanc.
               Sur sm+ elle est en absolu, centrée sur le bord supérieur du bloc :
               moitié sur le vert, moitié sur le blanc. Sur mobile, dans le flux. */}
-          <div className="flex justify-center sm:absolute sm:left-0 sm:right-0 sm:-top-[30px] sm:z-20">
+          <div className="flex justify-center sm:absolute sm:left-0 sm:right-0 sm:-top-[38px] sm:z-30">
             <div className="inline-flex flex-col sm:flex-row items-stretch sm:items-center gap-2 bg-white rounded-3xl sm:rounded-full p-2 shadow-[0_16px_40px_-10px_rgba(11,61,27,0.4)]">
               <a
                 href="https://wa.me/2250789444441"
