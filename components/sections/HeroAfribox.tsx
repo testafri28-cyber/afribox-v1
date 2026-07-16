@@ -98,7 +98,7 @@ export default function HeroAfribox() {
                 `items-end` ancre Locky au bas du panneau : combiné au léger
                 translate vers le bas, sa partie inférieure plonge derrière la
                 pilule des CTA posée sur la couture vert/blanc. */}
-            <div className="relative mx-auto max-w-5xl flex items-end justify-center min-h-[300px] lg:min-h-[420px]">
+            <div className="relative mx-auto max-w-5xl flex items-end justify-center min-h-[380px] lg:min-h-[420px]">
 
               {/* ----- Halo + ombre de contact -----
                   Ancrent Locky : sans eux il « flotte dans le vide ».
@@ -146,15 +146,15 @@ export default function HeroAfribox() {
                   Petit cartouche au-dessus de sa tête : lui donne un nom et un
                   rôle (cf. « This is Ona » sur la réf.). lg only, comme les cards. */}
               <motion.div
-                initial={{ opacity: 0, y: -12 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, x: '-50%', y: -12 }}
+                animate={{ opacity: 1, x: '-50%', y: 0 }}
                 transition={{ delay: 0.3, duration: 0.5 }}
-                className="absolute top-0 left-1/2 -translate-x-1/2 z-20 hidden lg:flex items-center gap-2.5 rounded-full pl-2 pr-4 py-1.5 text-white ring-1 ring-white/15 shadow-[0_16px_38px_-10px_rgba(11,61,27,0.65)]"
+                className="absolute top-0 left-1/2 z-20 flex items-center gap-2.5 rounded-full pl-2 pr-4 py-1.5 text-white ring-1 ring-white/15 shadow-[0_16px_38px_-10px_rgba(11,61,27,0.65)]"
                 style={{ backgroundImage: 'linear-gradient(135deg, #0B3D1B 0%, #1B5E20 100%)' }}
               >
                 <span className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-base leading-none flex-shrink-0" aria-hidden="true">👋</span>
                 <span className="text-left leading-tight">
-                  <span className="block font-heading font-bold text-[12px] text-white">Voici Locky</span>
+                  <span className="block font-heading font-bold text-[12px] text-white">Je suis Locky</span>
                   <span className="block font-body text-[10px] text-white/70">Votre concierge Afribox</span>
                 </span>
               </motion.div>
