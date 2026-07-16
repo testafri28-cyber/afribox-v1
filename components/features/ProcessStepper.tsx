@@ -39,7 +39,7 @@ export default function ProcessStepper() {
       {/* Barre de progression — étapes cliquables */}
       <div
         ref={scrollerRef}
-        className="stepper-scroll flex md:grid md:grid-cols-6 gap-2 p-4 md:p-6 bg-brand-off border-b border-brand-border overflow-x-auto"
+        className="grid grid-cols-6 gap-1.5 md:gap-2 p-3 md:p-6 bg-brand-off border-b border-brand-border"
       >
         {processSteps.map((s) => {
           const isActive = s.id === active
@@ -49,7 +49,8 @@ export default function ProcessStepper() {
               key={s.id}
               data-step={s.id}
               onClick={() => setActive(s.id)}
-              className={`flex-shrink-0 md:flex-shrink text-left rounded-xl border p-3 transition ${
+              aria-label={`Étape ${s.id} : ${s.title}`}
+              className={`text-center md:text-left rounded-xl border p-2 md:p-3 transition ${
                 isActive
                   ? 'bg-green-primary text-white border-green-primary shadow-sm'
                   : isPast
@@ -57,7 +58,7 @@ export default function ProcessStepper() {
                   : 'bg-white text-brand-sub border-brand-border hover:border-green-primary/40'
               }`}
             >
-              <div className="flex items-center gap-2 mb-1">
+              <div className="flex items-center justify-center md:justify-start gap-2 md:mb-1">
                 <span
                   className={`w-6 h-6 rounded-full flex items-center justify-center font-mono text-xs font-bold ${
                     isActive
@@ -73,7 +74,9 @@ export default function ProcessStepper() {
                   Étape
                 </span>
               </div>
-              <p className="font-body text-xs font-medium leading-tight whitespace-nowrap md:whitespace-normal">
+              {/* Titre visible en desktop ; sur mobile la grille ne montre que les
+                  numéros (le titre de l'étape active s'affiche dans le contenu). */}
+              <p className="hidden md:block font-body text-xs font-medium leading-tight">
                 {s.title}
               </p>
             </button>
