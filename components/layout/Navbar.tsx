@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 import { Menu, X, ArrowRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -10,6 +10,7 @@ import { TubelightNavbar } from '@/components/ui/TubelightNavbar'
 
 const navLinks = [
   { label: 'Services',       id: 'services',       icon: 'briefcase' as const },
+  { label: 'Tarifs',         id: 'tarifs',         icon: 'creditcard' as const },
   { label: 'Fonctionnement', id: 'fonctionnement', icon: 'filetext' as const },
   { label: "L'app",          id: 'app-mobile',     icon: 'home' as const },
   { label: 'À propos',       id: 'a-propos',       icon: 'info' as const },
@@ -26,12 +27,12 @@ function scrollTo(id: string) {
   window.scrollTo({ top, behavior: 'smooth' })
 }
 
-function useActiveSection(): string {
+function useActiveSection(enabled: boolean): string {
   const [active, setActive] = useState('')
 
   useEffect(() => {
-    const ids = navLinks.map((l) => l.id)
-    const observers = ids.map((id) => {
+    if (!enabled) return
+    const observers = navLinks.map(({ id }) => {
       const el = document.getElementById(id)
       if (!el) return null
       const obs = new IntersectionObserver(
@@ -42,79 +43,94 @@ function useActiveSection(): string {
       return obs
     })
     return () => observers.forEach((obs) => obs?.disconnect())
-  }, [])
+  }, [enabled])
 
   return active
 }
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen]         = useState(false)
-  const [activeId, setActiveId] = useState('')
   const pathname = usePathname()
-  const detectedActiveId = useActiveSection()
+  const isHome = pathname === '/'
 
-  // Update active section
-  useEffect(() => {
-    setActiveId(detectedActiveId)
-  }, [detectedActiveId])
+  const [scrolled, setScrolled] = useState(false)
+  const [overHero, setOverHero] = useState(isHome)
+  const [open, setOpen]         = useState(false)
+  const headerRef = useRef<HTMLElement>(null)
+
+  const activeId = useActiveSection(isHome)
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 10)
-    onScroll()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    const compute = () => {
+      setScrolled(window.scrollY > 10)
+      // Rester transparent tant que le vert du hero remplit la bande de la
+      // navbar ; passer au blanc dès que la couture vert/blanc (#hero-seam)
+      // atteint le bas de la navbar.
+      const seam = document.getElementById('hero-seam')
+      const navH = headerRef.current?.offsetHeight ?? 80
+      setOverHero(isHome && !!seam && seam.getBoundingClientRect().top > navH)
+    }
+    compute()
+    window.addEventListener('scroll', compute, { passive: true })
+    window.addEventListener('resize', compute)
+    return () => {
+      window.removeEventListener('scroll', compute)
+      window.removeEventListener('resize', compute)
+    }
+  }, [isHome])
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [open])
 
-  const isHome = pathname === '/'
-
-  // Nav links only — CTAs live in their own right-aligned zone
+  /* On the home page the sections are in the DOM, so we scroll to them.
+     Anywhere else, navigate back to the home page anchor instead. */
   const tubelightItems = navLinks.map((link) => ({
     name: link.label,
-    url: '',
+    url: isHome ? '' : `/#${link.id}`,
     icon: link.icon,
-    onClick: () => scrollTo(link.id),
+    onClick: isHome ? () => scrollTo(link.id) : undefined,
   }))
 
   return (
-    <header className="sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none bg-white">
+    <header
+      ref={headerRef}
+      className={`sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none transition-colors duration-200 ${
+        overHero ? 'bg-transparent' : 'bg-white'
+      }`}
+    >
       <div className="max-w-container mx-auto px-4 md:px-10 lg:px-20">
-        <div className={`pointer-events-auto h-14 md:h-16 px-3 md:px-5 flex items-center justify-between gap-4 rounded-full border transition-all duration-200 bg-white/70 border-brand-border backdrop-blur-lg ${
-          scrolled
-            ? 'shadow-lg shadow-black/5'
-            : 'shadow-sm shadow-black/5'
+        <div className={`pointer-events-auto h-14 md:h-16 px-3 md:px-5 flex items-center justify-between gap-4 rounded-full border backdrop-blur-lg transition-all duration-200 ${
+          overHero
+            ? 'bg-white/10 border-white/25 shadow-none'
+            : `bg-white/70 border-brand-border ${scrolled ? 'shadow-lg shadow-black/5' : 'shadow-sm shadow-black/5'}`
         }`}>
 
         {/* Logo */}
         <Link href="/" className="flex flex-col flex-shrink-0" aria-label="Afribox">
-          <span className="font-heading font-bold text-lg md:text-xl text-green-dark leading-none">Afribox</span>
-          <span className="hidden sm:block font-mono text-[8px] tracking-widest text-green-primary uppercase mt-0.5">
+          <span className={`font-heading font-bold text-lg md:text-xl leading-none transition-colors ${
+            overHero ? 'text-white' : 'text-green-dark'
+          }`}>Afribox</span>
+          <span className={`hidden sm:block font-mono text-[8px] tracking-widest uppercase mt-0.5 transition-colors ${
+            overHero ? 'text-white/70' : 'text-green-primary'
+          }`}>
             Smart Locker
           </span>
         </Link>
 
-        {/* Liens centre — desktop avec TubelightNavbar */}
-        {isHome && (
-          <div className="hidden lg:flex items-center justify-center flex-1">
-            <TubelightNavbar
-              items={tubelightItems}
-              activeTab={navLinks.find((l) => l.id === activeId)?.label ?? ''}
-              className="gap-1"
-            />
-          </div>
-        )}
+        {/* Liens centre — desktop */}
+        <div className="hidden lg:flex items-center justify-center flex-1">
+          <TubelightNavbar
+            items={tubelightItems}
+            activeTab={navLinks.find((l) => l.id === activeId)?.label ?? ''}
+            tone={overHero ? 'light' : 'dark'}
+            className="gap-1"
+          />
+        </div>
 
-        {/* CTAs — desktop */}
-        <div className="hidden lg:flex items-center gap-2 flex-shrink-0">
-          <Button href="/connexion" variant="ghost" size="sm">
-            Se connecter
-          </Button>
-          <Button href="/reserver" variant="primary" size="sm">
+        {/* CTA — desktop */}
+        <div className="hidden lg:flex items-center flex-shrink-0">
+          <Button href="/reserver" variant={overHero ? 'white' : 'primary'} size="sm">
             Réserver un locker
             <ArrowRight size={16} className="ml-1.5" />
           </Button>
@@ -124,7 +140,9 @@ export default function Navbar() {
         <button
           aria-label="Ouvrir le menu"
           onClick={() => setOpen(true)}
-          className="lg:hidden p-2 -mr-2 text-brand-gray flex-shrink-0"
+          className={`lg:hidden p-2 -mr-2 flex-shrink-0 transition-colors ${
+            overHero ? 'text-white' : 'text-brand-gray'
+          }`}
         >
           <Menu size={24} />
         </button>
@@ -154,28 +172,40 @@ export default function Navbar() {
 
               <nav className="flex flex-col gap-1 px-6 py-6 flex-1">
                 {navLinks.map((link) => {
-                  const isActive = activeId === link.id
-                  return (
+                  const isActive = isHome && activeId === link.id
+                  const className = `flex items-center gap-3 font-body text-lg py-3 border-b border-brand-border transition-colors text-left bg-transparent border-x-0 border-t-0 cursor-pointer w-full ${
+                    isActive ? 'text-green-primary font-medium' : 'text-brand-gray hover:text-green-primary'
+                  }`
+                  const dot = (
+                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors ${
+                      isActive ? 'bg-green-primary' : 'bg-transparent'
+                    }`} />
+                  )
+
+                  return isHome ? (
                     <button
                       key={link.id}
                       onClick={() => { scrollTo(link.id); setOpen(false) }}
-                      className={`flex items-center gap-3 font-body text-lg py-3 border-b border-brand-border transition-colors text-left bg-transparent border-x-0 border-t-0 cursor-pointer w-full ${
-                        isActive ? 'text-green-primary font-medium' : 'text-brand-gray hover:text-green-primary'
-                      }`}
+                      className={className}
                     >
-                      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 transition-colors ${
-                        isActive ? 'bg-green-primary' : 'bg-transparent'
-                      }`} />
+                      {dot}
                       {link.label}
                     </button>
+                  ) : (
+                    <Link
+                      key={link.id}
+                      href={`/#${link.id}`}
+                      onClick={() => setOpen(false)}
+                      className={className}
+                    >
+                      {dot}
+                      {link.label}
+                    </Link>
                   )
                 })}
               </nav>
 
-              <div className="flex flex-col gap-3 px-6 pb-8">
-                <Button href="/connexion" variant="ghost" fullWidth onClick={() => setOpen(false)}>
-                  Se connecter
-                </Button>
+              <div className="px-6 pb-8">
                 <Button href="/reserver" variant="primary" fullWidth onClick={() => setOpen(false)}>
                   Réserver un locker
                   <ArrowRight size={16} className="ml-1" />

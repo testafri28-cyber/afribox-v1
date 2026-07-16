@@ -18,7 +18,7 @@ export default function ChannelsSection() {
   const [web, app, whatsapp] = channels
 
   return (
-    <section id="app-mobile" className="bg-brand-off">
+    <section id="canaux" className="bg-brand-off">
       <Container className="py-16 md:py-24">
         <motion.div
           initial="hidden"

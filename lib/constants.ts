@@ -220,8 +220,10 @@ export const whyAfribox: WhyAfriboxItem[] = [
 // ---------------------------------------------------------------------------
 // Footer links
 // ---------------------------------------------------------------------------
+// Le site est une one-page : les ancres sont préfixées par « / » pour rester
+// cliquables depuis /reserver (Next navigue vers la home puis scrolle).
 export const footerLinks = {
-  produit:    [{ label: 'Comment ça marche', href: '#fonctionnement' }, { label: 'Services', href: '#services' }, { label: "L'application", href: '#app-mobile' }, { label: 'Réserver', href: '/reserver' }],
-  societe:    [{ label: 'À propos', href: '#a-propos' }, { label: "L'équipe", href: '#equipe' }, { label: 'Partenaires', href: '#' }, { label: 'Presse', href: '#' }],
-  ressources: [{ label: 'Documentation API', href: '#' }, { label: 'Aide', href: '#' }, { label: 'Statut', href: '#' }, { label: 'Contact', href: '#contact' }],
+  produit:    [{ label: 'Comment ça marche', href: '/#fonctionnement' }, { label: 'Services', href: '/#services' }, { label: 'Tarifs', href: '/#tarifs' }, { label: "L'application", href: '/#app-mobile' }, { label: 'Réserver', href: '/reserver' }],
+  societe:    [{ label: 'À propos', href: '/#a-propos' }, { label: "L'équipe", href: '/#equipe' }, { label: 'Partenaires', href: '#' }, { label: 'Presse', href: '#' }],
+  ressources: [{ label: 'Documentation API', href: '#' }, { label: 'Aide', href: '#' }, { label: 'Statut', href: '#' }, { label: 'Contact', href: '/#contact' }],
 }

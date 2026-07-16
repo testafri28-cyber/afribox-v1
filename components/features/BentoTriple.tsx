@@ -88,7 +88,7 @@ export default function BentoTriple({
 
   return (
     <div ref={rootRef} className={`relative overflow-hidden ${className}`}>
-      <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-[1fr_1fr] gap-4 md:gap-6 md:min-h-[460px]">
+      <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-[auto_auto] gap-4 md:gap-6">
 
         {/* ---------------- Card 1 — Accent (left, vertical) ---------------- */}
         <motion.article

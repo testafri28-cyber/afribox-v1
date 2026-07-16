@@ -14,9 +14,14 @@ import {
   Menu,
   X,
   ArrowRight,
+  CreditCard,
 } from "lucide-react"
 
-type IconName = "home" | "user" | "briefcase" | "filetext" | "phone" | "info" | "menu" | "x" | "arrowright"
+type IconName = "home" | "user" | "briefcase" | "filetext" | "phone" | "info" | "menu" | "x" | "arrowright" | "creditcard"
+
+/* `tone` describes the background the navbar sits on, not the text:
+   "dark" = light background (default), "light" = dark background (the hero gradient). */
+type Tone = "dark" | "light"
 
 interface NavItem {
   name: string
@@ -30,6 +35,7 @@ interface TubelightNavbarProps {
   items: NavItem[]
   className?: string
   activeTab?: string
+  tone?: Tone
   onActiveChange?: (name: string) => void
 }
 
@@ -43,16 +49,41 @@ const iconMap: Record<IconName, React.ReactNode> = {
   menu: <Menu size={18} strokeWidth={2.5} />,
   x: <X size={18} strokeWidth={2.5} />,
   arrowright: <ArrowRight size={18} strokeWidth={2.5} />,
+  creditcard: <CreditCard size={18} strokeWidth={2.5} />,
+}
+
+/* The travelling highlight behind the active tab. */
+function Lamp({ onDark }: { onDark: boolean }) {
+  const glow = onDark ? "bg-white" : "bg-green-primary"
+
+  return (
+    <motion.div
+      layoutId="tubelight-lamp"
+      className={cn(
+        "absolute inset-0 rounded-full -z-10",
+        onDark ? "bg-white/20" : "bg-green-primary/15",
+      )}
+      initial={false}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    >
+      <div className={cn("absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 rounded-t-full", glow)}>
+        <div className={cn("absolute w-12 h-6 rounded-full blur-md -top-2 -left-2 opacity-25", glow)} />
+        <div className={cn("absolute w-8 h-6 rounded-full blur-md -top-1 opacity-20", glow)} />
+        <div className={cn("absolute w-4 h-4 rounded-full blur-sm top-0 left-2 opacity-15", glow)} />
+      </div>
+    </motion.div>
+  )
 }
 
 export function TubelightNavbar({
   items,
   className,
   activeTab: controlledActiveTab,
+  tone = "dark",
   onActiveChange,
 }: TubelightNavbarProps) {
   const [activeTab, setActiveTab] = useState(controlledActiveTab ?? "")
-  const [isMobile, setIsMobile] = useState(false)
+  const onDark = tone === "light"
 
   // Update controlled active tab (respect an explicitly empty value)
   useEffect(() => {
@@ -61,48 +92,53 @@ export function TubelightNavbar({
     }
   }, [controlledActiveTab])
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    handleResize()
-    window.addEventListener("resize", handleResize)
-    return () => window.removeEventListener("resize", handleResize)
-  }, [])
-
   const handleTabChange = (name: string, callback?: () => void) => {
     setActiveTab(name)
     onActiveChange?.(name)
     callback?.()
   }
 
-  const getIcon = (iconName?: IconName) => {
-    if (!iconName) return null
-    return iconMap[iconName]
-  }
+  const linkClasses = (item: NavItem, isActive: boolean) =>
+    item.icon === undefined
+      ? // CTA buttons
+        item.showArrow
+        ? "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 active:scale-[0.97] whitespace-nowrap bg-green-primary text-white hover:bg-green-dark px-4 py-2 text-xs"
+        : "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 bg-white text-brand-gray border border-brand-border hover:bg-brand-off px-4 py-2 text-xs whitespace-nowrap"
+      : // Navigation links
+        cn(
+          "relative cursor-pointer px-3 py-2 rounded-full transition-all duration-150 whitespace-nowrap bg-transparent border-none",
+          isActive
+            ? onDark
+              ? "text-white font-semibold"
+              : "text-green-primary font-semibold"
+            : onDark
+              ? "text-white/70 hover:text-white"
+              : "text-brand-sub hover:text-brand-gray",
+        )
 
   return (
     <div className={cn("flex items-center justify-center gap-2", className)}>
       {items.map((item) => {
-        const icon = getIcon(item.icon)
         const isActive = activeTab === item.name
+        const isNavLink = item.icon !== undefined
 
-        const content = (
+        const content =
+          item.icon === undefined ? (
+            <span className="font-medium inline-flex items-center gap-2">
+              {item.name}
+              {item.showArrow && iconMap.arrowright}
+            </span>
+          ) : (
+            <>
+              <span className="hidden md:inline text-sm font-medium">{item.name}</span>
+              <span className="md:hidden">{iconMap[item.icon]}</span>
+            </>
+          )
+
+        const inner = (
           <>
-            {item.icon === undefined ? (
-              // CTA buttons - text + arrow on same line
-              <span className="font-medium inline-flex items-center gap-2">
-                {item.name}
-                {item.showArrow && iconMap.arrowright}
-              </span>
-            ) : (
-              // Navigation links
-              <>
-                <span className="hidden md:inline text-sm font-medium">{item.name}</span>
-                {icon && <span className="md:hidden">{icon}</span>}
-              </>
-            )}
+            {content}
+            {isActive && isNavLink && <Lamp onDark={onDark} />}
           </>
         )
 
@@ -111,83 +147,17 @@ export function TubelightNavbar({
             key={item.name}
             href={item.url}
             onClick={() => handleTabChange(item.name, item.onClick)}
-            className={cn(
-              item.icon === undefined ? (
-                // CTA buttons styling
-                item.showArrow
-                  ? "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 active:scale-[0.97] whitespace-nowrap bg-green-primary text-white hover:bg-green-dark px-4 py-2 text-xs"
-                  : "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 bg-white text-brand-gray border border-brand-border hover:bg-brand-off px-4 py-2 text-xs whitespace-nowrap"
-              ) : (
-                // Navigation links styling
-                cn(
-                  "relative cursor-pointer px-3 py-2 rounded-full transition-all duration-150 whitespace-nowrap",
-                  isActive
-                    ? "text-green-primary font-semibold"
-                    : "text-brand-sub hover:text-brand-gray"
-                )
-              )
-            )}
+            className={linkClasses(item, isActive)}
           >
-            {content}
-            {isActive && item.icon !== undefined && (
-              <motion.div
-                layoutId="tubelight-lamp"
-                className="absolute inset-0 bg-green-primary/15 rounded-full -z-10"
-                initial={false}
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 30,
-                }}
-              >
-                <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-green-primary rounded-t-full">
-                  <div className="absolute w-12 h-6 bg-green-primary/25 rounded-full blur-md -top-2 -left-2" />
-                  <div className="absolute w-8 h-6 bg-green-primary/20 rounded-full blur-md -top-1" />
-                  <div className="absolute w-4 h-4 bg-green-primary/15 rounded-full blur-sm top-0 left-2" />
-                </div>
-              </motion.div>
-            )}
+            {inner}
           </Link>
         ) : (
           <button
             key={item.name}
             onClick={() => handleTabChange(item.name, item.onClick)}
-            className={cn(
-              item.icon === undefined ? (
-                // CTA buttons styling
-                item.showArrow
-                  ? "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 active:scale-[0.97] whitespace-nowrap bg-green-primary text-white hover:bg-green-dark px-4 py-2 text-xs"
-                  : "inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 bg-white text-brand-gray border border-brand-border hover:bg-brand-off px-4 py-2 text-xs whitespace-nowrap"
-              ) : (
-                // Navigation links styling
-                cn(
-                  "relative cursor-pointer px-3 py-2 rounded-full transition-all duration-150 bg-transparent border-none whitespace-nowrap",
-                  isActive
-                    ? "text-green-primary font-semibold"
-                    : "text-brand-sub hover:text-brand-gray"
-                )
-              )
-            )}
+            className={linkClasses(item, isActive)}
           >
-            {content}
-            {isActive && item.icon !== undefined && (
-              <motion.div
-                layoutId="tubelight-lamp"
-                className="absolute inset-0 bg-green-primary/15 rounded-full -z-10"
-                initial={false}
-                transition={{
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 30,
-                }}
-              >
-                <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-8 h-1 bg-green-primary rounded-t-full">
-                  <div className="absolute w-12 h-6 bg-green-primary/25 rounded-full blur-md -top-2 -left-2" />
-                  <div className="absolute w-8 h-6 bg-green-primary/20 rounded-full blur-md -top-1" />
-                  <div className="absolute w-4 h-4 bg-green-primary/15 rounded-full blur-sm top-0 left-2" />
-                </div>
-              </motion.div>
-            )}
+            {inner}
           </button>
         )
       })}

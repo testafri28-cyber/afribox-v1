@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/metadata'
 
-import HeroSection         from '@/components/sections/HeroSection'
-import StatsBar            from '@/components/sections/StatsBar'
+import HeroAfribox         from '@/components/sections/HeroAfribox'
 import ProblemSection      from '@/components/sections/ProblemSection'
 import ServicesAccordion   from '@/components/sections/ServicesAccordion'
+import PricingSection      from '@/components/sections/PricingSection'
 import HowItWorksSection   from '@/components/sections/HowItWorksSection'
+import WhyAfriboxSection   from '@/components/sections/WhyAfriboxSection'
 import ChannelsSection     from '@/components/sections/ChannelsSection'
 import AppDownloadSection  from '@/components/sections/AppDownloadSection'
 import AboutSection        from '@/components/sections/AboutSection'
@@ -23,11 +24,12 @@ export const metadata: Metadata = buildMetadata({
 export default function HomePage() {
   return (
     <>
-      <HeroSection />
-      <StatsBar />
+      <HeroAfribox />
       <ProblemSection />
       <ServicesAccordion />
+      <PricingSection />
       <HowItWorksSection />
+      <WhyAfriboxSection />
       <ChannelsSection />
       <AppDownloadSection />
       <AboutSection />

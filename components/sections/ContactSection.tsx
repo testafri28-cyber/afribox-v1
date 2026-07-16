@@ -9,7 +9,7 @@ import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 const contactInfo = [
   { icon: Mail,   label: 'Email',     value: 'hello@afribox.co' },
-  { icon: Phone,  label: 'Téléphone', value: '+225 07 00 00 00' },
+  { icon: Phone,  label: 'Téléphone', value: '+225 07 89 44 44 41' },
   { icon: MapPin, label: 'Adresse',   value: 'Abidjan, Côte d\'Ivoire' },
 ]
 

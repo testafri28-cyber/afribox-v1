@@ -206,7 +206,7 @@ export default function HeroSection() {
           </Link>
 
           <a
-            href="https://wa.me/2250759595959"
+            href="https://wa.me/2250789444441"
             target="_blank"
             rel="noopener noreferrer"
             className="bg-white text-[#1a1a1a] font-body text-sm font-medium px-6 py-3.5 rounded-full border-[1.5px] border-[#E0E0E0] inline-flex items-center justify-center gap-2 hover:border-[#25D366] transition-colors duration-200"

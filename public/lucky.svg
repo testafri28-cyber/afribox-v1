@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" fill="none" role="img" aria-label="Lucky, la mascotte Afribox">
+  <!-- PLACEHOLDER — à remplacer par l'asset définitif de Lucky. -->
+  <defs>
+    <linearGradient id="lucky-body" x1="40" y1="30" x2="160" y2="190" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#EBF7F0"/>
+    </linearGradient>
+    <filter id="lucky-shadow" x="-30%" y="-15%" width="160%" height="150%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0B3D1B" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <!-- Antenne -->
+  <line x1="100" y1="34" x2="100" y2="16" stroke="#6FCF97" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="100" cy="12" r="7" fill="#6FCF97"/>
+
+  <g filter="url(#lucky-shadow)">
+    <!-- Corps : un casier -->
+    <rect x="34" y="32" width="132" height="150" rx="26" fill="url(#lucky-body)"/>
+    <rect x="34" y="32" width="132" height="150" rx="26" stroke="#27AE60" stroke-width="4"/>
+
+    <!-- Visage -->
+    <circle cx="76" cy="88" r="9" fill="#1B5E20"/>
+    <circle cx="124" cy="88" r="9" fill="#1B5E20"/>
+    <circle cx="79" cy="85" r="3" fill="#FFFFFF"/>
+    <circle cx="127" cy="85" r="3" fill="#FFFFFF"/>
+    <path d="M78 114c6 8 16 12 22 12s16-4 22-12" stroke="#1B5E20" stroke-width="5" stroke-linecap="round" fill="none"/>
+
+    <!-- Joues -->
+    <ellipse cx="58" cy="106" rx="8" ry="5" fill="#6FCF97" opacity="0.5"/>
+    <ellipse cx="142" cy="106" rx="8" ry="5" fill="#6FCF97" opacity="0.5"/>
+
+    <!-- Porte du casier / clavier -->
+    <rect x="66" y="138" width="68" height="30" rx="10" fill="#27AE60" opacity="0.12"/>
+    <circle cx="84" cy="153" r="4" fill="#27AE60"/>
+    <circle cx="100" cy="153" r="4" fill="#27AE60"/>
+    <circle cx="116" cy="153" r="4" fill="#27AE60"/>
+  </g>
+
+  <!-- Bras -->
+  <path d="M34 116c-12 4-18 12-18 22" stroke="#27AE60" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <path d="M166 116c12 4 18 12 18 22" stroke="#27AE60" stroke-width="7" stroke-linecap="round" fill="none"/>
+
+  <!-- Pieds -->
+  <rect x="60" y="182" width="26" height="12" rx="6" fill="#1B5E20"/>
+  <rect x="114" y="182" width="26" height="12" rx="6" fill="#1B5E20"/>
+</svg>

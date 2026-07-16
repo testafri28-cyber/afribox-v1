@@ -23,7 +23,7 @@ export default function CTASection({
   primaryLabel = 'Réserver un locker',
   primaryHref = '/reserver',
   secondaryLabel = 'Parler à un humain',
-  secondaryHref = '/contact',
+  secondaryHref = '/#contact',
 }: CTASectionProps) {
   return (
     <section className="bg-brand-off">
