@@ -27,25 +27,56 @@ function scrollTo(id: string) {
   window.scrollTo({ top, behavior: 'smooth' })
 }
 
-function useActiveSection(enabled: boolean): string {
+/* Ligne (en px depuis le haut du viewport) sous laquelle une section est
+   considérée « active » : juste sous la navbar. */
+const NAV_OFFSET = 100
+
+/* Scroll-spy déterministe : au lieu de laisser plusieurs IntersectionObserver
+   se faire la course (le dernier qui déclenche gagnait, d'où le mauvais onglet),
+   on calcule à chaque défilement la DERNIÈRE section dont le haut a franchi la
+   ligne de la navbar. Résultat sans ambiguïté, quelle que soit la vitesse.
+
+   `selectManually` fige le spy pendant le défilement fluide d'un clic pour que
+   le surlignage ne « saute » pas vers une section simplement traversée. */
+function useActiveSection(enabled: boolean) {
   const [active, setActive] = useState('')
+  const lockedUntil = useRef(0)
 
   useEffect(() => {
     if (!enabled) return
-    const observers = navLinks.map(({ id }) => {
-      const el = document.getElementById(id)
-      if (!el) return null
-      const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(id) },
-        { rootMargin: '-64px 0px -50% 0px', threshold: 0 }
-      )
-      obs.observe(el)
-      return obs
-    })
-    return () => observers.forEach((obs) => obs?.disconnect())
+    const compute = () => {
+      if (Date.now() < lockedUntil.current) return
+      let current = ''
+      for (const { id } of navLinks) {
+        const el = document.getElementById(id)
+        if (el && el.getBoundingClientRect().top <= NAV_OFFSET) current = id
+      }
+      // Bas de page : la dernière section ne peut pas toujours franchir la ligne
+      // (contenu insuffisant en dessous). On active alors la dernière section de
+      // nav présente pour que « Contact » reste sélectionné.
+      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
+      if (atBottom) {
+        for (let i = navLinks.length - 1; i >= 0; i--) {
+          if (document.getElementById(navLinks[i].id)) { current = navLinks[i].id; break }
+        }
+      }
+      setActive(current)
+    }
+    compute()
+    window.addEventListener('scroll', compute, { passive: true })
+    window.addEventListener('resize', compute)
+    return () => {
+      window.removeEventListener('scroll', compute)
+      window.removeEventListener('resize', compute)
+    }
   }, [enabled])
 
-  return active
+  const selectManually = (id: string) => {
+    setActive(id)
+    lockedUntil.current = Date.now() + 900 // couvre la durée du smooth-scroll
+  }
+
+  return { active, selectManually }
 }
 
 export default function Navbar() {
@@ -57,7 +88,7 @@ export default function Navbar() {
   const [open, setOpen]         = useState(false)
   const headerRef = useRef<HTMLElement>(null)
 
-  const activeId = useActiveSection(isHome)
+  const { active: activeId, selectManually } = useActiveSection(isHome)
 
   useEffect(() => {
     const compute = () => {
@@ -89,7 +120,7 @@ export default function Navbar() {
     name: link.label,
     url: isHome ? '' : `/#${link.id}`,
     icon: link.icon,
-    onClick: isHome ? () => scrollTo(link.id) : undefined,
+    onClick: isHome ? () => { selectManually(link.id); scrollTo(link.id) } : undefined,
   }))
 
   return (
@@ -185,7 +216,7 @@ export default function Navbar() {
                   return isHome ? (
                     <button
                       key={link.id}
-                      onClick={() => { scrollTo(link.id); setOpen(false) }}
+                      onClick={() => { selectManually(link.id); scrollTo(link.id); setOpen(false) }}
                       className={className}
                     >
                       {dot}
