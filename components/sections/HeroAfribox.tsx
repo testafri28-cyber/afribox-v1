@@ -254,7 +254,7 @@ export default function HeroAfribox() {
           Visible par défaut, révélé par une animation CSS (jamais bloqué à 0). */}
       <div
         id="hero-seam"
-        className="relative z-10 -mt-28 md:-mt-36 bg-white px-6 pt-8 sm:pt-16 pb-10 md:pb-14 text-center"
+        className="relative z-10 -mt-28 md:-mt-36 bg-white px-6 pt-4 sm:pt-10 pb-10 md:pb-14 text-center"
         style={{ animation: 'fadeUp 0.6s ease-out 0.15s both' }}
       >
           {/* CTAs — pilule blanche à cheval sur la couture vert/blanc.
@@ -283,7 +283,7 @@ export default function HeroAfribox() {
             </div>
           </div>
 
-          <h1 className="mt-6 md:mt-8 font-heading font-bold text-[32px] sm:text-[42px] md:text-[52px] leading-[1.1] tracking-[-0.02em] max-w-3xl mx-auto">
+          <h1 className="mt-2 md:mt-4 font-heading font-bold text-[32px] sm:text-[42px] md:text-[52px] leading-[1.1] tracking-[-0.02em] max-w-3xl mx-auto">
             <span className="text-green-dark">Afribox,</span>{' '}
             <span className="text-brand-gray">la livraison</span>
             <br />
