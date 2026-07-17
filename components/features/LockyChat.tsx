@@ -138,7 +138,7 @@ export default function LockyChat() {
             >
               <span className="relative h-10 w-10 flex-shrink-0 overflow-hidden rounded-full bg-white/15 ring-1 ring-white/20">
                 <Image
-                  src="/mascotte.png"
+                  src="/mascotte.webp"
                   alt="Locky"
                   width={80}
                   height={80}

@@ -241,7 +241,7 @@ export default function HeroAfribox() {
                   transition={{ duration: 4, ease: 'easeInOut', repeat: Infinity }}
                 >
                   <Image
-                    src="/mascotte.png"
+                    src="/mascotte.webp"
                     alt="Locky, la mascotte Afribox, présentant une réservation de locker confirmée"
                     width={480}
                     height={500}

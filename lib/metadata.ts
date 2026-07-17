@@ -6,7 +6,7 @@ export const siteMetadata = {
     'Afribox déploie un réseau de casiers intelligents pour rendre la livraison last-mile simple, rapide et sécurisée en Afrique. Disponible 24h/24.',
   keywords:
     "livraison Abidjan, locker Côte d'Ivoire, last-mile Afrique, colis Abidjan, smart locker",
-  ogImage: '/og-image.png',
+  ogImage: '/og-image.jpg',
   siteUrl: 'https://afribox.africa',
 }
 
