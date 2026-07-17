@@ -5,6 +5,7 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import ScrollToTop from '@/components/layout/ScrollToTop'
 import CustomCursor from '@/components/ui/CustomCursor'
+import LockyChat from '@/components/features/LockyChat'
 import './globals.css'
 
 export const metadata: Metadata = buildMetadata({
@@ -28,6 +29,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
+        <LockyChat />
       </body>
     </html>
   )
