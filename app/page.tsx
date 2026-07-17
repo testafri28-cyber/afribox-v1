@@ -24,18 +24,21 @@ export const metadata: Metadata = buildMetadata({
 export default function HomePage() {
   return (
     <>
+      {/* Ordre narratif : expliquer → prouver → chiffrer.
+          Le prix arrive après la valeur (Fonctionnement, Pourquoi) et la
+          preuve (Témoignages) ; « À propos » passe en fin de parcours. */}
       <HeroAfribox />
       <ProblemSection />
       <ServicesAccordion />
-      <PricingSection />
       <HowItWorksSection />
       <WhyAfriboxSection />
+      <TestimonialSection />
+      <PricingSection />
       <ChannelsSection />
       <AppDownloadSection />
-      <AboutSection />
-      <TestimonialSection />
       <LockersMapSection />
       <FaqSection />
+      <AboutSection />
       <ContactSection />
       <CTASection />
     </>

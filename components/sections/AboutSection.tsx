@@ -11,7 +11,8 @@ import { fadeInUp, staggerContainer } from '@/lib/animations'
 export default function AboutSection() {
   return (
     <section id="a-propos" className="bg-brand-off">
-      <Container className="py-16 md:py-24">
+      {/* pt réduit : suit la FAQ (gris) — évite le vide doublé au joint de même couleur */}
+      <Container className="pt-6 md:pt-10 pb-16 md:pb-24">
         {/* Header */}
         <motion.div
           initial="hidden"

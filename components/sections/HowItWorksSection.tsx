@@ -9,8 +9,8 @@ import { fadeInUp } from '@/lib/animations'
 export default function HowItWorksSection() {
   return (
     <section id="fonctionnement" className="bg-white">
-      {/* pt réduit : suit Tarifs (blanc) — évite le vide doublé au joint de même couleur */}
-      <Container className="pt-6 md:pt-10 pb-16 md:pb-24">
+      {/* Suit Services (gris) : la couleur alterne, espacement plein. */}
+      <Container className="py-16 md:py-24">
         <motion.div
           initial="hidden"
           whileInView="visible"

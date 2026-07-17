@@ -14,7 +14,7 @@ export default function TestimonialSection() {
 
   return (
     <section className="bg-brand-off overflow-hidden">
-      {/* pt réduit : suit À propos (gris) — évite le vide doublé au joint de même couleur */}
+      {/* pt réduit : suit Pourquoi (gris) — évite le vide doublé au joint de même couleur */}
       <Container className="pt-6 md:pt-10 mb-12 md:mb-16">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
