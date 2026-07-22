@@ -46,7 +46,10 @@ export default function ServicesAccordion() {
                 {active !== i && (
                   <motion.p
                     initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                    className="absolute bottom-20 left-1/2 -translate-x-1/2 -rotate-90 whitespace-nowrap text-white text-sm font-bold font-heading"
+                    /* Texte vertical ancré par le bas (writing-mode + rotate-180) :
+                       tous les titres partent de la même ligne, quelle que soit
+                       leur longueur — contrairement à un -rotate-90 centré. */
+                    className="absolute bottom-8 left-1/2 -translate-x-1/2 rotate-180 whitespace-nowrap [writing-mode:vertical-rl] text-white text-sm font-bold font-heading"
                   >
                     {s.tag}
                   </motion.p>
