@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MessageCircle, X, Send, ArrowRight } from 'lucide-react'
+import { X, Send, ArrowRight } from 'lucide-react'
 
 const WA_URL = 'https://wa.me/2250789444441'
 
@@ -109,13 +109,26 @@ export default function LockyChat() {
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
             onClick={() => setOpen(true)}
             aria-label="Ouvrir le chat avec Locky"
-            className="fixed bottom-5 right-5 z-[60] flex items-center gap-2.5 rounded-full bg-green-primary pl-2 pr-4 py-2 text-white shadow-[0_16px_40px_-10px_rgba(11,61,27,0.55)] hover:bg-green-dark transition-colors"
+            className="group fixed bottom-4 right-3 z-[60] flex items-end gap-1"
           >
-            <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
-              <MessageCircle size={18} />
-              <span className="absolute -top-0.5 -right-0.5 h-2.5 w-2.5 rounded-full bg-white ring-2 ring-green-primary" />
+            {/* Bulle verte façon phylactère, pointe vers Locky */}
+            <span className="relative mb-9 rounded-2xl rounded-br-md bg-green-primary px-4 py-2.5 text-white shadow-[0_18px_45px_-12px_rgba(11,61,27,0.55)] transition-colors group-hover:bg-green-dark">
+              <span className="block text-left font-heading font-bold text-[13px] leading-tight">
+                Comment puis-je
+                <br />
+                vous aider&nbsp;?
+              </span>
+              <span className="absolute -right-1 bottom-2.5 h-3 w-3 rotate-45 rounded-[2px] bg-green-primary transition-colors group-hover:bg-green-dark" />
             </span>
-            <span className="font-body text-sm font-medium">Discuter avec Locky</span>
+            {/* Locky en pied */}
+            <Image
+              src="/locky.webp"
+              alt="Locky, votre concierge Afribox"
+              width={146}
+              height={320}
+              priority
+              className="h-[118px] w-auto flex-shrink-0 drop-shadow-[0_12px_20px_rgba(11,61,27,0.35)] transition-transform duration-200 group-hover:-translate-y-1"
+            />
           </motion.button>
         )}
       </AnimatePresence>
