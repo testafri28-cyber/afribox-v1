@@ -111,14 +111,21 @@ export default function LockyChat() {
             aria-label="Ouvrir le chat avec Locky"
             className="group fixed bottom-4 right-3 z-[60] flex items-end gap-1"
           >
-            {/* Bulle verte façon phylactère, pointe vers Locky */}
-            <span className="relative mb-9 rounded-2xl rounded-br-md bg-green-primary px-4 py-2.5 text-white shadow-[0_18px_45px_-12px_rgba(11,61,27,0.55)] transition-colors group-hover:bg-green-dark">
+            {/* Bulle façon phylactère, pointe vers Locky. Vert foncé pour un
+                contraste texte blanc lisible (blanc sur #1B5E20 ≈ 5,7:1). */}
+            <span
+              className="relative mb-9 rounded-2xl rounded-br-md px-4 py-2.5 text-white shadow-[0_18px_45px_-12px_rgba(11,61,27,0.6)]"
+              style={{ backgroundImage: 'linear-gradient(135deg, #0B3D1B 0%, #1B5E20 100%)' }}
+            >
               <span className="block text-left font-heading font-bold text-[13px] leading-tight">
                 Comment puis-je
                 <br />
                 vous aider&nbsp;?
               </span>
-              <span className="absolute -right-1 bottom-2.5 h-3 w-3 rotate-45 rounded-[2px] bg-green-primary transition-colors group-hover:bg-green-dark" />
+              <span
+                className="absolute -right-1 bottom-2.5 h-3 w-3 rotate-45 rounded-[2px]"
+                style={{ backgroundColor: '#1B5E20' }}
+              />
             </span>
             {/* Locky en pied */}
             <Image

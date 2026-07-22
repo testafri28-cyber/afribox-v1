@@ -98,7 +98,7 @@ export default function HeroAfribox() {
                 `items-end` ancre Locky au bas du panneau : combiné au léger
                 translate vers le bas, sa partie inférieure plonge derrière la
                 pilule des CTA posée sur la couture vert/blanc. */}
-            <div className="relative mx-auto max-w-5xl flex items-end justify-center min-h-[380px] lg:min-h-[420px]">
+            <div className="relative mx-auto max-w-5xl flex items-end justify-center min-h-[315px] md:min-h-[420px]">
 
               {/* ----- Halo + ombre de contact -----
                   Ancrent Locky : sans eux il « flotte dans le vide ».
