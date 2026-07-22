@@ -15,10 +15,9 @@ import {
   X,
   ArrowRight,
   CreditCard,
-  MapPin,
 } from "lucide-react"
 
-type IconName = "home" | "user" | "briefcase" | "filetext" | "phone" | "info" | "menu" | "x" | "arrowright" | "creditcard" | "mappin"
+type IconName = "home" | "user" | "briefcase" | "filetext" | "phone" | "info" | "menu" | "x" | "arrowright" | "creditcard"
 
 /* `tone` describes the background the navbar sits on, not the text:
    "dark" = light background (default), "light" = dark background (the hero gradient). */
@@ -51,7 +50,6 @@ const iconMap: Record<IconName, React.ReactNode> = {
   x: <X size={18} strokeWidth={2.5} />,
   arrowright: <ArrowRight size={18} strokeWidth={2.5} />,
   creditcard: <CreditCard size={18} strokeWidth={2.5} />,
-  mappin: <MapPin size={18} strokeWidth={2.5} />,
 }
 
 /* The travelling highlight behind the active tab. */

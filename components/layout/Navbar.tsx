@@ -10,14 +10,13 @@ import { TubelightNavbar } from '@/components/ui/TubelightNavbar'
 
 /* ⚠️ Doit rester dans l'ordre d'apparition des sections sur la page :
    le scroll-spy retient la DERNIÈRE section dont le haut a franchi la ligne
-   de la navbar, en parcourant cette liste dans l'ordre.
-   « L'app » et « À propos » restent accessibles depuis le footer. */
+   de la navbar, en parcourant cette liste dans l'ordre. */
 const navLinks = [
   { label: 'Services',       id: 'services',       icon: 'briefcase' as const },
   { label: 'Fonctionnement', id: 'fonctionnement', icon: 'filetext' as const },
   { label: 'Tarifs',         id: 'tarifs',         icon: 'creditcard' as const },
-  { label: 'Lockers',        id: 'lockers',        icon: 'mappin' as const },
-  { label: 'FAQ',            id: 'faq',            icon: 'info' as const },
+  { label: "L'app",          id: 'app-mobile',     icon: 'home' as const },
+  { label: 'À propos',       id: 'a-propos',       icon: 'info' as const },
   { label: 'Contact',        id: 'contact',        icon: 'phone' as const },
 ]
 
