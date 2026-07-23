@@ -109,9 +109,9 @@ button { font-family: inherit; cursor: pointer; }
   *, *::before, *::after { cursor: none !important; }
 }
 
-/* ─── Curseur personnalisé — anneau « snap » + point exact ───
-   Double contour (fin halo blanc + ombre douce) sur l'anneau ET le point :
-   ils restent lisibles aussi bien sur fond clair que sur le hero vert. */
+/* ─── Curseur personnalisé — point + anneau en mix-blend-difference ───
+   Blanc + mix-blend-mode: difference → la couleur s'inverse selon le fond
+   (sombre net sur le blanc, clair/inversé sur le hero vert) : toujours lisible. */
 
 .afribox-cursor,
 .afribox-cursor-ring {
@@ -122,32 +122,32 @@ button { font-family: inherit; cursor: pointer; }
   will-change: transform;
 }
 
-/* Point exact : petit disque blanc cerclé de vert (visible partout). */
+/* Point exact */
 .afribox-cursor {
   z-index: 99999;
-  width: 6px; height: 6px;
+  width: 8px; height: 8px;
   background: #ffffff;
-  box-shadow: 0 0 0 1.5px rgba(39, 174, 96, 0.95), 0 1px 3px rgba(11, 61, 27, 0.4);
-  transition: opacity 0.2s ease, width 0.2s ease, height 0.2s ease;
-}
-
-/* Anneau (vedette) : suit avec léger retard. */
-.afribox-cursor-ring {
-  z-index: 99998;
-  width: 34px; height: 34px;
-  border: 1.5px solid rgba(39, 174, 96, 0.9);
-  background: transparent;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.45), 0 2px 6px rgba(11, 61, 27, 0.28);
+  mix-blend-mode: difference;
   transition:
-    width  0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
-    height 0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
-    border-radius 0.28s ease,
-    background 0.2s ease,
-    border-color 0.2s ease,
+    width  0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
+    height 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
     opacity 0.2s ease;
 }
 
-/* Label contextuel (data-cursor-label). */
+/* Anneau suiveur (léger retard) */
+.afribox-cursor-ring {
+  z-index: 99998;
+  width: 34px; height: 34px;
+  border: 1.5px solid #ffffff;
+  mix-blend-mode: difference;
+  transition:
+    width  0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+    border-width 0.2s ease,
+    opacity 0.2s ease;
+}
+
+/* Label contextuel (data-cursor-label) — hors blend pour rester lisible. */
 .afribox-cursor-label {
   position: fixed;
   top: 0; left: 0;
@@ -167,19 +167,17 @@ button { font-family: inherit; cursor: pointer; }
 
 /* ─── États ─── */
 
-/* Survol cards / zones interactives : l'anneau s'agrandit. */
-.afribox-cursor-ring.state-hover { width: 46px; height: 46px; }
+/* Liens, cards, images : l'anneau grossit, le point rétrécit. */
+.afribox-cursor.state-hover { width: 5px; height: 5px; }
+.afribox-cursor-ring.state-hover { width: 48px; height: 48px; }
 
-/* Snap (boutons/liens) : l'anneau épouse le bouton (taille/radius posés en JS)
-   et se remplit légèrement ; le point exact s'efface. */
-.afribox-cursor-ring.state-snap {
-  border-color: rgba(39, 174, 96, 1);
-  background: rgba(39, 174, 96, 0.14);
-}
-.afribox-cursor.state-snap { opacity: 0; }
+/* Boutons : anneau plus large, trait plus marqué. */
+.afribox-cursor.state-button { width: 5px; height: 5px; }
+.afribox-cursor-ring.state-button { width: 60px; height: 60px; border-width: 2px; }
 
-/* Clic : léger pincement de l'anneau. */
-.afribox-cursor-ring.is-down { width: 26px; height: 26px; }
+/* Clic : léger pincement. */
+.afribox-cursor.is-down { width: 5px; height: 5px; }
+.afribox-cursor-ring.is-down { width: 24px; height: 24px; }
 
 /* ─── ACCESSIBILITÉ ────────────────────────────────────────── */
 

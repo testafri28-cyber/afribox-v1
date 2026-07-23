@@ -3,10 +3,10 @@
 import { useEffect, useRef } from 'react'
 
 type CursorState = 'default' | 'hover' | 'button' | 'image'
-type Magnet = { cx: number; cy: number; w: number; h: number; r: number }
 
-/* Curseur personnalisé — l'anneau suit avec un léger retard et « épouse » les
-   boutons au survol (snap) ; un point exact marque la position réelle.
+/* Curseur personnalisé — point exact + anneau qui suit avec un léger retard.
+   En blanc + mix-blend-mode: difference : la couleur s'inverse selon le fond
+   (sombre sur le blanc, clair sur le hero vert) → toujours lisible.
    Désactivé sur écrans tactiles et si l'utilisateur réduit les animations. */
 export default function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null)
@@ -15,7 +15,6 @@ export default function CustomCursor() {
 
   const pos       = useRef({ x: -100, y: -100 })
   const ring      = useRef({ x: -100, y: -100 })
-  const magnet    = useRef<Magnet | null>(null)
   const labelText = useRef('')
   const rafId     = useRef<number>(0)
 
@@ -25,42 +24,23 @@ export default function CustomCursor() {
 
     document.documentElement.style.cursor = 'none'
 
-    const setXY = (el: HTMLElement | null, x: number, y: number) => {
-      if (el) el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`
-    }
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t
-
     const onMove = (e: MouseEvent) => {
       pos.current = { x: e.clientX, y: e.clientY }
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`
+      }
       if (labelRef.current) {
         labelRef.current.style.transform = `translate(${e.clientX + 16}px, ${e.clientY - 8}px)`
       }
     }
 
     const animate = () => {
-      // Le point suit le pointeur au pixel près.
-      setXY(cursorRef.current, pos.current.x, pos.current.y)
-      // L'anneau suit avec retard, ou se cale au centre du bouton aimanté.
-      const t = magnet.current ? { x: magnet.current.cx, y: magnet.current.cy } : pos.current
-      const speed = magnet.current ? 0.25 : 0.18
-      ring.current.x = lerp(ring.current.x, t.x, speed)
-      ring.current.y = lerp(ring.current.y, t.y, speed)
-      setXY(ringRef.current, ring.current.x, ring.current.y)
+      ring.current.x += (pos.current.x - ring.current.x) * 0.18
+      ring.current.y += (pos.current.y - ring.current.y) * 0.18
+      if (ringRef.current) {
+        ringRef.current.style.transform = `translate(${ring.current.x}px, ${ring.current.y}px) translate(-50%, -50%)`
+      }
       rafId.current = requestAnimationFrame(animate)
-    }
-
-    // La taille/forme du snap est posée en JS (dépend du bouton survolé).
-    const clearShape = () => {
-      const r = ringRef.current
-      if (r) { r.style.width = ''; r.style.height = ''; r.style.borderRadius = '' }
-    }
-    const applySnap = () => {
-      const mg = magnet.current
-      const r = ringRef.current
-      if (!mg || !r) return
-      r.style.width = `${mg.w + 6}px`
-      r.style.height = `${mg.h + 6}px`
-      r.style.borderRadius = `${mg.r + 3}px`
     }
 
     const setState = (s: CursorState) => {
@@ -69,12 +49,11 @@ export default function CustomCursor() {
       if (!c || !r) return
       c.className = 'afribox-cursor'
       r.className = 'afribox-cursor-ring'
-      clearShape()
       if (s === 'button') {
-        c.classList.add('state-snap')
-        r.classList.add('state-snap')
-        applySnap()
+        c.classList.add('state-button')
+        r.classList.add('state-button')
       } else if (s === 'hover' || s === 'image') {
+        c.classList.add('state-hover')
         r.classList.add('state-hover')
       }
     }
@@ -98,22 +77,11 @@ export default function CustomCursor() {
       const lbl  = el.getAttribute('data-cursor-label')
 
       if (tag === 'button' || tag === 'a' || role === 'button' || data === 'button') {
-        const rect = el.getBoundingClientRect()
-        const cs = getComputedStyle(el)
-        magnet.current = {
-          cx: rect.left + rect.width / 2,
-          cy: rect.top + rect.height / 2,
-          w: rect.width,
-          h: rect.height,
-          r: parseFloat(cs.borderRadius) || 8,
-        }
         setState('button')
       } else if (tag === 'img' || data === 'image') {
-        magnet.current = null
         setState('image')
         if (lbl) showLabel(lbl)
       } else if (el.classList.contains('cursor-hover') || data === 'hover' || tag === 'article') {
-        magnet.current = null
         setState('hover')
       }
       if (lbl && !labelText.current) showLabel(lbl)
@@ -135,14 +103,19 @@ export default function CustomCursor() {
       }
     }
     const onLeave = () => {
-      magnet.current = null
       setState('default')
       hideLabel()
     }
 
-    // Feedback au clic : léger pincement de l'anneau.
-    const onDown = () => ringRef.current?.classList.add('is-down')
-    const onUp   = () => ringRef.current?.classList.remove('is-down')
+    // Feedback au clic : léger pincement du point et de l'anneau.
+    const onDown = () => {
+      cursorRef.current?.classList.add('is-down')
+      ringRef.current?.classList.add('is-down')
+    }
+    const onUp = () => {
+      cursorRef.current?.classList.remove('is-down')
+      ringRef.current?.classList.remove('is-down')
+    }
 
     const bind = (el: Element) => {
       el.addEventListener('mouseenter', onEnter as EventListener)
