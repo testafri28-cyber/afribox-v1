@@ -109,9 +109,9 @@ button { font-family: inherit; cursor: pointer; }
   *, *::before, *::after { cursor: none !important; }
 }
 
-/* ─── Curseur personnalisé — point + anneau en mix-blend-difference ───
-   Blanc + mix-blend-mode: difference → la couleur s'inverse selon le fond
-   (sombre net sur le blanc, clair/inversé sur le hero vert) : toujours lisible. */
+/* ─── Curseur personnalisé — variante A′ : point + anneau blancs (sans blend) ───
+   Blanc + fin liseré sombre + ombre douce : reste blanc/neutre sur le hero vert
+   (pas de virage au rose) et le liseré le rend lisible sur les fonds clairs. */
 
 .afribox-cursor,
 .afribox-cursor-ring {
@@ -127,7 +127,7 @@ button { font-family: inherit; cursor: pointer; }
   z-index: 99999;
   width: 8px; height: 8px;
   background: #ffffff;
-  mix-blend-mode: difference;
+  box-shadow: 0 0 0 1px rgba(17, 26, 20, 0.30), 0 1px 3px rgba(11, 61, 27, 0.38);
   transition:
     width  0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
     height 0.22s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -139,7 +139,7 @@ button { font-family: inherit; cursor: pointer; }
   z-index: 99998;
   width: 34px; height: 34px;
   border: 1.5px solid #ffffff;
-  mix-blend-mode: difference;
+  box-shadow: 0 0 0 1px rgba(17, 26, 20, 0.22), 0 2px 6px rgba(11, 61, 27, 0.28);
   transition:
     width  0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
     height 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
