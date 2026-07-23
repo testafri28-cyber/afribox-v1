@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, MessageCircle, Clock, Package, CalendarClock, Smartphone, Check } from 'lucide-react'
+import { ArrowRight, Clock, Package, CalendarClock, Smartphone, Check } from 'lucide-react'
 
 /* Effet machine à écrire sur le dernier mot du titre.
    Le SSR rend WORDS[0] : le titre reste lisible même sans JS. */
@@ -62,7 +62,7 @@ function FloatingCard({
       initial={{ opacity: 0, x: from === 'left' ? -70 : 70, scale: 0.9, rotate: 0 }}
       animate={{ opacity: 1, x: 0, scale: 1, rotate }}
       transition={{ type: 'spring', stiffness: 120, damping: 14, delay }}
-      className={`absolute hidden lg:block bg-white rounded-2xl ring-1 ring-green-dark/[0.06] shadow-[0_10px_20px_-8px_rgba(11,61,27,0.28),0_28px_55px_-18px_rgba(11,61,27,0.55)] p-4 text-left ${className}`}
+      className={`absolute hidden md:block bg-white rounded-2xl ring-1 ring-green-dark/[0.06] shadow-[0_10px_20px_-8px_rgba(11,61,27,0.28),0_28px_55px_-18px_rgba(11,61,27,0.55)] p-3 lg:p-4 text-left ${className}`}
     >
       {children}
     </motion.div>
@@ -117,7 +117,7 @@ export default function HeroAfribox() {
                 aria-hidden="true"
                 viewBox="0 0 1000 440"
                 preserveAspectRatio="none"
-                className="absolute inset-0 w-full h-full hidden lg:block pointer-events-none z-0"
+                className="absolute inset-0 w-full h-full hidden md:block pointer-events-none z-0"
                 fill="none"
               >
                 <g
@@ -161,7 +161,7 @@ export default function HeroAfribox() {
 
               {/* ----- Gauche ----- */}
               {/* En haut : disponibilité */}
-              <FloatingCard from="left" delay={0.35} rotate={-3} className="left-0 top-2 w-[190px]">
+              <FloatingCard from="left" delay={0.35} rotate={-3} className="left-0 top-2 w-[158px] lg:w-[190px]">
                 <div className="flex items-center gap-2.5">
                   <span className="w-9 h-9 rounded-xl bg-green-bg flex items-center justify-center flex-shrink-0">
                     <Clock size={16} className="text-green-primary" />
@@ -177,7 +177,7 @@ export default function HeroAfribox() {
               </FloatingCard>
 
               {/* À gauche : sans rendez-vous */}
-              <FloatingCard from="left" delay={0.5} rotate={2} className="-left-4 bottom-0 w-[200px]">
+              <FloatingCard from="left" delay={0.5} rotate={2} className="-left-4 bottom-0 w-[158px] lg:w-[200px]">
                 <div className="flex items-center gap-2.5">
                   <span className="w-9 h-9 rounded-xl bg-green-bg flex items-center justify-center flex-shrink-0">
                     <CalendarClock size={16} className="text-green-primary" />
@@ -191,7 +191,7 @@ export default function HeroAfribox() {
 
               {/* ----- Droite ----- */}
               {/* En haut à droite : notification nouveau colis */}
-              <FloatingCard from="right" delay={0.4} rotate={3} className="right-0 top-0 w-[205px]">
+              <FloatingCard from="right" delay={0.4} rotate={3} className="right-0 top-0 w-[162px] lg:w-[205px]">
                 <div className="flex items-start gap-2.5">
                   <span className="w-9 h-9 rounded-xl bg-green-primary flex items-center justify-center flex-shrink-0">
                     <Package size={16} className="text-white" />
@@ -207,7 +207,7 @@ export default function HeroAfribox() {
               </FloatingCard>
 
               {/* À droite : paiement Mobile Money */}
-              <FloatingCard from="right" delay={0.55} rotate={-2} className="-right-4 top-[calc(50%-40px)] w-[190px]">
+              <FloatingCard from="right" delay={0.55} rotate={-2} className="-right-4 top-[calc(50%-40px)] w-[158px] lg:w-[190px]">
                 <div className="flex items-center gap-2.5">
                   <span className="w-9 h-9 rounded-xl bg-green-bg flex items-center justify-center flex-shrink-0">
                     <Smartphone size={16} className="text-green-primary" />
@@ -220,7 +220,7 @@ export default function HeroAfribox() {
               </FloatingCard>
 
               {/* En bas : colis livré */}
-              <FloatingCard from="right" delay={0.7} rotate={2} className="right-6 bottom-0 w-[185px]">
+              <FloatingCard from="right" delay={0.7} rotate={2} className="right-0 lg:right-6 bottom-0 w-[158px] lg:w-[185px]">
                 <div className="flex items-center gap-2.5">
                   <span className="w-9 h-9 rounded-full bg-green-primary flex items-center justify-center flex-shrink-0">
                     <Check size={16} className="text-white" strokeWidth={3} />
@@ -246,7 +246,7 @@ export default function HeroAfribox() {
                     width={480}
                     height={500}
                     priority
-                    className="w-[250px] md:w-[360px] h-auto drop-shadow-2xl"
+                    className="w-[250px] md:w-[300px] lg:w-[360px] h-auto drop-shadow-2xl"
                   />
                 </motion.div>
               </div>
@@ -273,9 +273,13 @@ export default function HeroAfribox() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-5 py-2.5 sm:py-3 text-brand-gray hover:bg-brand-off transition-colors duration-150"
               >
-                <span className="w-[18px] h-[18px] rounded-full bg-[#25D366] flex items-center justify-center flex-shrink-0">
-                  <MessageCircle size={11} color="white" />
-                </span>
+                <Image
+                  src="/images/whatsapp.png"
+                  alt=""
+                  width={20}
+                  height={20}
+                  className="w-5 h-5 flex-shrink-0"
+                />
                 WhatsApp
               </a>
               <Link
@@ -307,10 +311,10 @@ export default function HeroAfribox() {
             pas d&apos;attente — juste votre code et votre colis.
           </p>
 
-          {/* Bande de bénéfices — mobile/tablette seulement (les cartes
-              flottantes autour de Locky ne s'affichent qu'en lg). Version épurée :
-              3 atouts clés, même univers que les cartes desktop. */}
-          <div className="lg:hidden mt-8 max-w-md mx-auto grid grid-cols-3 rounded-2xl bg-white ring-1 ring-green-dark/[0.06] shadow-[0_10px_30px_-12px_rgba(11,61,27,0.25)] divide-x divide-brand-border overflow-hidden">
+          {/* Bande de bénéfices — mobile seulement (< md). À partir de md, les
+              cartes flottantes autour de Locky prennent le relais. Version
+              épurée : 3 atouts clés, même univers que les cartes desktop. */}
+          <div className="md:hidden mt-8 max-w-md mx-auto grid grid-cols-3 rounded-2xl bg-white ring-1 ring-green-dark/[0.06] shadow-[0_10px_30px_-12px_rgba(11,61,27,0.25)] divide-x divide-brand-border overflow-hidden">
             {[
               { icon: Clock, title: '24 h/24', sub: 'Toujours actif' },
               { icon: CalendarClock, title: 'Sans RDV', sub: 'Quand vous voulez' },
