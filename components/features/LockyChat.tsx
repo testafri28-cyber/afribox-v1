@@ -32,11 +32,20 @@ const GREETING: Msg = {
 
 export default function LockyChat() {
   const [open, setOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const [messages, setMessages] = useState<Msg[]>([GREETING])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Le tiroir burger (Navbar) émet cet événement : on masque le lanceur tant
+  // qu'il est ouvert pour éviter le chevauchement avec son CTA « Réserver ».
+  useEffect(() => {
+    const handler = (e: Event) => setMenuOpen(Boolean((e as CustomEvent).detail))
+    window.addEventListener('afribox:menu', handler)
+    return () => window.removeEventListener('afribox:menu', handler)
+  }, [])
 
   // Auto-scroll vers le bas à chaque nouveau contenu.
   useEffect(() => {
@@ -100,7 +109,7 @@ export default function LockyChat() {
     <>
       {/* ---------- Bulle flottante ---------- */}
       <AnimatePresence>
-        {!open && (
+        {!open && !menuOpen && (
           <motion.button
             key="fab"
             initial={{ opacity: 0, scale: 0.7, y: 20 }}

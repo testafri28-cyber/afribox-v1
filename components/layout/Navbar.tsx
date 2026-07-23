@@ -114,6 +114,10 @@ export default function Navbar() {
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
+    // Prévient le lanceur Locky (composant séparé, fixé en bas à droite) : il se
+    // masque tant que le tiroir burger est ouvert, sinon il chevauche le CTA
+    // « Réserver un locker » en pied de tiroir.
+    window.dispatchEvent(new CustomEvent('afribox:menu', { detail: open }))
     return () => { document.body.style.overflow = '' }
   }, [open])
 
