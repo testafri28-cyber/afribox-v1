@@ -7,6 +7,7 @@ import {
   ArrowRight,
   Check,
   MapPin,
+  MessageCircle,
   Package,
   PackageOpen,
   Boxes,
@@ -15,6 +16,7 @@ import {
 } from 'lucide-react'
 import LockersMap from '@/components/features/LockersMap'
 import { lockers, type Locker, type LockerSize } from '@/lib/constants'
+import { submitLead, whatsappUrl } from '@/lib/leads'
 
 type Duration = '24h' | '48h' | '72h'
 type Payment = 'orange' | 'wave' | 'mtn' | 'card'
@@ -84,6 +86,26 @@ export default function ReservationForm() {
       )
     if (step === 3) return reservation.payment !== null
     return true
+  }
+
+  const handleNext = () => {
+    // À la confirmation (3 → 4), on enregistre la demande dans le Google Sheet.
+    // Best-effort : l'utilisateur finalise ensuite sur WhatsApp (écran suivant).
+    if (step === 3) {
+      submitLead({
+        type: 'reservation',
+        locker: reservation.locker?.name,
+        address: reservation.locker?.address,
+        size: reservation.size,
+        duration: reservation.duration,
+        phone: reservation.phone,
+        message: reservation.message,
+        payment: reservation.payment,
+        total: totalPrice(),
+        ref: code,
+      })
+    }
+    setStep((s) => s + 1)
   }
 
   return (
@@ -156,7 +178,11 @@ export default function ReservationForm() {
             />
           )}
           {step === 4 && (
-            <StepConfirmation reservation={reservation} code={code} />
+            <StepConfirmation
+              reservation={reservation}
+              code={code}
+              total={totalPrice()}
+            />
           )}
         </motion.div>
       </AnimatePresence>
@@ -173,11 +199,11 @@ export default function ReservationForm() {
             Précédent
           </button>
           <button
-            onClick={() => setStep((s) => s + 1)}
+            onClick={handleNext}
             disabled={!canProceed()}
             className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-green-primary text-white text-sm font-body font-medium hover:bg-green-dark disabled:opacity-40 disabled:cursor-not-allowed transition"
           >
-            {step === 3 ? 'Confirmer et payer' : 'Suivant'}
+            {step === 3 ? 'Confirmer la demande' : 'Suivant'}
             <ArrowRight size={16} />
           </button>
         </div>
@@ -407,8 +433,8 @@ function StepPayment({
         Paiement
       </h2>
       <p className="font-body text-brand-sub mb-8">
-        Choisissez votre méthode de paiement. Le paiement est confirmé
-        instantanément.
+        Indiquez votre moyen de paiement préféré. Le règlement est finalisé avec
+        notre équipe à la confirmation de votre créneau.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -436,7 +462,7 @@ function StepPayment({
                 <div className="flex-1">
                   <p className="font-body font-semibold text-brand-gray">{m.label}</p>
                   <p className="font-mono text-[11px] text-brand-mid uppercase tracking-widest">
-                    Paiement instantané
+                    Réglé à la confirmation
                   </p>
                 </div>
                 <div
@@ -497,26 +523,43 @@ function Summary({ label, value }: { label: string; value: string }) {
 function StepConfirmation({
   reservation,
   code,
+  total,
 }: {
   reservation: Reservation
   code: string
+  total: number
 }) {
+  // Message WhatsApp pré-rempli pour finaliser la demande avec un conseiller.
+  const waText = [
+    'Bonjour Afribox 👋',
+    'Je souhaite finaliser ma réservation de locker :',
+    `• Locker : ${reservation.locker?.name} — ${reservation.locker?.address}`,
+    `• Taille : ${reservation.size ? sizesInfo[reservation.size].label : '—'}`,
+    `• Durée : ${reservation.duration ? durationsInfo[reservation.duration].label : '—'}`,
+    `• Total : ${total.toLocaleString('fr-FR')} FCFA`,
+    `• Tél. destinataire : ${reservation.phone}`,
+    reservation.message ? `• Message : ${reservation.message}` : null,
+    `• Réf. demande : ${code}`,
+  ]
+    .filter((l) => l !== null)
+    .join('\n')
+
   return (
     <div className="text-center max-w-xl mx-auto py-6">
       <div className="w-16 h-16 rounded-full bg-green-primary text-white flex items-center justify-center mx-auto mb-6">
         <Check size={32} />
       </div>
       <h2 className="font-heading font-bold text-3xl md:text-4xl text-brand-gray mb-3">
-        Votre locker est réservé.
+        Votre demande est envoyée.
       </h2>
       <p className="font-body text-brand-sub mb-8">
-        Voici votre code de dépôt. Conservez-le précieusement, il vous sera
-        également envoyé par SMS.
+        Finalisez votre réservation en un clic sur WhatsApp : notre équipe
+        confirme votre créneau et vous envoie le code de dépôt.
       </p>
 
       <div className="bg-green-bg border border-green-soft rounded-2xl p-8 mb-6">
         <p className="font-mono text-xs tracking-widest text-green-dark uppercase mb-4">
-          Code de dépôt
+          Numéro de demande
         </p>
         <p className="font-mono text-5xl md:text-6xl font-bold text-green-primary tracking-widest">
           {code}
@@ -530,24 +573,29 @@ function StepConfirmation({
         <p className="font-body font-semibold text-brand-gray mb-1">
           {reservation.locker?.name}
         </p>
-        <p className="font-body text-sm text-brand-sub mb-4">
+        <p className="font-body text-sm text-brand-sub">
           {reservation.locker?.address}
         </p>
-        <a
-          href="#"
-          className="inline-flex items-center gap-2 font-body text-sm font-medium text-green-primary hover:text-green-dark transition"
-        >
-          <MapPin size={16} />
-          Voir sur la carte
-        </a>
       </div>
 
       <a
-        href="/reserver"
-        className="font-body text-sm text-brand-sub hover:text-green-primary underline transition"
+        href={whatsappUrl(waText)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-green-primary text-white font-body font-medium hover:bg-green-dark transition"
       >
-        Nouvelle réservation
+        <MessageCircle size={18} />
+        Finaliser sur WhatsApp
       </a>
+
+      <div className="mt-5">
+        <a
+          href="/reserver"
+          className="font-body text-sm text-brand-sub hover:text-green-primary underline transition"
+        >
+          Nouvelle réservation
+        </a>
+      </div>
     </div>
   )
 }

@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
-import { Check, Loader2, Send } from 'lucide-react'
+import { Check, Loader2, Send, MessageCircle } from 'lucide-react'
+import { submitLead, whatsappUrl } from '@/lib/leads'
 
 type FormValues = {
   firstName: string
@@ -36,6 +37,7 @@ export default function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>(
     'idle',
   )
+  const [waHref, setWaHref] = useState('')
   const {
     register,
     handleSubmit,
@@ -45,18 +47,28 @@ export default function ContactForm() {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setStatus('sending')
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
-      if (!res.ok) throw new Error('failed')
-      setStatus('success')
-      reset()
-    } catch {
-      setStatus('error')
-    }
+
+    // Message WhatsApp pré-rempli (canal immédiat + secours).
+    const waText = [
+      'Bonjour Afribox 👋',
+      'Nouvelle demande depuis le site :',
+      `• Nom : ${data.firstName} ${data.lastName}`,
+      `• Email : ${data.email}`,
+      data.phone ? `• Téléphone : ${data.phone}` : null,
+      `• Profil : ${data.role}`,
+      `• Sujet : ${data.subject}`,
+      '',
+      data.message,
+    ]
+      .filter((l) => l !== null)
+      .join('\n')
+    setWaHref(whatsappUrl(waText))
+
+    // Persistance côté serveur (Google Sheet). Best-effort : même en cas
+    // d'échec on affiche le succès, WhatsApp restant proposé.
+    await submitLead({ type: 'contact', ...data })
+    setStatus('success')
+    reset()
   }
 
   if (status === 'success') {
@@ -69,14 +81,26 @@ export default function ContactForm() {
           Message bien reçu.
         </h3>
         <p className="font-body text-brand-sub mb-6">
-          Notre équipe vous répond sous 24h ouvrées.
+          Notre équipe vous répond sous 24h ouvrées. Pour une réponse immédiate,
+          continuez sur WhatsApp.
         </p>
-        <button
-          onClick={() => setStatus('idle')}
-          className="font-body text-sm font-medium text-green-primary hover:text-green-dark underline transition"
+        <a
+          href={waHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-green-primary text-white font-body font-medium hover:bg-green-dark transition"
         >
-          Envoyer un autre message
-        </button>
+          <MessageCircle size={16} />
+          Continuer sur WhatsApp
+        </a>
+        <div className="mt-5">
+          <button
+            onClick={() => setStatus('idle')}
+            className="font-body text-sm font-medium text-green-primary hover:text-green-dark underline transition"
+          >
+            Envoyer un autre message
+          </button>
+        </div>
       </div>
     )
   }

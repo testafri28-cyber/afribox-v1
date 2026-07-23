@@ -6,11 +6,12 @@ import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import ContactForm from '@/components/features/ContactForm'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
+import { contact } from '@/lib/constants'
 
 const contactInfo = [
-  { icon: Mail,   label: 'Email',     value: 'hello@afribox.co' },
-  { icon: Phone,  label: 'Téléphone', value: '+225 07 89 44 44 41' },
-  { icon: MapPin, label: 'Adresse',   value: 'Abidjan, Côte d\'Ivoire' },
+  { icon: Mail,   label: 'Email',     value: contact.email },
+  { icon: Phone,  label: 'Téléphone', value: contact.phoneDisplay },
+  { icon: MapPin, label: 'Adresse',   value: contact.city },
 ]
 
 export default function ContactSection() {

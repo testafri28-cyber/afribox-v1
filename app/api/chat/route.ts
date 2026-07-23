@@ -1,12 +1,12 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { pricing, faq } from '@/lib/constants'
+import { pricing, faq, contact } from '@/lib/constants'
 
 // Route serverless : Locky, l'assistant conversationnel d'Afribox.
 // Streaming pour un affichage fluide. Node runtime (SDK Anthropic).
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 
-const WHATSAPP = '+225 07 89 44 44 41'
+const WHATSAPP = contact.phoneDisplay
 
 /* Faits produits injectés dans le prompt système — construits à partir des
    constantes du site pour rester synchronisés (tarifs, FAQ). */

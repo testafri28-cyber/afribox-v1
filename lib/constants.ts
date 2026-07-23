@@ -218,6 +218,17 @@ export const whyAfribox: WhyAfriboxItem[] = [
 ]
 
 // ---------------------------------------------------------------------------
+// Contact — source unique (numéro business, WhatsApp, email)
+// ---------------------------------------------------------------------------
+export const contact = {
+  email: 'hello@afribox.co',
+  phoneDisplay: '+225 07 89 44 44 41',
+  // Format wa.me : indicatif 225 + numéro, sans « + » ni espaces.
+  whatsapp: '2250789444441',
+  city: "Abidjan, Côte d'Ivoire",
+}
+
+// ---------------------------------------------------------------------------
 // Footer links
 // ---------------------------------------------------------------------------
 // Le site est une one-page : les ancres sont préfixées par « / » pour rester
