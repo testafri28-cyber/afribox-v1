@@ -271,7 +271,7 @@ export default function HeroAfribox() {
                 href="https://wa.me/2250789444441"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-5 py-2.5 sm:py-3 text-brand-gray hover:bg-brand-off transition-colors duration-150"
+                className="inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-5 py-2.5 sm:py-3 bg-green-bg text-green-dark hover:bg-green-soft transition-colors duration-150"
               >
                 <Image
                   src="/images/whatsapp.png"
