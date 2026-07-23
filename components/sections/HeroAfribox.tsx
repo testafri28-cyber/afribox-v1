@@ -6,6 +6,12 @@ import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock, Package, CalendarClock, Smartphone, Check } from 'lucide-react'
 
+/* Placeholder flou (14×15px, ~1 Ko) inline en base64 : affiché instantanément
+   dans le HTML, il évite le « header vide » pendant le téléchargement du WebP
+   de Locky. Généré depuis public/mascotte.webp. */
+const MASCOTTE_BLUR =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAPCAYAAADUFP50AAACzklEQVR42oWSXUhTYRjHn/c9Zx/u083l1JlO87s0ExMlsaQvKCglNhEJk0qIsrzoSpBRdFGERBfSTd0WbCYqXUQ3IhYUZJFmJs7QqdvSOfWc7exsO+d9u9DCi6g//HkunoeH5//wA/iH7nc6jK5b7anwH6EdMwgB5GRbr1vSjMvWPablkqJ9V+h2D+8e3q4YUQQAlFIoKy0zCyFfoKlYr8zNsMDQ17X5sZmfBRQoQgAUdm2gQKiCEpoCFJhEzvFoZWGuP12volYNJvX77dzHzquK3eexAAD1HfUdlr2WXoOsUZizMienXf0PKo+V2yWOoxGehzpb6qEF4UNNNcA7t8PBOD0emQUAaK5pzjvcfCQvS2sF3/QP3cton7c4tPbcqNG0WgtK8PLc5LC2onjK7ShinB4PAQBgn9Sm2JTL3tYq0w0ixDgwqYzYJ9DggbNV9+z+lRY5NsUsGjTPXtx5ze38ZDtjSGssT0ZWCxQsiwxaA1LGRX1PR9lEosEw8MYmMWOmBA005fe1jFy67Rp1aYECAgqIXdpMqrMQJV6/F0RRwJIowieLqtJamgaF9hMQjYlIYWYLwwr+4Xv/1EmM8GnivsBgIpE5IU6TWoOBrDAhKTXbJs/rGXltNkhqbdVQYMyBIl0+4Rd5siSGTp33tPWC0yPjp182ZpLmkrtqtYLdiPOsDJThfByztBDAM0EvhKMcjcRFLPFy0DvmXfWtBnquverOZwCAoozM73H/un9uajYx+HZ4PByLjMV1UBfBEVmQBLKOwjgmS/0sYXlTur4CS6pH6G/sHbzZ0BzUbw2as/SSSmaxNl2HE3PhIWRQn1GZdQPjF0fafpODRkdH2a7HXSq3281gJU5nlBgwAtCp1DhGKamgiaZzn1cWxhOJbuoC/Ae5xsZGaTI8KTudTlkiskySMghbIqxvbFGBi8KmKPFHJ/ztcPn1mucboF+lmkPVe4YouAAAAABJRU5ErkJggg=='
+
 /* Effet machine à écrire sur le dernier mot du titre.
    Le SSR rend WORDS[0] : le titre reste lisible même sans JS. */
 const WORDS       = ['no stress,', '24h/24 & 7j/7,', 'sécurisée.']
@@ -246,6 +252,9 @@ export default function HeroAfribox() {
                     width={480}
                     height={500}
                     priority
+                    placeholder="blur"
+                    blurDataURL={MASCOTTE_BLUR}
+                    sizes="(min-width: 1024px) 360px, (min-width: 768px) 300px, 250px"
                     className="w-[250px] md:w-[300px] lg:w-[360px] h-auto drop-shadow-2xl"
                   />
                 </motion.div>
