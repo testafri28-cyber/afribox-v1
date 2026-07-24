@@ -1,13 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   ArrowLeft,
   ArrowRight,
   Check,
   MapPin,
-  MessageCircle,
   Package,
   PackageOpen,
   Boxes,
@@ -88,6 +88,14 @@ export default function ReservationForm() {
     return true
   }
 
+  // Étape 1 : choisir un locker fait avancer tout seul (le bouton « Suivant »
+  // n'est pas toujours visible selon la hauteur d'écran). Court délai pour que
+  // la sélection soit visible avant la transition.
+  const selectLocker = (l: Locker) => {
+    setReservation((r) => ({ ...r, locker: l }))
+    setStep((s) => (s === 1 ? 2 : s))
+  }
+
   const handleNext = () => {
     // À la confirmation (3 → 4), on enregistre la demande dans le Google Sheet.
     // Best-effort : l'utilisateur finalise ensuite sur WhatsApp (écran suivant).
@@ -108,22 +116,28 @@ export default function ReservationForm() {
     setStep((s) => s + 1)
   }
 
+  // Pas d'overflow-hidden sur la carte : il casserait le `sticky` de la barre
+  // de navigation. Les coins sont arrondis sur l'en-tête et le pied.
   return (
-    <div className="bg-white border border-brand-border rounded-2xl overflow-hidden">
-      {/* Progression */}
-      <div className="bg-brand-off border-b border-brand-border p-4 md:p-6">
+    <div className="bg-white border border-brand-border rounded-2xl">
+      {/* Progression — les étapes déjà franchies sont cliquables (retour). */}
+      <div className="bg-brand-off border-b border-brand-border p-4 md:p-6 rounded-t-2xl">
         <div className="flex items-center justify-between max-w-2xl mx-auto">
           {[1, 2, 3, 4].map((n) => (
             <div key={n} className="flex items-center flex-1 last:flex-none">
-              <div
+              <button
+                type="button"
+                onClick={() => n < step && setStep(n)}
+                disabled={n >= step}
+                aria-label={`Revenir à l'étape ${n}`}
                 className={`w-9 h-9 rounded-full flex items-center justify-center font-mono font-bold text-sm transition ${
                   step >= n
                     ? 'bg-green-primary text-white'
                     : 'bg-white border border-brand-border text-brand-mid'
-                }`}
+                } ${n < step ? 'cursor-pointer hover:bg-green-dark hover:scale-105' : 'cursor-default'}`}
               >
                 {step > n ? <Check size={16} /> : n}
-              </div>
+              </button>
               {n < 4 && (
                 <div
                   className={`flex-1 h-px mx-2 transition ${
@@ -161,7 +175,7 @@ export default function ReservationForm() {
           {step === 1 && (
             <StepLocker
               selected={reservation.locker}
-              onSelect={(l) => setReservation({ ...reservation, locker: l })}
+              onSelect={selectLocker}
             />
           )}
           {step === 2 && (
@@ -189,7 +203,7 @@ export default function ReservationForm() {
 
       {/* Navigation bas */}
       {step < 4 && (
-        <div className="border-t border-brand-border p-4 md:p-6 flex items-center justify-between bg-white sticky bottom-0">
+        <div className="border-t border-brand-border p-4 md:p-6 flex items-center justify-between bg-white sticky bottom-0 rounded-b-2xl z-20">
           <button
             onClick={() => setStep((s) => Math.max(1, s - 1))}
             disabled={step === 1}
@@ -368,17 +382,35 @@ function StepConfigure({
       <div className="grid grid-cols-3 gap-3 mb-8">
         {(['24h', '48h', '72h'] as Duration[]).map((d) => {
           const isSelected = reservation.duration === d
+          // Prix calculé pour la taille choisie — visible avant de sélectionner.
+          const base = reservation.size
+            ? parseInt(sizesInfo[reservation.size].price.replace(/\D/g, ''), 10)
+            : null
+          const price = base !== null ? Math.round(base * durationsInfo[d].multiplier) : null
           return (
             <button
               key={d}
               onClick={() => setReservation({ ...reservation, duration: d })}
-              className={`py-4 rounded-xl border font-body font-medium transition ${
+              className={`px-2 py-3.5 rounded-xl border text-center transition ${
                 isSelected
-                  ? 'border-green-primary bg-green-bg text-green-dark'
-                  : 'border-brand-border bg-white text-brand-gray hover:border-green-primary/40'
+                  ? 'border-green-primary bg-green-bg'
+                  : 'border-brand-border bg-white hover:border-green-primary/40'
               }`}
             >
-              {durationsInfo[d].label}
+              <span
+                className={`block font-body font-medium ${
+                  isSelected ? 'text-green-dark' : 'text-brand-gray'
+                }`}
+              >
+                {durationsInfo[d].label}
+              </span>
+              {price !== null ? (
+                <span className="mt-1 block font-mono text-[13px] font-bold text-green-primary">
+                  {price.toLocaleString('fr-FR')} FCFA
+                </span>
+              ) : (
+                <span className="mt-1 block font-mono text-[11px] text-brand-mid">—</span>
+              )}
             </button>
           )
         })}
@@ -584,7 +616,13 @@ function StepConfirmation({
         rel="noopener noreferrer"
         className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-green-primary text-white font-body font-medium hover:bg-green-dark transition"
       >
-        <MessageCircle size={18} />
+        <Image
+          src="/images/whatsapp.png"
+          alt=""
+          width={20}
+          height={20}
+          className="w-5 h-5 flex-shrink-0"
+        />
         Finaliser sur WhatsApp
       </a>
 
