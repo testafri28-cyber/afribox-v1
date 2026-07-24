@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
-import { Check, Loader2, Send, MessageCircle } from 'lucide-react'
+import { Check, Loader2, Send, MessageCircle, ChevronDown, ShieldCheck } from 'lucide-react'
 import { submitLead, whatsappUrl } from '@/lib/leads'
 
 type FormValues = {
@@ -108,7 +108,7 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="bg-white border border-brand-border rounded-2xl p-6 md:p-8 space-y-5"
+      className="bg-white border border-brand-border rounded-2xl p-6 md:p-8 space-y-5 shadow-[0_28px_70px_-38px_rgba(11,61,27,0.45)]"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <Field label="Prénom *" error={errors.firstName?.message}>
@@ -143,32 +143,44 @@ export default function ContactForm() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         <Field label="Vous êtes *" error={errors.role?.message}>
-          <select
-            {...register('role', { required: 'Requis' })}
-            className="input"
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Choisir…
-            </option>
-            {roles.map((r) => (
-              <option key={r}>{r}</option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              {...register('role', { required: 'Requis' })}
+              className="input select"
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Choisir…
+              </option>
+              {roles.map((r) => (
+                <option key={r}>{r}</option>
+              ))}
+            </select>
+            <ChevronDown
+              size={16}
+              className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-mid"
+            />
+          </div>
         </Field>
         <Field label="Sujet *" error={errors.subject?.message}>
-          <select
-            {...register('subject', { required: 'Requis' })}
-            className="input"
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Choisir…
-            </option>
-            {subjects.map((s) => (
-              <option key={s}>{s}</option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              {...register('subject', { required: 'Requis' })}
+              className="input select"
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Choisir…
+              </option>
+              {subjects.map((s) => (
+                <option key={s}>{s}</option>
+              ))}
+            </select>
+            <ChevronDown
+              size={16}
+              className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 text-brand-mid"
+            />
+          </div>
         </Field>
       </div>
 
@@ -187,38 +199,60 @@ export default function ContactForm() {
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={status === 'sending'}
-        className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-green-primary text-white font-body font-medium hover:bg-green-dark transition disabled:opacity-50"
-      >
-        {status === 'sending' ? (
-          <>
-            <Loader2 size={16} className="animate-spin" />
-            Envoi…
-          </>
-        ) : (
-          <>
-            Envoyer le message
-            <Send size={16} />
-          </>
-        )}
-      </button>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-1">
+        <button
+          type="submit"
+          disabled={status === 'sending'}
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-green-primary text-white font-body font-medium shadow-[0_12px_26px_-10px_rgba(11,61,27,0.55)] hover:bg-green-dark active:scale-[0.98] transition disabled:opacity-50 disabled:pointer-events-none"
+        >
+          {status === 'sending' ? (
+            <>
+              <Loader2 size={16} className="animate-spin" />
+              Envoi…
+            </>
+          ) : (
+            <>
+              Envoyer le message
+              <Send size={16} />
+            </>
+          )}
+        </button>
+        <p className="flex items-center gap-1.5 font-body text-xs text-brand-mid">
+          <ShieldCheck size={14} className="text-green-primary" />
+          Réponse sous 24h ouvrées · infos confidentielles
+        </p>
+      </div>
 
       <style jsx>{`
         .input {
           width: 100%;
-          padding: 0.75rem 1rem;
+          padding: 0.8rem 1rem;
           border-radius: 0.75rem;
-          border: 1px solid #ebebeb;
-          background-color: #fff;
+          border: 1.5px solid #ebebeb;
+          background-color: #f7f9f7;
           font-family: inherit;
+          font-size: 0.95rem;
           color: #2f2f2f;
-          transition: border-color 0.15s;
+          transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+        }
+        .input::placeholder {
+          color: #9aa39d;
+        }
+        .input:hover {
+          border-color: #d8ddd8;
         }
         .input:focus {
           outline: none;
+          background-color: #ffffff;
           border-color: #27ae60;
+          box-shadow: 0 0 0 4px rgba(39, 174, 96, 0.12);
+        }
+        .select {
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          cursor: pointer;
+          padding-right: 2.5rem;
         }
       `}</style>
     </form>
@@ -234,10 +268,13 @@ function Field({
   error?: string
   children: React.ReactNode
 }) {
+  const required = label.trim().endsWith('*')
+  const text = required ? label.replace(/\s*\*\s*$/, '') : label
   return (
     <div>
-      <label className="font-mono text-xs tracking-widest text-brand-mid uppercase mb-2 block">
-        {label}
+      <label className="font-mono text-[11px] tracking-widest text-brand-mid uppercase mb-2 flex items-center gap-1">
+        {text}
+        {required && <span className="text-green-primary">*</span>}
       </label>
       {children}
       {error && (
