@@ -6,7 +6,7 @@ import { Plus, Minus } from 'lucide-react'
 import { faq } from '@/lib/constants'
 
 export default function FAQAccordion() {
-  const [open, setOpen] = useState<number | null>(0)
+  const [open, setOpen] = useState<number | null>(null)
 
   return (
     <div className="space-y-3">

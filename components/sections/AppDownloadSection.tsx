@@ -2,7 +2,7 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { Bell, MapPin, ChevronRight, ScanLine, Home } from 'lucide-react'
+import { MapPin, ScanLine, LockOpen, Signal, Wifi, BatteryFull } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import { appFeatures } from '@/lib/constants'
@@ -100,103 +100,56 @@ export default function AppDownloadSection() {
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[360px] w-[360px] rounded-full bg-green-light/25 blur-3xl"
             />
 
-            {/* Téléphone */}
+            {/* Téléphone — écran « colis prêt à retirer » */}
             <div className="relative z-10 w-[256px] sm:w-[272px] rounded-[2.6rem] border-[6px] border-brand-gray bg-brand-gray shadow-2xl">
-              <div className="overflow-hidden rounded-[2.1rem] bg-white">
-                {/* En-tête app */}
-                <div
-                  className="px-4 pt-5 pb-4 text-white"
-                  style={{ backgroundImage: 'linear-gradient(135deg, #1B5E20 0%, #27AE60 100%)' }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="font-body text-[10px] text-white/70">Bonjour 👋</p>
-                      <p className="font-heading font-bold text-base leading-tight">Mes colis</p>
-                    </div>
-                    <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
-                      <Bell size={16} />
-                      <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-green-light ring-2 ring-green-dark" />
+              <div className="relative flex min-h-[482px] flex-col overflow-hidden rounded-[2.1rem] bg-white">
+                {/* Dynamic island */}
+                <div className="absolute left-1/2 top-2 z-20 h-5 w-[74px] -translate-x-1/2 rounded-full bg-brand-gray" />
+
+                {/* Barre d'état */}
+                <div className="flex items-center justify-between px-6 pt-3">
+                  <span className="font-heading text-[11px] font-semibold text-brand-gray">9:41</span>
+                  <span className="flex items-center gap-1 text-brand-gray">
+                    <Signal size={12} />
+                    <Wifi size={12} />
+                    <BatteryFull size={15} />
+                  </span>
+                </div>
+
+                {/* Moment clé : colis prêt */}
+                <div className="flex flex-1 flex-col items-center justify-center px-6 pb-8 pt-4 text-center">
+                  <div className="relative mb-5">
+                    <span aria-hidden className="absolute inset-0 -z-10 rounded-full bg-green-primary/25 blur-xl" />
+                    <span className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-green-primary text-white ring-8 ring-green-bg shadow-[0_16px_32px_-10px_rgba(11,61,27,0.6)]">
+                      <LockOpen size={30} />
                     </span>
                   </div>
-                </div>
 
-                {/* Corps */}
-                <div className="space-y-2.5 p-3">
-                  {/* Colis prêt à retirer */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.5 }}
-                    className="rounded-2xl border border-green-soft bg-green-bg p-3"
-                  >
-                    <div className="mb-2 flex items-center justify-between">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-green-primary px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-white">
-                        <span className="h-1 w-1 rounded-full bg-white" />
-                        Prêt à retirer
-                      </span>
-                      <span className="font-mono text-[9px] uppercase tracking-widest text-brand-mid">Casier M-04</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <MapPin size={14} className="text-green-primary" />
-                      <p className="font-body text-[13px] font-semibold text-brand-gray">Locker Plateau</p>
-                    </div>
-                    <div className="mt-2.5 rounded-xl bg-white p-2.5 text-center">
-                      <p className="font-mono text-[9px] uppercase tracking-widest text-brand-mid">Code de retrait</p>
-                      <p className="font-mono text-2xl font-bold tracking-[0.25em] text-green-primary">842 631</p>
-                    </div>
-                  </motion.div>
+                  <p className="font-mono text-[9px] uppercase tracking-widest text-green-primary">
+                    Colis prêt à retirer
+                  </p>
+                  <h3 className="mt-1.5 font-heading text-xl font-bold leading-tight text-brand-gray">
+                    Votre colis vous attend.
+                  </h3>
+                  <p className="mt-2 flex items-center gap-1 font-body text-[12px] text-brand-sub">
+                    <MapPin size={12} className="text-green-primary" />
+                    Locker Plateau · Casier M-04
+                  </p>
 
-                  {/* Locker favori */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.65 }}
-                    className="flex items-center gap-2.5 rounded-2xl border border-brand-border p-2.5"
-                  >
-                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-bg text-green-primary">
-                      <MapPin size={14} />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-body text-[12px] font-medium text-brand-gray">Locker Cocody</p>
-                      <p className="font-body text-[10px] text-brand-sub">Favori · 1,2 km</p>
-                    </div>
-                    <ChevronRight size={15} className="text-brand-mid" />
-                  </motion.div>
+                  {/* Code de retrait */}
+                  <div className="mt-5 w-full rounded-2xl border border-green-soft bg-green-bg p-3.5">
+                    <p className="font-mono text-[9px] uppercase tracking-widest text-brand-mid">Code de retrait</p>
+                    <p className="mt-1 font-mono text-[28px] font-bold leading-none tracking-[0.2em] text-green-primary">
+                      842 631
+                    </p>
+                  </div>
 
-                  {/* Notification */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.8 }}
-                    className="flex items-center gap-2.5 rounded-2xl border border-brand-border p-2.5"
-                  >
-                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-green-bg text-green-primary">
-                      <Bell size={14} />
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-body text-[12px] font-medium text-brand-gray">Colis déposé</p>
-                      <p className="font-body text-[10px] text-brand-sub">Il y a 2 min · code envoyé</p>
-                    </div>
-                  </motion.div>
-                </div>
-
-                {/* Barre de navigation */}
-                <div className="flex items-center justify-around border-t border-brand-border px-2 py-2.5">
-                  {[
-                    { icon: Home, active: true },
-                    { icon: MapPin, active: false },
-                    { icon: ScanLine, active: false },
-                    { icon: Bell, active: false },
-                  ].map(({ icon: Icon, active }, i) => (
-                    <span
-                      key={i}
-                      className={`flex h-8 w-8 items-center justify-center rounded-lg ${
-                        active ? 'bg-green-bg text-green-primary' : 'text-brand-mid'
-                      }`}
-                    >
-                      <Icon size={17} />
-                    </span>
-                  ))}
+                  {/* CTA */}
+                  <div className="mt-3.5 flex w-full items-center justify-center gap-2 rounded-full bg-green-primary py-3 font-heading text-sm font-semibold text-white">
+                    <ScanLine size={16} />
+                    Ouvrir le casier
+                  </div>
+                  <p className="mt-3 font-body text-[10px] text-brand-mid">Valide 72h · à usage unique</p>
                 </div>
               </div>
             </div>
