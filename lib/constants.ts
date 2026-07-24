@@ -4,7 +4,7 @@ import {
   ShieldCheck, Zap, MapPin, Globe,
   ScanLine, ShoppingBag, Truck,
   User, Bell, CreditCard, Lightbulb,
-  Clock, Smile,
+  Clock, Smile, Facebook, Instagram,
 } from 'lucide-react'
 
 // ---------------------------------------------------------------------------
@@ -227,6 +227,14 @@ export const contact = {
   whatsapp: '2250789444441',
   city: "Abidjan, Côte d'Ivoire",
 }
+
+// Réseaux sociaux — source unique (footer + JSON-LD `sameAs`).
+// N'ajouter ici qu'un profil qui existe réellement : un lien mort nuit au SEO.
+export type Social = { label: string; href: string; icon: LucideIcon }
+export const socials: Social[] = [
+  { label: 'Facebook',  href: 'https://www.facebook.com/afriboxlockers',    icon: Facebook },
+  { label: 'Instagram', href: 'https://www.instagram.com/afribox_lockers/', icon: Instagram },
+]
 
 // ---------------------------------------------------------------------------
 // Footer links

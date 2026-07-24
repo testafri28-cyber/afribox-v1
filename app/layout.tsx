@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { spaceGrotesk, dmSans, dmMono } from '@/lib/fonts'
 import { buildMetadata, siteMetadata } from '@/lib/metadata'
-import { contact } from '@/lib/constants'
+import { contact, socials } from '@/lib/constants'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import ScrollToTop from '@/components/layout/ScrollToTop'
@@ -34,6 +34,8 @@ const orgJsonLd = {
     addressLocality: 'Abidjan',
     addressCountry: 'CI',
   },
+  // Profils officiels — relie l'entité à ses réseaux pour les moteurs.
+  sameAs: socials.map((s) => s.href),
 }
 
 export default function RootLayout({

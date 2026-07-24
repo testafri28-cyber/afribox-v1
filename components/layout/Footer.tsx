@@ -1,14 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Twitter, Linkedin, Instagram } from 'lucide-react'
-import { footerLinks } from '@/lib/constants'
-
-const socials = [
-  { Icon: Twitter, label: 'Twitter', href: '#' },
-  { Icon: Linkedin, label: 'LinkedIn', href: '#' },
-  { Icon: Instagram, label: 'Instagram', href: '#' },
-]
+import { footerLinks, socials } from '@/lib/constants'
 
 const legalLinks = ['Mentions légales', 'Confidentialité', 'Cookies']
 
@@ -105,10 +98,12 @@ export default function Footer() {
               Suivre
             </div>
             <div className="flex flex-row lg:flex-col gap-3">
-              {socials.map(({ Icon, label, href }) => (
+              {socials.map(({ icon: Icon, label, href }) => (
                 <a
                   key={label}
                   href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={label}
                   className="w-9 h-9 rounded-lg bg-white/5 hover:bg-green-primary border border-white/10 flex items-center justify-center transition-colors"
                 >
