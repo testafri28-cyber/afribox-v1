@@ -87,7 +87,7 @@ export default function PricingSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
           variants={staggerContainer}
-          className="grid grid-cols-1 md:grid-cols-3 gap-5"
+          className="grid grid-cols-1 lg:grid-cols-3 gap-5"
         >
           {pricing.map((p, i) => {
             const { icon: Icon, tagline } = meta[i]
