@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { Star } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import GridBackground from '@/components/ui/GridBackground'
 import { testimonials, type Testimonial } from '@/lib/constants'
 
 export default function TestimonialSection() {
@@ -26,6 +25,10 @@ export default function TestimonialSection() {
           <h2 className="font-heading font-bold text-3xl md:text-5xl leading-tight text-brand-gray max-w-3xl">
             Ils nous font confiance.
           </h2>
+          <p className="font-body text-base md:text-lg text-brand-sub mt-4 max-w-2xl">
+            Marchands, opérateurs et boutiques partenaires — voici ce qu&apos;ils
+            en disent.
+          </p>
         </motion.div>
       </Container>
 
@@ -65,38 +68,41 @@ export default function TestimonialSection() {
 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <article className="relative overflow-hidden flex-shrink-0 w-[320px] md:w-[380px] bg-white border border-brand-border rounded-2xl p-6 md:p-7 shadow-sm">
-      <GridBackground tone="green" />
+    <article className="relative flex-shrink-0 w-[340px] md:w-[400px] bg-white border border-brand-border rounded-2xl p-7 md:p-8 shadow-[0_14px_36px_-22px_rgba(11,61,27,0.4)]">
+      {/* Guillemet décoratif */}
+      <span
+        aria-hidden
+        className="pointer-events-none absolute top-3 right-6 font-heading text-6xl leading-none text-green-primary/15 select-none"
+      >
+        &rdquo;
+      </span>
+
       <div className="relative">
-        {/* Étoiles */}
-        <div className="flex gap-1 mb-5">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Star
-              key={i}
-              size={16}
-              className="text-green-primary"
-              fill="currentColor"
-            />
-          ))}
+        {/* Note */}
+        <div className="flex items-center gap-2 mb-5">
+          <div className="flex gap-0.5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star key={i} size={15} className="text-green-primary" fill="currentColor" />
+            ))}
+          </div>
+          <span className="font-heading font-bold text-sm text-brand-gray">5,0</span>
         </div>
 
         {/* Citation */}
-        <p className="font-body text-brand-gray leading-relaxed mb-6 min-h-[6rem]">
-          &laquo;&nbsp;{testimonial.quote}&nbsp;&raquo;
+        <p className="font-body text-[15px] md:text-base text-brand-gray leading-relaxed mb-7 min-h-[6.5rem]">
+          {testimonial.quote}
         </p>
 
         {/* Auteur */}
         <div className="flex items-center gap-3 pt-5 border-t border-brand-border">
-          <div className="w-10 h-10 rounded-full bg-green-primary text-white font-heading font-bold text-sm flex items-center justify-center flex-shrink-0">
+          <div className="w-11 h-11 rounded-full bg-gradient-to-br from-green-primary to-green-dark text-white font-heading font-bold text-sm flex items-center justify-center flex-shrink-0 ring-2 ring-green-soft">
             {testimonial.initials}
           </div>
           <div className="min-w-0">
-            <p className="font-body font-semibold text-brand-gray text-sm truncate">
+            <p className="font-body font-semibold text-brand-gray text-sm">
               {testimonial.name}
             </p>
-            <p className="font-body text-xs text-brand-sub truncate">
-              {testimonial.role}
-            </p>
+            <p className="font-body text-xs text-brand-sub">{testimonial.role}</p>
           </div>
         </div>
       </div>
