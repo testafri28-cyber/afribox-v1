@@ -1,10 +1,19 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import Link from 'next/link'
+import { Package, PackageOpen, Boxes, ArrowRight } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import { pricing } from '@/lib/constants'
-import { fadeInUp } from '@/lib/animations'
+import { fadeInUp, staggerContainer } from '@/lib/animations'
+
+// Icône + libellé d'accroche par taille (aligné sur l'ordre de `pricing`).
+const meta = [
+  { icon: Package,     tagline: 'L’essentiel' },
+  { icon: PackageOpen, tagline: 'Le plus polyvalent' },
+  { icon: Boxes,       tagline: 'Grand volume' },
+]
 
 export default function PricingSection() {
   return (
@@ -31,79 +40,104 @@ export default function PricingSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
-          variants={fadeInUp}
+          variants={staggerContainer}
+          className="grid grid-cols-1 md:grid-cols-3 gap-5"
         >
-          {/* Mobile : cartes empilées — une table serrée coupe le prix sur petit écran. */}
-          <div className="md:hidden space-y-3">
-            {pricing.map((p) => {
-              const [amount, per] = p.price.split(' / ')
-              return (
-                <div
-                  key={p.size}
-                  className="flex items-center justify-between gap-3 border border-brand-border rounded-2xl p-4"
-                >
-                  <div className="min-w-0">
-                    <p className="font-heading font-bold text-brand-gray">{p.size}</p>
-                    <p className="font-body text-sm text-brand-sub">{p.use}</p>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <p className="font-mono font-semibold text-green-primary whitespace-nowrap">
-                      {amount}
-                    </p>
-                    <p className="font-mono text-xs text-brand-mid">/ {per}</p>
+          {pricing.map((p, i) => {
+            const { icon: Icon, tagline } = meta[i]
+            const [amount, per] = p.price.split(' / ')
+            const value = amount.replace(' FCFA', '')
+            const featured = i === 1
+            const segments = i + 1
+
+            return (
+              <motion.div
+                key={p.size}
+                variants={fadeInUp}
+                className={`group relative flex flex-col rounded-2xl border p-6 md:p-7 transition-all duration-300 ${
+                  featured
+                    ? 'border-green-primary bg-green-bg/50 shadow-[0_24px_55px_-26px_rgba(11,61,27,0.6)] md:-translate-y-2'
+                    : 'border-brand-border bg-white hover:border-green-primary/40 hover:-translate-y-1 hover:shadow-[0_18px_40px_-24px_rgba(11,61,27,0.4)]'
+                }`}
+              >
+                {featured && (
+                  <span className="absolute -top-3 left-6 inline-flex items-center rounded-full bg-green-primary px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest text-white shadow-sm">
+                    {tagline}
+                  </span>
+                )}
+
+                {/* Icône + jauge de taille */}
+                <div className="flex items-center justify-between mb-6">
+                  <span
+                    className={`flex h-12 w-12 items-center justify-center rounded-xl transition-colors ${
+                      featured
+                        ? 'bg-green-primary text-white'
+                        : 'bg-green-bg text-green-primary group-hover:bg-green-primary group-hover:text-white'
+                    }`}
+                  >
+                    <Icon size={22} />
+                  </span>
+                  <div className="flex items-end gap-1" aria-hidden="true">
+                    {[0, 1, 2].map((s) => (
+                      <span
+                        key={s}
+                        className={`w-1.5 rounded-full transition-colors ${
+                          s < segments ? 'bg-green-primary' : 'bg-brand-border'
+                        }`}
+                        style={{ height: `${8 + s * 6}px` }}
+                      />
+                    ))}
                   </div>
                 </div>
-              )
-            })}
-          </div>
 
-          {/* Desktop : table classique. */}
-          <div className="hidden md:block overflow-hidden border border-brand-border rounded-2xl">
-            <table className="w-full">
-              <thead className="bg-brand-off">
-                <tr>
-                  <th className="text-left font-mono text-xs tracking-widest text-brand-mid uppercase py-4 px-6">
-                    Taille
-                  </th>
-                  <th className="text-left font-mono text-xs tracking-widest text-brand-mid uppercase py-4 px-6">
-                    Usage type
-                  </th>
-                  <th className="text-right font-mono text-xs tracking-widest text-brand-mid uppercase py-4 px-6">
-                    Tarif
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {pricing.map((p, i) => (
-                  <tr
-                    key={p.size}
-                    className={i % 2 === 0 ? 'bg-white' : 'bg-brand-off/50'}
-                  >
-                    <td className="py-5 px-6 font-heading font-bold text-brand-gray">
-                      {p.size}
-                    </td>
-                    <td className="py-5 px-6 font-body text-brand-sub">{p.use}</td>
-                    <td className="py-5 px-6 text-right font-mono font-semibold text-green-primary">
-                      {p.price}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                {/* Taille + usage */}
+                {!featured && (
+                  <p className="font-mono text-[10px] tracking-widest uppercase text-brand-mid mb-1">
+                    {tagline}
+                  </p>
+                )}
+                <h3 className="font-heading font-bold text-xl text-brand-gray">
+                  {p.size}
+                </h3>
+                <p className="font-body text-sm text-brand-sub mt-1">{p.use}</p>
 
-          <p className="font-body text-sm text-brand-mid mt-5">
-            Comptes marchand et entreprise : tarification dégressive selon le
-            volume.{' '}
-            <a
-              href="#contact"
-              className="text-green-primary hover:text-green-dark underline transition"
-            >
-              Demander un devis
-            </a>
-            .
-          </p>
+                {/* Prix */}
+                <div className="mt-6 mb-6 flex items-baseline gap-1.5">
+                  <span className="font-heading font-bold text-3xl md:text-[32px] leading-none text-green-dark">
+                    {value}
+                  </span>
+                  <span className="font-mono text-sm text-brand-mid">FCFA</span>
+                  <span className="font-body text-sm text-brand-mid">/ {per}</span>
+                </div>
+
+                {/* CTA */}
+                <Link
+                  href="/reserver"
+                  className={`mt-auto inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 font-body font-medium text-sm transition-colors ${
+                    featured
+                      ? 'bg-green-primary text-white hover:bg-green-dark'
+                      : 'bg-brand-off text-green-dark hover:bg-green-bg'
+                  }`}
+                >
+                  Réserver ce format
+                  <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              </motion.div>
+            )
+          })}
         </motion.div>
+
+        <p className="font-body text-sm text-brand-mid mt-6">
+          Comptes marchand et entreprise : tarification dégressive selon le
+          volume.{' '}
+          <a
+            href="#contact"
+            className="text-green-primary hover:text-green-dark underline transition"
+          >
+            Demander un devis
+          </a>
+          .
+        </p>
       </Container>
     </section>
   )
