@@ -1,6 +1,7 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { spaceGrotesk, dmSans, dmMono } from '@/lib/fonts'
-import { buildMetadata } from '@/lib/metadata'
+import { buildMetadata, siteMetadata } from '@/lib/metadata'
+import { contact } from '@/lib/constants'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import ScrollToTop from '@/components/layout/ScrollToTop'
@@ -13,6 +14,28 @@ export const metadata: Metadata = buildMetadata({
   path: '/',
 })
 
+// Couleur de la barre du navigateur mobile — se fond avec le haut du hero.
+export const viewport: Viewport = {
+  themeColor: '#1B5E20',
+}
+
+// Données structurées (schema.org) — aide les moteurs à comprendre l'entité.
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Afribox',
+  url: siteMetadata.siteUrl,
+  logo: `${siteMetadata.siteUrl}/icon.svg`,
+  description: siteMetadata.description,
+  email: contact.email,
+  telephone: contact.phoneDisplay,
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Abidjan',
+    addressCountry: 'CI',
+  },
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -24,6 +47,10 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${dmSans.variable} ${dmMono.variable}`}
     >
       <body className="bg-brand-off text-brand-gray font-body antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
         <CustomCursor />
         <ScrollToTop />
         <Navbar />
