@@ -9,20 +9,32 @@ export default function FAQAccordion() {
   const [open, setOpen] = useState<number | null>(0)
 
   return (
-    <div className="divide-y divide-brand-border border-y border-brand-border">
+    <div className="space-y-3">
       {faq.map((item, i) => {
         const isOpen = open === i
         return (
-          <div key={item.q}>
+          <div
+            key={item.q}
+            className={`rounded-2xl border bg-white transition-colors ${
+              isOpen
+                ? 'border-green-primary shadow-[0_18px_40px_-26px_rgba(11,61,27,0.4)]'
+                : 'border-brand-border hover:border-green-primary/40'
+            }`}
+          >
             <button
               onClick={() => setOpen(isOpen ? null : i)}
-              className="w-full flex items-start justify-between gap-6 py-6 text-left group"
+              aria-expanded={isOpen}
+              className="w-full flex items-center justify-between gap-5 p-5 md:p-6 text-left group"
             >
-              <span className="font-heading font-semibold text-lg md:text-xl text-brand-gray group-hover:text-green-primary transition">
+              <span
+                className={`font-heading font-semibold text-base md:text-lg transition-colors ${
+                  isOpen ? 'text-green-dark' : 'text-brand-gray group-hover:text-green-primary'
+                }`}
+              >
                 {item.q}
               </span>
               <span
-                className={`w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center transition ${
+                className={`w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center transition-colors ${
                   isOpen
                     ? 'bg-green-primary text-white'
                     : 'bg-brand-off text-brand-gray group-hover:bg-green-soft group-hover:text-green-dark'
@@ -40,7 +52,7 @@ export default function FAQAccordion() {
                   transition={{ duration: 0.25, ease: 'easeOut' }}
                   className="overflow-hidden"
                 >
-                  <p className="font-body text-brand-sub leading-relaxed pb-6 max-w-3xl">
+                  <p className="font-body text-brand-sub leading-relaxed px-5 md:px-6 pb-5 md:pb-6 -mt-1">
                     {item.a}
                   </p>
                 </motion.div>
