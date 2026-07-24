@@ -1,209 +1,115 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, ArrowRight, MessageSquare } from 'lucide-react'
+import { useRef } from 'react'
+import { motion, useScroll } from 'framer-motion'
+import { ArrowRight, MessageSquare } from 'lucide-react'
 import Link from 'next/link'
-import { processSteps, type ProcessStep } from '@/lib/constants'
+import { processSteps } from '@/lib/constants'
 
 export default function ProcessStepper() {
-  const [active, setActive] = useState(1)
-  const scrollerRef = useRef<HTMLDivElement>(null)
-  const isFirstRun = useRef(true)
-
-  const step = processSteps.find((s) => s.id === active) as ProcessStep
-
-  // Centre l'étape active dans le scroller horizontal (sans scroller la page)
-  useEffect(() => {
-    if (isFirstRun.current) {
-      isFirstRun.current = false
-      return
-    }
-    const scroller = scrollerRef.current
-    if (!scroller) return
-    const btn = scroller.querySelector<HTMLButtonElement>(
-      `[data-step="${active}"]`,
-    )
-    if (!btn) return
-    const offset = btn.offsetLeft - (scroller.clientWidth - btn.clientWidth) / 2
-    scroller.scrollTo({ left: offset, behavior: 'smooth' })
-  }, [active])
-
-  const goPrev = () => setActive((s) => Math.max(1, s - 1))
-  const goNext = () => setActive((s) => Math.min(processSteps.length, s + 1))
-
-  const isLast = active === processSteps.length
+  const timelineRef = useRef<HTMLDivElement>(null)
+  // Progression du remplissage du rail : suit le scroll à travers la timeline.
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ['start 80%', 'end 55%'],
+  })
 
   return (
-    <div className="bg-white border border-brand-border rounded-2xl overflow-hidden">
-      {/* Barre de progression — étapes cliquables */}
-      <div
-        ref={scrollerRef}
-        className="grid grid-cols-6 gap-1.5 md:gap-2 p-3 md:p-6 bg-brand-off border-b border-brand-border"
-      >
-        {processSteps.map((s) => {
-          const isActive = s.id === active
-          const isPast = s.id < active
-          return (
-            <button
-              key={s.id}
-              data-step={s.id}
-              onClick={() => setActive(s.id)}
-              aria-label={`Étape ${s.id} : ${s.title}`}
-              className={`text-center md:text-left rounded-xl border p-2 md:p-3 transition ${
-                isActive
-                  ? 'bg-green-primary text-white border-green-primary shadow-sm'
-                  : isPast
-                  ? 'bg-green-soft text-green-dark border-green-soft'
-                  : 'bg-white text-brand-sub border-brand-border hover:border-green-primary/40'
-              }`}
-            >
-              <div className="flex items-center justify-center md:justify-start gap-2 md:mb-1">
-                <span
-                  className={`w-6 h-6 rounded-full flex items-center justify-center font-mono text-xs font-bold ${
-                    isActive
-                      ? 'bg-white text-green-primary'
-                      : isPast
-                      ? 'bg-white text-green-dark'
-                      : 'bg-brand-off text-brand-mid'
-                  }`}
-                >
-                  {s.id}
-                </span>
-                <span className="font-mono text-[10px] tracking-widest uppercase opacity-70 hidden md:inline">
-                  Étape
-                </span>
-              </div>
-              {/* Titre visible en desktop ; sur mobile la grille ne montre que les
-                  numéros (le titre de l'étape active s'affiche dans le contenu). */}
-              <p className="hidden md:block font-body text-xs font-medium leading-tight">
-                {s.title}
-              </p>
-            </button>
-          )
-        })}
-      </div>
-
-      {/* Contenu de l'étape active */}
-      <AnimatePresence mode="wait">
+    <div>
+      <div ref={timelineRef} className="relative">
+        {/* Rail vertical : trait gris + remplissage vert animé au scroll. */}
+        <div
+          aria-hidden
+          className="absolute left-[19px] md:left-[23px] top-6 bottom-6 w-0.5 bg-brand-border"
+        />
         <motion.div
-          key={active}
-          initial={{ opacity: 0, x: 16 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -16 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 p-6 md:p-10"
-        >
-          {/* Gauche — texte */}
-          <div>
-            <p className="font-mono text-xs tracking-widest text-green-primary uppercase mb-3">
-              Étape {step.id} sur {processSteps.length}
-            </p>
-            <h3 className="font-heading font-bold text-3xl md:text-4xl text-brand-gray mb-2">
-              {step.title}
-            </h3>
-            <p className="font-mono text-xs text-brand-mid uppercase tracking-widest mb-6">
-              {step.tag}
-            </p>
-            <p className="font-body text-lg text-brand-sub leading-relaxed mb-8">
-              {step.text}
-            </p>
+          aria-hidden
+          style={{ scaleY: scrollYProgress }}
+          className="absolute left-[19px] md:left-[23px] top-6 bottom-6 w-0.5 origin-top bg-green-primary"
+        />
 
-            <div className="flex flex-wrap gap-2 mb-8">
-              {step.actors.map((a) => (
-                <span
-                  key={a}
-                  className="font-mono text-[11px] tracking-widest uppercase px-3 py-1 rounded-full bg-green-bg text-green-dark border border-green-soft"
-                >
-                  {a}
-                </span>
-              ))}
-            </div>
-
-            {/* Navigation */}
-            <div className="flex items-center gap-3 flex-wrap">
-              <button
-                onClick={goPrev}
-                disabled={active === 1}
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-brand-border bg-white text-brand-gray text-sm font-body hover:bg-brand-off disabled:opacity-40 disabled:cursor-not-allowed transition"
+        <div className="space-y-6 md:space-y-8">
+          {processSteps.map((s) => {
+            const Icon = s.visual.kind === 'sms' ? MessageSquare : s.visual.icon
+            return (
+              <motion.div
+                key={s.id}
+                initial={{ opacity: 0, y: 26 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{ duration: 0.45, ease: 'easeOut' }}
+                className="relative flex gap-4 md:gap-7"
               >
-                <ArrowLeft size={16} />
-                Précédent
-              </button>
+                {/* Nœud numéroté */}
+                <div className="relative z-10 flex-shrink-0">
+                  <div className="flex h-10 w-10 md:h-12 md:w-12 items-center justify-center rounded-full bg-green-primary font-heading text-base md:text-lg font-bold text-white ring-4 ring-white shadow-[0_8px_20px_-6px_rgba(11,61,27,0.5)]">
+                    {s.id}
+                  </div>
+                </div>
 
-              {isLast ? (
-                <Link
-                  href="/reserver"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-green-primary text-white text-sm font-body font-medium hover:bg-green-dark transition"
-                >
-                  Réserver un locker
-                  <ArrowRight size={16} />
-                </Link>
-              ) : (
-                <button
-                  onClick={goNext}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-green-primary text-white text-sm font-body font-medium hover:bg-green-dark transition"
-                >
-                  Suivant
-                  <ArrowRight size={16} />
-                </button>
-              )}
-            </div>
-          </div>
+                {/* Carte de l'étape */}
+                <div className="flex-1 rounded-2xl border border-brand-border bg-white p-5 md:p-6 transition-shadow hover:shadow-[0_18px_40px_-24px_rgba(11,61,27,0.35)]">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                      <p className="font-mono text-[10px] tracking-widest uppercase text-green-primary mb-1.5">
+                        {s.tag}
+                      </p>
+                      <h3 className="font-heading font-bold text-xl md:text-2xl text-brand-gray">
+                        {s.title}
+                      </h3>
+                    </div>
+                    <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-green-bg text-green-primary">
+                      <Icon size={20} />
+                    </span>
+                  </div>
 
-          {/* Droite — visuel */}
-          <div className="flex items-center justify-center">
-            <StepVisual step={step} />
-          </div>
-        </motion.div>
-      </AnimatePresence>
-    </div>
-  )
-}
+                  <p className="font-body text-brand-sub leading-relaxed mt-3">
+                    {s.text}
+                  </p>
 
-function StepVisual({ step }: { step: ProcessStep }) {
-  if (step.visual.kind === 'sms') {
-    const { code, from } = step.visual
-    return (
-      <div className="w-full max-w-sm bg-brand-off rounded-2xl p-6 border border-brand-border">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-full bg-green-primary text-white flex items-center justify-center">
-            <MessageSquare size={18} />
-          </div>
-          <div>
-            <p className="font-body text-sm font-semibold text-brand-gray">
-              {from}
-            </p>
-            <p className="font-mono text-[10px] text-brand-mid uppercase tracking-widest">
-              SMS · à l&apos;instant
-            </p>
-          </div>
-        </div>
-        <div className="bg-white border border-brand-border rounded-xl p-5">
-          <p className="font-body text-xs text-brand-sub mb-3 leading-relaxed">
-            Votre code d&apos;accès au locker :
-          </p>
-          <p className="font-mono text-4xl font-bold text-green-primary tracking-widest text-center py-2">
-            {code}
-          </p>
-          <p className="font-body text-[11px] text-brand-mid mt-3 leading-relaxed">
-            Valide 72h. À usage unique.
-          </p>
+                  {/* Code SMS affiché en ligne (étapes 3 & 5). */}
+                  {s.visual.kind === 'sms' && (
+                    <div className="mt-4 inline-flex items-center gap-3 rounded-xl border border-green-soft bg-green-bg px-4 py-2.5">
+                      <MessageSquare size={16} className="text-green-primary" />
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-green-dark">
+                        Code&nbsp;SMS
+                      </span>
+                      <span className="font-mono text-lg font-bold tracking-widest text-green-primary">
+                        {s.visual.code}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Relais entre acteurs. */}
+                  <div className="mt-4 flex flex-wrap items-center gap-1.5">
+                    {s.actors.map((a, idx) => (
+                      <span key={a} className="inline-flex items-center gap-1.5">
+                        {idx > 0 && (
+                          <ArrowRight size={12} className="text-brand-mid" aria-hidden />
+                        )}
+                        <span className="font-mono text-[10px] tracking-widest uppercase rounded-full bg-brand-off px-2.5 py-1 text-brand-sub">
+                          {a}
+                        </span>
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            )
+          })}
         </div>
       </div>
-    )
-  }
 
-  const { icon: Icon, pillLabel } = step.visual
-  return (
-    <div className="w-full max-w-sm bg-green-bg rounded-2xl p-10 border border-green-soft flex flex-col items-center justify-center text-center">
-      <div className="w-20 h-20 rounded-2xl bg-white border border-green-soft flex items-center justify-center mb-6">
-        <Icon size={36} className="text-green-primary" />
+      {/* CTA final */}
+      <div className="mt-10 flex justify-center">
+        <Link
+          href="/reserver"
+          className="inline-flex items-center gap-2 rounded-full bg-green-primary px-6 py-3 font-body font-medium text-white transition hover:bg-green-dark"
+        >
+          Réserver un locker
+          <ArrowRight size={16} />
+        </Link>
       </div>
-      <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-primary text-white font-mono text-xs tracking-widest uppercase">
-        <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-        {pillLabel}
-      </span>
     </div>
   )
 }
