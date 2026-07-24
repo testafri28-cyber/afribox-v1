@@ -7,7 +7,7 @@ export const siteMetadata = {
   keywords:
     "livraison Abidjan, locker Côte d'Ivoire, last-mile Afrique, colis Abidjan, smart locker",
   ogImage: '/og-image.jpg',
-  siteUrl: 'https://afribox.africa',
+  siteUrl: 'https://afriboxlockers.com',
 }
 
 type PageMetaInput = {
