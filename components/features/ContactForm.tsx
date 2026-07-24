@@ -199,25 +199,25 @@ export default function ContactForm() {
         </p>
       )}
 
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-1">
+      <div className="pt-1">
         <button
           type="submit"
           disabled={status === 'sending'}
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-green-primary text-white font-body font-medium shadow-[0_12px_26px_-10px_rgba(11,61,27,0.55)] hover:bg-green-dark active:scale-[0.98] transition disabled:opacity-50 disabled:pointer-events-none"
+          className="group inline-flex items-center justify-center gap-2 whitespace-nowrap px-7 py-3.5 rounded-full bg-green-primary text-white font-body font-semibold shadow-[0_14px_30px_-12px_rgba(11,61,27,0.6)] hover:bg-green-dark active:scale-[0.98] transition disabled:opacity-50 disabled:pointer-events-none"
         >
           {status === 'sending' ? (
             <>
-              <Loader2 size={16} className="animate-spin" />
+              <Loader2 size={17} className="animate-spin" />
               Envoi…
             </>
           ) : (
             <>
               Envoyer le message
-              <Send size={16} />
+              <Send size={17} className="transition-transform group-hover:translate-x-0.5" />
             </>
           )}
         </button>
-        <p className="flex items-center gap-1.5 font-body text-xs text-brand-mid">
+        <p className="mt-3.5 flex items-center gap-1.5 font-body text-xs text-brand-mid">
           <ShieldCheck size={14} className="text-green-primary" />
           Réponse sous 24h ouvrées · infos confidentielles
         </p>
