@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { Package, PackageOpen, Boxes, ArrowRight } from 'lucide-react'
@@ -15,7 +16,16 @@ const meta = [
   { icon: Boxes,       tagline: 'Grand volume' },
 ]
 
+// Durées de dépôt et coefficients — identiques au formulaire de réservation.
+const durations = [
+  { key: '24h', mult: 1 },
+  { key: '48h', mult: 1.6 },
+  { key: '72h', mult: 2.2 },
+] as const
+
 export default function PricingSection() {
+  const [dur, setDur] = useState<(typeof durations)[number]>(durations[0])
+
   return (
     <section id="tarifs" className="bg-white">
       <Container className="py-16 md:py-24">
@@ -36,6 +46,42 @@ export default function PricingSection() {
           </p>
         </motion.div>
 
+        {/* Sélecteur de durée — recalcule les prix affichés. */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          variants={fadeInUp}
+          className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+        >
+          <p className="font-mono text-xs uppercase tracking-widest text-brand-mid">
+            Durée de dépôt
+          </p>
+          <div
+            role="group"
+            aria-label="Durée de dépôt"
+            className="inline-flex items-center gap-1 self-start rounded-full border border-brand-border bg-white p-1"
+          >
+            {durations.map((d) => {
+              const active = d.key === dur.key
+              return (
+                <button
+                  key={d.key}
+                  onClick={() => setDur(d)}
+                  aria-pressed={active}
+                  className={`rounded-full px-4 py-1.5 font-body text-sm font-medium transition-colors ${
+                    active
+                      ? 'bg-green-primary text-white'
+                      : 'text-brand-sub hover:text-green-dark'
+                  }`}
+                >
+                  {d.key}
+                </button>
+              )
+            })}
+          </div>
+        </motion.div>
+
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -45,8 +91,9 @@ export default function PricingSection() {
         >
           {pricing.map((p, i) => {
             const { icon: Icon, tagline } = meta[i]
-            const [amount, per] = p.price.split(' / ')
-            const value = amount.replace(' FCFA', '')
+            // Prix de base (par 24h) recalculé selon la durée sélectionnée.
+            const base = parseInt(p.price.split(' / ')[0].replace(/\D/g, ''), 10)
+            const value = Math.round(base * dur.mult).toLocaleString('fr-FR')
             const featured = i === 1
             const segments = i + 1
 
@@ -103,11 +150,17 @@ export default function PricingSection() {
 
                 {/* Prix */}
                 <div className="mt-6 mb-6 flex items-baseline gap-1.5">
-                  <span className="font-heading font-bold text-3xl md:text-[32px] leading-none text-green-dark">
+                  <motion.span
+                    key={dur.key}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="font-heading font-bold text-3xl md:text-[32px] leading-none text-green-dark"
+                  >
                     {value}
-                  </span>
+                  </motion.span>
                   <span className="font-mono text-sm text-brand-mid">FCFA</span>
-                  <span className="font-body text-sm text-brand-mid">/ {per}</span>
+                  <span className="font-body text-sm text-brand-mid">/ {dur.key}</span>
                 </div>
 
                 {/* CTA */}
