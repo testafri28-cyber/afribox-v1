@@ -113,12 +113,12 @@ function Visual3D({
   const haloColor = tone === 'dark' ? 'bg-green-dark/40' : 'bg-green-primary/15'
 
   return (
-    <div className="relative w-full aspect-square max-w-[170px] flex items-center justify-center">
+    <div className="relative w-full aspect-square max-w-[116px] flex items-center justify-center">
       <div className={`absolute inset-0 rounded-full blur-2xl ${haloColor}`} />
       <div
-        className={`relative w-[78%] aspect-square rounded-[2rem] bg-gradient-to-br ${bgGradient} shadow-[0_18px_40px_-12px_rgba(31,71,40,0.45),inset_0_-8px_24px_rgba(0,0,0,0.18),inset_0_8px_16px_rgba(255,255,255,0.18)] rotate-[-8deg] flex items-center justify-center`}
+        className={`relative w-[78%] aspect-square rounded-[1.5rem] bg-gradient-to-br ${bgGradient} shadow-[0_18px_40px_-12px_rgba(31,71,40,0.45),inset_0_-8px_24px_rgba(0,0,0,0.18),inset_0_8px_16px_rgba(255,255,255,0.18)] rotate-[-8deg] flex items-center justify-center`}
       >
-        <Icon size={56} className="text-white drop-shadow-md" strokeWidth={2} />
+        <Icon size={40} className="text-white drop-shadow-md" strokeWidth={2} />
       </div>
     </div>
   )

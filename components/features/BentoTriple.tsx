@@ -97,7 +97,7 @@ export default function BentoTriple({
           initial="hidden"
           animate={phase}
           custom={0}
-          className={`${accentOnRight ? 'md:col-start-3 md:col-end-4' : 'md:col-start-1 md:col-end-2'} md:row-start-1 md:row-end-3 relative overflow-hidden rounded-2xl p-6 md:p-7 bg-gradient-to-br from-green-dark to-green-primary text-white border border-green-dark shadow-[0_4px_20px_-8px_rgba(31,71,40,0.18)] flex flex-col`}
+          className={`${accentOnRight ? 'md:col-start-3 md:col-end-4' : 'md:col-start-1 md:col-end-2'} md:row-start-1 md:row-end-3 relative overflow-hidden rounded-2xl p-5 md:p-6 bg-gradient-to-br from-green-dark to-green-primary text-white border border-green-dark shadow-[0_4px_20px_-8px_rgba(31,71,40,0.18)] flex flex-col`}
         >
           <GridBackground tone="white" />
           <CardBody
@@ -117,7 +117,7 @@ export default function BentoTriple({
           initial="hidden"
           animate={phase}
           style={{ transformOrigin: 'center center', willChange: 'transform' }}
-          className={`${accentOnRight ? 'md:col-start-1 md:col-end-3' : 'md:col-start-2 md:col-end-4'} md:row-start-1 md:row-end-2 relative overflow-hidden rounded-2xl p-6 md:p-8 bg-white border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] z-10`}
+          className={`${accentOnRight ? 'md:col-start-1 md:col-end-3' : 'md:col-start-2 md:col-end-4'} md:row-start-1 md:row-end-2 relative overflow-hidden rounded-2xl p-5 md:p-6 bg-white border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] z-10`}
         >
           <CardBody
             label={hero.label}
@@ -144,7 +144,7 @@ export default function BentoTriple({
               : accentOnRight
                 ? 'md:col-start-1 md:col-end-3'
                 : 'md:col-start-2 md:col-end-4'
-          } md:row-start-2 md:row-end-3 relative overflow-hidden rounded-2xl p-6 md:p-8 bg-brand-off border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)]`}
+          } md:row-start-2 md:row-end-3 relative overflow-hidden rounded-2xl p-5 md:p-6 bg-brand-off border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)]`}
         >
           <CardBody
             label={tertiary.label}
@@ -166,7 +166,7 @@ export default function BentoTriple({
             custom={2}
             className={`${
               accentOnRight ? 'md:col-start-2 md:col-end-3' : 'md:col-start-3 md:col-end-4'
-            } md:row-start-2 md:row-end-3 relative overflow-hidden rounded-2xl p-6 md:p-8 bg-white border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)]`}
+            } md:row-start-2 md:row-end-3 relative overflow-hidden rounded-2xl p-5 md:p-6 bg-white border border-brand-border shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)]`}
           >
             <CardBody
               label={quaternary.label}
@@ -204,7 +204,7 @@ function CardBody({ label, title, description, visual, tone, layout }: CardBodyP
   const ghostNumber = label && (
     <span
       aria-hidden
-      className="absolute top-4 right-5 md:top-5 md:right-6 font-heading font-bold text-5xl md:text-6xl leading-none select-none pointer-events-none z-10"
+      className="absolute top-4 right-5 md:top-5 md:right-6 font-heading font-bold text-4xl md:text-5xl leading-none select-none pointer-events-none z-10"
       style={ghostStyle}
     >
       {label}
@@ -218,7 +218,7 @@ function CardBody({ label, title, description, visual, tone, layout }: CardBodyP
         {ghostNumber}
         <div className="relative flex flex-col h-full z-20">
           <div className="flex-1">
-            <h3 className={`font-heading font-bold text-2xl md:text-3xl leading-tight ${titleClass}`}>
+            <h3 className={`font-heading font-bold text-xl md:text-2xl leading-tight ${titleClass}`}>
               {title}
             </h3>
             <p className={`font-body text-sm md:text-base leading-relaxed mt-3 ${descClass}`}>
@@ -241,7 +241,7 @@ function CardBody({ label, title, description, visual, tone, layout }: CardBodyP
       {ghostNumber}
       <div className="relative flex items-stretch gap-6 h-full z-20">
         <div className="flex-1 min-w-0 flex flex-col justify-center">
-          <h3 className={`font-heading font-bold text-2xl md:text-3xl leading-tight ${titleClass}`}>
+          <h3 className={`font-heading font-bold text-xl md:text-2xl leading-tight ${titleClass}`}>
             {title}
           </h3>
           <p className={`font-body text-sm md:text-base leading-relaxed mt-2 max-w-md ${descClass}`}>
@@ -249,7 +249,7 @@ function CardBody({ label, title, description, visual, tone, layout }: CardBodyP
           </p>
         </div>
         {visual && (
-          <div className="relative hidden sm:flex flex-shrink-0 items-center justify-center w-32 md:w-44">
+          <div className="relative hidden sm:flex flex-shrink-0 items-center justify-center w-24 md:w-32">
             {visual}
           </div>
         )}

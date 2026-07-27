@@ -39,7 +39,7 @@ export default function WhyAfriboxSection() {
               <motion.div
                 key={title}
                 variants={fadeInUp}
-                className={`relative overflow-hidden rounded-2xl p-7 md:p-8 shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] hover:shadow-[0_8px_32px_-8px_rgba(31,71,40,0.15)] transition-shadow ${
+                className={`relative overflow-hidden rounded-2xl p-5 md:p-6 shadow-[0_4px_20px_-8px_rgba(31,71,40,0.08)] hover:shadow-[0_8px_32px_-8px_rgba(31,71,40,0.15)] transition-shadow ${
                   isAccent
                     ? 'md:col-span-2 border border-green-dark text-white bg-gradient-to-br from-green-dark to-green-primary'
                     : 'border border-brand-border bg-white'
@@ -50,7 +50,7 @@ export default function WhyAfriboxSection() {
                 {/* Numéro fantôme */}
                 <span
                   aria-hidden
-                  className="absolute top-4 right-5 md:top-5 md:right-6 z-10 font-heading font-bold text-5xl md:text-6xl leading-none select-none pointer-events-none"
+                  className="absolute top-4 right-5 md:top-5 md:right-6 z-10 font-heading font-bold text-4xl md:text-5xl leading-none select-none pointer-events-none"
                   style={{ color: isAccent ? 'rgba(255,255,255,0.16)' : 'rgba(39, 174, 96, 0.14)' }}
                 >
                   {String(i + 1).padStart(2, '0')}
@@ -58,17 +58,17 @@ export default function WhyAfriboxSection() {
 
                 <div className="relative z-10">
                   {/* Visuel 3D — même recette que les autres cartes numérotées */}
-                  <div className="relative w-16 h-16 md:w-[70px] md:h-[70px] mb-6">
+                  <div className="relative w-14 h-14 md:w-[58px] md:h-[58px] mb-5">
                     <div className={`absolute inset-0 rounded-full blur-2xl ${isAccent ? 'bg-green-dark/40' : 'bg-green-primary/15'}`} />
-                    <div className={`relative w-full h-full rounded-2xl bg-gradient-to-br ${isAccent ? 'from-green-light to-green-primary' : 'from-green-primary to-green-dark'} shadow-[0_18px_40px_-12px_rgba(31,71,40,0.45),inset_0_-8px_24px_rgba(0,0,0,0.18),inset_0_8px_16px_rgba(255,255,255,0.18)] rotate-[-8deg] flex items-center justify-center`}>
-                      <Icon size={28} className="text-white drop-shadow-md" strokeWidth={2} />
+                    <div className={`relative w-full h-full rounded-xl bg-gradient-to-br ${isAccent ? 'from-green-light to-green-primary' : 'from-green-primary to-green-dark'} shadow-[0_18px_40px_-12px_rgba(31,71,40,0.45),inset_0_-8px_24px_rgba(0,0,0,0.18),inset_0_8px_16px_rgba(255,255,255,0.18)] rotate-[-8deg] flex items-center justify-center`}>
+                      <Icon size={24} className="text-white drop-shadow-md" strokeWidth={2} />
                     </div>
                   </div>
 
-                  <h3 className={`font-heading font-bold text-xl md:text-2xl mb-3 ${isAccent ? 'text-white' : 'text-brand-gray'}`}>
+                  <h3 className={`font-heading font-bold text-lg md:text-xl mb-2 ${isAccent ? 'text-white' : 'text-brand-gray'}`}>
                     {title}
                   </h3>
-                  <p className={`font-body leading-relaxed ${isAccent ? 'text-white/85' : 'text-brand-sub'}`}>
+                  <p className={`font-body text-sm leading-relaxed ${isAccent ? 'text-white/85' : 'text-brand-sub'}`}>
                     {text}
                   </p>
                 </div>
