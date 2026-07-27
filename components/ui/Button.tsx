@@ -32,15 +32,16 @@ type ButtonAsLink = CommonProps & {
 type ButtonProps = ButtonAsButton | ButtonAsLink
 
 const base =
-  'inline-flex items-center justify-center font-body font-medium rounded-full transition-all duration-150 active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap'
+  'btn-fill inline-flex items-center justify-center font-body font-medium rounded-full transition-transform duration-150 active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap'
 
+// Le remplissage montant (--fill) reprend la couleur de survol de chaque variante.
 const variants: Record<Variant, string> = {
-  primary: 'bg-green-primary text-white hover:bg-green-dark',
+  primary: 'bg-green-primary text-white [--fill:#1B5E20]',
   secondary:
-    'bg-white text-brand-gray border border-brand-border hover:bg-brand-off',
+    'bg-white text-brand-gray border border-brand-border [--fill:#F7F9F7]',
   ghost:
-    'bg-transparent text-brand-gray border border-brand-border hover:bg-brand-off',
-  white: 'bg-white text-green-dark hover:bg-brand-off',
+    'bg-transparent text-brand-gray border border-brand-border [--fill:#F7F9F7]',
+  white: 'bg-white text-green-dark [--fill:#F7F9F7]',
 }
 
 const sizes: Record<Size, string> = {

@@ -207,7 +207,7 @@ export default function ReservationForm() {
           <button
             onClick={() => setStep((s) => Math.max(1, s - 1))}
             disabled={step === 1}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-body text-brand-gray hover:bg-brand-off disabled:opacity-30 disabled:cursor-not-allowed transition"
+            className="btn-fill [--fill:#F7F9F7] inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-body text-brand-gray disabled:opacity-30 disabled:cursor-not-allowed transition-transform"
           >
             <ArrowLeft size={16} />
             Précédent
@@ -215,7 +215,7 @@ export default function ReservationForm() {
           <button
             onClick={handleNext}
             disabled={!canProceed()}
-            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-green-primary text-white text-sm font-body font-medium hover:bg-green-dark disabled:opacity-40 disabled:cursor-not-allowed transition"
+            className="btn-fill [--fill:#1B5E20] inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-green-primary text-white text-sm font-body font-medium disabled:opacity-40 disabled:cursor-not-allowed transition-transform"
           >
             {step === 3 ? 'Confirmer la demande' : 'Suivant'}
             <ArrowRight size={16} />
@@ -614,7 +614,7 @@ function StepConfirmation({
         href={whatsappUrl(waText)}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-green-primary text-white font-body font-medium hover:bg-green-dark transition"
+        className="btn-fill [--fill:#1B5E20] inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-green-primary text-white font-body font-medium"
       >
         <Image
           src="/images/whatsapp.png"

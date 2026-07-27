@@ -104,7 +104,8 @@ export default function ProcessStepper() {
       <div className="mt-10 flex justify-center">
         <Link
           href="/reserver"
-          className="inline-flex items-center gap-2 rounded-full bg-green-primary px-6 py-3 font-body font-medium text-white transition hover:bg-green-dark"
+          style={{ '--fill': '#1B5E20' } as React.CSSProperties}
+          className="btn-fill inline-flex items-center gap-2 rounded-full bg-green-primary px-6 py-3 font-body font-medium text-white"
         >
           Réserver un locker
           <ArrowRight size={16} />

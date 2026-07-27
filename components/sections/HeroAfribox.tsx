@@ -280,8 +280,8 @@ export default function HeroAfribox() {
                 href="https://wa.me/2250789444441"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ '--sweep': 'rgba(27,94,32,0.22)' } as React.CSSProperties}
-                className="btn-sweep inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-5 py-2.5 sm:py-3 bg-green-bg text-green-dark"
+                style={{ '--fill': '#1B5E20' } as React.CSSProperties}
+                className="btn-fill inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-5 py-2.5 sm:py-3 bg-green-bg text-green-dark hover:text-white transition-colors [transition-delay:150ms]"
               >
                 <Image
                   src="/images/whatsapp.png"
@@ -294,7 +294,8 @@ export default function HeroAfribox() {
               </a>
               <Link
                 href="/reserver"
-                className="inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-6 py-2.5 sm:py-3 bg-green-primary text-white hover:bg-green-dark transition-all duration-150 active:scale-[0.97] whitespace-nowrap"
+                style={{ '--fill': '#1B5E20' } as React.CSSProperties}
+                className="btn-fill inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-6 py-2.5 sm:py-3 bg-green-primary text-white active:scale-[0.97] whitespace-nowrap"
               >
                 <span className="min-[420px]:hidden">Réserver</span>
                 <span className="hidden min-[420px]:inline">Réserver un locker</span>

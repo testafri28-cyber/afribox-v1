@@ -204,6 +204,34 @@ button { font-family: inherit; cursor: pointer; }
   .btn-sweep::after { transition: none; opacity: 0; }
 }
 
+/* ─── Remplissage montant au survol (façon boutons WhatsApp) ────
+   Une pastille de couleur --fill remonte du bas et gonfle pour remplir
+   le bouton. --fill = la couleur de survol propre à chaque bouton.
+   Le contenu (texte, icône) reste au-dessus grâce au z-index. */
+.btn-fill { position: relative; overflow: hidden; isolation: isolate; }
+.btn-fill::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 130%;
+  aspect-ratio: 1 / 1;
+  background: var(--fill, rgba(11, 61, 27, 0.9));
+  border-radius: 50%;
+  transform: translate(-50%, 62%) scale(0);
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.66, 0, 0.34, 1);
+  z-index: -1;
+  pointer-events: none;
+}
+.btn-fill:not(:disabled):hover::before,
+.btn-fill:not(:disabled):focus-visible::before {
+  transform: translate(-50%, -50%) scale(1.55);
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn-fill::before { transition: none; }
+}
+
 /* ─── ACCESSIBILITÉ ────────────────────────────────────────── */
 
 /* Désactiver sur touch / no-hover */

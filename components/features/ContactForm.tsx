@@ -88,7 +88,7 @@ export default function ContactForm() {
           href={waHref}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-green-primary text-white font-body font-medium hover:bg-green-dark transition"
+          className="btn-fill [--fill:#1B5E20] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-green-primary text-white font-body font-medium"
         >
           <MessageCircle size={16} />
           Continuer sur WhatsApp
@@ -203,7 +203,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={status === 'sending'}
-          className="group inline-flex items-center justify-center gap-2 whitespace-nowrap px-7 py-3.5 rounded-full bg-green-primary text-white font-body font-semibold shadow-[0_14px_30px_-12px_rgba(11,61,27,0.6)] hover:bg-green-dark active:scale-[0.98] transition disabled:opacity-50 disabled:pointer-events-none"
+          className="btn-fill [--fill:#1B5E20] group inline-flex items-center justify-center gap-2 whitespace-nowrap px-7 py-3.5 rounded-full bg-green-primary text-white font-body font-semibold shadow-[0_14px_30px_-12px_rgba(11,61,27,0.6)] active:scale-[0.98] transition-transform disabled:opacity-50 disabled:pointer-events-none"
         >
           {status === 'sending' ? (
             <>
