@@ -280,7 +280,8 @@ export default function HeroAfribox() {
                 href="https://wa.me/2250789444441"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-5 py-2.5 sm:py-3 bg-green-bg text-green-dark hover:bg-green-dark hover:text-white transition-colors duration-200"
+                style={{ '--sweep': 'rgba(27,94,32,0.22)' } as React.CSSProperties}
+                className="btn-sweep inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-5 py-2.5 sm:py-3 bg-green-bg text-green-dark"
               >
                 <Image
                   src="/images/whatsapp.png"

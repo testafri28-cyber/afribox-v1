@@ -179,6 +179,31 @@ button { font-family: inherit; cursor: pointer; }
 .afribox-cursor.is-down { width: 5px; height: 5px; }
 .afribox-cursor-ring.is-down { width: 24px; height: 24px; }
 
+/* ─── Balayage au survol (inspiré des boutons WhatsApp) ─────────
+   Une bande lumineuse traverse le bouton au survol — SANS changer sa
+   couleur de fond. Teinte de la bande réglable via --sweep. */
+.btn-sweep { position: relative; overflow: hidden; }
+.btn-sweep::after {
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  left: -60%;
+  width: 55%;
+  background: linear-gradient(
+    100deg,
+    transparent 0%,
+    var(--sweep, rgba(255, 255, 255, 0.45)) 50%,
+    transparent 100%
+  );
+  transform: skewX(-18deg);
+  transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+.btn-sweep:hover::after { left: 130%; }
+@media (prefers-reduced-motion: reduce) {
+  .btn-sweep::after { transition: none; opacity: 0; }
+}
+
 /* ─── ACCESSIBILITÉ ────────────────────────────────────────── */
 
 /* Désactiver sur touch / no-hover */

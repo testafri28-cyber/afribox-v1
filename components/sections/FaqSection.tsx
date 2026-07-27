@@ -41,7 +41,8 @@ export default function FaqSection() {
                   href={`https://wa.me/${contact.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-green-bg px-4 py-2 font-body text-sm font-medium text-green-dark hover:bg-green-dark hover:text-white transition-colors duration-200"
+                  style={{ '--sweep': 'rgba(27,94,32,0.22)' } as React.CSSProperties}
+                  className="btn-sweep inline-flex items-center gap-2 rounded-full bg-green-bg px-4 py-2 font-body text-sm font-medium text-green-dark"
                 >
                   <Image
                     src="/images/whatsapp.png"
