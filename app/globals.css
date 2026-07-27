@@ -218,15 +218,18 @@ button { font-family: inherit; cursor: pointer; }
   aspect-ratio: 1 / 1;
   background: var(--fill, rgba(11, 61, 27, 0.9));
   border-radius: 50%;
-  transform: translate(-50%, 62%) scale(0);
+  /* translate3d + will-change : l'ellipse est compositée sur le GPU, donc le
+     remplissage reste fluide (pas de repaint du bouton à chaque frame). */
+  transform: translate3d(-50%, 62%, 0) scale(0);
   transform-origin: center;
-  transition: transform 0.5s cubic-bezier(0.66, 0, 0.34, 1);
+  transition: transform 0.55s cubic-bezier(0.33, 0, 0.15, 1);
+  will-change: transform;
   z-index: -1;
   pointer-events: none;
 }
 .btn-fill:not(:disabled):hover::before,
 .btn-fill:not(:disabled):focus-visible::before {
-  transform: translate(-50%, -50%) scale(1.55);
+  transform: translate3d(-50%, -50%, 0) scale(1.55);
 }
 @media (prefers-reduced-motion: reduce) {
   .btn-fill::before { transition: none; }
