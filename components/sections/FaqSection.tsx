@@ -41,7 +41,7 @@ export default function FaqSection() {
                   href={`https://wa.me/${contact.whatsapp}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-green-bg px-4 py-2 font-body text-sm font-medium text-green-dark hover:bg-green-soft transition-colors"
+                  className="inline-flex items-center gap-2 rounded-full bg-green-bg px-4 py-2 font-body text-sm font-medium text-green-dark hover:bg-green-dark hover:text-white transition-colors duration-200"
                 >
                   <Image
                     src="/images/whatsapp.png"
