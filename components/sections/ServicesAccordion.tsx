@@ -95,7 +95,7 @@ export default function ServicesAccordion() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.35, delay: 0.2 }}
-                    className="absolute bottom-0 left-0 right-0 z-10 p-7 lg:pr-[42%]"
+                    className="absolute inset-0 z-10 flex flex-col items-start justify-center p-7 lg:pr-[42%]"
                   >
                     <span className="inline-block font-mono text-[10px] tracking-widest uppercase bg-green-soft text-green-dark rounded-full px-3 py-1 mb-3">
                       {s.tag}
