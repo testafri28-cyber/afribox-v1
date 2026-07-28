@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Check } from 'lucide-react'
-import Image from 'next/image'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
+import GridBackground from '@/components/ui/GridBackground'
 import { services } from '@/lib/constants'
 
 export default function ServicesAccordion() {
@@ -30,16 +30,15 @@ export default function ServicesAccordion() {
               animate={{ flex: active === i ? 3 : 0.22 }}
               transition={{ duration: 0.65, ease: [0.4, 0, 0.2, 1] }}
               onMouseEnter={() => setActive(i)}
+              style={{
+                backgroundImage:
+                  active === i
+                    ? 'linear-gradient(155deg, #1B5E20 0%, #27AE60 100%)'
+                    : 'linear-gradient(180deg, #1B5E20 0%, #0B3D1B 100%)',
+              }}
             >
-              {/* Image de fond */}
-              <Image src={s.image} alt={s.title} fill className="object-cover" unoptimized />
-
-              {/* Overlay */}
-              <div className={`absolute inset-0 transition-all duration-500 ${
-                active === i
-                  ? 'bg-gradient-to-t from-black/75 via-black/30 to-transparent'
-                  : 'bg-gradient-to-b from-green-dark/50 to-green-dark/80'
-              }`} />
+              {/* Texture de motifs (remplace l'ancienne photo de fond). */}
+              <GridBackground tone="white" />
 
               {/* Label vertical (inactif) */}
               <AnimatePresence>
@@ -49,7 +48,7 @@ export default function ServicesAccordion() {
                     /* Texte vertical ancré par le bas (writing-mode + rotate-180) :
                        tous les titres partent de la même ligne, quelle que soit
                        leur longueur — contrairement à un -rotate-90 centré. */
-                    className="absolute bottom-8 left-1/2 -translate-x-1/2 rotate-180 whitespace-nowrap [writing-mode:vertical-rl] text-white text-sm font-bold font-heading"
+                    className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 rotate-180 whitespace-nowrap [writing-mode:vertical-rl] text-white text-sm font-bold font-heading"
                   >
                     {s.tag}
                   </motion.p>
@@ -64,7 +63,7 @@ export default function ServicesAccordion() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.35, delay: 0.2 }}
-                    className="absolute bottom-0 left-0 right-0 p-7"
+                    className="absolute bottom-0 left-0 right-0 z-10 p-7"
                   >
                     <span className="inline-block font-mono text-[10px] tracking-widest uppercase bg-white/20 text-white rounded-full px-3 py-1 mb-3">
                       {s.tag}
@@ -111,9 +110,6 @@ export default function ServicesAccordion() {
                     initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }}
                     transition={{ duration: 0.28 }} className="overflow-hidden"
                   >
-                    <div className="relative h-48">
-                      <Image src={s.image} alt={s.title} fill className="object-cover" unoptimized />
-                    </div>
                     <div className="p-5 bg-white">
                       <h3 className="font-heading font-bold text-xl text-brand-gray mb-2">{s.title}</h3>
                       <p className="font-body text-brand-sub text-sm mb-4">{s.text}</p>
