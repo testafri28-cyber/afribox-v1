@@ -9,6 +9,14 @@ import SectionLabel from '@/components/ui/SectionLabel'
 import GridBackground from '@/components/ui/GridBackground'
 import { services } from '@/lib/constants'
 
+// Pose de Locky par service (même ordre que `services` : Marchands, Particuliers,
+// PME). Dimensions réelles des WebP pour conserver le bon ratio.
+const mascots = [
+  { src: '/locky-marchand.webp',    w: 284, h: 720 }, // présente le téléphone
+  { src: '/locky-particulier.webp', w: 258, h: 720 }, // tend le colis
+  { src: '/locky-pme.webp',         w: 431, h: 720 }, // presse-papier + colis
+]
+
 export default function ServicesAccordion() {
   const [active, setActive] = useState(0)
 
@@ -41,10 +49,8 @@ export default function ServicesAccordion() {
               {/* Texture de motifs (remplace l'ancienne photo de fond). */}
               <GridBackground tone="white" />
 
-              {/* Locky — PLACEHOLDER : même mascotte sur les 3 cartes pour
-                  prévisualiser la place. À remplacer par une pose dédiée par
-                  service (marchand = pilote, particulier = remet le colis, PME
-                  = gère le volume). Desktop lg uniquement. */}
+              {/* Locky — une pose par service (il pilote / remet le colis /
+                  gère le volume). Desktop lg uniquement. */}
               <AnimatePresence>
                 {active === i && (
                   <motion.div
@@ -53,15 +59,15 @@ export default function ServicesAccordion() {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 24 }}
                     transition={{ duration: 0.4, delay: 0.15 }}
-                    className="pointer-events-none absolute bottom-0 right-1 z-[1] hidden lg:block"
+                    className="pointer-events-none absolute bottom-0 right-3 z-[1] hidden lg:block"
                     aria-hidden
                   >
-                    <span className="absolute bottom-20 right-6 h-52 w-52 rounded-full bg-green-light/30 blur-3xl" />
+                    <span className="absolute bottom-20 right-8 h-52 w-52 rounded-full bg-green-light/30 blur-3xl" />
                     <Image
-                      src="/mascotte.webp"
+                      src={mascots[i].src}
                       alt=""
-                      width={360}
-                      height={380}
+                      width={mascots[i].w}
+                      height={mascots[i].h}
                       className="relative h-[338px] w-auto drop-shadow-2xl"
                     />
                   </motion.div>
