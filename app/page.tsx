@@ -37,10 +37,10 @@ export default function HomePage() {
       <ChannelsSection />
       <AppDownloadSection />
       <LockersMapSection />
-      <FaqSection />
       <AboutSection />
       <ContactSection />
       <CTASection />
+      <FaqSection />
     </>
   )
 }

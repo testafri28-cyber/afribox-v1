@@ -11,7 +11,8 @@ import { contact } from '@/lib/constants'
 export default function FaqSection() {
   return (
     <section id="faq" className="bg-brand-off">
-      <Container className="py-16 md:py-24">
+      {/* pt réduit : suit le CTA (gris) — évite le vide doublé au joint de même couleur */}
+      <Container className="pt-6 md:pt-10 pb-16 md:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 lg:gap-14">
           {/* Rail gauche — titre + carte support (collant au scroll en desktop) */}
           <motion.div

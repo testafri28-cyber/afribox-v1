@@ -18,6 +18,7 @@ const navLinks = [
   { label: "L'app",          id: 'app-mobile',     icon: 'home' as const },
   { label: 'À propos',       id: 'a-propos',       icon: 'info' as const },
   { label: 'Contact',        id: 'contact',        icon: 'phone' as const },
+  { label: 'FAQ',            id: 'faq',            icon: 'help' as const },
 ]
 
 /* Scroll to a section without putting a hash in the URL.
