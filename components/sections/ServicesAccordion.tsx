@@ -35,18 +35,14 @@ export default function ServicesAccordion() {
           {services.map((s, i) => (
             <motion.div
               key={s.tag}
-              className={`relative cursor-pointer rounded-2xl ${
-                active === i ? 'overflow-visible' : 'overflow-hidden'
+              className={`relative cursor-pointer rounded-2xl border transition-colors ${
+                active === i
+                  ? 'overflow-visible border-green-soft bg-gradient-to-br from-white to-green-bg shadow-[0_20px_50px_-26px_rgba(27,94,32,0.5)]'
+                  : 'overflow-hidden border-green-soft bg-green-soft'
               }`}
               animate={{ flex: active === i ? 3 : 0.22 }}
               transition={{ duration: 0.65, ease: [0.4, 0, 0.2, 1] }}
               onMouseEnter={() => setActive(i)}
-              style={{
-                backgroundImage:
-                  active === i
-                    ? 'linear-gradient(140deg, #0E4019 0%, #1B5E20 42%, #2EB85B 100%)'
-                    : 'linear-gradient(180deg, #1B5E20 0%, #0B3D1B 100%)',
-              }}
             >
               {/* Locky — grand format, déborde au-dessus de la carte (pose par
                   service : pilote / remet le colis / gère le volume). Pieds posés
@@ -63,14 +59,14 @@ export default function ServicesAccordion() {
                     className="pointer-events-none absolute bottom-0 right-2 z-[2] hidden w-[48%] items-end justify-center lg:flex"
                     aria-hidden
                   >
-                    {/* Ombre de contact au sol */}
-                    <span className="absolute bottom-2 left-1/2 h-5 w-40 -translate-x-1/2 rounded-[50%] bg-black/25 blur-md" />
+                    {/* Ombre de contact au sol (douce, sur fond clair) */}
+                    <span className="absolute bottom-2 left-1/2 h-5 w-40 -translate-x-1/2 rounded-[50%] bg-green-dark/15 blur-md" />
                     <Image
                       src={mascots[i].src}
                       alt=""
                       width={mascots[i].w}
                       height={mascots[i].h}
-                      className="relative h-[430px] w-auto drop-shadow-[0_18px_26px_rgba(0,0,0,0.28)]"
+                      className="relative h-[430px] w-auto drop-shadow-[0_16px_26px_rgba(27,94,32,0.18)]"
                     />
                   </motion.div>
                 )}
@@ -84,7 +80,7 @@ export default function ServicesAccordion() {
                     /* Texte vertical ancré par le bas (writing-mode + rotate-180) :
                        tous les titres partent de la même ligne, quelle que soit
                        leur longueur — contrairement à un -rotate-90 centré. */
-                    className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 rotate-180 whitespace-nowrap [writing-mode:vertical-rl] text-white text-sm font-bold font-heading"
+                    className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 rotate-180 whitespace-nowrap [writing-mode:vertical-rl] text-green-dark text-sm font-bold font-heading"
                   >
                     {s.tag}
                   </motion.p>
@@ -101,22 +97,22 @@ export default function ServicesAccordion() {
                     transition={{ duration: 0.35, delay: 0.2 }}
                     className="absolute bottom-0 left-0 right-0 z-10 p-7 lg:pr-[42%]"
                   >
-                    <span className="inline-block font-mono text-[10px] tracking-widest uppercase bg-white/20 text-white rounded-full px-3 py-1 mb-3">
+                    <span className="inline-block font-mono text-[10px] tracking-widest uppercase bg-green-soft text-green-dark rounded-full px-3 py-1 mb-3">
                       {s.tag}
                     </span>
-                    <h3 className="font-heading font-bold text-2xl text-white mb-2">{s.title}</h3>
-                    <p className="font-body text-white/80 text-sm mb-4 max-w-xs">{s.text}</p>
+                    <h3 className="font-heading font-bold text-2xl text-brand-gray mb-2">{s.title}</h3>
+                    <p className="font-body text-brand-sub text-sm mb-4 max-w-xs">{s.text}</p>
                     <ul className="space-y-1.5 mb-5">
                       {s.points.map((p) => (
-                        <li key={p} className="flex items-center gap-2 text-white/90 text-sm font-body">
-                          <ArrowRight size={14} className="text-green-light flex-shrink-0" />
+                        <li key={p} className="flex items-center gap-2 text-brand-gray text-sm font-body">
+                          <ArrowRight size={14} className="text-green-primary flex-shrink-0" />
                           {p}
                         </li>
                       ))}
                     </ul>
                     <a
                       href={s.ctaHref}
-                      className="btn-fill [--fill:#EBF7F0] inline-flex items-center gap-2 bg-white text-green-dark font-body font-medium text-sm rounded-full px-5 py-2.5 transition-transform"
+                      className="btn-fill [--fill:#1B5E20] inline-flex items-center gap-2 bg-green-primary text-white font-body font-medium text-sm rounded-full px-5 py-2.5 transition-transform"
                     >
                       {s.cta}
                     </a>
