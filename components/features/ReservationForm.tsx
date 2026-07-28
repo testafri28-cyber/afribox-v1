@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -68,6 +68,21 @@ export default function ReservationForm() {
     payment: null,
   })
   const [code] = useState(generateCode())
+
+  // Pré-sélection d'un locker via l'URL (?locker=id) — depuis la carte du réseau
+  // sur la page d'accueil : on saute directement à l'étape « Configurer ».
+  useEffect(() => {
+    const id = parseInt(
+      new URLSearchParams(window.location.search).get('locker') || '',
+      10,
+    )
+    if (!id) return
+    const l = lockers.find((x) => x.id === id && x.available)
+    if (l) {
+      setReservation((r) => ({ ...r, locker: l }))
+      setStep(2)
+    }
+  }, [])
 
   const totalPrice = () => {
     if (!reservation.size || !reservation.duration) return 0
@@ -331,9 +346,19 @@ function StepConfigure({
       <h2 className="font-heading font-bold text-2xl md:text-3xl text-brand-gray mb-2">
         Configurez votre réservation
       </h2>
-      <p className="font-body text-brand-sub mb-8">
+      <p className="font-body text-brand-sub mb-6">
         Taille, durée et informations du destinataire.
       </p>
+
+      {/* Rappel du locker choisi (utile après « Réserver ce locker »). */}
+      {reservation.locker && (
+        <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-green-soft bg-green-bg px-3.5 py-1.5">
+          <MapPin size={14} className="text-green-primary" />
+          <span className="font-body text-sm font-medium text-green-dark">
+            {reservation.locker.name}
+          </span>
+        </div>
+      )}
 
       {/* Taille */}
       <p className="font-mono text-xs tracking-widest text-brand-mid uppercase mb-3">
