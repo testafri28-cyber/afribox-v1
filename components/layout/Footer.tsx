@@ -79,7 +79,7 @@ export default function Footer() {
                 />
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-full bg-green-primary text-white text-sm font-semibold hover:bg-green-dark disabled:opacity-60 transition-colors flex items-center gap-1.5"
+                  className="btn-fill [--fill:#1B5E20] px-5 py-2 rounded-full bg-green-primary text-white text-sm font-semibold disabled:opacity-60 transition-transform flex items-center gap-1.5"
                 >
                   S&apos;abonner →
                 </button>
@@ -105,7 +105,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-9 h-9 rounded-lg bg-white/5 hover:bg-green-primary border border-white/10 flex items-center justify-center transition-colors"
+                  className="btn-fill [--fill:#27AE60] w-9 h-9 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center transition-transform"
                 >
                   <Icon className="w-4 h-4" />
                 </a>

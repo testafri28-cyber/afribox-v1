@@ -65,7 +65,7 @@ export default function AppDownloadSection() {
             <motion.div variants={fadeInUp} className="flex flex-wrap gap-3">
               <a
                 href="#"
-                className="inline-flex items-center gap-2.5 rounded-xl bg-brand-gray px-4 py-2.5 text-white transition hover:bg-brand-gray/90"
+                className="btn-fill [--fill:#454545] inline-flex items-center gap-2.5 rounded-xl bg-brand-gray px-4 py-2.5 text-white transition-transform"
               >
                 <AppleGlyph className="w-6 h-6" />
                 <span className="text-left leading-none">
@@ -75,7 +75,7 @@ export default function AppDownloadSection() {
               </a>
               <a
                 href="#"
-                className="inline-flex items-center gap-2.5 rounded-xl bg-brand-gray px-4 py-2.5 text-white transition hover:bg-brand-gray/90"
+                className="btn-fill [--fill:#454545] inline-flex items-center gap-2.5 rounded-xl bg-brand-gray px-4 py-2.5 text-white transition-transform"
               >
                 <PlayGlyph className="w-[22px] h-[22px]" />
                 <span className="text-left leading-none">

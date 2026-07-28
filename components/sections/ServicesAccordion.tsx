@@ -81,7 +81,7 @@ export default function ServicesAccordion() {
                     </ul>
                     <a
                       href={s.ctaHref}
-                      className="inline-flex items-center gap-2 bg-white text-green-dark font-body font-medium text-sm rounded-full px-5 py-2.5 hover:bg-green-bg transition"
+                      className="btn-fill [--fill:#EBF7F0] inline-flex items-center gap-2 bg-white text-green-dark font-body font-medium text-sm rounded-full px-5 py-2.5 transition-transform"
                     >
                       {s.cta}
                     </a>
@@ -125,7 +125,7 @@ export default function ServicesAccordion() {
                           </li>
                         ))}
                       </ul>
-                      <a href={s.ctaHref} className="inline-flex items-center gap-2 bg-green-primary text-white font-body font-medium text-sm rounded-full px-5 py-2.5 hover:bg-green-dark transition">
+                      <a href={s.ctaHref} className="btn-fill [--fill:#1B5E20] inline-flex items-center gap-2 bg-green-primary text-white font-body font-medium text-sm rounded-full px-5 py-2.5 transition-transform">
                         {s.cta}
                       </a>
                     </div>

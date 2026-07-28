@@ -262,7 +262,7 @@ export default function LockyChat() {
                 type="submit"
                 disabled={!input.trim() || loading}
                 aria-label="Envoyer"
-                className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-primary text-white transition-all hover:bg-green-dark disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
+                className="btn-fill [--fill:#1B5E20] flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-primary text-white transition-transform disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
               >
                 <Send size={17} />
               </button>
