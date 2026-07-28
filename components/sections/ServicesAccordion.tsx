@@ -11,9 +11,9 @@ import { services } from '@/lib/constants'
 // Pose de Locky par service (même ordre que `services` : Marchands, Particuliers,
 // PME). Dimensions réelles des WebP pour conserver le bon ratio.
 const mascots = [
-  { src: '/locky-marchand.webp',    w: 284, h: 720 }, // présente le téléphone
-  { src: '/locky-particulier.webp', w: 258, h: 720 }, // tend le colis
-  { src: '/locky-pme.webp',         w: 431, h: 720 }, // presse-papier + colis
+  { src: '/locky-marchand.webp',    w: 355, h: 900 }, // présente le téléphone
+  { src: '/locky-particulier.webp', w: 323, h: 900 }, // tend le colis
+  { src: '/locky-pme.webp',         w: 539, h: 900 }, // presse-papier + colis
 ]
 
 export default function ServicesAccordion() {
