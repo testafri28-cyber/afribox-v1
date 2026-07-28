@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowRight, Check } from 'lucide-react'
+import Image from 'next/image'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import GridBackground from '@/components/ui/GridBackground'
@@ -40,6 +41,33 @@ export default function ServicesAccordion() {
               {/* Texture de motifs (remplace l'ancienne photo de fond). */}
               <GridBackground tone="white" />
 
+              {/* Locky — PLACEHOLDER : même mascotte sur les 3 cartes pour
+                  prévisualiser la place. À remplacer par une pose dédiée par
+                  service (marchand = pilote, particulier = remet le colis, PME
+                  = gère le volume). Desktop lg uniquement. */}
+              <AnimatePresence>
+                {active === i && (
+                  <motion.div
+                    key="locky"
+                    initial={{ opacity: 0, x: 24 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 24 }}
+                    transition={{ duration: 0.4, delay: 0.15 }}
+                    className="pointer-events-none absolute bottom-0 right-1 z-[1] hidden lg:block"
+                    aria-hidden
+                  >
+                    <span className="absolute bottom-20 right-6 h-52 w-52 rounded-full bg-green-light/30 blur-3xl" />
+                    <Image
+                      src="/mascotte.webp"
+                      alt=""
+                      width={360}
+                      height={380}
+                      className="relative h-[338px] w-auto drop-shadow-2xl"
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               {/* Label vertical (inactif) */}
               <AnimatePresence>
                 {active !== i && (
@@ -63,7 +91,7 @@ export default function ServicesAccordion() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.35, delay: 0.2 }}
-                    className="absolute bottom-0 left-0 right-0 z-10 p-7"
+                    className="absolute bottom-0 left-0 right-0 z-10 p-7 lg:pr-[42%]"
                   >
                     <span className="inline-block font-mono text-[10px] tracking-widest uppercase bg-white/20 text-white rounded-full px-3 py-1 mb-3">
                       {s.tag}
