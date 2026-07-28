@@ -6,7 +6,6 @@ import { ArrowRight, Check } from 'lucide-react'
 import Image from 'next/image'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import GridBackground from '@/components/ui/GridBackground'
 import { services } from '@/lib/constants'
 
 // Pose de Locky par service (même ordre que `services` : Marchands, Particuliers,
@@ -42,13 +41,10 @@ export default function ServicesAccordion() {
               style={{
                 backgroundImage:
                   active === i
-                    ? 'linear-gradient(155deg, #1B5E20 0%, #27AE60 100%)'
+                    ? 'linear-gradient(140deg, #0E4019 0%, #1B5E20 42%, #2EB85B 100%)'
                     : 'linear-gradient(180deg, #1B5E20 0%, #0B3D1B 100%)',
               }}
             >
-              {/* Texture de motifs (remplace l'ancienne photo de fond). */}
-              <GridBackground tone="white" />
-
               {/* Locky — une pose par service (il pilote / remet le colis /
                   gère le volume). Desktop lg uniquement. */}
               <AnimatePresence>
