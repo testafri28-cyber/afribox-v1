@@ -18,7 +18,7 @@ import LockersMap from '@/components/features/LockersMap'
 import { lockers, type Locker, type LockerSize } from '@/lib/constants'
 import { submitLead, whatsappUrl } from '@/lib/leads'
 
-type Duration = '24h' | '48h' | '72h'
+type Duration = '48h'
 type Payment = 'orange' | 'wave' | 'mtn' | 'card'
 
 type Reservation = {
@@ -34,15 +34,14 @@ const sizesInfo: Record<
   LockerSize,
   { label: string; icon: typeof Package; desc: string; price: string }
 > = {
-  S: { label: 'Petit', icon: Package, desc: 'Documents, accessoires', price: '1 500 FCFA' },
-  M: { label: 'Moyen', icon: PackageOpen, desc: 'Vêtements, électronique', price: '2 500 FCFA' },
-  L: { label: 'Grand', icon: Boxes, desc: 'Équipements volumineux', price: '4 000 FCFA' },
+  S: { label: 'Petit', icon: Package, desc: 'Documents, accessoires', price: '250 FCFA' },
+  M: { label: 'Moyen', icon: PackageOpen, desc: 'Vêtements, électronique', price: '600 FCFA' },
+  L: { label: 'Grand', icon: Boxes, desc: 'Équipements volumineux', price: '1 000 FCFA' },
 }
 
+// Durée unique : dépôt de 48h (tarif fixe par taille).
 const durationsInfo: Record<Duration, { label: string; multiplier: number }> = {
-  '24h': { label: '24 heures', multiplier: 1 },
-  '48h': { label: '48 heures', multiplier: 1.6 },
-  '72h': { label: '72 heures', multiplier: 2.2 },
+  '48h': { label: '48 heures', multiplier: 1 },
 }
 
 const paymentMethods: { id: Payment; label: string; icon: typeof Smartphone }[] = [
@@ -63,7 +62,7 @@ export default function ReservationForm() {
   const [reservation, setReservation] = useState<Reservation>({
     locker: null,
     size: null,
-    duration: null,
+    duration: '48h', // durée unique
     phone: '',
     message: '',
     payment: null,
@@ -368,52 +367,22 @@ function StepConfigure({
               </p>
               <p className="font-body text-sm text-brand-sub mb-2">{info.desc}</p>
               <p className="font-mono text-xs text-green-primary">
-                {info.price} / 24h
+                {info.price} / 48h
               </p>
             </button>
           )
         })}
       </div>
 
-      {/* Durée */}
+      {/* Durée — unique : dépôt de 48h. */}
       <p className="font-mono text-xs tracking-widest text-brand-mid uppercase mb-3">
         Durée
       </p>
-      <div className="grid grid-cols-3 gap-3 mb-8">
-        {(['24h', '48h', '72h'] as Duration[]).map((d) => {
-          const isSelected = reservation.duration === d
-          // Prix calculé pour la taille choisie — visible avant de sélectionner.
-          const base = reservation.size
-            ? parseInt(sizesInfo[reservation.size].price.replace(/\D/g, ''), 10)
-            : null
-          const price = base !== null ? Math.round(base * durationsInfo[d].multiplier) : null
-          return (
-            <button
-              key={d}
-              onClick={() => setReservation({ ...reservation, duration: d })}
-              className={`px-2 py-3.5 rounded-xl border text-center transition ${
-                isSelected
-                  ? 'border-green-primary bg-green-bg'
-                  : 'border-brand-border bg-white hover:border-green-primary/40'
-              }`}
-            >
-              <span
-                className={`block font-body font-medium ${
-                  isSelected ? 'text-green-dark' : 'text-brand-gray'
-                }`}
-              >
-                {durationsInfo[d].label}
-              </span>
-              {price !== null ? (
-                <span className="mt-1 block font-mono text-[13px] font-bold text-green-primary">
-                  {price.toLocaleString('fr-FR')} FCFA
-                </span>
-              ) : (
-                <span className="mt-1 block font-mono text-[11px] text-brand-mid">—</span>
-              )}
-            </button>
-          )
-        })}
+      <div className="mb-8 inline-flex items-center gap-2.5 rounded-xl border border-green-primary bg-green-bg px-4 py-3">
+        <span className="font-body font-medium text-green-dark">48 heures</span>
+        <span className="font-mono text-[10px] uppercase tracking-widest text-brand-mid">
+          durée unique
+        </span>
       </div>
 
       {/* Téléphone */}
