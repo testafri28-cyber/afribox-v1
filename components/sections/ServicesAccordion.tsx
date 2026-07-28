@@ -29,12 +29,15 @@ export default function ServicesAccordion() {
           </h2>
         </div>
 
-        {/* Desktop — accordéon horizontal */}
-        <div className="hidden md:flex gap-2 h-[380px] rounded-2xl overflow-hidden">
+        {/* Desktop — accordéon horizontal. overflow visible pour laisser
+            Locky déborder au-dessus de la carte active. */}
+        <div className="hidden md:flex gap-2 h-[380px]">
           {services.map((s, i) => (
             <motion.div
               key={s.tag}
-              className="relative overflow-hidden cursor-pointer rounded-2xl"
+              className={`relative cursor-pointer rounded-2xl ${
+                active === i ? 'overflow-visible' : 'overflow-hidden'
+              }`}
               animate={{ flex: active === i ? 3 : 0.22 }}
               transition={{ duration: 0.65, ease: [0.4, 0, 0.2, 1] }}
               onMouseEnter={() => setActive(i)}
@@ -45,26 +48,29 @@ export default function ServicesAccordion() {
                     : 'linear-gradient(180deg, #1B5E20 0%, #0B3D1B 100%)',
               }}
             >
-              {/* Locky — une pose par service (il pilote / remet le colis /
-                  gère le volume). Desktop lg uniquement. */}
+              {/* Locky — grand format, déborde au-dessus de la carte (pose par
+                  service : pilote / remet le colis / gère le volume). Pieds posés
+                  en bas, tête au-dessus du bord. Ombre de contact discrète, pas
+                  d'autre effet. Desktop lg uniquement. */}
               <AnimatePresence>
                 {active === i && (
                   <motion.div
                     key="locky"
-                    initial={{ opacity: 0, x: 24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 24 }}
-                    transition={{ duration: 0.4, delay: 0.15 }}
-                    className="pointer-events-none absolute bottom-0 right-3 z-[1] hidden lg:block"
+                    initial={{ opacity: 0, y: 22 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 16 }}
+                    transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                    className="pointer-events-none absolute bottom-0 right-2 z-[2] hidden w-[48%] items-end justify-center lg:flex"
                     aria-hidden
                   >
-                    <span className="absolute bottom-20 right-8 h-52 w-52 rounded-full bg-green-light/30 blur-3xl" />
+                    {/* Ombre de contact au sol */}
+                    <span className="absolute bottom-2 left-1/2 h-5 w-40 -translate-x-1/2 rounded-[50%] bg-black/25 blur-md" />
                     <Image
                       src={mascots[i].src}
                       alt=""
                       width={mascots[i].w}
                       height={mascots[i].h}
-                      className="relative h-[338px] w-auto drop-shadow-2xl"
+                      className="relative h-[430px] w-auto drop-shadow-[0_18px_26px_rgba(0,0,0,0.28)]"
                     />
                   </motion.div>
                 )}
