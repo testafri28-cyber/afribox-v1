@@ -1,5 +1,6 @@
 'use client'
 
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Container from '@/components/layout/Container'
@@ -19,36 +20,68 @@ function IconChip({ Icon }: { Icon: (typeof whyAfribox)[number]['icon'] }) {
   )
 }
 
-// Position + alignement des 4 raisons autour du baobab (grille lg 3×2).
+// Position (grille lg 3×2), alignement, côté du nœud et origine de la branche
+// sur le baobab (fractions de sa bbox : x depuis la gauche, y depuis le haut).
 const radial = [
-  { pos: 'col-start-1 row-start-1', box: 'items-end text-right' },   // haut-gauche
-  { pos: 'col-start-3 row-start-1', box: 'items-start text-left' },  // haut-droite
-  { pos: 'col-start-1 row-start-2', box: 'items-end text-right' },   // bas-gauche
-  { pos: 'col-start-3 row-start-2', box: 'items-start text-left' },  // bas-droite
-]
+  { pos: 'col-start-1 row-start-1', box: 'items-end text-right', side: 'right', origin: [0.32, 0.26] },  // haut-gauche
+  { pos: 'col-start-3 row-start-1', box: 'items-start text-left', side: 'left', origin: [0.68, 0.26] },  // haut-droite
+  { pos: 'col-start-1 row-start-2', box: 'items-end text-right', side: 'right', origin: [0.30, 0.44] },  // bas-gauche
+  { pos: 'col-start-3 row-start-2', box: 'items-start text-left', side: 'left', origin: [0.70, 0.44] },  // bas-droite
+] as const
 
-// Branches courbes reliant le baobab à chaque raison (coord. viewBox 100×46).
-// Toutes partent de la canopée (haut de l'arbre), jamais du tronc/wordmark.
-const branches = [
-  { d: 'M45,14 C40,10 35,8 31,7', node: [31, 7] },     // vers haut-gauche
-  { d: 'M55,14 C60,10 65,8 69,7', node: [69, 7] },     // vers haut-droite
-  { d: 'M44,16 C37,21 33,29 31,33', node: [31, 33] },  // vers bas-gauche (sort du feuillage)
-  { d: 'M56,16 C63,21 67,29 69,33', node: [69, 33] },  // vers bas-droite
-]
-
-// Les branches (trait plein) apparaissent en fondu, puis les nœuds éclosent.
 const drawBranch = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.8, ease: 'easeOut', delay: 0.25 } },
-}
-const popNode = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { delay: 0.75, duration: 0.4, ease: 'easeOut' } },
+  visible: { opacity: 1, transition: { duration: 0.9, ease: 'easeOut', delay: 0.2 } },
 }
 
 export default function WhyAfriboxSection() {
   const reasons = whyAfribox.slice(0, 4)
   const hero = whyAfribox[whyAfribox.length - 1] // « Conçu pour l'Afrique »
+
+  const wrapRef = useRef<HTMLDivElement>(null)
+  const treeRef = useRef<HTMLDivElement>(null)
+  const nodeRefs = useRef<(HTMLSpanElement | null)[]>([])
+  const [size, setSize] = useState({ w: 0, h: 0 })
+  const [paths, setPaths] = useState<string[]>([])
+
+  // Recalcule les branches à partir des positions réelles (robuste à toutes
+  // les largeurs) : origine sur la canopée du baobab → centre de chaque nœud.
+  const measure = useCallback(() => {
+    const wrap = wrapRef.current
+    const tree = treeRef.current
+    if (!wrap || !tree) return
+    const wr = wrap.getBoundingClientRect()
+    const tr = tree.getBoundingClientRect()
+    const ds = radial.map(({ origin }, i) => {
+      const el = nodeRefs.current[i]
+      if (!el) return ''
+      const nr = el.getBoundingClientRect()
+      const nx = nr.left + nr.width / 2 - wr.left
+      const ny = nr.top + nr.height / 2 - wr.top
+      const ox = tr.left + origin[0] * tr.width - wr.left
+      const oy = tr.top + origin[1] * tr.height - wr.top
+      const dx = nx - ox
+      const dy = ny - oy
+      const c1x = ox + dx * 0.45
+      const c1y = oy + dy * 0.06
+      const c2x = ox + dx * 0.72
+      const c2y = ny
+      return `M${ox.toFixed(1)},${oy.toFixed(1)} C${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${nx.toFixed(1)},${ny.toFixed(1)}`
+    })
+    setSize({ w: wr.width, h: wr.height })
+    setPaths(ds)
+  }, [])
+
+  useEffect(() => {
+    measure()
+    const ro = new ResizeObserver(() => measure())
+    if (wrapRef.current) ro.observe(wrapRef.current)
+    window.addEventListener('resize', measure)
+    return () => {
+      ro.disconnect()
+      window.removeEventListener('resize', measure)
+    }
+  }, [measure])
 
   return (
     <section id="pourquoi" className="bg-brand-off">
@@ -100,59 +133,50 @@ export default function WhyAfriboxSection() {
           </motion.div>
         </div>
 
-        {/* ── Desktop : disposition radiale, raisons en branches ── */}
+        {/* ── Desktop : baobab central + branches organiques mesurées ── */}
         <motion.div
+          ref={wrapRef}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
           variants={staggerContainer}
           className="hidden lg:block relative"
         >
-          {/* Branches organiques reliant le baobab à chaque raison, avec un
-              petit nœud « casier » au bout — elles se dessinent au scroll. */}
-          <svg
-            className="absolute inset-0 h-full w-full pointer-events-none z-0"
-            viewBox="0 0 100 46"
-            preserveAspectRatio="none"
-            fill="none"
-            aria-hidden
-          >
-            <defs>
-              <radialGradient id="branchGrad" gradientUnits="userSpaceOnUse" cx="50" cy="23" r="40">
-                <stop offset="0" stopColor="#1B5E20" stopOpacity="0.55" />
-                <stop offset="0.7" stopColor="#27AE60" stopOpacity="0.5" />
-                <stop offset="1" stopColor="#6FCF97" stopOpacity="0.55" />
-              </radialGradient>
-              <linearGradient id="nodeGrad" x1="0" y1="0" x2="1" y2="1">
-                <stop offset="0" stopColor="#27AE60" />
-                <stop offset="1" stopColor="#1B5E20" />
-              </linearGradient>
-            </defs>
-            {branches.map(({ d }) => (
-              <motion.path
-                key={d}
-                d={d}
-                stroke="url(#branchGrad)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                vectorEffect="non-scaling-stroke"
-                variants={drawBranch}
-              />
-            ))}
-            {branches.map(({ node: [x, y] }) => (
-              <motion.rect
-                key={`${x}-${y}`}
-                x={x - 0.95}
-                y={y - 0.95}
-                width="1.9"
-                height="1.9"
-                rx="0.55"
-                fill="url(#nodeGrad)"
-                transform={`rotate(-8 ${x} ${y})`}
-                variants={popNode}
-              />
-            ))}
-          </svg>
+          {/* Branches : dessinées en pixels réels, alignées à toute largeur */}
+          {size.w > 0 && (
+            <svg
+              className="absolute inset-0 z-0 pointer-events-none"
+              width={size.w}
+              height={size.h}
+              viewBox={`0 0 ${size.w} ${size.h}`}
+              fill="none"
+              aria-hidden
+            >
+              <defs>
+                <radialGradient
+                  id="branchGrad"
+                  gradientUnits="userSpaceOnUse"
+                  cx={size.w / 2}
+                  cy={size.h * 0.4}
+                  r={size.w * 0.34}
+                >
+                  <stop offset="0" stopColor="#1B5E20" stopOpacity="0.55" />
+                  <stop offset="0.7" stopColor="#27AE60" stopOpacity="0.5" />
+                  <stop offset="1" stopColor="#6FCF97" stopOpacity="0.6" />
+                </radialGradient>
+              </defs>
+              {paths.map((d, i) => (
+                <motion.path
+                  key={i}
+                  d={d}
+                  stroke="url(#branchGrad)"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  variants={drawBranch}
+                />
+              ))}
+            </svg>
+          )}
 
           <div className="relative grid grid-cols-3 grid-rows-2 items-center gap-x-8 gap-y-20 xl:gap-x-16">
             {reasons.map(({ icon: Icon, title, text }, i) => (
@@ -161,7 +185,18 @@ export default function WhyAfriboxSection() {
                 variants={fadeInUp}
                 className={`relative z-10 flex flex-col gap-3 ${radial[i].box} ${radial[i].pos}`}
               >
-                <IconChip Icon={Icon} />
+                {/* Pastille + nœud « casier » (point d'ancrage de la branche) */}
+                <div className="relative">
+                  <IconChip Icon={Icon} />
+                  <span
+                    ref={(el) => {
+                      nodeRefs.current[i] = el
+                    }}
+                    className={`absolute top-1/2 z-[2] h-3.5 w-3.5 -translate-y-1/2 rotate-[-8deg] rounded-[5px] bg-gradient-to-br from-green-primary to-green-dark shadow-[0_4px_10px_-2px_rgba(31,71,40,0.5)] ${
+                      radial[i].side === 'right' ? '-right-2.5' : '-left-2.5'
+                    }`}
+                  />
+                </div>
                 <div>
                   <span className="font-mono text-xs text-green-primary">{String(i + 1).padStart(2, '0')}</span>
                   <h3 className="font-heading font-bold text-lg xl:text-xl text-brand-gray mb-1">{title}</h3>
@@ -175,14 +210,17 @@ export default function WhyAfriboxSection() {
               variants={fadeInUp}
               className="relative z-10 col-start-2 row-start-1 row-span-2 flex flex-col items-center justify-center text-center"
             >
-              <Image
-                src="/logo.svg"
-                alt="Le réseau de lockers Afribox qui s'étend à travers l'Afrique"
-                width={797}
-                height={1109}
-                unoptimized
-                className="h-[300px] xl:h-[340px] w-auto drop-shadow-[0_14px_28px_rgba(31,71,40,0.18)]"
-              />
+              <div ref={treeRef} className="relative">
+                <Image
+                  src="/logo.svg"
+                  alt="Le réseau de lockers Afribox qui s'étend à travers l'Afrique"
+                  width={797}
+                  height={1109}
+                  unoptimized
+                  onLoad={measure}
+                  className="h-[300px] xl:h-[340px] w-auto drop-shadow-[0_14px_28px_rgba(31,71,40,0.18)]"
+                />
+              </div>
               <h3 className="font-heading font-bold text-lg xl:text-xl text-brand-gray mt-4 mb-1">{hero.title}</h3>
               <p className="font-body text-sm text-brand-sub max-w-[240px]">{hero.text}</p>
             </motion.div>
