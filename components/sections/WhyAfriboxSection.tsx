@@ -99,19 +99,17 @@ export default function WhyAfriboxSection() {
           </h2>
         </motion.div>
 
-        {/* ── Mobile / tablette : baobab centré + liste simple ── */}
+        {/* ── Mobile / tablette : baobab (emblème) + liste des 5 raisons ── */}
         <div className="lg:hidden">
-          <div className="flex flex-col items-center text-center mb-12">
+          <div className="flex justify-center mb-10">
             <Image
               src="/logo.svg"
               alt="Le réseau de lockers Afribox qui s'étend à travers l'Afrique"
               width={797}
               height={1109}
               unoptimized
-              className="h-[220px] w-auto mb-5 drop-shadow-[0_12px_24px_rgba(31,71,40,0.16)]"
+              className="h-[220px] w-auto drop-shadow-[0_12px_24px_rgba(31,71,40,0.16)]"
             />
-            <h3 className="font-heading font-bold text-xl text-brand-gray mb-1">{hero.title}</h3>
-            <p className="font-body text-sm text-brand-sub max-w-xs">{hero.text}</p>
           </div>
           <motion.div
             initial="hidden"
@@ -120,7 +118,7 @@ export default function WhyAfriboxSection() {
             variants={staggerContainer}
             className="space-y-8 max-w-md mx-auto"
           >
-            {reasons.map(({ icon: Icon, title, text }, i) => (
+            {whyAfribox.map(({ icon: Icon, title, text }, i) => (
               <motion.div key={title} variants={fadeInUp} className="flex items-start gap-4">
                 <IconChip Icon={Icon} />
                 <div>
@@ -221,7 +219,8 @@ export default function WhyAfriboxSection() {
                   className="h-[300px] xl:h-[340px] w-auto drop-shadow-[0_14px_28px_rgba(31,71,40,0.18)]"
                 />
               </div>
-              <h3 className="font-heading font-bold text-lg xl:text-xl text-brand-gray mt-4 mb-1">{hero.title}</h3>
+              <span className="font-mono text-xs text-green-primary mt-4">05</span>
+              <h3 className="font-heading font-bold text-lg xl:text-xl text-brand-gray mb-1">{hero.title}</h3>
               <p className="font-body text-sm text-brand-sub max-w-[240px]">{hero.text}</p>
             </motion.div>
           </div>
