@@ -1,6 +1,5 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Container from '@/components/layout/Container'
@@ -8,81 +7,53 @@ import SectionLabel from '@/components/ui/SectionLabel'
 import { whyAfribox } from '@/lib/constants'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
-// Pastille d'icône 3D (reprise du style des autres sections).
-function IconChip({ Icon }: { Icon: (typeof whyAfribox)[number]['icon'] }) {
-  return (
-    <div className="relative w-14 h-14 md:w-[58px] md:h-[58px]">
-      <div className="absolute inset-0 rounded-full blur-2xl bg-green-primary/15" />
-      <div className="relative w-full h-full rounded-xl bg-gradient-to-br from-green-primary to-green-dark shadow-[0_18px_40px_-12px_rgba(31,71,40,0.45),inset_0_-8px_24px_rgba(0,0,0,0.18),inset_0_8px_16px_rgba(255,255,255,0.18)] rotate-[-8deg] flex items-center justify-center">
-        <Icon size={24} className="text-white drop-shadow-md" strokeWidth={2} />
-      </div>
-    </div>
-  )
+// Géométrie de la roue (cercle segmenté).
+const CX = 460
+const CY = 250
+const R = 165 // rayon extérieur
+const RI = 92 // rayon intérieur (trou)
+const rad = (d: number) => (d * Math.PI) / 180
+const pt = (radius: number, angDeg: number): [number, number] => [
+  CX + radius * Math.cos(rad(angDeg)),
+  CY + radius * Math.sin(rad(angDeg)),
+]
+const midDeg = (i: number) => -90 + (i + 0.5) * 72
+
+function segPath(i: number) {
+  const a0 = -90 + i * 72
+  const a1 = -90 + (i + 1) * 72
+  const [x0, y0] = pt(R, a0)
+  const [x1, y1] = pt(R, a1)
+  const [ix1, iy1] = pt(RI, a1)
+  const [ix0, iy0] = pt(RI, a0)
+  return `M${x0.toFixed(1)},${y0.toFixed(1)} A${R},${R} 0 0 1 ${x1.toFixed(1)},${y1.toFixed(1)} L${ix1.toFixed(1)},${iy1.toFixed(1)} A${RI},${RI} 0 0 0 ${ix0.toFixed(1)},${iy0.toFixed(1)} Z`
 }
 
-// Position (grille lg 3×2), alignement, côté du nœud et origine de la branche
-// sur le baobab (fractions de sa bbox : x depuis la gauche, y depuis le haut).
-const radial = [
-  { pos: 'col-start-1 row-start-1', box: 'items-end text-right', side: 'right', origin: [0.32, 0.26] },  // haut-gauche
-  { pos: 'col-start-3 row-start-1', box: 'items-start text-left', side: 'left', origin: [0.68, 0.26] },  // haut-droite
-  { pos: 'col-start-1 row-start-2', box: 'items-end text-right', side: 'right', origin: [0.30, 0.44] },  // bas-gauche
-  { pos: 'col-start-3 row-start-2', box: 'items-start text-left', side: 'left', origin: [0.70, 0.44] },  // bas-droite
-] as const
-
-const drawBranch = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.9, ease: 'easeOut', delay: 0.2 } },
+function labelStyle(i: number): React.CSSProperties {
+  const a = rad(midDeg(i))
+  const c = Math.cos(a)
+  const s = Math.sin(a)
+  const [x, y] = pt(R + 30, midDeg(i))
+  let transform = 'translate(-50%,-50%)'
+  let textAlign: React.CSSProperties['textAlign'] = 'center'
+  if (c > 0.35) {
+    transform = 'translateY(-50%)'
+    textAlign = 'left'
+  } else if (c < -0.35) {
+    transform = 'translate(-100%,-50%)'
+    textAlign = 'right'
+  } else if (s < 0) {
+    transform = 'translate(-50%,-100%)'
+  } else {
+    transform = 'translate(-50%,0)'
+  }
+  return { left: `${x}px`, top: `${y}px`, transform, textAlign }
 }
+
+// Verts distincts par segment (adjacents contrastés), 100 % marque.
+const segColors = ['#27AE60', '#14532A', '#43A047', '#0E4D1E', '#2E7D32']
 
 export default function WhyAfriboxSection() {
-  const reasons = whyAfribox.slice(0, 4)
-  const hero = whyAfribox[whyAfribox.length - 1] // « Conçu pour l'Afrique »
-
-  const wrapRef = useRef<HTMLDivElement>(null)
-  const treeRef = useRef<HTMLDivElement>(null)
-  const nodeRefs = useRef<(HTMLSpanElement | null)[]>([])
-  const [size, setSize] = useState({ w: 0, h: 0 })
-  const [paths, setPaths] = useState<string[]>([])
-
-  // Recalcule les branches à partir des positions réelles (robuste à toutes
-  // les largeurs) : origine sur la canopée du baobab → centre de chaque nœud.
-  const measure = useCallback(() => {
-    const wrap = wrapRef.current
-    const tree = treeRef.current
-    if (!wrap || !tree) return
-    const wr = wrap.getBoundingClientRect()
-    const tr = tree.getBoundingClientRect()
-    const ds = radial.map(({ origin }, i) => {
-      const el = nodeRefs.current[i]
-      if (!el) return ''
-      const nr = el.getBoundingClientRect()
-      const nx = nr.left + nr.width / 2 - wr.left
-      const ny = nr.top + nr.height / 2 - wr.top
-      const ox = tr.left + origin[0] * tr.width - wr.left
-      const oy = tr.top + origin[1] * tr.height - wr.top
-      const dx = nx - ox
-      const dy = ny - oy
-      const c1x = ox + dx * 0.45
-      const c1y = oy + dy * 0.06
-      const c2x = ox + dx * 0.72
-      const c2y = ny
-      return `M${ox.toFixed(1)},${oy.toFixed(1)} C${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${nx.toFixed(1)},${ny.toFixed(1)}`
-    })
-    setSize({ w: wr.width, h: wr.height })
-    setPaths(ds)
-  }, [])
-
-  useEffect(() => {
-    measure()
-    const ro = new ResizeObserver(() => measure())
-    if (wrapRef.current) ro.observe(wrapRef.current)
-    window.addEventListener('resize', measure)
-    return () => {
-      ro.disconnect()
-      window.removeEventListener('resize', measure)
-    }
-  }, [measure])
-
   return (
     <section id="pourquoi" className="bg-brand-off">
       <Container className="py-16 md:py-24">
@@ -91,7 +62,7 @@ export default function WhyAfriboxSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeInUp}
-          className="mb-12 md:mb-16 max-w-2xl"
+          className="mb-10 md:mb-14 max-w-2xl"
         >
           <SectionLabel className="mb-4">Pourquoi Afribox</SectionLabel>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray">
@@ -99,16 +70,80 @@ export default function WhyAfriboxSection() {
           </h2>
         </motion.div>
 
-        {/* ── Mobile / tablette : baobab (emblème) + liste des 5 raisons ── */}
+        {/* ── Desktop : roue segmentée + libellés & descriptions ── */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeInUp}
+          className="hidden justify-center lg:flex"
+        >
+          <div className="relative" style={{ width: 920, height: 500 }}>
+            <svg viewBox="0 0 920 500" className="absolute inset-0 h-full w-full" aria-hidden>
+              {whyAfribox.map((_, i) => (
+                <path key={i} d={segPath(i)} fill={segColors[i]} stroke="#F7F9F7" strokeWidth="4" />
+              ))}
+              <circle cx={CX} cy={CY} r={RI - 2} fill="#ffffff" />
+              {whyAfribox.map((_, i) => {
+                const [sx, sy] = pt(R + 3, midDeg(i))
+                const [ex, ey] = pt(R + 26, midDeg(i))
+                return (
+                  <line key={`l${i}`} x1={sx} y1={sy} x2={ex} y2={ey} stroke="#B7C6BA" strokeWidth="1.5" />
+                )
+              })}
+            </svg>
+
+            {/* Arbre-réseau au centre */}
+            <div
+              className="absolute z-10"
+              style={{ left: CX, top: CY, transform: 'translate(-50%,-50%)' }}
+            >
+              <Image
+                src="/logo-tree.svg"
+                alt="Le réseau de lockers Afribox qui s'étend à travers l'Afrique"
+                width={797}
+                height={838}
+                unoptimized
+                className="h-[148px] w-auto"
+              />
+            </div>
+
+            {/* Icônes dans les segments */}
+            {whyAfribox.map(({ icon: Icon }, i) => {
+              const [ix, iy] = pt((R + RI) / 2, midDeg(i))
+              return (
+                <div
+                  key={`i${i}`}
+                  className="absolute z-10"
+                  style={{ left: ix, top: iy, transform: 'translate(-50%,-50%)' }}
+                >
+                  <Icon size={28} className="text-white drop-shadow" strokeWidth={2} />
+                </div>
+              )
+            })}
+
+            {/* Libellés + descriptions à l'extérieur */}
+            {whyAfribox.map(({ title, text }, i) => (
+              <div key={`t${i}`} className="absolute z-10 w-[188px]" style={labelStyle(i)}>
+                <h3 className="font-heading text-sm font-bold leading-tight" style={{ color: segColors[i] }}>
+                  {title}
+                </h3>
+                <p className="mt-1 font-body text-xs leading-snug text-brand-sub">{text}</p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* ── Mobile / tablette : emblème + liste avec descriptions ── */}
         <div className="lg:hidden">
-          <div className="flex justify-center mb-10">
+          <div className="mb-8 flex justify-center">
             <Image
               src="/logo.svg"
               alt="Le réseau de lockers Afribox qui s'étend à travers l'Afrique"
               width={797}
               height={1109}
               unoptimized
-              className="h-[220px] w-auto drop-shadow-[0_12px_24px_rgba(31,71,40,0.16)]"
+              className="h-[200px] w-auto drop-shadow-[0_12px_24px_rgba(31,71,40,0.16)]"
             />
           </div>
           <motion.div
@@ -116,115 +151,24 @@ export default function WhyAfriboxSection() {
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
             variants={staggerContainer}
-            className="space-y-8 max-w-md mx-auto"
+            className="space-y-6 max-w-md mx-auto"
           >
             {whyAfribox.map(({ icon: Icon, title, text }, i) => (
               <motion.div key={title} variants={fadeInUp} className="flex items-start gap-4">
-                <IconChip Icon={Icon} />
+                <div
+                  style={{ backgroundColor: segColors[i] }}
+                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl shadow-[0_10px_24px_-8px_rgba(31,71,40,0.45)]"
+                >
+                  <Icon size={20} className="text-white" strokeWidth={2} />
+                </div>
                 <div>
-                  <span className="font-mono text-xs text-green-primary">{String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="font-heading font-bold text-lg text-brand-gray">{title}</h3>
-                  <p className="font-body text-sm text-brand-sub leading-relaxed">{text}</p>
+                  <h3 className="font-heading text-lg font-bold leading-tight text-brand-gray">{title}</h3>
+                  <p className="mt-1 font-body text-sm leading-relaxed text-brand-sub">{text}</p>
                 </div>
               </motion.div>
             ))}
           </motion.div>
         </div>
-
-        {/* ── Desktop : baobab central + branches organiques mesurées ── */}
-        <motion.div
-          ref={wrapRef}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-          variants={staggerContainer}
-          className="hidden lg:block relative"
-        >
-          {/* Branches : dessinées en pixels réels, alignées à toute largeur */}
-          {size.w > 0 && (
-            <svg
-              className="absolute inset-0 z-0 pointer-events-none"
-              width={size.w}
-              height={size.h}
-              viewBox={`0 0 ${size.w} ${size.h}`}
-              fill="none"
-              aria-hidden
-            >
-              <defs>
-                <radialGradient
-                  id="branchGrad"
-                  gradientUnits="userSpaceOnUse"
-                  cx={size.w / 2}
-                  cy={size.h * 0.4}
-                  r={size.w * 0.34}
-                >
-                  <stop offset="0" stopColor="#1B5E20" stopOpacity="0.55" />
-                  <stop offset="0.7" stopColor="#27AE60" stopOpacity="0.5" />
-                  <stop offset="1" stopColor="#6FCF97" stopOpacity="0.6" />
-                </radialGradient>
-              </defs>
-              {paths.map((d, i) => (
-                <motion.path
-                  key={i}
-                  d={d}
-                  stroke="url(#branchGrad)"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  variants={drawBranch}
-                />
-              ))}
-            </svg>
-          )}
-
-          <div className="relative grid grid-cols-3 grid-rows-2 items-center gap-x-8 gap-y-20 xl:gap-x-16">
-            {reasons.map(({ icon: Icon, title, text }, i) => (
-              <motion.div
-                key={title}
-                variants={fadeInUp}
-                className={`relative z-10 flex flex-col gap-3 ${radial[i].box} ${radial[i].pos}`}
-              >
-                {/* Pastille + nœud « casier » (point d'ancrage de la branche) */}
-                <div className="relative">
-                  <IconChip Icon={Icon} />
-                  <span
-                    ref={(el) => {
-                      nodeRefs.current[i] = el
-                    }}
-                    className={`absolute top-1/2 z-[2] h-3.5 w-3.5 -translate-y-1/2 rotate-[-8deg] rounded-[5px] bg-gradient-to-br from-green-primary to-green-dark shadow-[0_4px_10px_-2px_rgba(31,71,40,0.5)] ${
-                      radial[i].side === 'right' ? '-right-2.5' : '-left-2.5'
-                    }`}
-                  />
-                </div>
-                <div>
-                  <span className="font-mono text-xs text-green-primary">{String(i + 1).padStart(2, '0')}</span>
-                  <h3 className="font-heading font-bold text-lg xl:text-xl text-brand-gray mb-1">{title}</h3>
-                  <p className="font-body text-sm text-brand-sub leading-relaxed max-w-[240px]">{text}</p>
-                </div>
-              </motion.div>
-            ))}
-
-            {/* Baobab central + « Conçu pour l'Afrique » */}
-            <motion.div
-              variants={fadeInUp}
-              className="relative z-10 col-start-2 row-start-1 row-span-2 flex flex-col items-center justify-center text-center"
-            >
-              <div ref={treeRef} className="relative">
-                <Image
-                  src="/logo.svg"
-                  alt="Le réseau de lockers Afribox qui s'étend à travers l'Afrique"
-                  width={797}
-                  height={1109}
-                  unoptimized
-                  onLoad={measure}
-                  className="h-[300px] xl:h-[340px] w-auto drop-shadow-[0_14px_28px_rgba(31,71,40,0.18)]"
-                />
-              </div>
-              <span className="font-mono text-xs text-green-primary mt-4">05</span>
-              <h3 className="font-heading font-bold text-lg xl:text-xl text-brand-gray mb-1">{hero.title}</h3>
-              <p className="font-body text-sm text-brand-sub max-w-[240px]">{hero.text}</p>
-            </motion.div>
-          </div>
-        </motion.div>
       </Container>
     </section>
   )
