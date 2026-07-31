@@ -178,9 +178,9 @@ export const testimonials: Testimonial[] = [
 // Tarifs
 // ---------------------------------------------------------------------------
 export const pricing = [
-  { size: 'Petit',  use: 'Documents, accessoires',       price: '250 FCFA / 48h' },
-  { size: 'Moyen',  use: 'Vêtements, électronique',       price: '600 FCFA / 48h' },
-  { size: 'Grand',  use: 'Équipements volumineux',        price: '1 000 FCFA / 48h' },
+  { size: 'Petit',  use: 'Documents, accessoires',       price: '500 FCFA / 48h' },
+  { size: 'Moyen',  use: 'Vêtements, électronique',       price: '750 FCFA / 48h' },
+  { size: 'Grand',  use: 'Équipements volumineux',        price: '1 250 FCFA / 48h' },
 ]
 
 // ---------------------------------------------------------------------------

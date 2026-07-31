@@ -34,9 +34,9 @@ const sizesInfo: Record<
   LockerSize,
   { label: string; icon: typeof Package; desc: string; price: string }
 > = {
-  S: { label: 'Petit', icon: Package, desc: 'Documents, accessoires', price: '250 FCFA' },
-  M: { label: 'Moyen', icon: PackageOpen, desc: 'Vêtements, électronique', price: '600 FCFA' },
-  L: { label: 'Grand', icon: Boxes, desc: 'Équipements volumineux', price: '1 000 FCFA' },
+  S: { label: 'Petit', icon: Package, desc: 'Documents, accessoires', price: '500 FCFA' },
+  M: { label: 'Moyen', icon: PackageOpen, desc: 'Vêtements, électronique', price: '750 FCFA' },
+  L: { label: 'Grand', icon: Boxes, desc: 'Équipements volumineux', price: '1 250 FCFA' },
 }
 
 // Durée unique : dépôt de 48h (tarif fixe par taille).
