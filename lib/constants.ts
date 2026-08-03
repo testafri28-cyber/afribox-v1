@@ -16,11 +16,26 @@ export type Locker = {
   lat: number; lng: number; available: boolean; sizes: LockerSize[]
 }
 
+// Sites du réseau pilote (5 casiers · Abidjan). Source : présentation AFRIBOX.
+// `available` = créneau ouvert à la pré-réservation avant l'installation.
 export const lockers: Locker[] = [
-  { id: 1, name: 'Locker Plateau',  address: 'Avenue Botreau Roussel, Plateau', lat: 5.3196, lng: -4.0167, available: true,  sizes: ['S','M','L'] },
-  { id: 2, name: 'Locker Cocody',   address: 'Rue des Jardins, Cocody',          lat: 5.3467, lng: -3.9892, available: true,  sizes: ['S','M'] },
-  { id: 3, name: 'Locker Marcory',  address: 'Boulevard VGE, Marcory',           lat: 5.2999, lng: -3.9989, available: false, sizes: ['S'] },
-  { id: 4, name: 'Locker Yopougon', address: 'Avenue Jean Paul II, Yopougon',    lat: 5.3411, lng: -4.0706, available: true,  sizes: ['S','M','L'] },
+  { id: 1, name: 'Cap Sud',           address: 'Centre commercial, Marcory',   lat: 5.2884, lng: -3.9910, available: true, sizes: ['S','M','L'] },
+  { id: 2, name: 'Sococé 2 Plateaux', address: 'Les 2 Plateaux, Cocody',       lat: 5.3660, lng: -3.9970, available: true, sizes: ['S','M','L'] },
+  { id: 3, name: "Mairie d'Abobo",    address: 'Abobo, Abidjan',               lat: 5.4180, lng: -4.0160, available: true, sizes: ['S','M'] },
+  { id: 4, name: 'Cosmos Yopougon',   address: 'Yopougon, Abidjan',            lat: 5.3450, lng: -4.0850, available: true, sizes: ['S','M','L'] },
+]
+
+// ---------------------------------------------------------------------------
+// Le casier — caractéristiques (source : présentation technique AFRIBOX)
+// ---------------------------------------------------------------------------
+export type LockerSpec = { value: string; label: string }
+export const lockerSpecs: LockerSpec[] = [
+  { value: '≈ 35', label: 'compartiments par casier' },
+  { value: '3 tailles', label: 'Petit · Moyen · Grand' },
+  { value: '21″', label: 'écran tactile Android' },
+  { value: '2 caméras', label: 'vidéosurveillance continue' },
+  { value: 'Code unique', label: 'RFID + serrure à solénoïde' },
+  { value: '24h/24 · 48h', label: 'accès libre & garde du colis' },
 ]
 
 // ---------------------------------------------------------------------------

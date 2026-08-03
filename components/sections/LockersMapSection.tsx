@@ -12,7 +12,6 @@ import { fadeInUp } from '@/lib/animations'
 
 export default function LockersMapSection() {
   const [selected, setSelected] = useState<Locker | null>(null)
-  const availableCount = lockers.filter((l) => l.available).length
 
   return (
     <section id="lockers" className="bg-white">
@@ -25,13 +24,14 @@ export default function LockersMapSection() {
           variants={fadeInUp}
           className="mb-10"
         >
-          <SectionLabel className="mb-4">Réseau de lockers</SectionLabel>
+          <SectionLabel className="mb-4">Réseau pilote</SectionLabel>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
-            Trouvez un locker près de vous.
+            Nos premiers casiers arrivent à Abidjan.
           </h2>
           <p className="font-body text-base md:text-lg text-brand-sub max-w-xl">
-            {availableCount} lockers disponibles à Abidjan. Cliquez sur un point
-            pour le sélectionner, puis réservez-le en un geste.
+            Voici les sites de notre réseau pilote à Abidjan — et bientôt Bouaké.
+            Réservez votre créneau dès maintenant : vous serez notifié dès
+            l&apos;ouverture du casier.
           </p>
         </motion.div>
 
@@ -102,7 +102,7 @@ function LockerCard({
               : 'bg-white text-brand-mid border border-brand-border'
           }`}
         >
-          {l.available ? 'Disponible' : 'Complet'}
+          {l.available ? 'Bientôt' : 'Complet'}
         </span>
       </div>
 
@@ -135,7 +135,7 @@ function LockerCard({
             style={{ '--fill': '#1B5E20' } as React.CSSProperties}
             className="btn-fill inline-flex items-center gap-1.5 rounded-full bg-green-primary px-4 py-2 font-body text-sm font-medium text-white"
           >
-            Réserver
+            Pré-réserver
             <ArrowRight size={15} />
           </Link>
         ) : (

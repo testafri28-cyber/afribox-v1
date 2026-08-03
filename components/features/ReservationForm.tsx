@@ -297,7 +297,7 @@ function StepLocker({
                         : 'bg-brand-off text-brand-mid border border-brand-border'
                     }`}
                   >
-                    {l.available ? 'Disponible' : 'Complet'}
+                    {l.available ? 'Bientôt' : 'Complet'}
                   </span>
                 </div>
                 <p className="font-body text-sm text-brand-sub mb-3">
@@ -305,7 +305,7 @@ function StepLocker({
                 </p>
                 <div className="flex items-center justify-between">
                   <p className="font-mono text-xs text-brand-mid">
-                    {l.available ? 'Disponible' : 'Complet'}
+                    {l.available ? 'Bientôt' : 'Complet'}
                   </p>
                   <div className="flex gap-1">
                     {(['S', 'M', 'L'] as LockerSize[]).map((s) => (

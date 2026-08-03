@@ -10,7 +10,6 @@ import WhyAfriboxSection   from '@/components/sections/WhyAfriboxSection'
 import ChannelsSection     from '@/components/sections/ChannelsSection'
 import AppDownloadSection  from '@/components/sections/AppDownloadSection'
 import AboutSection        from '@/components/sections/AboutSection'
-import TestimonialSection  from '@/components/sections/TestimonialSection'
 import LockersMapSection   from '@/components/sections/LockersMapSection'
 import FaqSection          from '@/components/sections/FaqSection'
 import ContactSection      from '@/components/sections/ContactSection'
@@ -24,15 +23,14 @@ export const metadata: Metadata = buildMetadata({
 export default function HomePage() {
   return (
     <>
-      {/* Ordre narratif : expliquer → prouver → chiffrer.
-          Le prix arrive après la valeur (Fonctionnement, Pourquoi) et la
-          preuve (Témoignages) ; « À propos » passe en fin de parcours. */}
+      {/* Ordre narratif : expliquer → démontrer → chiffrer. Pas de témoignages
+          en phase pilote (aucun client réel) — on les réintroduira après le
+          lancement. « À propos » passe en fin de parcours. */}
       <HeroAfribox />
       <ProblemSection />
       <ServicesAccordion />
       <HowItWorksSection />
       <WhyAfriboxSection />
-      <TestimonialSection />
       <PricingSection />
       <ChannelsSection />
       <AppDownloadSection />

@@ -5,7 +5,7 @@ import { type LucideIcon } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import BentoTriple from '@/components/features/BentoTriple'
-import { values, team } from '@/lib/constants'
+import { values, team, lockerSpecs } from '@/lib/constants'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 export default function AboutSection() {
@@ -25,6 +25,13 @@ export default function AboutSection() {
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray">
             Construire l&apos;infrastructure logistique de demain.
           </h2>
+          <p className="mt-5 font-body text-base md:text-lg text-brand-sub leading-relaxed">
+            AFRIBOX SARL est une société ivoirienne qui déploie le premier réseau
+            de casiers colis intelligents de Côte d&apos;Ivoire : des points de
+            retrait et de dépôt sécurisés, automatisés et accessibles 24h/24,
+            installés au plus près des habitants. Notre mission — démocratiser
+            l&apos;accès à une logistique efficace et flexible.
+          </p>
         </motion.div>
 
         {/* Values bento — accent on the left (varies from Channels which is on the right) */}
@@ -57,6 +64,34 @@ export default function AboutSection() {
             }}
           />
         </div>
+
+        {/* Le casier en bref — caractéristiques réelles */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={staggerContainer}
+          className="mb-20"
+        >
+          <motion.h3
+            variants={fadeInUp}
+            className="font-heading font-bold text-xl sm:text-2xl md:text-4xl text-brand-gray mb-8"
+          >
+            Le casier, en bref.
+          </motion.h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
+            {lockerSpecs.map((s) => (
+              <motion.div
+                key={s.label}
+                variants={fadeInUp}
+                className="rounded-2xl border border-brand-border bg-white p-4 text-center"
+              >
+                <p className="font-heading font-bold text-lg leading-tight text-green-primary">{s.value}</p>
+                <p className="mt-1 font-body text-xs leading-snug text-brand-sub">{s.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
 
         {/* Team */}
         <motion.div

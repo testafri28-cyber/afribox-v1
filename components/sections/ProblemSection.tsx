@@ -40,9 +40,11 @@ export default function ProblemSection() {
             La livraison en Afrique mérite mieux.
           </h2>
           <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed max-w-3xl mb-12 md:mb-16">
-            Commander en ligne, c&apos;est prendre un risque. Adresse introuvable,
-            livreur injoignable, colis perdu. Afribox règle ça simplement : un
-            casier près de chez vous, un code par SMS, et c&apos;est tout.
+            Le e-commerce progresse d&apos;environ 11 % par an en Côte d&apos;Ivoire,
+            mais le dernier kilomètre reste le maillon faible : adresse
+            introuvable, livreur injoignable, colis perdu. Afribox règle ça
+            simplement — un casier près de chez vous, un code par SMS, et
+            c&apos;est tout.
           </p>
         </motion.div>
 
