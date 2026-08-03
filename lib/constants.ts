@@ -210,12 +210,14 @@ export const team: TeamMember[] = [
 // ---------------------------------------------------------------------------
 export type FaqItem = { q: string; a: string }
 export const faq: FaqItem[] = [
-  { q: "Que se passe-t-il si je ne récupère pas mon colis à temps ?",   a: "On vous envoie une notification de rappel avant la fin du délai. Si le délai est dépassé, des frais de garde s'appliquent. Vous êtes toujours prévenus avant." },
-  { q: "Mon colis est-il en sécurité dans le locker ?",                  a: "Oui. Chaque casier est verrouillé électroniquement. Il s'ouvre uniquement avec le code à usage unique envoyé par SMS. Personne d'autre n'y a accès." },
-  { q: "Est-ce qu'on peut utiliser Afribox sans smartphone ?",            a: "Oui. Le code de retrait arrive par SMS simple. Pas besoin d'application, pas besoin de connexion internet." },
-  { q: "Comment trouver le locker le plus proche ?",                     a: "Sur l'appli, le site ou via WhatsApp, une carte vous montre les lockers disponibles près de vous." },
-  { q: "Quelles tailles de colis peut-on déposer ?",                     a: "Nos lockers existent en trois tailles. Petit pour les documents et accessoires. Moyen pour les vêtements et l'électronique. Grand pour les équipements plus volumineux." },
-  { q: "Comment payer ?",                                                 a: "Par Mobile Money — Orange Money, Wave, MTN. Ou par carte bancaire. Le paiement est confirmé instantanément." },
+  { q: "Combien de temps mon colis reste-t-il dans le casier ?",         a: "Votre colis reste disponible 48h dans le casier. Vous recevez des rappels automatiques avant la fin du délai. Passé ce délai, des frais de garde peuvent s'appliquer — vous êtes toujours prévenu avant." },
+  { q: "Mon colis est-il en sécurité dans le casier ?",                  a: "Oui. Chaque casier est verrouillé électroniquement (serrure à solénoïde et lecteur RFID) et ne s'ouvre qu'avec le code à usage unique envoyé par SMS. Deux caméras filment la façade en continu, et chaque dépôt comme chaque retrait est horodaté et tracé." },
+  { q: "Comment se passe le retrait ?",                                  a: "Vous vous présentez au casier au moment de votre choix, 24h/24. Sur l'écran tactile, vous saisissez le code reçu par SMS : le compartiment s'ouvre, vous récupérez votre colis. C'est tout." },
+  { q: "Combien ça coûte ?",                                             a: "Le tarif dépend de la taille du casier, pour une garde de 48h : 500 FCFA (Petit), 750 FCFA (Moyen), 1 250 FCFA (Grand)." },
+  { q: "Est-ce qu'on peut utiliser Afribox sans smartphone ?",            a: "Oui. Le code de retrait arrive par SMS simple. Pas besoin d'application ni de connexion internet." },
+  { q: "Où et quand puis-je utiliser un casier ?",                       a: "Nous lançons notre réseau pilote à Abidjan : premiers casiers à Cap Sud (Marcory), Sococé (2 Plateaux), la Mairie d'Abobo et Cosmos (Yopougon) — et bientôt Bouaké. Vous pouvez déjà pré-réserver votre créneau : vous serez notifié dès l'ouverture d'un casier près de chez vous." },
+  { q: "Quelles tailles de colis peut-on déposer ?",                     a: "Nos casiers existent en trois tailles. Petit pour les documents et accessoires. Moyen pour les vêtements et l'électronique. Grand pour les équipements plus volumineux." },
+  { q: "Comment payer ?",                                                 a: "Par Mobile Money — Orange Money, Wave, MTN — ou par carte bancaire. Le paiement est confirmé instantanément." },
 ]
 
 // ---------------------------------------------------------------------------
