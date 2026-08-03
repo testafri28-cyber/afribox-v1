@@ -1,0 +1,56 @@
+# ==============================================================
+# Stack Afribox v1 — site Next.js (SSR) derrière le Traefik partagé du VPS.
+#
+# Conventions VPS (voir /opt/wca-site/docs/VPS_ADMINISTRATION.md) :
+#   - s'attache au réseau externe partagé "proxy-network" ;
+#   - AUCUN port publié (Traefik joint le conteneur via proxy-network) ;
+#   - ressources bornées, no-new-privileges, logs bornés, healthcheck ;
+#   - réutilise les middlewares partagés security-headers@docker + gzip-compress@docker
+#     (définis sur le conteneur traefik — surtout NE PAS les redéfinir ici).
+#
+# Coexiste avec /opt/afribox-site (page "Coming Soon" de maintenance) :
+# un seul des deux conteneurs tourne à la fois (bascule via afribox-switch.sh).
+# ==============================================================
+
+services:
+  app:
+    build: .
+    image: afribox-v1:latest
+    container_name: afribox-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    networks:
+      - proxy-network
+    mem_limit: 512m
+    cpus: 1.0
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    healthcheck:
+      # 127.0.0.1 (pas localhost) : busybox résoudrait localhost en IPv6 (::1)
+      # alors que Next écoute en IPv4 (0.0.0.0) → faux "connection refused".
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 25s
+    labels:
+      - "traefik.enable=true"
+      # Routeur nommé "afriboxv1" (distinct de "afribox" = stack Coming Soon)
+      - "traefik.http.routers.afriboxv1.rule=Host(`afriboxlockers.com`) || Host(`www.afriboxlockers.com`)"
+      - "traefik.http.routers.afriboxv1.entrypoints=websecure"
+      - "traefik.http.routers.afriboxv1.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.afriboxv1.tls.domains[0].main=afriboxlockers.com"
+      - "traefik.http.routers.afriboxv1.tls.domains[0].sans=www.afriboxlockers.com"
+      - "traefik.http.routers.afriboxv1.middlewares=security-headers@docker,gzip-compress@docker"
+      - "traefik.http.services.afriboxv1.loadbalancer.server.port=3000"
+      - "traefik.docker.network=proxy-network"
+
+networks:
+  proxy-network:
+    external: true
