@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/metadata'
+import { faqPageJsonLd } from '@/lib/jsonld'
+import JsonLd from '@/components/seo/JsonLd'
 
 import HeroAfribox         from '@/components/sections/HeroAfribox'
 import ProblemSection      from '@/components/sections/ProblemSection'
@@ -24,6 +26,8 @@ export const metadata: Metadata = buildMetadata({
 export default function HomePage() {
   return (
     <>
+      {/* FAQPage — mêmes Q/R que l'accordéon visible (conformité Google). */}
+      <JsonLd data={faqPageJsonLd()} />
       {/* Ordre narratif : expliquer → démontrer → chiffrer. Pas de témoignages
           en phase pilote (aucun client réel) — on les réintroduira après le
           lancement. « À propos » passe en fin de parcours. */}

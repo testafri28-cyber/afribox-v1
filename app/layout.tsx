@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { spaceGrotesk, dmSans, dmMono } from '@/lib/fonts'
-import { buildMetadata, siteMetadata } from '@/lib/metadata'
-import { contact, socials } from '@/lib/constants'
+import { buildMetadata } from '@/lib/metadata'
+import { siteGraph } from '@/lib/jsonld'
+import JsonLd from '@/components/seo/JsonLd'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import ScrollToTop from '@/components/layout/ScrollToTop'
@@ -19,25 +20,6 @@ export const viewport: Viewport = {
   themeColor: '#1B5E20',
 }
 
-// Données structurées (schema.org) — aide les moteurs à comprendre l'entité.
-const orgJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Afribox',
-  url: siteMetadata.siteUrl,
-  logo: `${siteMetadata.siteUrl}/icon.svg`,
-  description: siteMetadata.description,
-  email: contact.email,
-  telephone: contact.phoneDisplay,
-  address: {
-    '@type': 'PostalAddress',
-    addressLocality: 'Abidjan',
-    addressCountry: 'CI',
-  },
-  // Profils officiels — relie l'entité à ses réseaux pour les moteurs.
-  sameAs: socials.map((s) => s.href),
-}
-
 export default function RootLayout({
   children,
 }: {
@@ -49,10 +31,7 @@ export default function RootLayout({
       className={`${spaceGrotesk.variable} ${dmSans.variable} ${dmMono.variable}`}
     >
       <body className="bg-brand-off text-brand-gray font-body antialiased">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
-        />
+        <JsonLd data={siteGraph} />
         <CustomCursor />
         <ScrollToTop />
         <Navbar />

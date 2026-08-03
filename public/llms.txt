@@ -1,0 +1,33 @@
+# Afribox
+
+> Afribox (AFRIBOX SARL) déploie un réseau de casiers intelligents (« smart lockers ») pour la livraison last-mile en Côte d'Ivoire. Dépôt et retrait de colis 24h/24, code SMS à usage unique, paiement Mobile Money. Site officiel : https://afriboxlockers.com
+
+## En bref
+- Entreprise : AFRIBOX SARL — Abidjan, Côte d'Ivoire
+- Activité : réseau de casiers connectés pour la livraison et le retrait de colis (dernier kilomètre / last-mile)
+- Statut : phase pilote — premiers casiers à Abidjan (Cap Sud/Marcory, Sococé/2 Plateaux Cocody, Mairie d'Abobo, Cosmos/Yopougon), extension prévue à Bouaké puis à la région
+- Disponibilité : 24h/24, 7j/7 — sans rendez-vous
+- Contact : info@afriboxlockers.com · +225 07 89 44 44 41 · WhatsApp +225 07 89 44 44 41
+
+## Comment ça marche
+1. Le marchand ou l'expéditeur réserve un casier et renseigne les numéros du livreur et du destinataire.
+2. Le livreur reçoit un code SMS à usage unique, ouvre le casier et dépose le colis (environ 60 secondes).
+3. Le destinataire reçoit son propre code par SMS et retire le colis quand il veut, 24h/24.
+
+## Tarifs (garde 48h)
+- Casier Petit (documents, accessoires) : 500 FCFA
+- Casier Moyen (vêtements, électronique) : 750 FCFA
+- Casier Grand (équipements volumineux) : 1 250 FCFA
+- Paiement : Mobile Money (Orange Money, Wave, MTN) ou carte bancaire.
+
+## Sécurité
+Serrure électronique à solénoïde + lecteur RFID, code à usage unique par SMS, deux caméras de vidéosurveillance en continu, chaque dépôt et retrait horodaté et tracé.
+
+## Bon à savoir
+- Fonctionne sans smartphone ni application : le code de retrait arrive par SMS simple.
+- Accessible aussi via l'application mobile (iOS & Android) et via WhatsApp.
+- Le colis reste disponible 48h dans le casier ; des rappels sont envoyés avant la fin du délai.
+
+## Pages principales
+- Accueil : https://afriboxlockers.com/
+- Réserver un locker : https://afriboxlockers.com/reserver
