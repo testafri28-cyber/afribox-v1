@@ -64,8 +64,8 @@ export default function ProblemSection() {
             </span>
             <ul className="space-y-4">
               {pains.map((p) => (
-                <li key={p} className="flex items-start gap-3">
-                  <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-white text-brand-mid ring-1 ring-brand-border">
+                <li key={p} className="flex items-center gap-3">
+                  <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-white text-brand-mid ring-1 ring-brand-border">
                     <X size={13} strokeWidth={2.5} />
                   </span>
                   <span className="font-body text-brand-sub leading-snug">{p}</span>
@@ -91,8 +91,8 @@ export default function ProblemSection() {
               </span>
               <ul className="space-y-4">
                 {solutions.map((s) => (
-                  <li key={s} className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/25">
+                  <li key={s} className="flex items-center gap-3">
+                    <span className="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-white/15 text-white ring-1 ring-white/25">
                       <Check size={13} strokeWidth={3} />
                     </span>
                     <span className="font-body text-white/90 leading-snug">{s}</span>
