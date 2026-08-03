@@ -5,6 +5,7 @@ import {
   ScanLine, ShoppingBag, Truck,
   User, Bell, CreditCard, Lightbulb,
   Clock, Smile, Facebook, Instagram,
+  Users, Building2,
 } from 'lucide-react'
 
 // ---------------------------------------------------------------------------
@@ -36,6 +37,43 @@ export const lockerSpecs: LockerSpec[] = [
   { value: '2 caméras', label: 'vidéosurveillance continue' },
   { value: 'Code unique', label: 'RFID + serrure à solénoïde' },
   { value: '24h/24 · 48h', label: 'accès libre & garde du colis' },
+]
+
+// ---------------------------------------------------------------------------
+// Impact local (source : présentation technique AFRIBOX)
+// ---------------------------------------------------------------------------
+export type ImpactGroup = { icon: LucideIcon; audience: string; points: string[] }
+export const impact: ImpactGroup[] = [
+  {
+    icon: Users,
+    audience: 'Pour les habitants',
+    points: [
+      'Un point de retrait accessible 24h/24, à côté de chez soi',
+      "Plus besoin d'attendre un livreur ni de se déplacer loin",
+      'Un service abordable, sans rendez-vous',
+      'Colis sécurisé, sous vidéosurveillance, remis au seul destinataire',
+    ],
+  },
+  {
+    icon: Store,
+    audience: 'Pour les commerçants',
+    points: [
+      'Une solution de livraison fiable pour les vendeurs du quartier',
+      'Réduction des livraisons manquées et des retours',
+      'Un accès à la vente en ligne sans logistique propre',
+      'Un flux de visiteurs supplémentaire près du site',
+    ],
+  },
+  {
+    icon: Building2,
+    audience: 'Pour la commune',
+    points: [
+      'Moins de trajets de livraison répétés, donc moins de circulation',
+      'Création d’emplois locaux : installation, maintenance, support',
+      'Un équipement moderne, propre et sans nuisance sonore',
+      'Une infrastructure numérique au service des habitants',
+    ],
+  },
 ]
 
 // ---------------------------------------------------------------------------

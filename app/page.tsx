@@ -7,6 +7,7 @@ import ServicesAccordion   from '@/components/sections/ServicesAccordion'
 import PricingSection      from '@/components/sections/PricingSection'
 import HowItWorksSection   from '@/components/sections/HowItWorksSection'
 import WhyAfriboxSection   from '@/components/sections/WhyAfriboxSection'
+import ImpactSection       from '@/components/sections/ImpactSection'
 import ChannelsSection     from '@/components/sections/ChannelsSection'
 import AppDownloadSection  from '@/components/sections/AppDownloadSection'
 import AboutSection        from '@/components/sections/AboutSection'
@@ -31,6 +32,7 @@ export default function HomePage() {
       <ServicesAccordion />
       <HowItWorksSection />
       <WhyAfriboxSection />
+      <ImpactSection />
       <PricingSection />
       <ChannelsSection />
       <AppDownloadSection />
