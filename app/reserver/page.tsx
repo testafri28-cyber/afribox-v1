@@ -34,8 +34,20 @@ export default function ReservePage() {
           </h1>
           <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed max-w-2xl">
             Choisissez un casier, configurez votre envoi, puis finalisez votre
-            réservation sur WhatsApp en un clic.
+            demande sur WhatsApp en un clic.
           </p>
+
+          {/* Statut phase pilote — la réservation est une pré-inscription. */}
+          <div className="mt-5 inline-flex items-center gap-2.5 rounded-full border border-green-soft bg-green-bg px-4 py-2">
+            <span className="relative flex h-2 w-2 flex-shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-primary opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-green-primary" />
+            </span>
+            <span className="font-body text-sm text-green-dark">
+              <span className="font-semibold">Phase pilote</span> — réservez votre
+              créneau, vous serez notifié dès l&apos;ouverture du casier.
+            </span>
+          </div>
         </Container>
       </section>
 

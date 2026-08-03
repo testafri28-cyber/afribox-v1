@@ -11,7 +11,7 @@ import { contact } from '@/lib/constants'
 const contactInfo = [
   { icon: Mail,   label: 'Email',     value: contact.email },
   { icon: Phone,  label: 'Téléphone', value: contact.phoneDisplay },
-  { icon: MapPin, label: 'Adresse',   value: contact.city },
+  { icon: MapPin, label: 'Siège',     value: contact.address },
 ]
 
 export default function ContactSection() {
