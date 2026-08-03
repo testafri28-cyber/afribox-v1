@@ -5,6 +5,8 @@ import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import ReservationForm from '@/components/features/ReservationForm'
 import { buildMetadata } from '@/lib/metadata'
+import { breadcrumbJsonLd } from '@/lib/jsonld'
+import JsonLd from '@/components/seo/JsonLd'
 
 export const metadata: Metadata = buildMetadata({
   title: 'Réserver un locker — Afribox',
@@ -16,6 +18,12 @@ export const metadata: Metadata = buildMetadata({
 export default function ReservePage() {
   return (
     <>
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: 'Accueil', path: '/' },
+          { name: 'Réserver un locker', path: '/reserver' },
+        ])}
+      />
       {/* En-tête resserré : bouton retour + titre compact, pour que le stepper
           et la sélection du locker soient visibles sans avoir à défiler. */}
       <section className="bg-white">
