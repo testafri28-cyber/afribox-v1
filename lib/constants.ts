@@ -146,9 +146,10 @@ export const values: Value[] = [
 // ---------------------------------------------------------------------------
 export type TeamMember = { initials: string; name: string; role: string; bio: string }
 export const team: TeamMember[] = [
-  { initials: 'AK', name: 'Ama Kofo',        role: 'Co-fondatrice & CEO', bio: 'Passionnée de logistique et convaincue que l\'Afrique mérite mieux.' },
-  { initials: 'DB', name: 'David Bamba',      role: 'CTO',                 bio: 'Construit les systèmes qui font fonctionner les lockers 24h/24.' },
-  { initials: 'MO', name: 'Marie Ouattara',   role: 'Head of Ops',         bio: "S'assure que chaque locker est là quand vous en avez besoin." },
+  { initials: 'FS', name: 'Fabien Szal',      role: 'Direction Générale',      bio: 'Vision, partenariats stratégiques et financement.' },
+  { initials: 'BM', name: 'Bashar Moghnieh',  role: 'Direction des Opérations', bio: 'Opérations, commercial, déploiement terrain et équipe technique.' },
+  { initials: 'SD', name: 'Salomé Delmotte',  role: 'Direction Marketing',     bio: 'Marketing digital, marque et développement de la demande.' },
+  { initials: 'LD', name: 'Lika Doukouré',    role: 'Direction Financière',    bio: 'Finance, juridique et ressources humaines.' },
 ]
 
 // ---------------------------------------------------------------------------
@@ -226,6 +227,8 @@ export const contact = {
   // Format wa.me : indicatif 225 + numéro, sans « + » ni espaces.
   whatsapp: '2250789444441',
   city: "Abidjan, Côte d'Ivoire",
+  // Siège social (source : présentation technique AFRIBOX SARL).
+  address: 'Rue Abli Mathieu, Résidence Premium, 4e étage, Zone 4, Marcory, Abidjan',
 }
 
 // Réseaux sociaux — source unique (footer + JSON-LD `sameAs`).
