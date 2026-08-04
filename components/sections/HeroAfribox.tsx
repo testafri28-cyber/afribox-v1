@@ -10,7 +10,7 @@ import { ArrowRight, Clock, Package, CalendarClock, Smartphone, Check } from 'lu
    dans le HTML, il évite le « header vide » pendant le téléchargement du WebP
    de Locky. Généré depuis public/mascotte.webp. */
 const MASCOTTE_BLUR =
-  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAPCAYAAADUFP50AAACzklEQVR42oWSXUhTYRjHn/c9Zx/u083l1JlO87s0ExMlsaQvKCglNhEJk0qIsrzoSpBRdFGERBfSTd0WbCYqXUQ3IhYUZJFmJs7QqdvSOfWc7exsO+d9u9DCi6g//HkunoeH5//wA/iH7nc6jK5b7anwH6EdMwgB5GRbr1vSjMvWPablkqJ9V+h2D+8e3q4YUQQAlFIoKy0zCyFfoKlYr8zNsMDQ17X5sZmfBRQoQgAUdm2gQKiCEpoCFJhEzvFoZWGuP12volYNJvX77dzHzquK3eexAAD1HfUdlr2WXoOsUZizMienXf0PKo+V2yWOoxGehzpb6qEF4UNNNcA7t8PBOD0emQUAaK5pzjvcfCQvS2sF3/QP3cton7c4tPbcqNG0WgtK8PLc5LC2onjK7ShinB4PAQBgn9Sm2JTL3tYq0w0ixDgwqYzYJ9DggbNV9+z+lRY5NsUsGjTPXtx5ze38ZDtjSGssT0ZWCxQsiwxaA1LGRX1PR9lEosEw8MYmMWOmBA005fe1jFy67Rp1aYECAgqIXdpMqrMQJV6/F0RRwJIowieLqtJamgaF9hMQjYlIYWYLwwr+4Xv/1EmM8GnivsBgIpE5IU6TWoOBrDAhKTXbJs/rGXltNkhqbdVQYMyBIl0+4Rd5siSGTp33tPWC0yPjp182ZpLmkrtqtYLdiPOsDJThfByztBDAM0EvhKMcjcRFLPFy0DvmXfWtBnquverOZwCAoozM73H/un9uajYx+HZ4PByLjMV1UBfBEVmQBLKOwjgmS/0sYXlTur4CS6pH6G/sHbzZ0BzUbw2as/SSSmaxNl2HE3PhIWRQn1GZdQPjF0fafpODRkdH2a7HXSq3281gJU5nlBgwAtCp1DhGKamgiaZzn1cWxhOJbuoC/Ae5xsZGaTI8KTudTlkiskySMghbIqxvbFGBi8KmKPFHJ/ztcPn1mucboF+lmkPVe4YouAAAAABJRU5ErkJggg=='
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAIAAACQKrqGAAACNklEQVR4nF1STWjTcBz95Z9/m3T9SNNtdmu7rlvp5ui+kDlwoN1QQWUHQQ8DTz0pw9vwIkgMXnRXwYu461TwqAcdrAWdbjs4cAOHunWfTVq2dmmSpm2WvxRloO/6Ho/Hew/gXyCK6uhod3Kch/PEYlFCyAmFASAhJCAFarc63jo+Oztbzu9MdDJtp/i5n4eR+OiJlPrPNTA00lfbvt5mBZv5BYnKccMzL2f+ul7q7JTPOat7Wqw31hKKFJ6/jg9GswfbyMqNxXpMbWkGYD6RGEun0dwGunzl6t0n9+4/EHoDPeVcgehHJoV90f6CvKs3uAkhqdF6DPzwGjMxcMse9HnoBtktvytBY9WLVT0gFWUFHr36DE8pIAAiYEs/0EuH3b5+AHDp8os7fY8bG3bmihurMn2zPzk1Gc43i5QoCAJmMI1MdW1n3cE69EPlrUPjB0P2QLxWQXS4MVvdlZi95Jvb4g0RlSpmWS2ZxEQAZsi/4qNtKpkcSbaFTtMW0Y60rfz+ppKZXpzGilHhXK0r7Ja9Sloi0VxKzcvfBvw9TTTPM25JyX1dWtO7jPfHafxsuXhRynsZj2bqC98/0RKYHPVlc9mNnXbGpuilJuJSMkqJ0yhBAFGELn8Yn/f8KGyciZ/9Zdvng26biRxetlapZo8c4XbsMtCftSio91HH8FQiQ0neoJO1bKybLRvGhdXiesRr8P76BwCIIAipTCodGaWNj4DAso5pxGIK1TDEzcrQ/G7yw+JvyHzwQP1km+oAAAAASUVORK5CYII='
 
 /* Effet machine à écrire sur le dernier mot du titre.
    Le SSR rend WORDS[0] : le titre reste lisible même sans JS. */
@@ -249,8 +249,8 @@ export default function HeroAfribox() {
                   <Image
                     src="/mascotte.webp"
                     alt="Locky, la mascotte Afribox, présentant une réservation de locker confirmée"
-                    width={480}
-                    height={500}
+                    width={878}
+                    height={900}
                     priority
                     placeholder="blur"
                     blurDataURL={MASCOTTE_BLUR}
