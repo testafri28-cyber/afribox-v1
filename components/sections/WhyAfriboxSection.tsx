@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Container from '@/components/layout/Container'
@@ -53,7 +54,12 @@ function labelStyle(i: number): React.CSSProperties {
 // Verts distincts par segment (adjacents contrastés), 100 % marque.
 const segColors = ['#27AE60', '#14532A', '#43A047', '#0E4D1E', '#2E7D32']
 
+// Zoom au survol : cubic-bezier légèrement rebondi.
+const hoverEase = 'transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1)'
+
 export default function WhyAfriboxSection() {
+  const [hovered, setHovered] = useState<number | null>(null)
+
   return (
     <section id="pourquoi" className="bg-brand-off">
       <Container className="py-16 md:py-24">
@@ -81,14 +87,39 @@ export default function WhyAfriboxSection() {
           <div className="relative" style={{ width: 920, height: 500 }}>
             <svg viewBox="0 0 920 500" className="absolute inset-0 h-full w-full" aria-hidden>
               {whyAfribox.map((_, i) => (
-                <path key={i} d={segPath(i)} fill={segColors[i]} stroke="#F7F9F7" strokeWidth="4" />
+                <path
+                  key={i}
+                  d={segPath(i)}
+                  fill={segColors[i]}
+                  stroke="#F7F9F7"
+                  strokeWidth="4"
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{
+                    cursor: 'pointer',
+                    transformBox: 'view-box',
+                    transformOrigin: `${CX}px ${CY}px`,
+                    transform: hovered === i ? 'scale(1.05)' : 'scale(1)',
+                    filter: hovered === i ? 'brightness(1.08)' : 'none',
+                    transition: hoverEase + ', filter 0.28s ease',
+                  }}
+                />
               ))}
-              <circle cx={CX} cy={CY} r={RI - 2} fill="#ffffff" />
+              <circle cx={CX} cy={CY} r={RI - 2} fill="#ffffff" className="pointer-events-none" />
               {whyAfribox.map((_, i) => {
                 const [sx, sy] = pt(R + 3, midDeg(i))
                 const [ex, ey] = pt(R + 26, midDeg(i))
                 return (
-                  <line key={`l${i}`} x1={sx} y1={sy} x2={ex} y2={ey} stroke="#B7C6BA" strokeWidth="1.5" />
+                  <line
+                    key={`l${i}`}
+                    x1={sx}
+                    y1={sy}
+                    x2={ex}
+                    y2={ey}
+                    stroke={hovered === i ? segColors[i] : '#B7C6BA'}
+                    strokeWidth={hovered === i ? 2 : 1.5}
+                    className="pointer-events-none transition-colors"
+                  />
                 )
               })}
             </svg>
@@ -114,8 +145,13 @@ export default function WhyAfriboxSection() {
               return (
                 <div
                   key={`i${i}`}
-                  className="absolute z-10"
-                  style={{ left: ix, top: iy, transform: 'translate(-50%,-50%)' }}
+                  className="pointer-events-none absolute z-10"
+                  style={{
+                    left: ix,
+                    top: iy,
+                    transform: `translate(-50%,-50%) scale(${hovered === i ? 1.18 : 1})`,
+                    transition: hoverEase,
+                  }}
                 >
                   <Icon size={28} className="text-white drop-shadow" strokeWidth={2} />
                 </div>
@@ -124,11 +160,23 @@ export default function WhyAfriboxSection() {
 
             {/* Libellés + descriptions à l'extérieur */}
             {whyAfribox.map(({ title, text }, i) => (
-              <div key={`t${i}`} className="absolute z-10 w-[188px]" style={labelStyle(i)}>
+              <div
+                key={`t${i}`}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
+                className="absolute z-10 w-[188px] cursor-pointer"
+                style={labelStyle(i)}
+              >
                 <h3 className="font-heading text-sm font-bold leading-tight" style={{ color: segColors[i] }}>
                   {title}
                 </h3>
-                <p className="mt-1 font-body text-xs leading-snug text-brand-sub">{text}</p>
+                <p
+                  className={`mt-1 font-body text-xs leading-snug transition-colors ${
+                    hovered === i ? 'text-brand-gray' : 'text-brand-sub'
+                  }`}
+                >
+                  {text}
+                </p>
               </div>
             ))}
           </div>
