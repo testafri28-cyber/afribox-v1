@@ -255,7 +255,7 @@ export default function HeroAfribox() {
                     placeholder="blur"
                     blurDataURL={MASCOTTE_BLUR}
                     sizes="(min-width: 1024px) 360px, (min-width: 768px) 300px, 250px"
-                    className="w-[250px] md:w-[300px] lg:w-[360px] h-auto drop-shadow-2xl"
+                    className="w-[250px] md:w-[300px] lg:w-[360px] h-auto drop-shadow-[0_14px_22px_rgba(9,46,20,0.4)]"
                   />
                 </motion.div>
               </div>
