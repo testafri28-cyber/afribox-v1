@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check, Package, Undo2, Archive, Network } from 'lucide-react'
 import Image from 'next/image'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
@@ -15,6 +15,15 @@ const mascots = [
   { src: '/locky-particulier.webp', w: 323, h: 900 }, // tend le colis
   { src: '/locky-pme.webp',         w: 539, h: 900 }, // presse-papier + colis
 ]
+
+// Le casier sert quatre usages, et se commande par six canaux (source : dossiers AFRIBOX).
+const usages = [
+  { icon: Package, title: 'E-commerce',         text: 'Le coursier dépose, vous retirez avec votre code.' },
+  { icon: Undo2,   title: 'Envoi & retours',     text: 'Vous déposez, le coursier ou le marchand collecte.' },
+  { icon: Archive, title: 'Entre particuliers',  text: 'Une remise locale, sans passer par un coursier.' },
+  { icon: Network, title: 'Relais casier',       text: 'Des flux casier-à-casier — bientôt.' },
+]
+const channels = ['Site web', 'Application', 'WhatsApp', 'Au checkout marchand', 'Portail pro', 'Kiosque — sans compte']
 
 export default function ServicesAccordion() {
   const [active, setActive] = useState(0)
@@ -162,6 +171,38 @@ export default function ServicesAccordion() {
               </AnimatePresence>
             </div>
           ))}
+        </div>
+
+        {/* Un casier, quatre usages + les canaux de commande (dossiers AFRIBOX). */}
+        <div className="mt-14 md:mt-20">
+          <h3 className="mb-8 text-center font-heading text-xl font-bold text-brand-gray md:text-2xl">
+            Un casier, quatre usages.
+          </h3>
+          <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
+            {usages.map(({ icon: Icon, title, text }) => (
+              <div key={title} className="rounded-2xl border border-green-soft bg-white p-5">
+                <span className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-xl bg-green-bg">
+                  <Icon size={18} className="text-green-primary" />
+                </span>
+                <h4 className="font-heading text-sm font-bold text-brand-gray">{title}</h4>
+                <p className="mt-1 font-body text-xs leading-snug text-brand-sub">{text}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-9 flex flex-col items-center gap-3">
+            <p className="font-body text-sm text-brand-sub">Commandez comme ça vous arrange</p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {channels.map((c) => (
+                <span
+                  key={c}
+                  className="rounded-full bg-green-soft px-3.5 py-1.5 font-body text-xs font-medium text-green-dark"
+                >
+                  {c}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </Container>
     </section>

@@ -14,7 +14,7 @@ const MASCOTTE_BLUR =
 
 /* Effet machine à écrire sur le dernier mot du titre.
    Le SSR rend WORDS[0] : le titre reste lisible même sans JS. */
-const WORDS       = ['no stress,', '24h/24 & 7j/7,', 'sécurisée.']
+const WORDS       = ['du premier coup.', 'sans stress.', 'à toute heure.']
 const TYPE_SPEED  = 75
 const ERASE_SPEED = 42
 const PAUSE_AFTER = 2400
@@ -305,8 +305,7 @@ export default function HeroAfribox() {
           </div>
 
           <h1 className="mt-2 md:mt-4 font-heading font-bold text-[32px] sm:text-[42px] md:text-[52px] leading-[1.1] tracking-[-0.02em] max-w-3xl mx-auto">
-            <span className="text-green-dark">Afribox,</span>{' '}
-            <span className="text-brand-gray">la livraison</span>
+            <span className="text-brand-gray">Chaque colis livré</span>
             <br />
             <span className="text-green-primary italic whitespace-nowrap">
               {typedText}
