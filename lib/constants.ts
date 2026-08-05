@@ -50,7 +50,7 @@ export const impact: ImpactGroup[] = [
     points: [
       'Un point de retrait accessible 24h/24, à côté de chez soi',
       "Plus besoin d'attendre un livreur ni de se déplacer loin",
-      'Un service abordable, sans rendez-vous',
+      'Un service abordable, à partir de 500 FCFA',
       'Colis sécurisé, sous vidéosurveillance, remis au seul destinataire',
     ],
   },
@@ -210,14 +210,15 @@ export const team: TeamMember[] = [
 // ---------------------------------------------------------------------------
 export type FaqItem = { q: string; a: string }
 export const faq: FaqItem[] = [
-  { q: "Combien de temps mon colis reste-t-il dans le casier ?",         a: "Votre colis reste disponible 48h dans le casier. Vous recevez des rappels automatiques avant la fin du délai. Passé ce délai, des frais de garde peuvent s'appliquer — vous êtes toujours prévenu avant." },
+  { q: "Combien de temps mon colis reste-t-il dans le casier ?",         a: "Votre colis reste disponible 48h dans le casier. Vous recevez des rappels automatiques avant la fin du délai. Au-delà : prolongation payante ou annulation remboursée — vous êtes toujours prévenu avant." },
   { q: "Mon colis est-il en sécurité dans le casier ?",                  a: "Oui. Chaque casier est verrouillé électroniquement (serrure à solénoïde et lecteur RFID) et ne s'ouvre qu'avec le code à usage unique envoyé par SMS. Deux caméras filment la façade en continu, et chaque dépôt comme chaque retrait est horodaté et tracé." },
   { q: "Comment se passe le retrait ?",                                  a: "Vous vous présentez au casier au moment de votre choix, 24h/24. Sur l'écran tactile, vous saisissez le code reçu par SMS : le compartiment s'ouvre, vous récupérez votre colis. C'est tout." },
   { q: "Combien ça coûte ?",                                             a: "Le tarif dépend de la taille du casier, pour une garde de 48h : 500 FCFA (Petit), 750 FCFA (Moyen), 1 250 FCFA (Grand)." },
   { q: "Est-ce qu'on peut utiliser Afribox sans smartphone ?",            a: "Oui. Le code de retrait arrive par SMS simple. Pas besoin d'application ni de connexion internet." },
   { q: "Où et quand puis-je utiliser un casier ?",                       a: "Nous lançons notre réseau pilote à Abidjan : premiers casiers à Cap Sud (Marcory), Sococé (2 Plateaux), la Mairie d'Abobo et Cosmos (Yopougon) — et bientôt Bouaké. Vous pouvez déjà pré-réserver votre créneau : vous serez notifié dès l'ouverture d'un casier près de chez vous." },
-  { q: "Quelles tailles de colis peut-on déposer ?",                     a: "Nos casiers existent en trois tailles. Petit pour les documents et accessoires. Moyen pour les vêtements et l'électronique. Grand pour les équipements plus volumineux." },
-  { q: "Comment payer ?",                                                 a: "Par Mobile Money — Orange Money, Wave, MTN — ou par carte bancaire. Le paiement est confirmé instantanément." },
+  { q: "Quelles tailles de colis peut-on déposer ?",                     a: "Nos casiers existent en trois tailles, jusqu'à 15 kg par colis : Petit (35 × 10 × 49 cm) pour documents et accessoires, Moyen (35 × 20 × 49 cm) pour vêtements et électronique, Grand (35 × 30 × 49 cm) pour les articles plus volumineux." },
+  { q: "Comment payer ?",                                                 a: "Le paiement se fait à la réservation, jamais à la collecte : par carte VISA ou par Mobile Money — Orange Money, Wave, MTN. La confirmation est instantanée." },
+  { q: "Puis-je aussi envoyer un colis ou faire un retour ?",             a: "Oui. Au-delà de la réception d'achats en ligne, vous pouvez déposer un colis à expédier ou un retour marchand dans un casier — et même organiser une remise entre particuliers. Vous réservez, vous déposez, et le destinataire ou le coursier récupère avec son code." },
 ]
 
 // ---------------------------------------------------------------------------
