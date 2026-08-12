@@ -32,7 +32,6 @@ const phases = [
 ]
 
 const VIEW = { once: true, amount: 0.5 } as const
-const FLOW = { duration: 1.3, ease: [0.4, 0, 0.2, 1] } as const
 
 export default function ProcessStepper() {
   return (
@@ -44,23 +43,18 @@ export default function ProcessStepper() {
           aria-hidden
           className="absolute left-[16.666%] right-[16.666%] top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-brand-border"
         />
-        {/* Remplissage : se trace de 01 vers 03 */}
-        <motion.div
+        {/* Remplissage vert : la connexion reste affichée en permanence */}
+        <div
           aria-hidden
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={VIEW}
-          transition={FLOW}
-          className="absolute left-[16.666%] right-[16.666%] top-1/2 h-[3px] -translate-y-1/2 origin-left rounded-full bg-gradient-to-r from-green-dark via-green-primary to-green-light"
+          className="absolute left-[16.666%] right-[16.666%] top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-gradient-to-r from-green-dark via-green-primary to-green-light"
         />
-        {/* Le colis qui voyage le long du rail */}
+        {/* Le colis qui voyage le long du rail — en boucle continue */}
         <motion.div
           aria-hidden
           initial={{ left: '16.666%', opacity: 0 }}
-          whileInView={{ left: '83.333%', opacity: [0, 1, 1, 0] }}
-          viewport={VIEW}
-          transition={FLOW}
-          className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white ring-[3px] ring-green-primary shadow-[0_0_14px_rgba(39,174,96,0.75)]"
+          animate={{ left: ['16.666%', '83.333%'], opacity: [0, 1, 1, 0] }}
+          transition={{ duration: 2.4, repeat: Infinity, repeatDelay: 0.5, ease: 'easeInOut' }}
+          className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white ring-[3px] ring-green-primary shadow-[0_0_14px_rgba(39,174,96,0.85),-8px_0_10px_rgba(39,174,96,0.35)]"
         />
         {/* Badges numérotés, posés sur le rail (apparition en séquence) */}
         <div className="grid grid-cols-3">
