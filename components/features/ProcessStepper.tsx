@@ -42,6 +42,15 @@ function Badge({ n, className = '' }: { n: string; className?: string }) {
   )
 }
 
+// Boucle commune (point, remplissage, badges) — lente et synchronisée.
+const LOOP = { duration: 5, repeat: Infinity, repeatDelay: 0.6, ease: 'easeInOut' } as const
+// Opacité du remplissage de chaque badge au fil du cycle (01 tôt, 02 milieu, 03 fin).
+const badgeFill = [
+  { o: [0, 1, 1, 0], t: [0, 0.08, 0.85, 1] },
+  { o: [0, 0, 1, 1, 0], t: [0, 0.33, 0.4, 0.85, 1] },
+  { o: [0, 0, 1, 1, 0], t: [0, 0.63, 0.7, 0.85, 1] },
+]
+
 export default function ProcessStepper() {
   return (
     <div>
@@ -52,27 +61,40 @@ export default function ProcessStepper() {
           aria-hidden
           className="absolute left-[16.666%] right-[16.666%] top-1/2 h-px -translate-y-1/2 bg-green-primary/15"
         />
-        {/* Remplissage vert qui progresse derrière le point (boucle lente) */}
+        {/* Remplissage vert qui progresse derrière le point */}
         <motion.div
           aria-hidden
           initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: [0, 1], opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 4.6, repeat: Infinity, repeatDelay: 0.8, ease: 'easeInOut' }}
+          animate={{ scaleX: [0, 1, 1], opacity: [0, 1, 1, 0] }}
+          transition={{ ...LOOP, scaleX: { times: [0, 0.7, 1] }, opacity: { times: [0, 0.08, 0.85, 1] } }}
           className="absolute left-[16.666%] right-[16.666%] top-1/2 h-px -translate-y-1/2 origin-left bg-green-primary"
         />
-        {/* Point discret (tête du remplissage), en boucle lente */}
+        {/* Point (tête du remplissage) */}
         <motion.div
           aria-hidden
           initial={{ left: '16.666%', opacity: 0 }}
-          animate={{ left: ['16.666%', '83.333%'], opacity: [0, 1, 1, 0] }}
-          transition={{ duration: 4.6, repeat: Infinity, repeatDelay: 0.8, ease: 'easeInOut' }}
+          animate={{ left: ['16.666%', '83.333%', '83.333%'], opacity: [0, 1, 1, 0] }}
+          transition={{ ...LOOP, left: { times: [0, 0.7, 1] }, opacity: { times: [0, 0.08, 0.68, 0.75] } }}
           className="absolute top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-green-primary shadow-[0_0_6px_rgba(39,174,96,0.55)]"
         />
-        {/* Badges fins, posés sur le filet */}
+        {/* Badges : se remplissent au passage du point, en séquence 01 → 02 → 03 */}
         <div className="grid grid-cols-3">
-          {phases.map((p) => (
+          {phases.map((p, i) => (
             <div key={p.n} className="flex justify-center">
-              <Badge n={p.n} className="relative z-10 h-9 w-9 text-sm" />
+              <div className="relative z-10 h-9 w-9">
+                <span className="absolute inset-0 flex items-center justify-center rounded-full border border-green-primary/45 bg-white font-heading text-sm font-bold text-green-primary">
+                  {p.n}
+                </span>
+                <motion.span
+                  aria-hidden
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: badgeFill[i].o }}
+                  transition={{ ...LOOP, times: badgeFill[i].t }}
+                  className="absolute inset-0 flex items-center justify-center rounded-full bg-green-primary font-heading text-sm font-bold text-white"
+                >
+                  {p.n}
+                </motion.span>
+              </div>
             </div>
           ))}
         </div>
