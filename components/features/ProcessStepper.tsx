@@ -79,7 +79,10 @@ export default function ProcessStepper() {
             opacity: [0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
           }}
           transition={{ ...LOOP, times: [0, 0.08, 0.1, 0.17, 0.45, 0.49, 0.53, 0.58, 0.85, 0.9, 1] }}
-          className="absolute top-1/2 z-20 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-green-primary shadow-[0_0_6px_rgba(39,174,96,0.6)]"
+          /* Centrage par marge (pas de transform) : le transform est déjà pris
+             par Framer pour l'animation → un translate serait ignoré. top-[14px]
+             centre les 8px sur l'axe du fil (18px) ; -ml-1 cale le centre sur `left`. */
+          className="absolute top-[14px] z-20 -ml-1 h-2 w-2 rounded-full bg-green-primary shadow-[0_0_6px_rgba(39,174,96,0.6)]"
         />
         {/* Badges : se remplissent au passage du point, en séquence 01 → 02 → 03 */}
         <div className="grid grid-cols-3">
