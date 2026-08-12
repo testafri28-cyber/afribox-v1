@@ -43,12 +43,12 @@ function Badge({ n, className = '' }: { n: string; className?: string }) {
 }
 
 // Boucle commune (point, remplissage, badges) — lente et synchronisée.
-const LOOP = { duration: 4.5, repeat: Infinity, repeatDelay: 0.4, ease: 'easeInOut' } as const
+const LOOP = { duration: 4.5, repeat: Infinity, repeatDelay: 0.4, ease: 'linear' } as const
 // Opacité du remplissage de chaque badge au fil du cycle (01 tôt, 02 milieu, 03 quand le point arrive).
 const badgeFill = [
-  { o: [0, 1, 1, 0], t: [0, 0.05, 0.9, 1] },
-  { o: [0, 0, 1, 1, 0], t: [0, 0.42, 0.48, 0.9, 1] },
-  { o: [0, 0, 1, 1, 0], t: [0, 0.8, 0.86, 0.92, 1] },
+  { o: [0, 1, 1, 0], t: [0, 0.1, 0.9, 1] },
+  { o: [0, 0, 1, 1, 0], t: [0, 0.44, 0.5, 0.9, 1] },
+  { o: [0, 0, 1, 1, 0], t: [0, 0.84, 0.9, 0.95, 1] },
 ]
 
 export default function ProcessStepper() {
@@ -59,23 +59,27 @@ export default function ProcessStepper() {
         {/* Piste légère (rail vide) */}
         <div
           aria-hidden
-          className="absolute left-[16.666%] right-[16.666%] top-1/2 h-px -translate-y-1/2 bg-green-primary/15"
+          className="absolute inset-x-[16.666%] top-[17px] h-[2px] rounded-full bg-green-primary/20"
         />
         {/* Remplissage vert qui progresse derrière le point */}
         <motion.div
           aria-hidden
           initial={{ scaleX: 0, opacity: 0 }}
-          animate={{ scaleX: [0, 1, 1], opacity: [0, 1, 1, 0] }}
-          transition={{ ...LOOP, scaleX: { times: [0, 0.88, 1], ease: 'linear' }, opacity: { times: [0, 0.05, 0.9, 1] } }}
-          className="absolute left-[16.666%] right-[16.666%] top-1/2 h-px -translate-y-1/2 origin-left bg-green-primary"
+          animate={{ scaleX: [0, 0, 1, 1], opacity: [0, 1, 1, 0] }}
+          transition={{ ...LOOP, times: [0, 0.08, 0.9, 1] }}
+          className="absolute inset-x-[16.666%] top-[17px] h-[2px] origin-left rounded-full bg-green-primary"
         />
-        {/* Point (tête du remplissage) */}
+        {/* Point fin (tête du remplissage) — s'efface en passant sur chaque
+            numéro pour ne pas se confondre avec le chiffre. */}
         <motion.div
           aria-hidden
           initial={{ left: '16.666%', opacity: 0 }}
-          animate={{ left: ['16.666%', '83.333%', '83.333%'], opacity: [0, 1, 1, 0] }}
-          transition={{ ...LOOP, left: { times: [0, 0.88, 1], ease: 'linear' }, opacity: { times: [0, 0.05, 0.85, 0.92] } }}
-          className="absolute top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-green-primary shadow-[0_0_6px_rgba(39,174,96,0.55)]"
+          animate={{
+            left: ['16.666%', '16.666%', '16.666%', '24%', '47%', '50%', '53%', '57%', '79%', '83.333%', '83.333%'],
+            opacity: [0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0],
+          }}
+          transition={{ ...LOOP, times: [0, 0.08, 0.1, 0.17, 0.45, 0.49, 0.53, 0.58, 0.85, 0.9, 1] }}
+          className="absolute top-1/2 z-20 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-green-primary shadow-[0_0_6px_rgba(39,174,96,0.6)]"
         />
         {/* Badges : se remplissent au passage du point, en séquence 01 → 02 → 03 */}
         <div className="grid grid-cols-3">
