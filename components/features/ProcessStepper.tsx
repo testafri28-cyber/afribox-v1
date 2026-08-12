@@ -43,12 +43,12 @@ function Badge({ n, className = '' }: { n: string; className?: string }) {
 }
 
 // Boucle commune (point, remplissage, badges) — lente et synchronisée.
-const LOOP = { duration: 5, repeat: Infinity, repeatDelay: 0.6, ease: 'easeInOut' } as const
-// Opacité du remplissage de chaque badge au fil du cycle (01 tôt, 02 milieu, 03 fin).
+const LOOP = { duration: 4.5, repeat: Infinity, repeatDelay: 0.4, ease: 'easeInOut' } as const
+// Opacité du remplissage de chaque badge au fil du cycle (01 tôt, 02 milieu, 03 quand le point arrive).
 const badgeFill = [
-  { o: [0, 1, 1, 0], t: [0, 0.08, 0.85, 1] },
-  { o: [0, 0, 1, 1, 0], t: [0, 0.33, 0.4, 0.85, 1] },
-  { o: [0, 0, 1, 1, 0], t: [0, 0.63, 0.7, 0.85, 1] },
+  { o: [0, 1, 1, 0], t: [0, 0.05, 0.9, 1] },
+  { o: [0, 0, 1, 1, 0], t: [0, 0.42, 0.48, 0.9, 1] },
+  { o: [0, 0, 1, 1, 0], t: [0, 0.8, 0.86, 0.92, 1] },
 ]
 
 export default function ProcessStepper() {
@@ -66,7 +66,7 @@ export default function ProcessStepper() {
           aria-hidden
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: [0, 1, 1], opacity: [0, 1, 1, 0] }}
-          transition={{ ...LOOP, scaleX: { times: [0, 0.7, 1] }, opacity: { times: [0, 0.08, 0.85, 1] } }}
+          transition={{ ...LOOP, scaleX: { times: [0, 0.88, 1], ease: 'linear' }, opacity: { times: [0, 0.05, 0.9, 1] } }}
           className="absolute left-[16.666%] right-[16.666%] top-1/2 h-px -translate-y-1/2 origin-left bg-green-primary"
         />
         {/* Point (tête du remplissage) */}
@@ -74,7 +74,7 @@ export default function ProcessStepper() {
           aria-hidden
           initial={{ left: '16.666%', opacity: 0 }}
           animate={{ left: ['16.666%', '83.333%', '83.333%'], opacity: [0, 1, 1, 0] }}
-          transition={{ ...LOOP, left: { times: [0, 0.7, 1] }, opacity: { times: [0, 0.08, 0.68, 0.75] } }}
+          transition={{ ...LOOP, left: { times: [0, 0.88, 1], ease: 'linear' }, opacity: { times: [0, 0.05, 0.85, 0.92] } }}
           className="absolute top-1/2 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-green-primary shadow-[0_0_6px_rgba(39,174,96,0.55)]"
         />
         {/* Badges : se remplissent au passage du point, en séquence 01 → 02 → 03 */}
