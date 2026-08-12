@@ -1,58 +1,94 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ArrowRight, MessageSquare } from 'lucide-react'
+import { ArrowRight, MessageSquare, ShoppingBag, Package, CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
-import { processSteps } from '@/lib/constants'
 
-const columns = [processSteps.slice(0, 3), processSteps.slice(3)]
+// Les 6 étapes du parcours regroupées en 3 temps lisibles.
+const phases = [
+  {
+    n: '01',
+    icon: ShoppingBag,
+    title: 'Commande & réservation',
+    text: "Vous commandez chez un marchand partenaire ; il réserve le casier. Un seul paiement couvre le produit, la livraison et le locker.",
+    steps: ['Commande', 'Réservation & paiement'],
+  },
+  {
+    n: '02',
+    icon: Package,
+    title: 'Dépôt du colis',
+    text: "Le livreur reçoit un code d'ouverture par SMS, ouvre le casier, dépose le colis et referme — 60 secondes.",
+    steps: ['Code au livreur', 'Dépôt du colis'],
+    code: '842 631',
+  },
+  {
+    n: '03',
+    icon: CheckCircle2,
+    title: 'Retrait 24h/24',
+    text: "Vous recevez aussitôt votre code par SMS et retirez votre colis quand vous voulez, à toute heure.",
+    steps: ['Code au consommateur', 'Récupération'],
+    code: '975 214',
+  },
+]
 
 export default function ProcessStepper() {
   return (
     <div>
-      {/* Liste épurée : 2 colonnes (1·2·3 / 4·5·6), rangées séparées par un
-          filet fin. Aucune carte — lecture rapide et légère. */}
-      <div className="grid gap-x-8 md:grid-cols-2 md:gap-x-16">
-        {columns.map((col, ci) => (
-          <div
-            key={ci}
-            className={`divide-y divide-brand-border ${
-              ci === 1 ? 'border-t border-brand-border md:border-t-0' : ''
-            }`}
-          >
-            {col.map((s, j) => {
-              const gi = ci * 3 + j
-              const Icon = s.visual.kind === 'sms' ? MessageSquare : s.visual.icon
-              return (
-                <motion.div
-                  key={s.id}
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.6 }}
-                  transition={{ duration: 0.4, ease: 'easeOut', delay: gi * 0.05 }}
-                  className="flex gap-4 py-5"
+      <div className="grid gap-5 md:grid-cols-3">
+        {phases.map((p, i) => {
+          const Icon = p.icon
+          return (
+            <motion.div
+              key={p.n}
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ duration: 0.45, ease: 'easeOut', delay: i * 0.1 }}
+              className="relative flex flex-col rounded-3xl border border-brand-border bg-white p-6 shadow-[0_10px_40px_-24px_rgba(11,61,27,0.4)] transition-shadow hover:shadow-[0_24px_50px_-24px_rgba(11,61,27,0.45)] md:p-7"
+            >
+              {/* Connecteur vers la phase suivante (desktop, dans le gap). */}
+              {i < phases.length - 1 && (
+                <span
+                  aria-hidden
+                  className="absolute -right-[14px] top-1/2 z-10 hidden h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-brand-border bg-white text-green-primary shadow-sm md:flex"
                 >
-                  <span className="w-6 flex-shrink-0 font-heading text-lg font-bold tabular-nums text-green-primary">
-                    {s.id}
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-heading text-base font-bold text-brand-gray">{s.title}</h3>
-                      <Icon size={14} className="flex-shrink-0 text-brand-mid" />
-                    </div>
-                    <p className="mt-0.5 font-body text-sm leading-snug text-brand-sub">{s.short}</p>
-                    {s.visual.kind === 'sms' && (
-                      <span className="mt-2 inline-flex items-center gap-1.5 rounded-full border border-green-soft bg-green-bg px-2.5 py-0.5 font-mono text-xs font-bold tracking-widest text-green-primary">
-                        <MessageSquare size={12} />
-                        {s.visual.code}
-                      </span>
-                    )}
+                  <ArrowRight size={15} />
+                </span>
+              )}
+
+              <div className="flex items-center justify-between">
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-green-primary to-green-dark font-heading text-lg font-bold text-white shadow-[0_10px_24px_-8px_rgba(11,61,27,0.6)]">
+                  {p.n}
+                </span>
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-bg text-green-primary">
+                  <Icon size={20} />
+                </span>
+              </div>
+
+              <h3 className="mt-5 font-heading text-xl font-bold text-brand-gray">{p.title}</h3>
+              <p className="mt-2 font-body text-sm leading-relaxed text-brand-sub">{p.text}</p>
+
+              <div className="mt-auto pt-5">
+                <div className="flex flex-wrap gap-1.5">
+                  {p.steps.map((s) => (
+                    <span
+                      key={s}
+                      className="rounded-full bg-brand-off px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-brand-sub"
+                    >
+                      {s}
+                    </span>
+                  ))}
+                </div>
+                {p.code && (
+                  <div className="mt-3 inline-flex items-center gap-2 rounded-xl border border-green-soft bg-green-bg px-3 py-1.5">
+                    <MessageSquare size={14} className="text-green-primary" />
+                    <span className="font-mono text-base font-bold tracking-widest text-green-primary">{p.code}</span>
                   </div>
-                </motion.div>
-              )
-            })}
-          </div>
-        ))}
+                )}
+              </div>
+            </motion.div>
+          )
+        })}
       </div>
 
       {/* CTA final */}

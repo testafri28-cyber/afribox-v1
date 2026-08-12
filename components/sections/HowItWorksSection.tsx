@@ -23,7 +23,8 @@ export default function HowItWorksSection() {
             De la commande à la récupération.
           </h2>
           <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed max-w-2xl mt-4">
-            6 étapes entièrement automatisées. Pas de coup de fil. Pas d&apos;attente.
+            De la commande au retrait, en 3 temps. Entièrement automatisé — pas de
+            coup de fil, pas d&apos;attente.
           </p>
         </motion.div>
         <ProcessStepper />
