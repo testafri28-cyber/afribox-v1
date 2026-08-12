@@ -31,41 +31,80 @@ const phases = [
   },
 ]
 
+const VIEW = { once: true, amount: 0.5 } as const
+const FLOW = { duration: 1.3, ease: [0.4, 0, 0.2, 1] } as const
+
 export default function ProcessStepper() {
   return (
     <div>
+      {/* ---------- Desktop : rail animé reliant les 3 phases ---------- */}
+      <div className="relative mb-6 hidden h-14 md:block">
+        {/* Rail de base */}
+        <div
+          aria-hidden
+          className="absolute left-[16.666%] right-[16.666%] top-1/2 h-[3px] -translate-y-1/2 rounded-full bg-brand-border"
+        />
+        {/* Remplissage : se trace de 01 vers 03 */}
+        <motion.div
+          aria-hidden
+          initial={{ scaleX: 0 }}
+          whileInView={{ scaleX: 1 }}
+          viewport={VIEW}
+          transition={FLOW}
+          className="absolute left-[16.666%] right-[16.666%] top-1/2 h-[3px] -translate-y-1/2 origin-left rounded-full bg-gradient-to-r from-green-dark via-green-primary to-green-light"
+        />
+        {/* Le colis qui voyage le long du rail */}
+        <motion.div
+          aria-hidden
+          initial={{ left: '16.666%', opacity: 0 }}
+          whileInView={{ left: '83.333%', opacity: [0, 1, 1, 0] }}
+          viewport={VIEW}
+          transition={FLOW}
+          className="absolute top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white ring-[3px] ring-green-primary shadow-[0_0_14px_rgba(39,174,96,0.75)]"
+        />
+        {/* Badges numérotés, posés sur le rail (apparition en séquence) */}
+        <div className="grid grid-cols-3">
+          {phases.map((p, i) => (
+            <div key={p.n} className="flex justify-center">
+              <motion.div
+                initial={{ scale: 0.5, opacity: 0 }}
+                whileInView={{ scale: 1, opacity: 1 }}
+                viewport={VIEW}
+                transition={{ delay: 0.2 + i * 0.4, type: 'spring', stiffness: 240, damping: 16 }}
+                className="relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-green-primary to-green-dark font-heading text-xl font-bold text-white ring-4 ring-white shadow-[0_12px_26px_-8px_rgba(11,61,27,0.65)]"
+              >
+                {p.n}
+              </motion.div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ---------- Cartes ---------- */}
       <div className="grid gap-5 md:grid-cols-3">
         {phases.map((p, i) => {
           const Icon = p.icon
           return (
             <motion.div
               key={p.n}
-              initial={{ opacity: 0, y: 22 }}
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.45, ease: 'easeOut', delay: i * 0.1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.15 + i * 0.15 }}
               className="relative flex flex-col rounded-3xl border border-brand-border bg-white p-6 shadow-[0_10px_40px_-24px_rgba(11,61,27,0.4)] transition-shadow hover:shadow-[0_24px_50px_-24px_rgba(11,61,27,0.45)] md:p-7"
             >
-              {/* Connecteur vers la phase suivante (desktop, dans le gap). */}
-              {i < phases.length - 1 && (
-                <span
-                  aria-hidden
-                  className="absolute -right-[14px] top-1/2 z-10 hidden h-7 w-7 -translate-y-1/2 items-center justify-center rounded-full border border-brand-border bg-white text-green-primary shadow-sm md:flex"
-                >
-                  <ArrowRight size={15} />
-                </span>
-              )}
-
-              <div className="flex items-center justify-between">
-                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-green-primary to-green-dark font-heading text-lg font-bold text-white shadow-[0_10px_24px_-8px_rgba(11,61,27,0.6)]">
+              <div className="mb-4 flex items-center gap-3">
+                {/* Numéro : mobile uniquement (sur desktop il est dans le rail) */}
+                <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-green-primary to-green-dark font-heading text-lg font-bold text-white shadow-[0_8px_20px_-6px_rgba(11,61,27,0.6)] md:hidden">
                   {p.n}
                 </span>
+                {/* Icône */}
                 <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-bg text-green-primary">
                   <Icon size={20} />
                 </span>
               </div>
 
-              <h3 className="mt-5 font-heading text-xl font-bold text-brand-gray">{p.title}</h3>
+              <h3 className="font-heading text-xl font-bold text-brand-gray">{p.title}</h3>
               <p className="mt-2 font-body text-sm leading-relaxed text-brand-sub">{p.text}</p>
 
               <div className="mt-auto pt-5">
