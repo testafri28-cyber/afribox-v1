@@ -8,6 +8,9 @@ import BentoTriple from '@/components/features/BentoTriple'
 import { values, team, lockerSpecs } from '@/lib/constants'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
+// Section équipe désactivée pour le moment — repasser à true pour la réafficher.
+const SHOW_TEAM = false
+
 export default function AboutSection() {
   return (
     <section id="a-propos" className="bg-brand-off">
@@ -93,7 +96,8 @@ export default function AboutSection() {
           </div>
         </motion.div>
 
-        {/* Team */}
+        {/* Team — désactivée pour le moment (SHOW_TEAM) */}
+        {SHOW_TEAM && (
         <motion.div
           id="equipe"
           initial="hidden"
@@ -127,6 +131,7 @@ export default function AboutSection() {
             ))}
           </div>
         </motion.div>
+        )}
       </Container>
     </section>
   )
