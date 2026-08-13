@@ -2,7 +2,7 @@
 
 import { forwardRef } from 'react'
 import Link from 'next/link'
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import type { ButtonHTMLAttributes, ReactNode, CSSProperties } from 'react'
 
 type Variant = 'primary' | 'secondary' | 'ghost' | 'white'
 type Size = 'sm' | 'md' | 'lg'
@@ -13,6 +13,7 @@ type CommonProps = {
   children: ReactNode
   className?: string
   fullWidth?: boolean
+  style?: CSSProperties
 }
 
 type ButtonAsButton = CommonProps &

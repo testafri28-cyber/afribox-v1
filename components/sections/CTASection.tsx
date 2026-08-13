@@ -65,15 +65,24 @@ export default function CTASection({
               {subtitle}
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button href={primaryHref} variant="white" size="lg">
+              {/* Survol : remplissage vert clair sous le texte vert (lisible) + légère élévation. */}
+              <Button
+                href={primaryHref}
+                variant="white"
+                size="lg"
+                style={{ '--fill': '#CDEBD6' } as React.CSSProperties}
+                className="shadow-[0_10px_30px_-12px_rgba(9,50,22,0.5)] hover:-translate-y-0.5"
+              >
                 {primaryLabel}
                 <ArrowRight size={18} className="ml-2" />
               </Button>
+              {/* Ghost : remplissage blanc translucide sous le texte blanc (lisible) + bord qui s'éclaire. */}
               <Button
                 href={secondaryHref}
                 variant="ghost"
                 size="lg"
-                className="!border-white/30 !text-white hover:!bg-white/10"
+                style={{ '--fill': 'rgba(255,255,255,0.18)' } as React.CSSProperties}
+                className="!border-white/40 !text-white hover:-translate-y-0.5 hover:!border-white/70"
               >
                 {secondaryLabel}
               </Button>
