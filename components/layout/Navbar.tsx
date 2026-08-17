@@ -133,6 +133,7 @@ export default function Navbar() {
 
   return (
     <header
+      data-site-nav
       ref={headerRef}
       className={`sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none transition-colors duration-200 ${
         overHero ? 'bg-transparent' : 'bg-white'

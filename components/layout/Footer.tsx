@@ -8,6 +8,7 @@ const legalLinks = ['Mentions légales', 'Confidentialité', 'Cookies']
 export default function Footer() {
   return (
     <footer
+      data-site-footer
       className="relative text-white pt-20 pb-10 overflow-hidden"
       style={{ background: '#1A1F1C' }}
     >
