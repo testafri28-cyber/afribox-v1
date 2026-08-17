@@ -37,3 +37,9 @@ next-env.d.ts
 public/adinkra-pattern.svg
 public/adinkra-pattern.png
 dev-server.log
+
+# Sources lourdes & aides de dev (non déployées, on garde seulement les .webp dérivés)
+public/images/Card*.png
+public/images/Card*.svg
+public/images/Locky.png
+public/mobile-preview.html
