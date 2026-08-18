@@ -1,8 +1,9 @@
+import Link from "next/link";
 import { lockerLocations } from "@/lib/afribox-data";
 
 export default function MobileLockers() {
   return (
-    <section className="border-t border-brand-border px-4 py-9">
+    <section id="lockers" className="border-t border-brand-border px-4 py-9">
       <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">Réseau pilote</p>
       <h2 className="mb-2.5 font-heading text-2xl font-bold leading-tight text-brand-gray">
         Nos premiers casiers arrivent à Abidjan.
@@ -14,9 +15,11 @@ export default function MobileLockers() {
 
       <div className="flex flex-col gap-2.5">
         {lockerLocations.map((loc) => (
-          <div
+          // Chaque casier mène à la pré-réservation, déjà sélectionné.
+          <Link
             key={loc.name}
-            className="flex items-center gap-3 rounded-2xl border border-brand-border bg-brand-white px-3.5 py-3.5"
+            href={`/reserver?locker=${loc.id}`}
+            className="flex items-center gap-3 rounded-2xl border border-brand-border bg-brand-white px-3.5 py-3.5 transition-colors active:bg-green-bg"
           >
             <div className="grid h-[38px] w-[38px] flex-shrink-0 place-items-center rounded-xl border border-brand-border bg-brand-border">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -32,10 +35,12 @@ export default function MobileLockers() {
               <h3 className="text-[14.5px] font-semibold text-brand-gray">{loc.name}</h3>
               <p className="text-xs text-brand-sub">{loc.area}</p>
             </div>
-            <span className="whitespace-nowrap rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] font-semibold text-accent">
+            {/* Couleurs de la charte : « accent » n'existe pas dans le thème,
+                le badge était donc rendu sans style. */}
+            <span className="whitespace-nowrap rounded-full border border-green-soft bg-green-bg px-2 py-0.5 text-[10px] font-semibold text-green-dark">
               {loc.status}
             </span>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

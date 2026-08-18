@@ -118,7 +118,10 @@ export default function LockyChat() {
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
             onClick={() => setOpen(true)}
             aria-label="Ouvrir le chat avec Locky"
-            className="group fixed bottom-4 right-3 z-[60] flex items-end gap-1"
+            // data-locky-fab : cible CSS pour remonter la bulle au-dessus de la
+            // barre de réservation, sur l'accueil mobile uniquement.
+            data-locky-fab
+            className="group fixed bottom-4 right-3 z-[60] flex items-end gap-1 transition-[bottom] duration-300"
           >
             {/* Bulle façon phylactère, pointe vers Locky. Vert foncé pour un
                 contraste texte blanc lisible (blanc sur #1B5E20 ≈ 5,7:1). */}

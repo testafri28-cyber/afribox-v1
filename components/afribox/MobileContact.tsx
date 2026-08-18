@@ -1,10 +1,14 @@
+import Image from "next/image";
 import { contactInfo } from "@/lib/afribox-data";
 
 export default function MobileContact() {
+  // Chaque ligne est actionnable : sur mobile, on tape pour écrire, discuter ou
+  // ouvrir l'itinéraire — plutôt que de recopier une adresse à la main.
   const rows = [
     {
       label: "Email",
       value: contactInfo.email,
+      href: `mailto:${contactInfo.email}`,
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
           <path d="M4 6h16v12H4z" stroke="#1B5E20" strokeWidth="1.5" />
@@ -15,19 +19,15 @@ export default function MobileContact() {
     {
       label: "WhatsApp",
       value: contactInfo.whatsapp,
+      href: contactInfo.whatsappHref,
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M17.6 6.3A8.9 8.9 0 0 0 3.2 16.9L2 22l5.3-1.4a8.9 8.9 0 0 0 12.9-7.9c0-2.4-.9-4.6-2.6-6.4z"
-            stroke="#1B5E20"
-            strokeWidth="1.5"
-          />
-        </svg>
+        <Image src="/images/whatsapp.png" alt="" width={18} height={18} className="h-[18px] w-[18px]" />
       ),
     },
     {
       label: "Siège",
       value: contactInfo.address,
+      href: `https://maps.google.com/?q=${encodeURIComponent(contactInfo.address)}`,
       icon: (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
           <path d="M12 21s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12z" stroke="#1B5E20" strokeWidth="1.5" />
@@ -45,18 +45,23 @@ export default function MobileContact() {
 
       <div className="rounded-2xl border border-brand-border bg-brand-white p-5">
         {rows.map((row, i) => (
-          <div
+          <a
             key={row.label}
-            className={`flex items-center gap-3 py-2.5 ${i < rows.length - 1 ? "border-b border-brand-border" : ""}`}
+            href={row.href}
+            target={row.href.startsWith("http") ? "_blank" : undefined}
+            rel={row.href.startsWith("http") ? "noopener noreferrer" : undefined}
+            className={`flex min-h-[52px] items-center gap-3 py-2.5 transition-colors active:bg-green-bg ${
+              i < rows.length - 1 ? "border-b border-brand-border" : ""
+            }`}
           >
             <div className="grid h-[34px] w-[34px] flex-shrink-0 place-items-center rounded-lg bg-brand-border">
               {row.icon}
             </div>
-            <div>
+            <div className="min-w-0">
               <p className="text-[11px] text-brand-sub">{row.label}</p>
               <p className="text-[13.5px] font-medium text-brand-gray">{row.value}</p>
             </div>
-          </div>
+          </a>
         ))}
       </div>
     </section>
