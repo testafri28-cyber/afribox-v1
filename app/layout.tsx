@@ -37,11 +37,7 @@ export default function RootLayout({
         <Navbar />
         <main>{children}</main>
         <Footer />
-        {/* Wrapper neutre : sert de cible CSS (LockyChat est `fixed`, donc
-            l'enveloppe n'affecte pas son positionnement). */}
-        <div data-site-chat>
-          <LockyChat />
-        </div>
+        <LockyChat />
       </body>
     </html>
   )

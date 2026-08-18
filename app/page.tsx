@@ -29,20 +29,21 @@ export default function HomePage() {
       {/* FAQPage — mêmes Q/R que l'accordéon visible (conformité Google). */}
       <JsonLd data={faqPageJsonLd()} />
 
-      {/* Accueil mobile : expérience dédiée (header, sticky bar et footer
-          propres). On neutralise donc la chrome globale sous md, uniquement
-          sur cette page — /reserver et les autres pages la conservent. */}
-      <style>{`@media (max-width:767px){[data-site-nav],[data-site-footer],[data-site-chat]{display:none!important}}`}</style>
+      {/* Hero commun aux deux versions — mascotte Locky et titre animé.
+          Rendu une seule fois : une seule <h1> dans la page. */}
+      <HeroAfribox />
+
+      {/* Sections de contenu en version mobile (< md). Header, footer et chat
+          Locky restent ceux du site, communs aux deux versions. */}
       <div className="md:hidden">
         <MobileHome />
       </div>
 
-      {/* Version desktop — à partir de md */}
+      {/* Sections desktop — à partir de md */}
       <div className="hidden md:block">
       {/* Ordre narratif : expliquer → démontrer → chiffrer. Pas de témoignages
           en phase pilote (aucun client réel) — on les réintroduira après le
           lancement. « À propos » passe en fin de parcours. */}
-      <HeroAfribox />
       <ProblemSection />
       <ServicesAccordion />
       <HowItWorksSection />
