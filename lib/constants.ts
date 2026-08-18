@@ -186,6 +186,10 @@ export const appFeatures = [
 // ---------------------------------------------------------------------------
 // Valeurs
 // ---------------------------------------------------------------------------
+// Présentation de la société — partagée par « À propos » (desktop et mobile).
+export const aboutMission =
+  "AFRIBOX SARL est une société ivoirienne qui déploie le premier réseau de casiers colis intelligents de Côte d'Ivoire : des points de retrait et de dépôt sécurisés, automatisés et accessibles 24h/24, installés au plus près des habitants. Notre mission — démocratiser l'accès à une logistique efficace et flexible."
+
 export type Value = { icon: LucideIcon; title: string; text: string }
 export const values: Value[] = [
   { icon: ShieldCheck, title: 'Fiabilité',          text: "Nos lockers sont disponibles. Nos codes fonctionnent. Si quelque chose ne va pas, on le sait avant vous." },
@@ -302,6 +306,7 @@ export const socials: Social[] = [
 // cliquables depuis /reserver (Next navigue vers la home puis scrolle).
 export const footerLinks = {
   produit:    [{ label: 'Comment ça marche', href: '/#fonctionnement' }, { label: 'Services', href: '/#services' }, { label: 'Tarifs', href: '/#tarifs' }, { label: "L'application", href: '/#app-mobile' }, { label: 'Réserver', href: '/reserver' }],
-  societe:    [{ label: 'À propos', href: '/#a-propos' }, { label: "L'équipe", href: '/#equipe' }, { label: 'Partenaires', href: '#' }, { label: 'Presse', href: '#' }],
+  // « L'équipe » retiré tant que la section est désactivée (ancre #equipe morte).
+  societe:    [{ label: 'À propos', href: '/#a-propos' }, { label: 'Partenaires', href: '#' }, { label: 'Presse', href: '#' }],
   ressources: [{ label: 'Documentation API', href: '#' }, { label: 'Aide', href: '#' }, { label: 'Statut', href: '#' }, { label: 'Contact', href: '/#contact' }],
 }

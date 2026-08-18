@@ -1,14 +1,22 @@
 'use client'
 
 import { useState } from 'react'
+import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { MapPin, ArrowRight } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import LockersMap from '@/components/features/LockersMap'
+import LazyMount from '@/components/ui/LazyMount'
 import { lockers, type Locker, type LockerSize } from '@/lib/constants'
 import { fadeInUp } from '@/lib/animations'
+
+// Chargée à la demande : combinée à LazyMount, la carte (Leaflet + tuiles)
+// n'est téléchargée que si elle devient visible. Sur mobile la section est
+// masquée en CSS, donc rien n'est chargé.
+const LockersMap = dynamic(() => import('@/components/features/LockersMap'), {
+  ssr: false,
+})
 
 export default function LockersMapSection() {
   const [selected, setSelected] = useState<Locker | null>(null)
@@ -42,14 +50,19 @@ export default function LockersMapSection() {
           transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
           className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8"
         >
-          {/* Carte interactive */}
-          <div className="h-[300px] sm:h-[400px] lg:h-[480px]">
+          {/* Carte interactive — montée seulement quand elle devient visible */}
+          <LazyMount
+            className="h-[300px] sm:h-[400px] lg:h-[480px]"
+            placeholder={
+              <div className="h-full w-full animate-pulse rounded-2xl bg-brand-off" aria-hidden />
+            }
+          >
             <LockersMap
               selectedId={selected?.id}
               onSelect={setSelected}
               height="100%"
             />
-          </div>
+          </LazyMount>
 
           {/* Liste des lockers — sélection synchronisée avec la carte */}
           <div className="space-y-3 lg:max-h-[480px] lg:overflow-y-auto lg:pr-1">
