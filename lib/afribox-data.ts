@@ -44,16 +44,20 @@ export const pricingTiers: PricingTier[] = pricing.map((p, i) => ({
 
 // --- Casiers --------------------------------------------------------------
 export interface LockerLocation {
+  id: number
   name: string
   area: string
   status: string
+  available: boolean
 }
 
 export const lockerLocations: LockerLocation[] = lockers.map((l) => ({
+  id: l.id,
   name: l.name,
   // « Centre commercial, Marcory » → « Marcory »
   area: l.address.split(',').pop()!.trim(),
   status: l.available ? 'Bientôt' : 'Complet',
+  available: l.available,
 }))
 
 // --- À propos -------------------------------------------------------------

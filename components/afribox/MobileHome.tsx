@@ -1,6 +1,7 @@
 import MobileHowItWorks from "./MobileHowItWorks";
 import MobilePricing from "./MobilePricing";
 import MobileLockers from "./MobileLockers";
+import MobileApp from "./MobileApp";
 import MobileAbout from "./MobileAbout";
 import MobileFAQ from "./MobileFAQ";
 import MobileContact from "./MobileContact";
@@ -14,6 +15,7 @@ export default function MobileHome() {
       <MobileHowItWorks />
       <MobilePricing />
       <MobileLockers />
+      <MobileApp />
       <MobileAbout />
       <MobileFAQ />
       <MobileContact />
