@@ -5,7 +5,7 @@ import { type LucideIcon } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import BentoTriple from '@/components/features/BentoTriple'
-import { values, team, lockerSpecs } from '@/lib/constants'
+import { values, team, lockerSpecs, aboutMission } from '@/lib/constants'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Section équipe désactivée pour le moment — repasser à true pour la réafficher.
@@ -29,11 +29,7 @@ export default function AboutSection() {
             Construire l&apos;infrastructure logistique de demain.
           </h2>
           <p className="mt-5 font-body text-base md:text-lg text-brand-sub leading-relaxed">
-            AFRIBOX SARL est une société ivoirienne qui déploie le premier réseau
-            de casiers colis intelligents de Côte d&apos;Ivoire : des points de
-            retrait et de dépôt sécurisés, automatisés et accessibles 24h/24,
-            installés au plus près des habitants. Notre mission — démocratiser
-            l&apos;accès à une logistique efficace et flexible.
+            {aboutMission}
           </p>
         </motion.div>
 
