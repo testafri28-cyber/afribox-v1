@@ -14,8 +14,15 @@ import {
   CreditCard,
   Smartphone,
 } from 'lucide-react'
-import LockersMap from '@/components/features/LockersMap'
+import dynamic from 'next/dynamic'
+import LazyMount from '@/components/ui/LazyMount'
 import { lockers, type Locker, type LockerSize } from '@/lib/constants'
+
+// Chargée à la demande : la carte (Leaflet + tuiles) ne pèse plus sur l'entrée
+// dans le tunnel, surtout en données mobiles.
+const LockersMap = dynamic(() => import('@/components/features/LockersMap'), {
+  ssr: false,
+})
 import { submitLead, whatsappUrl } from '@/lib/leads'
 
 type Duration = '48h'
@@ -215,13 +222,14 @@ export default function ReservationForm() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Navigation bas */}
-      {step < 4 && (
-        <div className="border-t border-brand-border p-4 md:p-6 flex items-center justify-between bg-white sticky bottom-0 rounded-b-2xl z-20">
+      {/* Navigation bas — masquée à l'étape 1 : « Précédent » y est désactivé et
+          choisir un casier passe déjà à l'étape suivante, la barre n'y offrait
+          donc aucune action. Cibles portées à 48px (confort tactile). */}
+      {step > 1 && step < 4 && (
+        <div className="border-t border-brand-border p-4 md:p-6 flex items-center justify-between gap-3 bg-white sticky bottom-0 rounded-b-2xl z-20">
           <button
             onClick={() => setStep((s) => Math.max(1, s - 1))}
-            disabled={step === 1}
-            className="btn-fill [--fill:#F7F9F7] inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-body text-brand-gray disabled:opacity-30 disabled:cursor-not-allowed transition-transform"
+            className="btn-fill [--fill:#F7F9F7] inline-flex min-h-[48px] items-center gap-2 px-5 rounded-full text-sm font-body text-brand-gray transition-transform"
           >
             <ArrowLeft size={16} />
             Précédent
@@ -229,7 +237,7 @@ export default function ReservationForm() {
           <button
             onClick={handleNext}
             disabled={!canProceed()}
-            className="btn-fill [--fill:#1B5E20] inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-green-primary text-white text-sm font-body font-medium disabled:opacity-40 disabled:cursor-not-allowed transition-transform"
+            className="btn-fill [--fill:#1B5E20] inline-flex min-h-[48px] items-center gap-2 px-6 rounded-full bg-green-primary text-white text-sm font-body font-medium disabled:opacity-40 disabled:cursor-not-allowed transition-transform"
           >
             {step === 3 ? 'Confirmer la demande' : 'Suivant'}
             <ArrowRight size={16} />
@@ -256,17 +264,17 @@ function StepLocker({
         Choisissez un locker
       </h2>
       <p className="font-body text-brand-sub mb-8">
-        Sélectionnez le casier le plus proche de vous ou de votre destinataire.
+        Sélectionnez le casier le plus proche de vous ou de votre destinataire —
+        vous passerez directement à l&apos;étape suivante.
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div>
-          <LockersMap
-            selectedId={selected?.id}
-            onSelect={onSelect}
-            height="380px"
-          />
-        </div>
+        <LazyMount
+          className="h-[380px]"
+          placeholder={<div className="h-full w-full animate-pulse rounded-2xl bg-brand-off" aria-hidden />}
+        >
+          <LockersMap selectedId={selected?.id} onSelect={onSelect} height="100%" />
+        </LazyMount>
         <div className="space-y-3 lg:max-h-[380px] lg:overflow-y-auto pr-1">
           {lockers.map((l) => {
             const isSelected = selected?.id === l.id
@@ -413,15 +421,23 @@ function StepConfigure({
       {/* Téléphone */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         <div>
-          <label className="font-mono text-xs tracking-widest text-brand-mid uppercase mb-2 block">
+          <label
+            htmlFor="tel-destinataire"
+            className="font-mono text-xs tracking-widest text-brand-mid uppercase mb-2 block"
+          >
             Téléphone destinataire *
           </label>
           <input
+            id="tel-destinataire"
+            name="tel"
             type="tel"
+            // Clavier numérique et remplissage automatique sur mobile.
+            inputMode="tel"
+            autoComplete="tel"
             value={reservation.phone}
             onChange={(e) => setReservation({ ...reservation, phone: e.target.value })}
             placeholder="+225 07 00 00 00 00"
-            className="w-full px-4 py-3 rounded-xl border border-brand-border bg-white font-body text-brand-gray focus:border-green-primary focus:outline-none transition"
+            className="w-full px-4 py-3 rounded-xl border border-brand-border bg-white font-body text-base text-brand-gray focus:border-green-primary focus:outline-none transition"
           />
         </div>
         <div>

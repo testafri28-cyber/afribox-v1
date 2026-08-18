@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, ArrowRight } from 'lucide-react'
 
@@ -38,6 +39,12 @@ export default function LockyChat() {
   const [loading, setLoading] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Dans le tunnel de réservation, la barre « Précédent / Suivant » est collée
+  // en bas (sticky) : sur mobile, le lanceur venait se poser dessus et
+  // interceptait les taps — impossible de valider une étape. On le retire donc
+  // sous md sur /reserver ; le desktop, plus large, le conserve.
+  const dansTunnel = usePathname()?.startsWith('/reserver') ?? false
 
   // Le tiroir burger (Navbar) émet cet événement : on masque le lanceur tant
   // qu'il est ouvert pour éviter le chevauchement avec son CTA « Réserver ».
@@ -121,7 +128,9 @@ export default function LockyChat() {
             // data-locky-fab : cible CSS pour remonter la bulle au-dessus de la
             // barre de réservation, sur l'accueil mobile uniquement.
             data-locky-fab
-            className="group fixed bottom-4 right-3 z-[60] flex items-end gap-1 transition-[bottom] duration-300"
+            className={`group fixed bottom-4 right-3 z-[60] items-end gap-1 transition-[bottom] duration-300 ${
+              dansTunnel ? 'hidden md:flex' : 'flex'
+            }`}
           >
             {/* Bulle façon phylactère, pointe vers Locky. Vert foncé pour un
                 contraste texte blanc lisible (blanc sur #1B5E20 ≈ 5,7:1). */}
