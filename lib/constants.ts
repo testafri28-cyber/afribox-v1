@@ -190,6 +190,11 @@ export const appFeatures = [
 export const aboutMission =
   "AFRIBOX SARL est une société ivoirienne qui déploie le premier réseau de casiers colis intelligents de Côte d'Ivoire : des points de retrait et de dépôt sécurisés, automatisés et accessibles 24h/24, installés au plus près des habitants. Notre mission — démocratiser l'accès à une logistique efficace et flexible."
 
+// Version courte pour le mobile : le paragraphe complet y forme un bloc dense.
+// On garde l'essentiel — qui, quoi, et le bénéfice.
+export const aboutMissionCourte =
+  "Le premier réseau de casiers colis intelligents de Côte d'Ivoire : des points de retrait sécurisés et automatisés, ouverts 24h/24, au plus près des habitants."
+
 export type Value = { icon: LucideIcon; title: string; text: string }
 export const values: Value[] = [
   { icon: ShieldCheck, title: 'Fiabilité',          text: "Nos lockers sont disponibles. Nos codes fonctionnent. Si quelque chose ne va pas, on le sait avant vous." },

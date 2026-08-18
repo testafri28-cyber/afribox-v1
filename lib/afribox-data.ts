@@ -12,10 +12,11 @@ import {
   lockerSpecs,
   faq,
   contact,
-  aboutMission as mission,
+  aboutMissionCourte,
 } from '@/lib/constants'
 
-export const aboutMission = mission
+// Le mobile utilise la version courte : le paragraphe complet y fait bloc.
+export const aboutMission = aboutMissionCourte
 
 // --- Tarifs ---------------------------------------------------------------
 export interface PricingTier {

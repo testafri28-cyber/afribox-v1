@@ -134,8 +134,15 @@ export default function Navbar() {
   return (
     <header
       ref={headerRef}
-      className={`sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none transition-colors duration-200 ${
-        overHero ? 'bg-transparent' : 'bg-white'
+      // Sur le hero (vert) : totalement transparent, texte clair.
+      // Ailleurs : voile translucide + flou plutôt qu'un aplat blanc opaque —
+      // celui-ci formait une bande franche qui tranchait sur le blanc cassé des
+      // sections et coupait net le contenu qui défilait dessous. Le voile laisse
+      // deviner le contenu, et une ombre douce détache la barre.
+      className={`sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none transition-all duration-200 ${
+        overHero
+          ? 'bg-transparent'
+          : 'bg-brand-off/75 backdrop-blur-md shadow-[0_6px_20px_-14px_rgba(11,61,27,0.45)]'
       }`}
     >
       <div className="max-w-container mx-auto px-4 md:px-10 lg:px-20">

@@ -32,12 +32,16 @@ const icons: Record<string, ReactElement> = {
 
 export default function MobileAbout() {
   return (
-    <section className="border-t border-brand-border px-4 py-9">
-      <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">À propos</p>
-      <h2 className="mb-2.5 font-heading text-2xl font-bold leading-tight text-brand-gray">
-        Construire l&apos;infrastructure logistique de demain.
-      </h2>
-      <p className="mb-6 text-sm leading-relaxed text-brand-sub">{aboutMission}</p>
+    <section className="border-t border-brand-border px-4 py-12">
+      {/* Bloc d'introduction centré et borné à ~88 % de l'écran : le texte
+          pleine largeur formait un pavé difficile à lire sur téléphone. */}
+      <div className="mx-auto mb-9 w-full max-w-[340px] text-center">
+        <p className="mb-3 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">À propos</p>
+        <h2 className="mb-4 font-heading text-2xl font-bold leading-tight text-brand-gray">
+          Construire l&apos;infrastructure logistique de demain.
+        </h2>
+        <p className="text-[15px] leading-relaxed text-brand-sub">{aboutMission}</p>
+      </div>
 
       <div className="mb-5 grid grid-cols-2 gap-2.5">
         {aboutValues.map((value) => (
@@ -51,7 +55,9 @@ export default function MobileAbout() {
         ))}
       </div>
 
-      <div className="grid grid-cols-4 gap-2 rounded-2xl border border-brand-border bg-green-bg px-2 py-3.5">
+      {/* 3 colonnes : la bande compte 6 caractéristiques, en 4 colonnes la
+          dernière ligne restait bancale. */}
+      <div className="grid grid-cols-3 gap-x-2 gap-y-3.5 rounded-2xl border border-brand-border bg-green-bg px-3 py-4">
         {statStrip.map((stat) => (
           <div key={stat.label} className="text-center">
             <b className="block font-heading text-[17px] text-green-dark">{stat.value}</b>
