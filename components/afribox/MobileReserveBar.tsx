@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { contact } from '@/lib/constants'
 
@@ -50,13 +51,13 @@ export default function MobileReserveBar() {
           aria-label="Nous écrire sur WhatsApp"
           className="grid h-12 w-12 flex-shrink-0 place-items-center rounded-xl border border-brand-border bg-brand-white active:scale-[0.97]"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <path
-              d="M17.6 6.3A8.9 8.9 0 0 0 3.2 16.9L2 22l5.3-1.4a8.9 8.9 0 0 0 12.9-7.9c0-2.4-.9-4.6-2.6-6.4z"
-              stroke="#1B5E20"
-              strokeWidth="1.6"
-            />
-          </svg>
+          <Image
+            src="/images/whatsapp.png"
+            alt=""
+            width={22}
+            height={22}
+            className="h-[22px] w-[22px] flex-shrink-0"
+          />
         </a>
 
         {/* Marge à droite : laisse respirer la bulle de chat Locky. */}

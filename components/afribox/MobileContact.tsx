@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { contactInfo } from "@/lib/afribox-data";
 
 export default function MobileContact() {
@@ -20,13 +21,7 @@ export default function MobileContact() {
       value: contactInfo.whatsapp,
       href: contactInfo.whatsappHref,
       icon: (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-          <path
-            d="M17.6 6.3A8.9 8.9 0 0 0 3.2 16.9L2 22l5.3-1.4a8.9 8.9 0 0 0 12.9-7.9c0-2.4-.9-4.6-2.6-6.4z"
-            stroke="#1B5E20"
-            strokeWidth="1.5"
-          />
-        </svg>
+        <Image src="/images/whatsapp.png" alt="" width={18} height={18} className="h-[18px] w-[18px]" />
       ),
     },
     {
