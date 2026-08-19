@@ -90,21 +90,38 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [overHero, setOverHero] = useState(isHome)
   const [open, setOpen]         = useState(false)
+  // Masquage au défilement (mobile) : la barre s'efface quand on descend et
+  // revient dès qu'on remonte, pour libérer la hauteur d'écran.
+  const [masquee, setMasquee] = useState(false)
   const headerRef = useRef<HTMLElement>(null)
+  const dernierY = useRef(0)
 
   const { active: activeId, selectManually } = useActiveSection(isHome)
 
   useEffect(() => {
     const compute = () => {
-      setScrolled(window.scrollY > 10)
+      const y = window.scrollY
+      setScrolled(y > 10)
       // Rester transparent tant que le vert du hero remplit la bande de la
-      // navbar ; passer au blanc dès que la couture vert/blanc (#hero-seam)
-      // atteint le bas de la navbar.
+      // navbar ; passer au voile clair dès que la couture vert/blanc
+      // (#hero-seam) atteint le bas de la navbar.
       const seam = document.getElementById('hero-seam')
       const navH = headerRef.current?.offsetHeight ?? 80
-      setOverHero(isHome && !!seam && seam.getBoundingClientRect().top > navH)
+      const surHero = isHome && !!seam && seam.getBoundingClientRect().top > navH
+      setOverHero(surHero)
+
+      // Sur le hero et tout en haut, la barre reste toujours visible.
+      const delta = y - dernierY.current
+      if (surHero || y < navH) {
+        setMasquee(false)
+      } else if (Math.abs(delta) > 6) {
+        // Seuil de 6px : évite le clignotement sur les micro-mouvements.
+        setMasquee(delta > 0)
+      }
+      dernierY.current = y
     }
     compute()
+    dernierY.current = window.scrollY
     window.addEventListener('scroll', compute, { passive: true })
     window.addEventListener('resize', compute)
     return () => {
@@ -134,8 +151,15 @@ export default function Navbar() {
   return (
     <header
       ref={headerRef}
-      className={`sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none transition-colors duration-200 ${
-        overHero ? 'bg-transparent' : 'bg-white'
+      // Aucun fond sur le conteneur : seule la pastille est visible, elle
+      // flotte au-dessus du contenu. Un voile sur toute la largeur formait une
+      // bande qui tranchait sur la page et coupait les titres au défilement.
+      //
+      // Masquage — sous md, la barre glisse hors de l'écran quand on descend et
+      // revient dès qu'on remonte. Elle reste en place sur le hero, en haut de
+      // page, et tant que le menu est ouvert.
+      className={`sticky top-0 z-50 pt-3 md:pt-4 pointer-events-none transition-transform duration-300 md:translate-y-0 ${
+        masquee && !open ? '-translate-y-full' : 'translate-y-0'
       }`}
     >
       <div className="max-w-container mx-auto px-4 md:px-10 lg:px-20">

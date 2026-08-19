@@ -32,26 +32,37 @@ const icons: Record<string, ReactElement> = {
 
 export default function MobileAbout() {
   return (
-    <section className="border-t border-brand-border px-4 py-9">
-      <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">À propos</p>
-      <h2 className="mb-2.5 font-heading text-2xl font-bold leading-tight text-brand-gray">
-        Construire l&apos;infrastructure logistique de demain.
-      </h2>
-      <p className="mb-6 text-sm leading-relaxed text-brand-sub">{aboutMission}</p>
+    <section className="border-t border-brand-border px-4 py-10">
+      {/* Bloc d'introduction centré et borné à ~88 % de l'écran : le texte
+          pleine largeur formait un pavé difficile à lire sur téléphone. */}
+      <div className="mx-auto mb-7 w-full max-w-[340px] text-center">
+        <p className="mb-3 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">À propos</p>
+        <h2 className="mb-4 font-heading text-2xl font-bold leading-tight text-brand-gray">
+          Construire l&apos;infrastructure logistique de demain.
+        </h2>
+        <p className="text-[15px] leading-relaxed text-brand-sub">{aboutMission}</p>
+      </div>
 
-      <div className="mb-5 grid grid-cols-2 gap-2.5">
+      {/* Icone en ligne avec le titre plutot qu'empilee au-dessus : meme
+          contenu que le desktop, dans une carte nettement plus courte. */}
+      <div className="mb-6 grid grid-cols-2 gap-2.5">
         {aboutValues.map((value) => (
-          <div key={value.title} className="rounded-2xl border border-brand-border bg-brand-white p-3.5">
-            <div className="mb-2.5 grid h-8 w-8 place-items-center rounded-lg border border-brand-border bg-brand-border">
-              {icons[value.title]}
+          <div key={value.title} className="rounded-2xl border border-brand-border bg-brand-white p-3">
+            <div className="mb-1.5 flex items-center gap-1.5">
+              <span className="flex-shrink-0">{icons[value.title]}</span>
+              <h3 className="text-[13px] font-semibold leading-tight text-brand-gray">{value.title}</h3>
             </div>
-            <h3 className="mb-1 text-[13.5px] font-semibold text-brand-gray">{value.title}</h3>
             <p className="text-[11.5px] leading-snug text-brand-sub">{value.description}</p>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-4 gap-2 rounded-2xl border border-brand-border bg-green-bg px-2 py-3.5">
+      <h3 className="mb-2.5 text-center font-heading text-[13px] font-bold text-brand-gray">
+        Le casier, en bref.
+      </h3>
+      {/* 3 colonnes : la bande compte 6 caractéristiques, en 4 colonnes la
+          dernière ligne restait bancale. */}
+      <div className="grid grid-cols-3 gap-x-2 gap-y-3.5 rounded-2xl border border-brand-border bg-green-bg px-3 py-4">
         {statStrip.map((stat) => (
           <div key={stat.label} className="text-center">
             <b className="block font-heading text-[17px] text-green-dark">{stat.value}</b>

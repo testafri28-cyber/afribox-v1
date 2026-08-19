@@ -68,14 +68,22 @@ export default function Footer() {
 
             {/* Newsletter */}
             <form onSubmit={(e) => e.preventDefault()} className="mt-8 max-w-md">
-              <label className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/50 block mb-3">
+              <label
+                htmlFor="newsletter-email"
+                className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/50 block mb-3"
+              >
                 Restez informé
               </label>
               <div className="flex gap-2 bg-white/5 border border-white/10 rounded-full p-1.5 focus-within:border-green-primary transition-colors">
+                {/* text-base (16px) : en dessous, iOS zoome à la mise au point. */}
                 <input
+                  id="newsletter-email"
+                  name="email"
                   type="email"
+                  inputMode="email"
+                  autoComplete="email"
                   placeholder="vous@email.com"
-                  className="flex-1 bg-transparent px-4 py-2 text-sm placeholder-white/40 focus:outline-none"
+                  className="flex-1 min-h-[44px] bg-transparent px-4 py-2 text-base placeholder-white/40 focus:outline-none"
                 />
                 <button
                   type="submit"
