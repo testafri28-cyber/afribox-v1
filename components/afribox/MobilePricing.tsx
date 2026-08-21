@@ -38,6 +38,10 @@ export default function MobilePricing() {
               <p className="text-xs leading-snug text-brand-sub">
                 {tier.tag.split(" · ")[0]} · {tier.desc}
               </p>
+              {/* Dimensions et charge admise, comme sur le desktop. */}
+              <p className="mt-1 font-mono text-[10.5px] leading-snug text-brand-mid">
+                {tier.dims} · {tier.weight}
+              </p>
             </div>
 
             {/* Prix insécable : « 1 250 » et son unité ne se coupent plus. */}

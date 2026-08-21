@@ -243,10 +243,12 @@ export const testimonials: Testimonial[] = [
 // ---------------------------------------------------------------------------
 // Tarifs
 // ---------------------------------------------------------------------------
+// `dims` : dimensions utiles du compartiment (fiche technique du casier).
+// `weight` : charge admise par compartiment, 15 kg au maximum par porte.
 export const pricing = [
-  { size: 'Petit',  use: 'Documents, accessoires',       price: '500 FCFA / 48h' },
-  { size: 'Moyen',  use: 'Vêtements, électronique',       price: '750 FCFA / 48h' },
-  { size: 'Grand',  use: 'Équipements volumineux',        price: '1 250 FCFA / 48h' },
+  { size: 'Petit',  use: 'Documents, accessoires',  dims: '35 × 10 × 49 cm', weight: '0 – 5 kg',        price: '500 FCFA / 48h' },
+  { size: 'Moyen',  use: 'Vêtements, électronique', dims: '35 × 20 × 49 cm', weight: '5 – 10 kg',       price: '750 FCFA / 48h' },
+  { size: 'Grand',  use: 'Équipements volumineux',  dims: '35 × 30 × 49 cm', weight: "jusqu'à 15 kg",   price: '1 250 FCFA / 48h' },
 ]
 
 // ---------------------------------------------------------------------------

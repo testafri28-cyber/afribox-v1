@@ -24,8 +24,20 @@ const navLinks = [
 /* Scroll to a section without putting a hash in the URL.
    This prevents the browser from trying to auto-scroll to an anchor
    on the next page load. */
+/* Les versions mobile et desktop d'une même section portent le même id et
+   coexistent dans le DOM (l'une masquée en CSS). `getElementById` renvoie la
+   première du document — souvent la masquée, de hauteur nulle, ce qui faisait
+   défiler au mauvais endroit. On retient donc celle qui a un rendu. */
+function elementVisible(id: string): HTMLElement | null {
+  const candidats = document.querySelectorAll<HTMLElement>(`[id="${id}"]`)
+  for (const el of Array.from(candidats)) {
+    if (el.getClientRects().length > 0) return el
+  }
+  return candidats[0] ?? null
+}
+
 function scrollTo(id: string) {
-  const el = document.getElementById(id)
+  const el = elementVisible(id)
   if (!el) return
   const top = el.getBoundingClientRect().top + window.scrollY - 64 // 64px navbar offset
   window.scrollTo({ top, behavior: 'smooth' })
@@ -52,7 +64,7 @@ function useActiveSection(enabled: boolean) {
       if (Date.now() < lockedUntil.current) return
       let current = ''
       for (const { id } of navLinks) {
-        const el = document.getElementById(id)
+        const el = elementVisible(id)
         if (el && el.getBoundingClientRect().top <= NAV_OFFSET) current = id
       }
       // Bas de page : la dernière section ne peut pas toujours franchir la ligne
@@ -61,7 +73,7 @@ function useActiveSection(enabled: boolean) {
       const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2
       if (atBottom) {
         for (let i = navLinks.length - 1; i >= 0; i--) {
-          if (document.getElementById(navLinks[i].id)) { current = navLinks[i].id; break }
+          if (elementVisible(navLinks[i].id)) { current = navLinks[i].id; break }
         }
       }
       setActive(current)

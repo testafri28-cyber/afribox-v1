@@ -23,6 +23,8 @@ export interface PricingTier {
   tag: string
   name: string
   desc: string
+  dims: string
+  weight: string
   amount: string
   popular?: boolean
 }
@@ -38,6 +40,8 @@ export const pricingTiers: PricingTier[] = pricing.map((p, i) => ({
   tag: i === 1 ? `${p.size} · populaire` : p.size,
   name: libellesTarifs[i]?.name ?? p.use,
   desc: libellesTarifs[i]?.desc ?? p.use,
+  dims: p.dims,
+  weight: p.weight,
   // « 500 FCFA / 48h » → « 500 »
   amount: p.price.split('FCFA')[0].trim(),
   popular: i === 1,

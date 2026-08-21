@@ -101,6 +101,18 @@ export default function PricingSection() {
                 </h3>
                 <p className="font-body text-sm text-brand-sub mt-1">{p.use}</p>
 
+                {/* Dimensions et charge admise du compartiment */}
+                <dl className="mt-4 space-y-1.5 border-t border-brand-border pt-3.5">
+                  <div className="flex items-baseline justify-between gap-3">
+                    <dt className="font-mono text-[10px] uppercase tracking-widest text-brand-mid">Dimensions</dt>
+                    <dd className="font-body text-[13px] font-medium text-brand-gray">{p.dims}</dd>
+                  </div>
+                  <div className="flex items-baseline justify-between gap-3">
+                    <dt className="font-mono text-[10px] uppercase tracking-widest text-brand-mid">Poids</dt>
+                    <dd className="font-body text-[13px] font-medium text-brand-gray">{p.weight}</dd>
+                  </div>
+                </dl>
+
                 {/* Prix */}
                 <div className="mt-6 mb-6 flex items-baseline gap-1.5">
                   <span className="font-heading font-bold text-3xl md:text-[32px] leading-none text-green-dark">
