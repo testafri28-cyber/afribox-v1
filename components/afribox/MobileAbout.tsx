@@ -2,34 +2,28 @@ import { aboutMission, aboutValues, statStrip } from "@/lib/afribox-data";
 
 export default function MobileAbout() {
   return (
-    <section className="border-t border-brand-border px-4 py-10">
-      <div className="mx-auto mb-8 w-full max-w-[340px] text-center">
-        <p className="mb-3 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">
-          À propos
-        </p>
-        <h2 className="mb-4 font-heading text-2xl font-bold leading-tight text-brand-gray">
-          Construire l&apos;infrastructure logistique de demain.
-        </h2>
-        <p className="text-[15px] leading-relaxed text-brand-sub">{aboutMission}</p>
-      </div>
+    <section id="a-propos" className="border-t border-brand-border px-4 py-9">
+      <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">À propos</p>
+      <h2 className="mb-2.5 font-heading text-2xl font-bold leading-tight text-brand-gray">
+        Construire l&apos;infrastructure logistique de demain.
+      </h2>
+      <p className="mb-6 text-sm leading-relaxed text-brand-sub">{aboutMission}</p>
 
-      {/* Les mêmes valeurs que sur le desktop, en liste simple séparée de
-          filets : ni cartes, ni icônes — celles-ci ne correspondaient pas à
-          leur sens et alourdissaient la section. */}
-      <dl className="mb-8 divide-y divide-brand-border border-y border-brand-border">
+      {/* Mêmes valeurs que le desktop, en cartes empilées : c'est la structure
+          des autres sections mobiles (casiers, tarifs, application). */}
+      <div className="flex flex-col gap-2.5">
         {aboutValues.map((valeur) => (
-          <div key={valeur.title} className="py-4">
-            <dt className="font-heading text-[15px] font-bold leading-tight text-brand-gray">
-              {valeur.title}
-            </dt>
-            <dd className="mt-1 text-[13px] leading-relaxed text-brand-sub">
-              {valeur.description}
-            </dd>
+          <div
+            key={valeur.title}
+            className="rounded-2xl border border-brand-border bg-brand-white px-3.5 py-3.5"
+          >
+            <h3 className="text-[14.5px] font-semibold text-brand-gray">{valeur.title}</h3>
+            <p className="mt-1 text-xs leading-relaxed text-brand-sub">{valeur.description}</p>
           </div>
         ))}
-      </dl>
+      </div>
 
-      <h3 className="mb-3 text-center font-heading text-[13px] font-bold text-brand-gray">
+      <h3 className="mb-2.5 mt-6 font-heading text-[14.5px] font-semibold text-brand-gray">
         Le casier, en bref.
       </h3>
       {/* 3 colonnes : la bande compte 6 caractéristiques, en 4 colonnes la
