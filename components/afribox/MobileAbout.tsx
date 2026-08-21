@@ -1,18 +1,9 @@
-import { aboutMission, statStrip, lockerLocations } from "@/lib/afribox-data";
-
-// Fiche d'identité : des faits vérifiables plutôt que des valeurs abstraites.
-// C'est ce qu'on attend d'un « À propos » — qui est derrière le service.
-const identite = [
-  { cle: "Société", valeur: "AFRIBOX SARL" },
-  { cle: "Activité", valeur: "Logistique urbaine et last mile" },
-  { cle: "Siège", valeur: "Zone 4, Marcory — Abidjan" },
-  { cle: "Réseau", valeur: `Phase pilote · ${lockerLocations.length} sites` },
-];
+import { aboutMission, aboutValues, statStrip } from "@/lib/afribox-data";
 
 export default function MobileAbout() {
   return (
     <section className="border-t border-brand-border px-4 py-10">
-      <div className="mx-auto mb-7 w-full max-w-[340px] text-center">
+      <div className="mx-auto mb-8 w-full max-w-[340px] text-center">
         <p className="mb-3 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">
           À propos
         </p>
@@ -22,25 +13,23 @@ export default function MobileAbout() {
         <p className="text-[15px] leading-relaxed text-brand-sub">{aboutMission}</p>
       </div>
 
-      <dl className="mb-7 overflow-hidden rounded-2xl border border-brand-border bg-brand-white">
-        {identite.map((ligne, i) => (
-          <div
-            key={ligne.cle}
-            className={`flex items-baseline justify-between gap-4 px-4 py-3 ${
-              i < identite.length - 1 ? "border-b border-brand-border" : ""
-            }`}
-          >
-            <dt className="flex-shrink-0 font-mono text-[10px] uppercase tracking-widest text-brand-mid">
-              {ligne.cle}
+      {/* Les mêmes valeurs que sur le desktop, en liste simple séparée de
+          filets : ni cartes, ni icônes — celles-ci ne correspondaient pas à
+          leur sens et alourdissaient la section. */}
+      <dl className="mb-8 divide-y divide-brand-border border-y border-brand-border">
+        {aboutValues.map((valeur) => (
+          <div key={valeur.title} className="py-4">
+            <dt className="font-heading text-[15px] font-bold leading-tight text-brand-gray">
+              {valeur.title}
             </dt>
-            <dd className="text-right text-[13px] font-medium leading-snug text-brand-gray">
-              {ligne.valeur}
+            <dd className="mt-1 text-[13px] leading-relaxed text-brand-sub">
+              {valeur.description}
             </dd>
           </div>
         ))}
       </dl>
 
-      <h3 className="mb-2.5 text-center font-heading text-[13px] font-bold text-brand-gray">
+      <h3 className="mb-3 text-center font-heading text-[13px] font-bold text-brand-gray">
         Le casier, en bref.
       </h3>
       {/* 3 colonnes : la bande compte 6 caractéristiques, en 4 colonnes la
