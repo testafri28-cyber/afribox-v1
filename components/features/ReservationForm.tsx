@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import LazyMount from '@/components/ui/LazyMount'
-import { lockers, type Locker, type LockerSize } from '@/lib/constants'
+import { lockers, pricing, type Locker, type LockerSize } from '@/lib/constants'
 
 // Chargée à la demande : la carte (Leaflet + tuiles) ne pèse plus sur l'entrée
 // dans le tunnel, surtout en données mobiles.
@@ -37,13 +37,15 @@ type Reservation = {
   payment: Payment | null
 }
 
+// Dimensions, poids et tarif viennent de `pricing` : une seule source pour la
+// grille tarifaire et le formulaire (index 0/1/2 = S/M/L).
 const sizesInfo: Record<
   LockerSize,
-  { label: string; icon: typeof Package; desc: string; price: string }
+  { label: string; icon: typeof Package; desc: string; dims: string; weight: string; price: string }
 > = {
-  S: { label: 'Petit', icon: Package, desc: 'Documents, accessoires', price: '500 FCFA' },
-  M: { label: 'Moyen', icon: PackageOpen, desc: 'Vêtements, électronique', price: '750 FCFA' },
-  L: { label: 'Grand', icon: Boxes, desc: 'Équipements volumineux', price: '1 250 FCFA' },
+  S: { label: 'Petit', icon: Package,     desc: 'Documents, accessoires',  dims: pricing[0].dims, weight: pricing[0].weight, price: '500 FCFA' },
+  M: { label: 'Moyen', icon: PackageOpen, desc: 'Vêtements, électronique', dims: pricing[1].dims, weight: pricing[1].weight, price: '750 FCFA' },
+  L: { label: 'Grand', icon: Boxes,       desc: 'Équipements volumineux',  dims: pricing[2].dims, weight: pricing[2].weight, price: '1 250 FCFA' },
 }
 
 // Durée unique : dépôt de 48h (tarif fixe par taille).
@@ -398,7 +400,12 @@ function StepConfigure({
               <p className="font-heading font-bold text-lg text-brand-gray mt-3">
                 {info.label}
               </p>
-              <p className="font-body text-sm text-brand-sub mb-2">{info.desc}</p>
+              <p className="font-body text-sm text-brand-sub mb-1">{info.desc}</p>
+              <p className="font-mono text-[11px] leading-snug text-brand-mid mb-2">
+                {info.dims}
+                <br />
+                {info.weight}
+              </p>
               <p className="font-mono text-xs text-green-primary">
                 {info.price} / 48h
               </p>
