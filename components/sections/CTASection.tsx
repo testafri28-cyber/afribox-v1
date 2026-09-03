@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import Button from '@/components/ui/Button'
 import GridBackground from '@/components/ui/GridBackground'
+import { useDict, useLocalePath } from '@/lib/i18n/LocaleProvider'
 
 type CTASectionProps = {
   eyebrow?: string
@@ -17,14 +18,25 @@ type CTASectionProps = {
 }
 
 export default function CTASection({
-  eyebrow = 'Notre vision',
-  title = 'Prêt à simplifier vos livraisons ?',
-  subtitle = "Réservez votre premier locker en moins d'une minute. Ou parlez à notre équipe pour un déploiement marchand.",
-  primaryLabel = 'Réserver un locker',
+  eyebrow,
+  title,
+  subtitle,
+  primaryLabel,
   primaryHref = '/reserver',
-  secondaryLabel = 'Parler à un humain',
+  secondaryLabel,
   secondaryHref = '/#contact',
 }: CTASectionProps) {
+  const d = useDict()
+  const lp = useLocalePath()
+
+  // Valeurs par défaut résolues ici, pas dans la signature : elles dépendent
+  // de la langue courante, que seule l'exécution du composant connaît.
+  eyebrow ??= d.ui.cta.eyebrow
+  title ??= d.ui.cta.title
+  subtitle ??= d.ui.cta.subtitle
+  primaryLabel ??= d.ui.cta.primaryLabel
+  secondaryLabel ??= d.ui.cta.secondaryLabel
+
   return (
     <section className="bg-brand-off">
       <Container className="py-16 md:py-24">
@@ -67,7 +79,7 @@ export default function CTASection({
             <div className="flex flex-col sm:flex-row gap-3">
               {/* Survol : remplissage vert clair sous le texte vert (lisible) + légère élévation. */}
               <Button
-                href={primaryHref}
+                href={lp(primaryHref)}
                 variant="white"
                 size="lg"
                 style={{ '--fill': '#CDEBD6' } as React.CSSProperties}
@@ -78,7 +90,7 @@ export default function CTASection({
               </Button>
               {/* Ghost : remplissage blanc translucide sous le texte blanc (lisible) + bord qui s'éclaire. */}
               <Button
-                href={secondaryHref}
+                href={lp(secondaryHref)}
                 variant="ghost"
                 size="lg"
                 style={{ '--fill': 'rgba(255,255,255,0.18)' } as React.CSSProperties}

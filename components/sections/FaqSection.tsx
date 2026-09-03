@@ -6,10 +6,11 @@ import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import FAQAccordion from '@/components/features/FAQAccordion'
 import { fadeInUp } from '@/lib/animations'
-import { useContent } from '@/lib/i18n/LocaleProvider'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 
 export default function FaqSection() {
   const { contact } = useContent()
+  const d = useDict()
   return (
     <section id="faq" className="bg-brand-off">
       {/* pt réduit : suit le CTA (gris) — évite le vide doublé au joint de même couleur */}
@@ -23,20 +24,20 @@ export default function FaqSection() {
             variants={fadeInUp}
             className="lg:col-span-1 lg:sticky lg:top-28 self-start"
           >
-            <SectionLabel className="mb-4">FAQ</SectionLabel>
+            <SectionLabel className="mb-4">{d.ui.faq.label}</SectionLabel>
             <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-4xl leading-tight text-brand-gray">
-              Questions fréquentes.
+              {d.ui.faq.title}
             </h2>
             <p className="font-body text-brand-sub mt-4 leading-relaxed">
-              Tout ce qu&apos;il faut savoir avant de réserver un locker.
+              {d.ui.faq.lede}
             </p>
 
             <div className="mt-7 rounded-2xl border border-brand-border bg-white p-5">
               <p className="font-heading font-semibold text-brand-gray">
-                Une autre question&nbsp;?
+                {d.ui.faq.another}
               </p>
               <p className="font-body text-sm text-brand-sub mt-1 mb-4 leading-relaxed">
-                Notre équipe répond sous 24h — ou tout de suite sur WhatsApp.
+                {d.ui.faq.replyTime}
               </p>
               <div className="flex flex-wrap gap-2">
                 <a
@@ -59,7 +60,7 @@ export default function FaqSection() {
                   href="#contact"
                   className="inline-flex items-center rounded-full border border-brand-border px-4 py-2 font-body text-sm font-medium text-brand-gray hover:border-green-primary/40 hover:text-green-dark transition-colors"
                 >
-                  Nous écrire
+                  {d.ui.faq.writeUs}
                 </a>
               </div>
             </div>

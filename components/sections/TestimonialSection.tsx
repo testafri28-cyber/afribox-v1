@@ -5,9 +5,10 @@ import { Star } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import { type Testimonial } from '@/lib/constants'
-import { useContent } from '@/lib/i18n/LocaleProvider'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 
 export default function TestimonialSection() {
+  const d = useDict()
   const { testimonials } = useContent()
   // Duplique la liste pour un défilement seamless.
   // L'animation va de 0 à -50%, ce qui aligne exactement le 2e bloc sur le 1er.
@@ -23,13 +24,12 @@ export default function TestimonialSection() {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
         >
-          <SectionLabel className="mb-4">Témoignages</SectionLabel>
+          <SectionLabel className="mb-4">{d.ui.testimonials.label}</SectionLabel>
           <h2 className="font-heading font-bold text-3xl md:text-5xl leading-tight text-brand-gray max-w-3xl">
-            Ils nous font confiance.
+            {d.ui.testimonials.title}
           </h2>
           <p className="font-body text-base md:text-lg text-brand-sub mt-4 max-w-2xl">
-            Marchands, opérateurs et boutiques partenaires — voici ce qu&apos;ils
-            en disent.
+            {d.ui.testimonials.lede}
           </p>
         </motion.div>
       </Container>

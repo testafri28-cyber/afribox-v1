@@ -5,27 +5,17 @@ import { X, Check, ArrowRight } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import GridBackground from '@/components/ui/GridBackground'
+import { useDict } from '@/lib/i18n/LocaleProvider'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' as const } },
 }
 
-// Douleurs (gauche) et réponses Afribox (droite) — même ordre pour le miroir.
-const pains = [
-  'Adresse introuvable, le livreur tourne en rond',
-  'Appels sans réponse, livraison ratée',
-  'Colis égaré ou jamais arrivé',
-  'Bloqué chez soi à attendre toute la journée',
-]
-const solutions = [
-  'Un casier intelligent près de chez vous',
-  'Un code de retrait par SMS, à usage unique',
-  'Récupération 24h/24, quand ça vous arrange',
-  'Dépôt en 60 secondes, zéro coup de fil',
-]
-
 export default function ProblemSection() {
+  const d = useDict()
+  // Douleurs (gauche) et réponses Afribox (droite) — même ordre pour le miroir.
+  const { pains, solutions } = d.ui.problem
   return (
     <section className="bg-white">
       <Container className="py-16 md:py-24">
@@ -35,16 +25,12 @@ export default function ProblemSection() {
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeUp}
         >
-          <SectionLabel className="mb-4">Le problème que nous résolvons</SectionLabel>
+          <SectionLabel className="mb-4">{d.ui.problem.label}</SectionLabel>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-6 max-w-3xl">
-            La livraison en Afrique mérite mieux.
+            {d.ui.problem.title}
           </h2>
           <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed max-w-3xl mb-12 md:mb-16">
-            Le e-commerce progresse d&apos;environ 11 % par an en Côte d&apos;Ivoire,
-            mais le dernier kilomètre reste le maillon faible : adresse
-            introuvable, livreur injoignable, colis perdu. Afribox règle ça
-            simplement — un casier près de chez vous, un code par SMS, et
-            c&apos;est tout.
+            {d.ui.problem.lede}
           </p>
         </motion.div>
 
@@ -60,7 +46,7 @@ export default function ProblemSection() {
           >
             <span className="inline-flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase text-brand-mid mb-6">
               <span className="h-1.5 w-1.5 rounded-full bg-brand-mid" />
-              Sans Afribox
+              {d.ui.problem.withoutAfribox}
             </span>
             <ul className="space-y-4">
               {pains.map((p) => (
@@ -87,7 +73,7 @@ export default function ProblemSection() {
             <div className="relative">
               <span className="inline-flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase text-white/80 mb-6">
                 <span className="h-1.5 w-1.5 rounded-full bg-green-light animate-pulse" />
-                Avec Afribox
+                {d.ui.problem.withAfribox}
               </span>
               <ul className="space-y-4">
                 {solutions.map((s) => (

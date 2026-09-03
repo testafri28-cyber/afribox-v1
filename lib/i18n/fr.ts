@@ -11,6 +11,7 @@
 // `content`→ contenu éditorial du site (fichier séparé, volumineux)
 // ---------------------------------------------------------------------------
 import { contentFr } from './content-fr'
+import { uiFr } from './ui-fr'
 
 export const fr = {
   meta: {
@@ -52,6 +53,7 @@ export const fr = {
   },
 
   content: contentFr,
+  ui: uiFr,
 }
 
 export type Dictionary = typeof fr

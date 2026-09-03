@@ -5,7 +5,7 @@ import { motion, useInView } from 'framer-motion'
 import { MapPin, ScanLine, LockOpen, Signal, Wifi, BatteryFull } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { useContent } from '@/lib/i18n/LocaleProvider'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Glyphes plateformes (badges de téléchargement).
@@ -25,6 +25,7 @@ function PlayGlyph({ className = '' }: { className?: string }) {
 }
 
 export default function AppDownloadSection() {
+  const d = useDict()
   const { appFeatures } = useContent()
   const phoneRef = useRef<HTMLDivElement>(null)
   const inView = useInView(phoneRef, { once: true, amount: 0.3 })
@@ -41,13 +42,12 @@ export default function AppDownloadSection() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeInUp}>
-              <SectionLabel className="mb-4">L&apos;application</SectionLabel>
+              <SectionLabel className="mb-4">{d.ui.app.label}</SectionLabel>
               <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
-                Vos lockers dans votre poche.
+                {d.ui.app.title}
               </h2>
               <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed mb-8">
-                Gérez vos envois, suivez vos colis et récupérez vos codes
-                directement depuis l&apos;appli Afribox.
+                {d.ui.app.lede}
               </p>
             </motion.div>
 

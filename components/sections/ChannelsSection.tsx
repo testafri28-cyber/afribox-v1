@@ -5,7 +5,7 @@ import { type LucideIcon } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import BentoTriple from '@/components/features/BentoTriple'
-import { useContent } from '@/lib/i18n/LocaleProvider'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -13,6 +13,7 @@ const fadeUp = {
 }
 
 export default function ChannelsSection() {
+  const d = useDict()
   const { channels } = useContent()
   // Mapping: accent (vertical) = WhatsApp (the most distinctive channel),
   // hero (large) = Site web, tertiary = App mobile.
@@ -29,9 +30,9 @@ export default function ChannelsSection() {
           variants={fadeUp}
           className="mb-12 md:mb-16 max-w-2xl"
         >
-          <SectionLabel className="mb-4">Canaux d&apos;accès</SectionLabel>
+          <SectionLabel className="mb-4">{d.ui.channels.label}</SectionLabel>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray">
-            Utilisez Afribox comme vous le souhaitez.
+            {d.ui.channels.title}
           </h2>
         </motion.div>
 

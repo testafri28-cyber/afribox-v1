@@ -31,12 +31,12 @@ export default function ContactSection() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeInUp}>
-              <SectionLabel className="mb-4">Contact</SectionLabel>
+              <SectionLabel className="mb-4">{d.ui.contact.label}</SectionLabel>
               <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
-                Parlons de votre projet.
+                {d.ui.contact.title}
               </h2>
               <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed mb-8 md:mb-10">
-                Marchand, entreprise, investisseur ou simple curieux — notre équipe répond sous 24h ouvrées.
+                {d.ui.contact.lede}
               </p>
             </motion.div>
 

@@ -7,6 +7,7 @@
 // ---------------------------------------------------------------------------
 import type { Dictionary } from './fr'
 import { contentEn } from './content-en'
+import { uiEn } from './ui-en'
 
 export const en: Dictionary = {
   meta: {
@@ -47,4 +48,5 @@ export const en: Dictionary = {
   },
 
   content: contentEn,
+  ui: uiEn,
 }
