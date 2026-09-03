@@ -152,4 +152,14 @@ export const uiEn: UiStrings = {
     legal: ['Legal notice', 'Privacy', 'Cookies'],
     rights: 'All rights reserved.',
   },
+
+  reserve: {
+    back: 'Back to home',
+    label: 'Booking',
+    titleStart: 'Book your locker in',
+    titleAccent: '4 steps.',
+    lede: 'Pick a locker, set up your shipment, then finish your request on WhatsApp in one click.',
+    pilotLabel: 'Pilot phase',
+    pilotText: '— book your slot and we will let you know as soon as the locker opens.',
+  },
 }

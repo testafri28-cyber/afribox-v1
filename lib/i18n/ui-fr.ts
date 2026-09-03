@@ -151,6 +151,15 @@ export const uiFr = {
     legal: ['Mentions légales', 'Confidentialité', 'Cookies'],
     rights: 'Tous droits réservés.',
   },
+  reserve: {
+    back: "Retour à l'accueil",
+    label: 'Réservation',
+    titleStart: 'Réservez votre locker en',
+    titleAccent: '4 étapes.',
+    lede: 'Choisissez un casier, configurez votre envoi, puis finalisez votre demande sur WhatsApp en un clic.',
+    pilotLabel: 'Phase pilote',
+    pilotText: "— réservez votre créneau, vous serez notifié dès l'ouverture du casier.",
+  },
 }
 
 export type UiStrings = typeof uiFr

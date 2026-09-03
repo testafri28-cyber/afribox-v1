@@ -38,16 +38,15 @@ export default function ReservePage({ params }: LocaleParams) {
             className="inline-flex items-center gap-1.5 font-body text-sm font-medium text-brand-sub hover:text-green-primary transition-colors mb-5 md:mb-6"
           >
             <ArrowLeft size={16} />
-            Retour à l&apos;accueil
+            {d.ui.reserve.back}
           </Link>
-          <SectionLabel className="mb-3">Réservation</SectionLabel>
+          <SectionLabel className="mb-3">{d.ui.reserve.label}</SectionLabel>
           <h1 className="font-heading font-bold text-3xl md:text-5xl leading-[1.05] tracking-tight text-brand-gray max-w-3xl mb-3">
-            Réservez votre locker en{' '}
-            <span className="text-green-primary">4 étapes.</span>
+            {d.ui.reserve.titleStart}{' '}
+            <span className="text-green-primary">{d.ui.reserve.titleAccent}</span>
           </h1>
           <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed max-w-2xl">
-            Choisissez un casier, configurez votre envoi, puis finalisez votre
-            demande sur WhatsApp en un clic.
+            {d.ui.reserve.lede}
           </p>
 
           {/* Statut phase pilote — la réservation est une pré-inscription. */}
@@ -57,8 +56,8 @@ export default function ReservePage({ params }: LocaleParams) {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-green-primary" />
             </span>
             <span className="font-body text-sm text-green-dark">
-              <span className="font-semibold">Phase pilote</span> — réservez votre
-              créneau, vous serez notifié dès l&apos;ouverture du casier.
+              <span className="font-semibold">{d.ui.reserve.pilotLabel}</span>{' '}
+              {d.ui.reserve.pilotText}
             </span>
           </div>
         </Container>
