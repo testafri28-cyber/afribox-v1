@@ -9,7 +9,7 @@
 // Le résultat est mis en cache par langue : la fusion ne s'exécute qu'une fois.
 // ---------------------------------------------------------------------------
 import { getDictionary } from './i18n'
-import type { Locale } from './i18n/config'
+import { localePath, type Locale } from './i18n/config'
 import {
   lockers,
   impact,
@@ -32,6 +32,9 @@ import {
 
 function build(locale: Locale) {
   const c = getDictionary(locale).content
+
+  // Préfixe les liens internes par la langue ; ancres et liens externes intacts.
+  const lp = (href: string) => (href.startsWith('/') ? localePath(locale, href) : href)
 
   return {
     lockers: lockers.map((l, i) => ({ ...l, ...c.lockers[i] })),
@@ -83,10 +86,11 @@ function build(locale: Locale) {
 
     // Les URLs restent dans constants.ts ; seuls les libellés sont traduits.
     footerLinks: {
-      produit: footerLinks.produit.map((l, i) => ({ ...l, label: c.footer.produit[i] })),
-      societe: footerLinks.societe.map((l, i) => ({ ...l, label: c.footer.societe[i] })),
+      produit: footerLinks.produit.map((l, i) => ({ ...l, href: lp(l.href), label: c.footer.produit[i] })),
+      societe: footerLinks.societe.map((l, i) => ({ ...l, href: lp(l.href), label: c.footer.societe[i] })),
       ressources: footerLinks.ressources.map((l, i) => ({
         ...l,
+        href: lp(l.href),
         label: c.footer.ressources[i],
       })),
       columns: c.footer.columns,

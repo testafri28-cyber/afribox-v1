@@ -1,6 +1,8 @@
-import { aboutMission, aboutValues, statStrip } from "@/lib/afribox-data";
+import { getMobileData } from "@/lib/afribox-data";
+import type { Locale } from "@/lib/i18n/config";
 
-export default function MobileAbout() {
+export default function MobileAbout({ locale }: { locale: Locale }) {
+  const { aboutMission, aboutValues, statStrip } = getMobileData(locale);
   return (
     <section id="a-propos" className="border-t border-brand-border px-4 py-9">
       <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">À propos</p>

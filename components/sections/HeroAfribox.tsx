@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock, Package, CalendarClock, Smartphone, Check } from 'lucide-react'
+import { useLocalePath } from '@/lib/i18n/LocaleProvider'
 
 /* Placeholder flou (14×15px, ~1 Ko) inline en base64 : affiché instantanément
    dans le HTML, il évite le « header vide » pendant le téléchargement du WebP
@@ -76,6 +77,7 @@ function FloatingCard({
 }
 
 export default function HeroAfribox() {
+  const lp = useLocalePath()
   const typedText = useTypewriter(WORDS)
 
   return (
@@ -293,7 +295,7 @@ export default function HeroAfribox() {
                 WhatsApp
               </a>
               <Link
-                href="/reserver"
+                href={lp('/reserver')}
                 style={{ '--fill': '#1B5E20' } as React.CSSProperties}
                 className="btn-fill inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-6 py-2.5 sm:py-3 bg-green-primary text-white active:scale-[0.97] whitespace-nowrap"
               >

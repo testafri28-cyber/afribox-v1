@@ -37,6 +37,7 @@ export const fr = {
     breadcrumbHome: 'Accueil',
     breadcrumbReserver: 'Réserver un locker',
     contactLabels: { email: 'Email', phone: 'Téléphone', office: 'Siège' },
+    lockerStatus: { soon: 'Bientôt', full: 'Complet' },
   },
 
   jsonld: {

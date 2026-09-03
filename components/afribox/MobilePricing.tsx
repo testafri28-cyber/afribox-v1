@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { pricingTiers } from "@/lib/afribox-data";
+import { getMobileData } from "@/lib/afribox-data";
+import { localePath, type Locale } from "@/lib/i18n/config";
 
-export default function MobilePricing() {
+export default function MobilePricing({ locale }: { locale: Locale }) {
+  const { pricingTiers } = getMobileData(locale);
   return (
     <section id="tarifs" className="border-t border-brand-border px-4 py-9">
       <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">Tarifs</p>
@@ -19,7 +21,7 @@ export default function MobilePricing() {
         {pricingTiers.map((tier) => (
           <Link
             key={tier.name}
-            href="/reserver"
+            href={localePath(locale, "/reserver")}
             className={`flex items-center gap-4 rounded-2xl border p-4 transition-colors active:bg-green-bg ${
               tier.popular
                 ? "border-green-dark/35 bg-gradient-to-br from-green-dark/[0.07] to-white"
@@ -58,7 +60,7 @@ export default function MobilePricing() {
       </div>
 
       <Link
-        href="/reserver"
+        href={localePath(locale, "/reserver")}
         className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-green-dark py-3.5 text-[15px] font-bold text-white shadow-[0_8px_24px_-8px_rgba(27,94,32,0.45)] active:scale-[0.99]"
       >
         Réserver un locker

@@ -32,6 +32,7 @@ export const en: Dictionary = {
     breadcrumbHome: 'Home',
     breadcrumbReserver: 'Book a locker',
     contactLabels: { email: 'Email', phone: 'Phone', office: 'Head office' },
+    lockerStatus: { soon: 'Coming soon', full: 'Full' },
   },
 
   jsonld: {

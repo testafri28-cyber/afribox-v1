@@ -1,7 +1,9 @@
 import Image from "next/image";
-import { contactInfo } from "@/lib/afribox-data";
+import { getMobileData } from "@/lib/afribox-data";
+import type { Locale } from "@/lib/i18n/config";
 
-export default function MobileContact() {
+export default function MobileContact({ locale }: { locale: Locale }) {
+  const { contactInfo } = getMobileData(locale);
   // Chaque ligne est actionnable : sur mobile, on tape pour écrire, discuter ou
   // ouvrir l'itinéraire — plutôt que de recopier une adresse à la main.
   const rows = [

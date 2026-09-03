@@ -323,6 +323,16 @@ export const contentFr = {
     address: 'Rue Abli Mathieu, Résidence Premium, 4e étage, Zone 4, Marcory, Abidjan',
   },
 
+  // --- Libellés propres à la version mobile ---------------------------------
+  mobile: {
+    pricingLabels: [
+      { name: 'Documents', desc: 'Accessoires, papiers' },
+      { name: 'Vêtements', desc: 'Électronique, textile' },
+      { name: 'Volumineux', desc: 'Équipements larges' },
+    ],
+    popularSuffix: 'populaire',
+  },
+
   // --- Liens de pied de page (libellés seulement, les URLs sont ailleurs) ----
   footer: {
     columns: { produit: 'Produit', societe: 'Société', ressources: 'Ressources' },

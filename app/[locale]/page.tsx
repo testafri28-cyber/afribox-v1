@@ -41,7 +41,7 @@ export default function HomePage({ params }: LocaleParams) {
       {/* Sections de contenu en version mobile (< md). Header, footer et chat
           Locky restent ceux du site, communs aux deux versions. */}
       <div className="md:hidden">
-        <MobileHome />
+        <MobileHome locale={locale} />
       </div>
 
       {/* Sections desktop — à partir de md */}

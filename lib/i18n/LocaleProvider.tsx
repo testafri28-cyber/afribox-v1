@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext } from 'react'
-import { defaultLocale, type Locale } from './config'
+import { defaultLocale, localePath, type Locale } from './config'
 import { getDictionary } from './index'
 import { getContent } from '../content'
 
@@ -36,4 +36,14 @@ export function useDict() {
 /** Contenu éditorial localisé (sections, FAQ, tarifs…). */
 export function useContent() {
   return getContent(useContext(LocaleContext))
+}
+
+/**
+ * Construit un lien interne conscient de la langue courante.
+ *   lp('/reserver')  →  '/reserver'  en français, '/en/reserver' en anglais
+ * Les ancres et liens externes ('#', 'https://…') sont renvoyés tels quels.
+ */
+export function useLocalePath() {
+  const locale = useContext(LocaleContext)
+  return (path: string) => (path.startsWith('/') ? localePath(locale, path) : path)
 }

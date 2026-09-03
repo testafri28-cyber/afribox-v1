@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Package, PackageOpen, Boxes, ArrowRight } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { useContent } from '@/lib/i18n/LocaleProvider'
+import { useContent, useLocalePath } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Icône + libellé d'accroche par taille (aligné sur l'ordre de `pricing`).
@@ -16,6 +16,7 @@ const meta = [
 ]
 
 export default function PricingSection() {
+  const lp = useLocalePath()
   const { pricing } = useContent()
   return (
     <section id="tarifs" className="bg-white">
@@ -125,7 +126,7 @@ export default function PricingSection() {
 
                 {/* CTA */}
                 <Link
-                  href="/reserver"
+                  href={lp('/reserver')}
                   className={`btn-fill mt-auto inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 font-body font-medium text-sm ${
                     featured
                       ? 'bg-green-primary text-white [--fill:#1B5E20]'

@@ -1,4 +1,5 @@
-import { appFeatures, contact } from "@/lib/constants";
+import { getContent } from "@/lib/content";
+import type { Locale } from "@/lib/i18n/config";
 
 // Badges de téléchargement — mêmes destinations que la section desktop
 // (« # » tant que l'application n'est pas publiée sur les stores).
@@ -7,7 +8,8 @@ const stores = [
   { surtitre: "Disponible sur", nom: "Google Play", href: "#", glyphe: <PlayGlyph /> },
 ];
 
-export default function MobileApp() {
+export default function MobileApp({ locale }: { locale: Locale }) {
+  const { appFeatures, contact } = getContent(locale);
   return (
     <section id="app-mobile" className="border-t border-brand-border px-4 py-9">
       <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">

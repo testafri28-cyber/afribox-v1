@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, MessageSquare, ShoppingBag, Package, CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
+import { useLocalePath } from '@/lib/i18n/LocaleProvider'
 
 // Les 6 étapes du parcours regroupées en 3 temps lisibles.
 const phases = [
@@ -52,6 +53,7 @@ const badgeFill = [
 ]
 
 export default function ProcessStepper() {
+  const lp = useLocalePath()
   return (
     <div>
       {/* ---------- Desktop : filet reliant les 3 phases ---------- */}
@@ -154,7 +156,7 @@ export default function ProcessStepper() {
       {/* CTA final */}
       <div className="mt-10 flex justify-center">
         <Link
-          href="/reserver"
+          href={lp('/reserver')}
           style={{ '--fill': '#1B5E20' } as React.CSSProperties}
           className="btn-fill inline-flex items-center gap-2 rounded-full bg-green-primary px-6 py-3 font-body font-medium text-white"
         >

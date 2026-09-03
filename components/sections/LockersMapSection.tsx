@@ -9,7 +9,7 @@ import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import LazyMount from '@/components/ui/LazyMount'
 import { type Locker, type LockerSize } from '@/lib/constants'
-import { useContent } from '@/lib/i18n/LocaleProvider'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp } from '@/lib/animations'
 
 // Chargée à la demande : combinée à LazyMount, la carte (Leaflet + tuiles)
@@ -21,6 +21,7 @@ const LockersMap = dynamic(() => import('@/components/features/LockersMap'), {
 
 export default function LockersMapSection() {
   const { lockers } = useContent()
+  const d = useDict()
   const [selected, setSelected] = useState<Locker | null>(null)
 
   return (
@@ -92,6 +93,8 @@ function LockerCard({
   selected: boolean
   onSelect: () => void
 }) {
+  const d = useDict()
+
   return (
     <div
       onClick={onSelect}
@@ -117,7 +120,7 @@ function LockerCard({
               : 'bg-white text-brand-mid border border-brand-border'
           }`}
         >
-          {l.available ? 'Bientôt' : 'Complet'}
+          {l.available ? d.common.lockerStatus.soon : d.common.lockerStatus.full}
         </span>
       </div>
 

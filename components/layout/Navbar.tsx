@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import Button from '@/components/ui/Button'
 import { TubelightNavbar } from '@/components/ui/TubelightNavbar'
 import LocaleSwitch from '@/components/layout/LocaleSwitch'
+import { useLocalePath } from '@/lib/i18n/LocaleProvider'
+import { stripLocale } from '@/lib/i18n/config'
 
 /* ⚠️ Doit rester dans l'ordre d'apparition des sections sur la page :
    le scroll-spy retient la DERNIÈRE section dont le haut a franchi la ligne
@@ -97,8 +99,10 @@ function useActiveSection(enabled: boolean) {
 }
 
 export default function Navbar() {
+  const lp = useLocalePath()
   const pathname = usePathname()
-  const isHome = pathname === '/'
+  // Vrai sur « / » comme sur « /en » : la langue ne change pas la nature de la page.
+  const isHome = stripLocale(pathname ?? '/') === '/'
 
   const [scrolled, setScrolled] = useState(false)
   const [overHero, setOverHero] = useState(isHome)
@@ -156,7 +160,7 @@ export default function Navbar() {
      Anywhere else, navigate back to the home page anchor instead. */
   const tubelightItems = navLinks.map((link) => ({
     name: link.label,
-    url: isHome ? '' : `/#${link.id}`,
+    url: isHome ? '' : lp(`/#${link.id}`),
     icon: link.icon,
     onClick: isHome ? () => { selectManually(link.id); scrollTo(link.id) } : undefined,
   }))
@@ -183,7 +187,7 @@ export default function Navbar() {
         }`}>
 
         {/* Logo */}
-        <Link href="/" className="flex flex-col flex-shrink-0" aria-label="Afribox">
+        <Link href={lp('/')} className="flex flex-col flex-shrink-0" aria-label="Afribox">
           <span className={`font-heading font-bold text-lg md:text-xl leading-none transition-colors ${
             overHero ? 'text-white' : 'text-green-dark'
           }`}>Afribox</span>
@@ -207,7 +211,7 @@ export default function Navbar() {
         {/* CTA + sélecteur de langue — desktop */}
         <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
           <LocaleSwitch />
-          <Button href="/reserver" variant={overHero ? 'white' : 'primary'} size="sm">
+          <Button href={lp('/reserver')} variant={overHero ? 'white' : 'primary'} size="sm">
             Réserver un locker
             <ArrowRight size={16} className="ml-1.5" />
           </Button>
@@ -271,7 +275,7 @@ export default function Navbar() {
                   ) : (
                     <Link
                       key={link.id}
-                      href={`/#${link.id}`}
+                      href={lp(`/#${link.id}`)}
                       onClick={() => setOpen(false)}
                       className={className}
                     >
@@ -284,7 +288,7 @@ export default function Navbar() {
 
               <div className="px-6 pb-8 flex flex-col gap-4">
                 <LocaleSwitch className="self-start" />
-                <Button href="/reserver" variant="primary" fullWidth onClick={() => setOpen(false)}>
+                <Button href={lp('/reserver')} variant="primary" fullWidth onClick={() => setOpen(false)}>
                   Réserver un locker
                   <ArrowRight size={16} className="ml-1" />
                 </Button>

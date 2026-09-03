@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
-import { useContent } from '@/lib/i18n/LocaleProvider'
+import { useContent, useLocalePath } from '@/lib/i18n/LocaleProvider'
 
 /**
  * Barre d'action permanente sur mobile.
@@ -14,6 +14,7 @@ import { useContent } from '@/lib/i18n/LocaleProvider'
  * Elle n'apparaît qu'une fois le hero passé, pour ne pas doubler son bouton.
  */
 export default function MobileReserveBar() {
+  const lp = useLocalePath()
   const { contact } = useContent()
   const [visible, setVisible] = useState(false)
 
@@ -63,7 +64,7 @@ export default function MobileReserveBar() {
 
         {/* Marge à droite : laisse respirer la bulle de chat Locky. */}
         <Link
-          href="/reserver"
+          href={lp('/reserver')}
           tabIndex={visible ? undefined : -1}
           className="flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-green-dark text-[15px] font-bold text-white shadow-[0_8px_24px_-8px_rgba(27,94,32,0.45)] active:scale-[0.99]"
         >

@@ -13,7 +13,7 @@
 import { siteMetadata } from './metadata'
 import { getDictionary } from './i18n'
 import { hreflang, localePath, type Locale } from './i18n/config'
-import { contact, socials, pricing, faq } from './constants'
+import { getContent } from './content'
 
 const ORG_ID = `${siteMetadata.siteUrl}/#organization`
 const WEBSITE_ID = `${siteMetadata.siteUrl}/#website`
@@ -32,6 +32,7 @@ function priceAmount(price: string): string {
 /** Graphe injecté sur toutes les pages, dans la langue de la page. */
 export function siteGraph(locale: Locale) {
   const d = getDictionary(locale)
+  const c = getContent(locale)
 
   const organization = {
     '@type': 'Organization',
@@ -46,8 +47,8 @@ export function siteGraph(locale: Locale) {
     image: `${siteMetadata.siteUrl}${siteMetadata.ogImage}`,
     description: d.meta.home.description,
     slogan: d.jsonld.slogan,
-    email: contact.email,
-    telephone: contact.phoneDisplay,
+    email: c.contact.email,
+    telephone: c.contact.phoneDisplay,
     address: {
       '@type': 'PostalAddress',
       streetAddress:
@@ -60,15 +61,15 @@ export function siteGraph(locale: Locale) {
     contactPoint: [
       {
         '@type': 'ContactPoint',
-        telephone: contact.phoneDisplay,
-        email: contact.email,
+        telephone: c.contact.phoneDisplay,
+        email: c.contact.email,
         contactType: 'customer service',
         availableLanguage: ['French', 'English'],
         areaServed: 'CI',
       },
     ],
     // Relie l'entité à ses profils officiels (n'inclure que des liens réels).
-    sameAs: socials.map((s) => s.href),
+    sameAs: c.socials.map((s) => s.href),
   }
 
   const website = {
@@ -92,7 +93,7 @@ export function siteGraph(locale: Locale) {
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: d.jsonld.offerCatalogName,
-      itemListElement: pricing.map((p) => ({
+      itemListElement: c.pricing.map((p) => ({
         '@type': 'Offer',
         name: `${d.jsonld.offerPrefix} ${p.size}`,
         description: p.use,
@@ -121,7 +122,7 @@ export function faqPageJsonLd(locale: Locale) {
     '@type': 'FAQPage',
     '@id': `${siteMetadata.siteUrl}${localePath(locale, '/')}#faq`,
     inLanguage: hreflang[locale],
-    mainEntity: faq.map((item) => ({
+    mainEntity: getContent(locale).faq.map((item) => ({
       '@type': 'Question',
       name: item.q,
       acceptedAnswer: { '@type': 'Answer', text: item.a },

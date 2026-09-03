@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { faqItems } from "@/lib/afribox-data";
+import { getMobileData } from "@/lib/afribox-data";
+import type { Locale } from "@/lib/i18n/config";
 
-export default function MobileFAQ() {
+export default function MobileFAQ({ locale }: { locale: Locale }) {
+  const { faqItems } = getMobileData(locale);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (

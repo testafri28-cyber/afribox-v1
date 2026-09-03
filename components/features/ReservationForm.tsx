@@ -24,6 +24,7 @@ const LockersMap = dynamic(() => import('@/components/features/LockersMap'), {
   ssr: false,
 })
 import { submitLead, whatsappUrl } from '@/lib/leads'
+import { useLocalePath, useDict } from '@/lib/i18n/LocaleProvider'
 
 type Duration = '48h'
 type Payment = 'orange' | 'wave' | 'mtn' | 'card'
@@ -67,6 +68,7 @@ function generateCode(): string {
 }
 
 export default function ReservationForm() {
+  const lp = useLocalePath()
   const [step, setStep] = useState(1)
   const [reservation, setReservation] = useState<Reservation>({
     locker: null,
@@ -260,6 +262,8 @@ function StepLocker({
   selected: Locker | null
   onSelect: (l: Locker) => void
 }) {
+  const d = useDict()
+
   return (
     <div>
       <h2 className="font-heading font-bold text-2xl md:text-3xl text-brand-gray mb-2">
@@ -307,7 +311,7 @@ function StepLocker({
                         : 'bg-brand-off text-brand-mid border border-brand-border'
                     }`}
                   >
-                    {l.available ? 'Bientôt' : 'Complet'}
+                    {l.available ? d.common.lockerStatus.soon : d.common.lockerStatus.full}
                   </span>
                 </div>
                 <p className="font-body text-sm text-brand-sub mb-3">
@@ -315,7 +319,7 @@ function StepLocker({
                 </p>
                 <div className="flex items-center justify-between">
                   <p className="font-mono text-xs text-brand-mid">
-                    {l.available ? 'Bientôt' : 'Complet'}
+                    {l.available ? d.common.lockerStatus.soon : d.common.lockerStatus.full}
                   </p>
                   <div className="flex gap-1">
                     {(['S', 'M', 'L'] as LockerSize[]).map((s) => (
@@ -578,6 +582,8 @@ function StepConfirmation({
   code: string
   total: number
 }) {
+  const lp = useLocalePath()
+
   // Message WhatsApp pré-rempli pour finaliser la demande avec un conseiller.
   const waText = [
     'Bonjour Afribox 👋',
@@ -645,7 +651,7 @@ function StepConfirmation({
 
       <div className="mt-5">
         <a
-          href="/reserver"
+          href={lp('/reserver')}
           className="font-body text-sm text-brand-sub hover:text-green-primary underline transition"
         >
           Nouvelle réservation
