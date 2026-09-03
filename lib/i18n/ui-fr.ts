@@ -88,6 +88,69 @@ export const uiFr = {
     title: 'Parlons de votre projet.',
     lede: 'Marchand, entreprise, investisseur ou simple curieux — notre équipe répond sous 24h ouvrées.',
   },
+  hero: {
+    // Le dernier mot du titre défile ; WORDS[0] est rendu côté serveur.
+    typedWords: ['no stress,', '24h/24 & 7j/7,', 'sécurisée.'],
+    titleBrand: 'Afribox,',
+    titleRest: 'la livraison',
+    lede: "Des casiers intelligents accessibles à toute heure. Pas de rendez-vous, pas d'attente — juste votre code et votre colis.",
+    mascotAlt: 'Locky, la mascotte Afribox, présentant une réservation de locker confirmée',
+    lockyName: 'Je suis Locky',
+    lockyRole: 'Votre concierge Afribox',
+    ctaShort: 'Réserver',
+    ctaLong: 'Réserver un locker',
+    cards: {
+      alwaysOnTitle: 'Toujours actif',
+      alwaysOnSub: '24 h/24 · 7 j/7',
+      noAppointmentTitle: 'Sans rendez-vous',
+      noAppointmentSub: 'Récupérez quand vous voulez',
+      newParcelTitle: 'Nouveau colis',
+      newParcelSub: "Un casier vous attend · à l'instant",
+      paymentTitle: 'Paiement',
+      paymentSub: 'Mobile Money',
+      deliveredTitle: 'Colis livré',
+      deliveredSub: 'Code utilisé',
+    },
+    strip: [
+      { title: '24 h/24', sub: 'Toujours actif' },
+      { title: 'Sans RDV', sub: 'Quand vous voulez' },
+      { title: 'Mobile Money', sub: 'Paiement simple' },
+    ],
+  },
+  nav: {
+    links: ['Services', 'Fonctionnement', 'Tarifs', "L'app", 'À propos', 'Contact', 'FAQ'],
+    book: 'Réserver un locker',
+    openMenu: 'Ouvrir le menu',
+    closeMenu: 'Fermer',
+  },
+
+  services: {
+    label: 'Nos services',
+    title: 'Pour chaque besoin, une solution.',
+    usages: [
+      { title: 'E-commerce', text: 'Le coursier dépose, vous retirez avec votre code.' },
+      { title: 'Envoi & retours', text: 'Vous déposez, le coursier ou le marchand collecte.' },
+      { title: 'Entre particuliers', text: 'Une remise locale, sans passer par un coursier.' },
+      { title: 'Relais casier', text: 'Des flux casier-à-casier — bientôt.' },
+    ],
+    channels: ['Site web', 'Application', 'WhatsApp', 'Au checkout marchand', 'Portail pro', 'Kiosque — sans compte'],
+    usagesTitle: 'Un casier, quatre usages.',
+    orderHint: 'Commandez comme ça vous arrange',
+  },
+
+  why: {
+    label: 'Pourquoi Afribox',
+    title: 'Cinq raisons concrètes.',
+    networkAlt: "Le réseau de lockers Afribox qui s'étend à travers l'Afrique",
+  },
+
+  footer: {
+    tagline: "Casiers connectés intelligents pour particuliers, opérateurs et villes. Une infrastructure logistique pensée pour l'avenir.",
+    newsletterTitle: 'Restez informé',
+    emailPlaceholder: 'vous@email.com',
+    legal: ['Mentions légales', 'Confidentialité', 'Cookies'],
+    rights: 'Tous droits réservés.',
+  },
 }
 
 export type UiStrings = typeof uiFr

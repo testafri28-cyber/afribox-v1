@@ -88,4 +88,68 @@ export const uiEn: UiStrings = {
     title: 'Let’s talk about your project.',
     lede: 'Merchant, business, investor or simply curious — our team replies within 24 working hours.',
   },
+
+  hero: {
+    typedWords: ['stress-free,', '24/7,', 'secure.'],
+    titleBrand: 'Afribox,',
+    titleRest: 'delivery that is',
+    lede: 'Smart lockers you can reach at any hour. No appointment, no waiting — just your code and your parcel.',
+    mascotAlt: 'Locky, the Afribox mascot, holding up a confirmed locker booking',
+    lockyName: 'I am Locky',
+    lockyRole: 'Your Afribox concierge',
+    ctaShort: 'Book',
+    ctaLong: 'Book a locker',
+    cards: {
+      alwaysOnTitle: 'Always on',
+      alwaysOnSub: '24/7',
+      noAppointmentTitle: 'No appointment',
+      noAppointmentSub: 'Collect whenever you like',
+      newParcelTitle: 'New parcel',
+      newParcelSub: 'A locker is waiting · just now',
+      paymentTitle: 'Payment',
+      paymentSub: 'Mobile Money',
+      deliveredTitle: 'Parcel delivered',
+      deliveredSub: 'Code used',
+    },
+    strip: [
+      { title: '24/7', sub: 'Always on' },
+      { title: 'No booking', sub: 'Whenever you like' },
+      { title: 'Mobile Money', sub: 'Simple payment' },
+    ],
+  },
+
+  nav: {
+    links: ['Services', 'How it works', 'Pricing', 'The app', 'About', 'Contact', 'FAQ'],
+    book: 'Book a locker',
+    openMenu: 'Open the menu',
+    closeMenu: 'Close',
+  },
+
+  services: {
+    label: 'Our services',
+    title: 'A solution for every need.',
+    usages: [
+      { title: 'E-commerce', text: 'The courier drops off, you collect with your code.' },
+      { title: 'Sending & returns', text: 'You drop off, the courier or merchant collects.' },
+      { title: 'Between individuals', text: 'A local handover, with no courier in between.' },
+      { title: 'Locker-to-locker', text: 'Transfers from one locker to another — coming soon.' },
+    ],
+    channels: ['Website', 'Mobile app', 'WhatsApp', 'At merchant checkout', 'Business portal', 'Kiosk — no account'],
+    usagesTitle: 'One locker, four uses.',
+    orderHint: 'Order whichever way suits you',
+  },
+
+  why: {
+    label: 'Why Afribox',
+    title: 'Five concrete reasons.',
+    networkAlt: 'The Afribox locker network spreading across Africa',
+  },
+
+  footer: {
+    tagline: 'Smart connected lockers for individuals, operators and cities. Logistics infrastructure built for what comes next.',
+    newsletterTitle: 'Stay informed',
+    emailPlaceholder: 'you@email.com',
+    legal: ['Legal notice', 'Privacy', 'Cookies'],
+    rights: 'All rights reserved.',
+  },
 }

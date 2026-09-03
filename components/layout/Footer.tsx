@@ -1,12 +1,13 @@
 'use client'
 
 import Link from 'next/link'
-import { useContent } from '@/lib/i18n/LocaleProvider'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 
-const legalLinks = ['Mentions légales', 'Confidentialité', 'Cookies']
+
 
 export default function Footer() {
   const { footerLinks, socials } = useContent()
+  const d = useDict()
   return (
     <footer
       className="relative text-white pt-20 pb-10 overflow-hidden"
@@ -63,8 +64,7 @@ export default function Footer() {
               </div>
             </div>
             <p className="text-white/65 max-w-md leading-relaxed text-sm md:text-[15px]">
-              Casiers connectés intelligents pour particuliers, opérateurs et
-              villes. Une infrastructure logistique pensée pour l&apos;avenir.
+              {d.ui.footer.tagline}
             </p>
 
             {/* Newsletter */}
@@ -73,7 +73,7 @@ export default function Footer() {
                 htmlFor="newsletter-email"
                 className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/50 block mb-3"
               >
-                Restez informé
+                {d.ui.footer.newsletterTitle}
               </label>
               <div className="flex gap-2 bg-white/5 border border-white/10 rounded-full p-1.5 focus-within:border-green-primary transition-colors">
                 {/* text-base (16px) : en dessous, iOS zoome à la mise au point. */}
@@ -83,7 +83,7 @@ export default function Footer() {
                   type="email"
                   inputMode="email"
                   autoComplete="email"
-                  placeholder="vous@email.com"
+                  placeholder={d.ui.footer.emailPlaceholder}
                   className="flex-1 min-h-[44px] bg-transparent px-4 py-2 text-base placeholder-white/40 focus:outline-none"
                 />
                 <button
@@ -97,9 +97,9 @@ export default function Footer() {
           </div>
 
           {/* Colonnes liens */}
-          <FooterColumn title="Produit" links={footerLinks.produit} />
-          <FooterColumn title="Société" links={footerLinks.societe} />
-          <FooterColumn title="Ressources" links={footerLinks.ressources} />
+          <FooterColumn title={footerLinks.columns.produit} links={footerLinks.produit} />
+          <FooterColumn title={footerLinks.columns.societe} links={footerLinks.societe} />
+          <FooterColumn title={footerLinks.columns.ressources} links={footerLinks.ressources} />
 
           {/* Suivre — span 1 */}
           <div className="lg:col-span-1">
@@ -125,9 +125,9 @@ export default function Footer() {
 
         {/* Barre du bas */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs text-white/50">
-          <div>© 2026 Afribox. Tous droits réservés.</div>
+          <div>© 2026 Afribox. {d.ui.footer.rights}</div>
           <div className="flex gap-6">
-            {legalLinks.map((l) => (
+            {d.ui.footer.legal.map((l) => (
               <a
                 key={l}
                 href="#"

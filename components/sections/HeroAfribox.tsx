@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Clock, Package, CalendarClock, Smartphone, Check } from 'lucide-react'
-import { useLocalePath } from '@/lib/i18n/LocaleProvider'
+import { useLocalePath, useDict } from '@/lib/i18n/LocaleProvider'
 
 /* Placeholder flou (14×15px, ~1 Ko) inline en base64 : affiché instantanément
    dans le HTML, il évite le « header vide » pendant le téléchargement du WebP
@@ -15,7 +15,7 @@ const MASCOTTE_BLUR =
 
 /* Effet machine à écrire sur le dernier mot du titre.
    Le SSR rend WORDS[0] : le titre reste lisible même sans JS. */
-const WORDS       = ['no stress,', '24h/24 & 7j/7,', 'sécurisée.']
+// Les mots défilants viennent du dictionnaire (voir useTypewriter plus bas).
 const TYPE_SPEED  = 75
 const ERASE_SPEED = 42
 const PAUSE_AFTER = 2400
@@ -78,7 +78,9 @@ function FloatingCard({
 
 export default function HeroAfribox() {
   const lp = useLocalePath()
-  const typedText = useTypewriter(WORDS)
+  const d = useDict()
+  const h = d.ui.hero
+  const typedText = useTypewriter(h.typedWords)
 
   return (
     /* Le hero remonte sous la navbar sticky pour que le panneau démarre
@@ -162,8 +164,8 @@ export default function HeroAfribox() {
               >
                 <span className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-base leading-none flex-shrink-0" aria-hidden="true">👋</span>
                 <span className="text-left leading-tight">
-                  <span className="block font-heading font-bold text-[12px] text-white">Je suis Locky</span>
-                  <span className="block font-body text-[10px] text-white/70">Votre concierge Afribox</span>
+                  <span className="block font-heading font-bold text-[12px] text-white">{h.lockyName}</span>
+                  <span className="block font-body text-[10px] text-white/70">{h.lockyRole}</span>
                 </span>
               </motion.div>
 
@@ -176,10 +178,10 @@ export default function HeroAfribox() {
                   </span>
                   <div>
                     <p className="font-heading font-bold text-[13px] text-brand-gray leading-none flex items-center gap-1.5">
-                      Toujours actif
+                      {h.cards.alwaysOnTitle}
                       <span className="w-1.5 h-1.5 rounded-full bg-green-primary animate-pulse" aria-hidden="true" />
                     </p>
-                    <p className="font-body text-[11px] text-brand-sub mt-1">24 h/24 · 7 j/7</p>
+                    <p className="font-body text-[11px] text-brand-sub mt-1">{h.cards.alwaysOnSub}</p>
                   </div>
                 </div>
               </FloatingCard>
@@ -191,8 +193,8 @@ export default function HeroAfribox() {
                     <CalendarClock size={16} className="text-green-primary" />
                   </span>
                   <div>
-                    <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">Sans rendez-vous</p>
-                    <p className="font-body text-[11px] text-brand-sub mt-1">Récupérez quand vous voulez</p>
+                    <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">{h.cards.noAppointmentTitle}</p>
+                    <p className="font-body text-[11px] text-brand-sub mt-1">{h.cards.noAppointmentSub}</p>
                   </div>
                 </div>
               </FloatingCard>
@@ -206,10 +208,10 @@ export default function HeroAfribox() {
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center justify-between gap-2">
-                      <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">Nouveau colis</p>
+                      <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">{h.cards.newParcelTitle}</p>
                       <span className="w-1.5 h-1.5 rounded-full bg-green-primary flex-shrink-0 animate-pulse" aria-hidden="true" />
                     </div>
-                    <p className="font-body text-[11px] text-brand-sub mt-1 leading-snug">Un casier vous attend · à l&apos;instant</p>
+                    <p className="font-body text-[11px] text-brand-sub mt-1 leading-snug">{h.cards.newParcelSub}</p>
                   </div>
                 </div>
               </FloatingCard>
@@ -221,8 +223,8 @@ export default function HeroAfribox() {
                     <Smartphone size={16} className="text-green-primary" />
                   </span>
                   <div>
-                    <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">Paiement</p>
-                    <p className="font-body text-[11px] text-green-dark font-medium mt-1">Mobile Money</p>
+                    <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">{h.cards.paymentTitle}</p>
+                    <p className="font-body text-[11px] text-green-dark font-medium mt-1">{h.cards.paymentSub}</p>
                   </div>
                 </div>
               </FloatingCard>
@@ -234,8 +236,8 @@ export default function HeroAfribox() {
                     <Check size={16} className="text-white" strokeWidth={3} />
                   </span>
                   <div>
-                    <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">Colis livré</p>
-                    <p className="font-body text-[11px] text-brand-sub mt-1">Code utilisé</p>
+                    <p className="font-heading font-bold text-[13px] text-brand-gray leading-none">{h.cards.deliveredTitle}</p>
+                    <p className="font-body text-[11px] text-brand-sub mt-1">{h.cards.deliveredSub}</p>
                   </div>
                 </div>
               </FloatingCard>
@@ -250,7 +252,7 @@ export default function HeroAfribox() {
                 >
                   <Image
                     src="/mascotte.webp"
-                    alt="Locky, la mascotte Afribox, présentant une réservation de locker confirmée"
+                    alt={h.mascotAlt}
                     width={878}
                     height={900}
                     priority
@@ -299,16 +301,16 @@ export default function HeroAfribox() {
                 style={{ '--fill': '#1B5E20' } as React.CSSProperties}
                 className="btn-fill inline-flex items-center justify-center gap-2 font-body font-medium text-sm rounded-full px-4 sm:px-6 py-2.5 sm:py-3 bg-green-primary text-white active:scale-[0.97] whitespace-nowrap"
               >
-                <span className="min-[420px]:hidden">Réserver</span>
-                <span className="hidden min-[420px]:inline">Réserver un locker</span>
+                <span className="min-[420px]:hidden">{h.ctaShort}</span>
+                <span className="hidden min-[420px]:inline">{h.ctaLong}</span>
                 <ArrowRight size={16} />
               </Link>
             </div>
           </div>
 
           <h1 className="mt-2 md:mt-4 font-heading font-bold text-[32px] sm:text-[42px] md:text-[52px] leading-[1.1] tracking-[-0.02em] max-w-3xl mx-auto">
-            <span className="text-green-dark">Afribox,</span>{' '}
-            <span className="text-brand-gray">la livraison</span>
+            <span className="text-green-dark">{h.titleBrand}</span>{' '}
+            <span className="text-brand-gray">{h.titleRest}</span>
             <br />
             <span className="text-green-primary italic whitespace-nowrap">
               {typedText}
@@ -320,8 +322,7 @@ export default function HeroAfribox() {
             </span>
           </h1>
           <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed max-w-xl mx-auto mt-5">
-            Des casiers intelligents accessibles à toute heure. Pas de rendez-vous,
-            pas d&apos;attente — juste votre code et votre colis.
+            {h.lede}
           </p>
 
           {/* Bande de bénéfices — mobile seulement (< md). À partir de md, les
@@ -329,9 +330,9 @@ export default function HeroAfribox() {
               épurée : 3 atouts clés, même univers que les cartes desktop. */}
           <div className="md:hidden mt-8 max-w-md mx-auto grid grid-cols-3 rounded-2xl bg-white ring-1 ring-green-dark/[0.06] shadow-[0_10px_30px_-12px_rgba(11,61,27,0.25)] divide-x divide-brand-border overflow-hidden">
             {[
-              { icon: Clock, title: '24 h/24', sub: 'Toujours actif' },
-              { icon: CalendarClock, title: 'Sans RDV', sub: 'Quand vous voulez' },
-              { icon: Smartphone, title: 'Mobile Money', sub: 'Paiement simple' },
+              { icon: Clock, ...h.strip[0] },
+              { icon: CalendarClock, ...h.strip[1] },
+              { icon: Smartphone, ...h.strip[2] },
             ].map(({ icon: Icon, title, sub }) => (
               <div key={title} className="px-2 py-4 flex flex-col items-center text-center">
                 <span className="w-8 h-8 rounded-lg bg-green-bg flex items-center justify-center mb-2">
