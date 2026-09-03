@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
-import { contact } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 
 /**
  * Barre d'action permanente sur mobile.
@@ -14,6 +14,7 @@ import { contact } from '@/lib/constants'
  * Elle n'apparaît qu'une fois le hero passé, pour ne pas doubler son bouton.
  */
 export default function MobileReserveBar() {
+  const { contact } = useContent()
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {

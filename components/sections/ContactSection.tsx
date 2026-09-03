@@ -6,15 +6,19 @@ import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import ContactForm from '@/components/features/ContactForm'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
-import { contact } from '@/lib/constants'
-
-const contactInfo = [
-  { icon: Mail,   label: 'Email',     value: contact.email },
-  { icon: Phone,  label: 'Téléphone', value: contact.phoneDisplay },
-  { icon: MapPin, label: 'Siège',     value: contact.address },
-]
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 
 export default function ContactSection() {
+  const { contact } = useContent()
+  const d = useDict()
+
+  // Construit dans le composant : les libellés dépendent de la langue.
+  const contactInfo = [
+    { icon: Mail,   label: d.common.contactLabels.email,  value: contact.email },
+    { icon: Phone,  label: d.common.contactLabels.phone,  value: contact.phoneDisplay },
+    { icon: MapPin, label: d.common.contactLabels.office, value: contact.address },
+  ]
+
   return (
     <section id="contact" className="bg-white">
       <Container className="py-16 md:py-24">

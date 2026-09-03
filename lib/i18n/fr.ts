@@ -36,6 +36,7 @@ export const fr = {
     switchAria: 'Passer le site en anglais',
     breadcrumbHome: 'Accueil',
     breadcrumbReserver: 'Réserver un locker',
+    contactLabels: { email: 'Email', phone: 'Téléphone', office: 'Siège' },
   },
 
   jsonld: {

@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Package, PackageOpen, Boxes, ArrowRight } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { pricing } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Icône + libellé d'accroche par taille (aligné sur l'ordre de `pricing`).
@@ -16,6 +16,7 @@ const meta = [
 ]
 
 export default function PricingSection() {
+  const { pricing } = useContent()
   return (
     <section id="tarifs" className="bg-white">
       <Container className="py-16 md:py-24">

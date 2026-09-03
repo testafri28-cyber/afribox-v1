@@ -1,11 +1,12 @@
 'use client'
 
 import Link from 'next/link'
-import { footerLinks, socials } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 
 const legalLinks = ['Mentions légales', 'Confidentialité', 'Cookies']
 
 export default function Footer() {
+  const { footerLinks, socials } = useContent()
   return (
     <footer
       className="relative text-white pt-20 pb-10 overflow-hidden"

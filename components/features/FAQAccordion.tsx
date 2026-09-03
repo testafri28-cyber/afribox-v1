@@ -3,9 +3,10 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Plus, Minus } from 'lucide-react'
-import { faq } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 
 export default function FAQAccordion() {
+  const { faq } = useContent()
   const [open, setOpen] = useState<number | null>(null)
 
   return (

@@ -8,7 +8,8 @@ import { MapPin, ArrowRight } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import LazyMount from '@/components/ui/LazyMount'
-import { lockers, type Locker, type LockerSize } from '@/lib/constants'
+import { type Locker, type LockerSize } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp } from '@/lib/animations'
 
 // Chargée à la demande : combinée à LazyMount, la carte (Leaflet + tuiles)
@@ -19,6 +20,7 @@ const LockersMap = dynamic(() => import('@/components/features/LockersMap'), {
 })
 
 export default function LockersMapSection() {
+  const { lockers } = useContent()
   const [selected, setSelected] = useState<Locker | null>(null)
 
   return (

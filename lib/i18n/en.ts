@@ -31,6 +31,7 @@ export const en: Dictionary = {
     switchAria: 'Switch the site to French',
     breadcrumbHome: 'Home',
     breadcrumbReserver: 'Book a locker',
+    contactLabels: { email: 'Email', phone: 'Phone', office: 'Head office' },
   },
 
   jsonld: {

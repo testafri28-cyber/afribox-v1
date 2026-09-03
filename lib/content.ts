@@ -27,6 +27,7 @@ import {
   whyAfribox,
   contact,
   footerLinks,
+  socials,
 } from './constants'
 
 function build(locale: Locale) {
@@ -76,6 +77,9 @@ function build(locale: Locale) {
     }),
 
     contact: { ...contact, ...c.contact },
+
+    // Libellés de marque (Facebook, Instagram) : non traduisibles.
+    socials,
 
     // Les URLs restent dans constants.ts ; seuls les libellés sont traduits.
     footerLinks: {

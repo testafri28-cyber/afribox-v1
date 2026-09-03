@@ -5,13 +5,14 @@ import { type LucideIcon } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import BentoTriple from '@/components/features/BentoTriple'
-import { values, team, lockerSpecs, aboutMission } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Section équipe désactivée pour le moment — repasser à true pour la réafficher.
 const SHOW_TEAM = false
 
 export default function AboutSection() {
+  const { values, team, lockerSpecs, aboutMission } = useContent()
   return (
     <section id="a-propos" className="bg-brand-off">
       {/* pt réduit : suit la FAQ (gris) — évite le vide doublé au joint de même couleur */}

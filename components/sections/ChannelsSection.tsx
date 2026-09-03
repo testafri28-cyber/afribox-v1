@@ -5,7 +5,7 @@ import { type LucideIcon } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import BentoTriple from '@/components/features/BentoTriple'
-import { channels } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
@@ -13,6 +13,7 @@ const fadeUp = {
 }
 
 export default function ChannelsSection() {
+  const { channels } = useContent()
   // Mapping: accent (vertical) = WhatsApp (the most distinctive channel),
   // hero (large) = Site web, tertiary = App mobile.
   const [web, app, whatsapp] = channels

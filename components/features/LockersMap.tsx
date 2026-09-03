@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import 'leaflet/dist/leaflet.css'
-import { lockers, type Locker } from '@/lib/constants'
+import { type Locker } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 
 // React-Leaflet ne peut pas être rendu côté serveur (utilise window).
 // On charge dynamiquement avec ssr:false.
@@ -33,6 +34,7 @@ export default function LockersMap({
   onSelect,
   height = '420px',
 }: LockersMapProps) {
+  const { lockers } = useContent()
   const [mounted, setMounted] = useState(false)
   const [iconReady, setIconReady] = useState(false)
 

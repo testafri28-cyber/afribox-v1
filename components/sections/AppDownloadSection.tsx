@@ -5,7 +5,7 @@ import { motion, useInView } from 'framer-motion'
 import { MapPin, ScanLine, LockOpen, Signal, Wifi, BatteryFull } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { appFeatures } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Glyphes plateformes (badges de téléchargement).
@@ -25,6 +25,7 @@ function PlayGlyph({ className = '' }: { className?: string }) {
 }
 
 export default function AppDownloadSection() {
+  const { appFeatures } = useContent()
   const phoneRef = useRef<HTMLDivElement>(null)
   const inView = useInView(phoneRef, { once: true, amount: 0.3 })
 

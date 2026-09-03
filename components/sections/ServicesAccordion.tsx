@@ -6,7 +6,7 @@ import { ArrowRight, Check, Package, Undo2, Archive, Network } from 'lucide-reac
 import Image from 'next/image'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { services } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 
 // Pose de Locky par service (même ordre que `services` : Marchands, Particuliers,
 // PME). Dimensions réelles des WebP pour conserver le bon ratio.
@@ -26,6 +26,7 @@ const usages = [
 const channels = ['Site web', 'Application', 'WhatsApp', 'Au checkout marchand', 'Portail pro', 'Kiosque — sans compte']
 
 export default function ServicesAccordion() {
+  const { services } = useContent()
   const [active, setActive] = useState(0)
 
   return (

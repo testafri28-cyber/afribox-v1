@@ -4,9 +4,11 @@ import { motion } from 'framer-motion'
 import { Star } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { testimonials, type Testimonial } from '@/lib/constants'
+import { type Testimonial } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 
 export default function TestimonialSection() {
+  const { testimonials } = useContent()
   // Duplique la liste pour un défilement seamless.
   // L'animation va de 0 à -50%, ce qui aligne exactement le 2e bloc sur le 1er.
   const loop = [...testimonials, ...testimonials]

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { whyAfribox } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Géométrie de la roue (cercle segmenté).
@@ -58,6 +58,7 @@ const segColors = ['#27AE60', '#14532A', '#43A047', '#0E4D1E', '#2E7D32']
 const hoverEase = 'transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1)'
 
 export default function WhyAfriboxSection() {
+  const { whyAfribox } = useContent()
   const [hovered, setHovered] = useState<number | null>(null)
 
   return (

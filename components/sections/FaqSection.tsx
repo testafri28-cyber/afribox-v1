@@ -6,9 +6,10 @@ import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import FAQAccordion from '@/components/features/FAQAccordion'
 import { fadeInUp } from '@/lib/animations'
-import { contact } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 
 export default function FaqSection() {
+  const { contact } = useContent()
   return (
     <section id="faq" className="bg-brand-off">
       {/* pt réduit : suit le CTA (gris) — évite le vide doublé au joint de même couleur */}

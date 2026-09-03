@@ -4,10 +4,11 @@ import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { impact } from '@/lib/constants'
+import { useContent } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 export default function ImpactSection() {
+  const { impact } = useContent()
   return (
     <section className="bg-brand-off">
       {/* pt réduit : suit Pourquoi (gris) — évite le vide doublé au joint de même couleur */}
