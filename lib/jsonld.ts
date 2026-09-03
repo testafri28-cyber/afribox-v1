@@ -1,15 +1,18 @@
 // ---------------------------------------------------------------------------
-// Données structurées schema.org (JSON-LD)
+// Données structurées schema.org (JSON-LD), localisées.
 //
 // Un seul graphe centralise l'entité (Organization), le site (WebSite) et
-// l'offre (Service + tarifs). Les moteurs classiques (Google/Bing) y lisent
-// des « rich results » ; les moteurs génératifs (ChatGPT, Perplexity, Gemini,
-// Google AI Overviews) s'en servent pour comprendre et citer l'entité.
+// l'offre (Service + tarifs). Les moteurs classiques y lisent des « rich
+// results » ; les moteurs génératifs s'en servent pour comprendre et citer
+// l'entité. Les identifiants (@id) restent stables d'une langue à l'autre :
+// c'est la même entreprise, décrite dans deux langues.
 //
 // Règle d'or : ne décrire QUE des faits vrais et présents à l'écran (les Q/R
-// FAQPage proviennent du même tableau `faq` que l'accordéon visible).
+// FAQPage proviennent du même tableau que l'accordéon visible).
 // ---------------------------------------------------------------------------
 import { siteMetadata } from './metadata'
+import { getDictionary } from './i18n'
+import { hreflang, localePath, type Locale } from './i18n/config'
 import { contact, socials, pricing, faq } from './constants'
 
 const ORG_ID = `${siteMetadata.siteUrl}/#organization`
@@ -21,99 +24,103 @@ const areaServed = [
   { '@type': 'Country', name: "Côte d'Ivoire" },
 ]
 
-const organization = {
-  '@type': 'Organization',
-  '@id': ORG_ID,
-  name: 'Afribox',
-  legalName: 'AFRIBOX SARL',
-  url: siteMetadata.siteUrl,
-  logo: {
-    '@type': 'ImageObject',
-    url: `${siteMetadata.siteUrl}/icon.svg`,
-  },
-  image: `${siteMetadata.siteUrl}${siteMetadata.ogImage}`,
-  description: siteMetadata.description,
-  slogan: 'La livraison last-mile simple, rapide et sécurisée en Afrique.',
-  email: contact.email,
-  telephone: contact.phoneDisplay,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'Rue Abli Mathieu, Résidence Premium, 4e étage, Zone 4, Marcory',
-    addressLocality: 'Abidjan',
-    addressRegion: 'Abidjan',
-    addressCountry: 'CI',
-  },
-  areaServed,
-  contactPoint: [
-    {
-      '@type': 'ContactPoint',
-      telephone: contact.phoneDisplay,
-      email: contact.email,
-      contactType: 'customer service',
-      availableLanguage: ['French'],
-      areaServed: 'CI',
-    },
-  ],
-  // Relie l'entité à ses profils officiels (n'inclure que des liens réels).
-  sameAs: socials.map((s) => s.href),
-}
-
-const website = {
-  '@type': 'WebSite',
-  '@id': WEBSITE_ID,
-  url: siteMetadata.siteUrl,
-  name: 'Afribox',
-  description: siteMetadata.description,
-  inLanguage: 'fr-CI',
-  publisher: { '@id': ORG_ID },
-}
-
 // Tarif : « 500 FCFA / 48h » → montant numérique « 500 » (devise XOF = FCFA).
 function priceAmount(price: string): string {
   return price.split('FCFA')[0].replace(/\D/g, '')
 }
 
-const service = {
-  '@type': 'Service',
-  '@id': SERVICE_ID,
-  serviceType: 'Livraison last-mile par casiers intelligents',
-  name: 'Réseau de casiers intelligents Afribox',
-  description:
-    'Dépôt et retrait de colis 24h/24 dans des casiers connectés, avec code SMS à usage unique et paiement Mobile Money.',
-  provider: { '@id': ORG_ID },
-  areaServed,
-  hasOfferCatalog: {
-    '@type': 'OfferCatalog',
-    name: 'Tarifs des casiers Afribox',
-    itemListElement: pricing.map((p) => ({
-      '@type': 'Offer',
-      name: `Casier ${p.size}`,
-      description: p.use,
-      // Phase pilote : la réservation est une pré-inscription.
-      availability: 'https://schema.org/PreOrder',
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
-        price: priceAmount(p.price),
-        priceCurrency: 'XOF',
-        unitText: 'par colis, garde 48h',
+/** Graphe injecté sur toutes les pages, dans la langue de la page. */
+export function siteGraph(locale: Locale) {
+  const d = getDictionary(locale)
+
+  const organization = {
+    '@type': 'Organization',
+    '@id': ORG_ID,
+    name: d.meta.siteName,
+    legalName: 'AFRIBOX SARL',
+    url: siteMetadata.siteUrl,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteMetadata.siteUrl}/icon.svg`,
+    },
+    image: `${siteMetadata.siteUrl}${siteMetadata.ogImage}`,
+    description: d.meta.home.description,
+    slogan: d.jsonld.slogan,
+    email: contact.email,
+    telephone: contact.phoneDisplay,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress:
+        'Rue Abli Mathieu, Résidence Premium, 4e étage, Zone 4, Marcory',
+      addressLocality: 'Abidjan',
+      addressRegion: 'Abidjan',
+      addressCountry: 'CI',
+    },
+    areaServed,
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        telephone: contact.phoneDisplay,
+        email: contact.email,
+        contactType: 'customer service',
+        availableLanguage: ['French', 'English'],
+        areaServed: 'CI',
       },
-    })),
-  },
+    ],
+    // Relie l'entité à ses profils officiels (n'inclure que des liens réels).
+    sameAs: socials.map((s) => s.href),
+  }
+
+  const website = {
+    '@type': 'WebSite',
+    '@id': WEBSITE_ID,
+    url: `${siteMetadata.siteUrl}${localePath(locale, '/')}`,
+    name: d.meta.siteName,
+    description: d.meta.home.description,
+    inLanguage: hreflang[locale],
+    publisher: { '@id': ORG_ID },
+  }
+
+  const service = {
+    '@type': 'Service',
+    '@id': SERVICE_ID,
+    serviceType: d.jsonld.serviceType,
+    name: d.jsonld.serviceName,
+    description: d.jsonld.serviceDescription,
+    provider: { '@id': ORG_ID },
+    areaServed,
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: d.jsonld.offerCatalogName,
+      itemListElement: pricing.map((p) => ({
+        '@type': 'Offer',
+        name: `${d.jsonld.offerPrefix} ${p.size}`,
+        description: p.use,
+        // Phase pilote : la réservation est une pré-inscription.
+        availability: 'https://schema.org/PreOrder',
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: priceAmount(p.price),
+          priceCurrency: 'XOF',
+          unitText: d.jsonld.offerUnit,
+        },
+      })),
+    },
+  }
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [organization, website, service],
+  }
 }
 
-// Graphe injecté sur toutes les pages (dans le layout racine).
-export const siteGraph = {
-  '@context': 'https://schema.org',
-  '@graph': [organization, website, service],
-}
-
-// FAQPage — construite depuis le MÊME tableau que l'accordéon visible.
-export function faqPageJsonLd() {
+/** FAQPage — construite depuis le MÊME tableau que l'accordéon visible. */
+export function faqPageJsonLd(locale: Locale) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    '@id': `${siteMetadata.siteUrl}/#faq`,
-    inLanguage: 'fr-CI',
+    '@id': `${siteMetadata.siteUrl}${localePath(locale, '/')}#faq`,
+    inLanguage: hreflang[locale],
     mainEntity: faq.map((item) => ({
       '@type': 'Question',
       name: item.q,
@@ -122,8 +129,11 @@ export function faqPageJsonLd() {
   }
 }
 
-// Fil d'Ariane (aide les moteurs à situer chaque page dans l'arbo).
-export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
+/** Fil d'Ariane — les URLs suivent la langue de la page. */
+export function breadcrumbJsonLd(
+  locale: Locale,
+  items: { name: string; path: string }[],
+) {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
@@ -131,7 +141,7 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
       '@type': 'ListItem',
       position: i + 1,
       name: it.name,
-      item: `${siteMetadata.siteUrl}${it.path}`,
+      item: `${siteMetadata.siteUrl}${localePath(locale, it.path)}`,
     })),
   }
 }

@@ -7,21 +7,26 @@ import ReservationForm from '@/components/features/ReservationForm'
 import { buildMetadata } from '@/lib/metadata'
 import { breadcrumbJsonLd } from '@/lib/jsonld'
 import JsonLd from '@/components/seo/JsonLd'
+import { getDictionary } from '@/lib/i18n'
+import { isLocale, defaultLocale, localePath, type Locale } from '@/lib/i18n/config'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Réserver un locker — Afribox',
-  description:
-    "Réservez un casier Afribox près de chez vous en moins d'une minute. Paiement Mobile Money ou carte bancaire.",
-  path: '/reserver',
-})
+type LocaleParams = { params: { locale: string } }
 
-export default function ReservePage() {
+export function generateMetadata({ params }: LocaleParams): Metadata {
+  const locale: Locale = isLocale(params.locale) ? params.locale : defaultLocale
+  return buildMetadata(locale, 'reserver')
+}
+
+export default function ReservePage({ params }: LocaleParams) {
+  const locale: Locale = isLocale(params.locale) ? params.locale : defaultLocale
+  const d = getDictionary(locale)
+
   return (
     <>
       <JsonLd
-        data={breadcrumbJsonLd([
-          { name: 'Accueil', path: '/' },
-          { name: 'Réserver un locker', path: '/reserver' },
+        data={breadcrumbJsonLd(locale, [
+          { name: d.common.breadcrumbHome, path: '/' },
+          { name: d.common.breadcrumbReserver, path: '/reserver' },
         ])}
       />
       {/* En-tête resserré : bouton retour + titre compact, pour que le stepper
@@ -29,7 +34,7 @@ export default function ReservePage() {
       <section className="bg-white">
         <Container className="pt-5 pb-6 md:pt-8 md:pb-8">
           <Link
-            href="/"
+            href={localePath(locale, '/')}
             className="inline-flex items-center gap-1.5 font-body text-sm font-medium text-brand-sub hover:text-green-primary transition-colors mb-5 md:mb-6"
           >
             <ArrowLeft size={16} />

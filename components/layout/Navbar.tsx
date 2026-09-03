@@ -7,6 +7,7 @@ import { Menu, X, ArrowRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '@/components/ui/Button'
 import { TubelightNavbar } from '@/components/ui/TubelightNavbar'
+import LocaleSwitch from '@/components/layout/LocaleSwitch'
 
 /* ⚠️ Doit rester dans l'ordre d'apparition des sections sur la page :
    le scroll-spy retient la DERNIÈRE section dont le haut a franchi la ligne
@@ -203,8 +204,9 @@ export default function Navbar() {
           />
         </div>
 
-        {/* CTA — desktop */}
-        <div className="hidden lg:flex items-center flex-shrink-0">
+        {/* CTA + sélecteur de langue — desktop */}
+        <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
+          <LocaleSwitch />
           <Button href="/reserver" variant={overHero ? 'white' : 'primary'} size="sm">
             Réserver un locker
             <ArrowRight size={16} className="ml-1.5" />
@@ -280,7 +282,8 @@ export default function Navbar() {
                 })}
               </nav>
 
-              <div className="px-6 pb-8">
+              <div className="px-6 pb-8 flex flex-col gap-4">
+                <LocaleSwitch className="self-start" />
                 <Button href="/reserver" variant="primary" fullWidth onClick={() => setOpen(false)}>
                   Réserver un locker
                   <ArrowRight size={16} className="ml-1" />

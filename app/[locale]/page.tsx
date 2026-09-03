@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { buildMetadata } from '@/lib/metadata'
 import { faqPageJsonLd } from '@/lib/jsonld'
 import JsonLd from '@/components/seo/JsonLd'
+import { isLocale, defaultLocale, type Locale } from '@/lib/i18n/config'
 
 import MobileHome         from '@/components/afribox/MobileHome'
 import HeroAfribox         from '@/components/sections/HeroAfribox'
@@ -18,16 +19,20 @@ import FaqSection          from '@/components/sections/FaqSection'
 import ContactSection      from '@/components/sections/ContactSection'
 import CTASection          from '@/components/sections/CTASection'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Afribox — Smart Lockers · Livraison Last-Mile en Afrique',
-  path: '/',
-})
+type LocaleParams = { params: { locale: string } }
 
-export default function HomePage() {
+export function generateMetadata({ params }: LocaleParams): Metadata {
+  const locale: Locale = isLocale(params.locale) ? params.locale : defaultLocale
+  return buildMetadata(locale, 'home')
+}
+
+export default function HomePage({ params }: LocaleParams) {
+  const locale: Locale = isLocale(params.locale) ? params.locale : defaultLocale
+
   return (
     <>
       {/* FAQPage — mêmes Q/R que l'accordéon visible (conformité Google). */}
-      <JsonLd data={faqPageJsonLd()} />
+      <JsonLd data={faqPageJsonLd(locale)} />
 
       {/* Hero commun aux deux versions — mascotte Locky et titre animé.
           Rendu une seule fois : une seule <h1> dans la page. */}
