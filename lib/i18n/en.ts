@@ -6,6 +6,7 @@
 // the tone stays close to the French copy without translating word for word.
 // ---------------------------------------------------------------------------
 import type { Dictionary } from './fr'
+import { contentEn } from './content-en'
 
 export const en: Dictionary = {
   meta: {
@@ -42,4 +43,6 @@ export const en: Dictionary = {
     offerPrefix: 'Locker',
     offerUnit: 'per parcel, 48h storage',
   },
+
+  content: contentEn,
 }

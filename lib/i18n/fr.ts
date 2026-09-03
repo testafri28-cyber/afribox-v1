@@ -4,7 +4,13 @@
 // Le type `Dictionary` est dérivé de cet objet : toute clé ajoutée ici devient
 // obligatoire dans `en.ts`, et TypeScript signale l'oubli au build. C'est ce
 // qui empêche les deux versions du site de diverger silencieusement.
+//
+// `meta`   → référencement (titres, descriptions)
+// `common` → libellés d'interface transverses
+// `jsonld` → textes des données structurées
+// `content`→ contenu éditorial du site (fichier séparé, volumineux)
 // ---------------------------------------------------------------------------
+import { contentFr } from './content-fr'
 
 export const fr = {
   meta: {
@@ -42,6 +48,8 @@ export const fr = {
     offerPrefix: 'Casier',
     offerUnit: 'par colis, garde 48h',
   },
+
+  content: contentFr,
 }
 
 export type Dictionary = typeof fr

@@ -9,6 +9,7 @@ import ScrollToTop from '@/components/layout/ScrollToTop'
 import CustomCursor from '@/components/ui/CustomCursor'
 import LockyChat from '@/components/features/LockyChat'
 import { locales, isLocale, hreflang, defaultLocale, type Locale } from '@/lib/i18n/config'
+import { LocaleProvider } from '@/lib/i18n/LocaleProvider'
 import '../globals.css'
 
 type LocaleParams = { params: { locale: string } }
@@ -41,12 +42,16 @@ export default function RootLayout({
     >
       <body className="bg-brand-off text-brand-gray font-body antialiased">
         <JsonLd data={siteGraph(locale)} />
-        <CustomCursor />
-        <ScrollToTop />
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
-        <LockyChat />
+        {/* La langue est posée une fois ici : tous les composants clients la
+            lisent via useLocale/useContent, sans prop drilling. */}
+        <LocaleProvider locale={locale}>
+          <CustomCursor />
+          <ScrollToTop />
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+          <LockyChat />
+        </LocaleProvider>
       </body>
     </html>
   )
