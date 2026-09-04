@@ -1,8 +1,16 @@
 # Afribox
 
 > Afribox (AFRIBOX SARL) déploie un réseau de casiers intelligents (« smart lockers ») pour la livraison last-mile en Côte d'Ivoire. Dépôt et retrait de colis 24h/24, code SMS à usage unique, paiement Mobile Money. Site officiel : https://afriboxlockers.com
+>
+> Afribox (AFRIBOX SARL) operates a smart parcel locker network for last-mile delivery in Côte d'Ivoire. Drop-off and pickup around the clock, single-use SMS code, Mobile Money payment. Official site: https://afriboxlockers.com
 
-## En bref
+Le site existe en deux langues / The site is available in two languages:
+- Français : https://afriboxlockers.com/
+- English : https://afriboxlockers.com/en
+
+---
+
+## En bref (français)
 - Entreprise : AFRIBOX SARL — Abidjan, Côte d'Ivoire
 - Activité : réseau de casiers connectés pour la livraison et le retrait de colis (dernier kilomètre / last-mile)
 - Statut : phase pilote — premiers casiers à Abidjan (Cap Sud/Marcory, Sococé/2 Plateaux Cocody, Mairie d'Abobo, Cosmos/Yopougon), extension prévue à Bouaké puis à la région
@@ -15,10 +23,10 @@
 3. Le destinataire reçoit son propre code par SMS et retire le colis quand il veut, 24h/24.
 
 ## Tarifs (garde 48h)
-- Casier Petit (documents, accessoires) : 500 FCFA
-- Casier Moyen (vêtements, électronique) : 750 FCFA
-- Casier Grand (équipements volumineux) : 1 250 FCFA
-- Paiement : Mobile Money (Orange Money, Wave, MTN) ou carte bancaire.
+- Casier Petit (documents, accessoires) : 500 FCFA — 35 × 10 × 49 cm, 0–5 kg
+- Casier Moyen (vêtements, électronique) : 750 FCFA — 35 × 20 × 49 cm, 5–10 kg
+- Casier Grand (équipements volumineux) : 1 250 FCFA — 35 × 30 × 49 cm, jusqu'à 15 kg
+- Paiement : Mobile Money (Orange Money, Wave, MTN) ou carte bancaire, à la réservation.
 
 ## Sécurité
 Serrure électronique à solénoïde + lecteur RFID, code à usage unique par SMS, deux caméras de vidéosurveillance en continu, chaque dépôt et retrait horodaté et tracé.
@@ -26,8 +34,42 @@ Serrure électronique à solénoïde + lecteur RFID, code à usage unique par SM
 ## Bon à savoir
 - Fonctionne sans smartphone ni application : le code de retrait arrive par SMS simple.
 - Accessible aussi via l'application mobile (iOS & Android) et via WhatsApp.
-- Le colis reste disponible 48h dans le casier ; des rappels sont envoyés avant la fin du délai.
+- Le colis reste disponible 48h ; des rappels sont envoyés avant la fin du délai.
+- Au-delà de la réception d'achats en ligne : envoi de colis, retours marchands et remise entre particuliers.
 
-## Pages principales
+## Pages (français)
 - Accueil : https://afriboxlockers.com/
 - Réserver un locker : https://afriboxlockers.com/reserver
+
+---
+
+## In brief (English)
+- Company: AFRIBOX SARL — Abidjan, Côte d'Ivoire
+- Business: a network of connected lockers for parcel delivery and pickup (last mile)
+- Status: pilot phase — first lockers in Abidjan (Cap Sud/Marcory, Sococé/2 Plateaux Cocody, Abobo Town Hall, Cosmos/Yopougon), expanding to Bouaké and then the wider region
+- Availability: 24/7 — no appointment needed
+- Contact: info@afriboxlockers.com · +225 07 89 44 44 41 · WhatsApp +225 07 89 44 44 41
+
+## How it works
+1. The merchant or sender books a locker and enters the courier's and the recipient's numbers.
+2. The courier receives a single-use SMS code, opens the locker and drops the parcel in (about 60 seconds).
+3. The recipient gets their own code by SMS and collects the parcel whenever they like, around the clock.
+
+## Pricing (48h storage)
+- Small locker (documents, accessories): 500 FCFA — 35 × 10 × 49 cm, 0–5 kg
+- Medium locker (clothing, electronics): 750 FCFA — 35 × 20 × 49 cm, 5–10 kg
+- Large locker (bulkier items): 1,250 FCFA — 35 × 30 × 49 cm, up to 15 kg
+- Payment: Mobile Money (Orange Money, Wave, MTN) or bank card, taken at booking.
+
+## Security
+Electronic solenoid lock plus RFID reader, single-use code sent by SMS, two cameras filming the front continuously, every drop-off and pickup timestamped and logged.
+
+## Good to know
+- Works without a smartphone or app: the pickup code arrives as a plain SMS.
+- Also reachable through the mobile app (iOS & Android) and WhatsApp.
+- Parcels stay available for 48 hours; reminders are sent before the deadline.
+- Beyond receiving online orders: sending parcels, merchant returns, and handovers between individuals.
+
+## Pages (English)
+- Home: https://afriboxlockers.com/en
+- Book a locker: https://afriboxlockers.com/en/reserver
