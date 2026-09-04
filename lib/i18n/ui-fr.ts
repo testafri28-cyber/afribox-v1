@@ -147,6 +147,8 @@ export const uiFr = {
   footer: {
     tagline: "Casiers connectés intelligents pour particuliers, opérateurs et villes. Une infrastructure logistique pensée pour l'avenir.",
     newsletterTitle: 'Restez informé',
+    subscribe: "S'abonner",
+    follow: 'Suivre',
     emailPlaceholder: 'vous@email.com',
     legal: ['Mentions légales', 'Confidentialité', 'Cookies'],
     rights: 'Tous droits réservés.',
@@ -186,6 +188,7 @@ export const uiFr = {
     summaryTitle: 'Récapitulatif',
     summaryLocker: 'Locker',
     summarySize: 'Taille',
+    lockerAddress: 'Adresse du locker',
     summaryTotal: 'Total TTC',
     paymentLabels: ['Orange Money', 'Wave', 'MTN Mobile Money', 'Carte bancaire'],
 
@@ -240,8 +243,11 @@ export const uiFr = {
     lockersLede: "Réseau pilote à Abidjan — et bientôt Bouaké. Pré-réservez : vous serez notifié dès l'ouverture du casier.",
     pricingLede: 'Tarif unique par dépôt de 48h. Comptes marchand et entreprise : remises sur volume.',
     faqLabel: 'Questions',
+    faqTitle: "L'essentiel, vite fait.",
     contactTitle: 'Une question ? On répond vite.',
     whatsappAria: 'Nous écrire sur WhatsApp',
+    popularBadge: 'Populaire',
+    smsFromTo: 'Marchand → Livreur',
   },
   lockersMap: {
     label: 'Réseau pilote',
@@ -252,6 +258,7 @@ export const uiFr = {
 
   appMock: {
     parcelReady: 'Colis prêt à retirer',
+    lockerRef: 'Locker Plateau · Casier M-04',
     codeValidity: 'Valide 72h · à usage unique',
   },
   contactForm: {
@@ -269,6 +276,7 @@ export const uiFr = {
     required: 'Requis',
     invalidEmail: 'Email invalide',
     submit: 'Envoyer le message',
+    sending: 'Envoi…',
     sentTitle: 'Message bien reçu.',
     sentLede: 'Notre équipe vous répond sous 24h ouvrées. Pour une réponse immédiate, continuez sur WhatsApp.',
     continueWhatsApp: 'Continuer sur WhatsApp',

@@ -195,7 +195,7 @@ export default function ContactForm() {
           {status === 'sending' ? (
             <>
               <Loader2 size={17} className="animate-spin" />
-              Envoi…
+              {d.ui.contactForm.sending}
             </>
           ) : (
             <>

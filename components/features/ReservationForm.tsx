@@ -389,7 +389,7 @@ function StepConfigure({
 
       {/* Taille */}
       <p className="font-mono text-xs tracking-widest text-brand-mid uppercase mb-3">
-        Taille
+        {d.ui.reserveForm.summarySize}
       </p>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
         {(['S', 'M', 'L'] as LockerSize[]).map((s) => {
@@ -646,7 +646,7 @@ function StepConfirmation({
 
       <div className="bg-brand-off rounded-2xl p-6 border border-brand-border mb-8 text-left">
         <p className="font-mono text-xs tracking-widest text-brand-mid uppercase mb-3">
-          Adresse du locker
+          {d.ui.reserveForm.lockerAddress}
         </p>
         <p className="font-body font-semibold text-brand-gray mb-1">
           {reservation.locker?.name}

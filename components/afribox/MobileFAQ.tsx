@@ -14,7 +14,7 @@ export default function MobileFAQ({ locale }: { locale: Locale }) {
     <section className="border-t border-brand-border px-4 py-9">
       <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">{d.ui.mobileUi.faqLabel}</p>
       <h2 className="mb-6 font-heading text-2xl font-bold leading-tight text-brand-gray">
-        L&apos;essentiel, vite fait.
+        {d.ui.mobileUi.faqTitle}
       </h2>
 
       <div>

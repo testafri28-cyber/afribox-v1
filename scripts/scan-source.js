@@ -1,42 +1,66 @@
-// Scan du CODE SOURCE : trouve le francais ecrit en dur dans les composants,
-// y compris ce que le HTML initial ne montre pas (attributs aria-label/alt/
-// placeholder, contenu rendu seulement apres interaction : menu, chat,
-// accordeons). Les commentaires sont retires avant analyse.
+// Scan du CODE SOURCE : signale TOUT texte d'interface ecrit en dur dans les
+// composants — quelle que soit la langue.
+//
+// Pourquoi pas une detection "est-ce du francais ?" : elle rate les mots isoles
+// sans accent ("S'abonner", "SUIVRE") et les tournures sans mot-outil
+// ("L'essentiel, vite fait."). Dans un code entierement internationalise il ne
+// doit rester AUCUN texte en dur : on signale tout, et on relit la liste.
+//
+// Usage : node scripts/scan-source.js
 const fs = require('fs')
 const path = require('path')
 
 const ROOTS = ['components', 'app']
 const SKIP = /lib[\\/]i18n|node_modules|\.next/
-const ACCENT = /[éèêëàâäçùûüôöîïœÉÈÊÀÇÔÎ]/
-const STOP = /\b(le|la|les|des|une|un|du|de|et|est|sont|vous|votre|vos|nous|notre|nos|pour|avec|dans|sur|par|qui|que|ça|plus|tout|tous|sans|chez|dès|puis|aussi|ainsi|entre|leur|ses|mes|son|sa|aux|ne|pas|se|si|ou|où|au)\b/i
+// Fichiers dont le texte en dur est legitime : prompts systeme et logs serveur.
+const ALLOW_FILES = /app[\\/]api[\\/]/
 
-// Motifs a ignorer : ce ne sont pas des textes d'interface.
-const IGNORE = [
-  /^[a-z-]+(\s+[a-z0-9:/\[\]().%-]+)*$/i, // suites de classes utilitaires
-  /^[\w./-]+$/,                            // chemins, identifiants
-  /^#[\w-]+$/,
-  /^https?:/,
-  /^\d/,
-  /^[A-Z_]+$/,
-]
+// Marques et termes techniques, identiques dans les deux langues.
+const BRANDS = new Set([
+  'Afribox', 'WhatsApp', 'Mobile Money', 'Orange Money', 'Wave', 'MTN', 'Locky',
+  'App Store', 'Google Play', 'iOS & Android', 'FAQ', 'API', 'SMS', 'RFID',
+  'Facebook', 'Instagram', 'VISA', 'Abidjan', 'Cap Sud', 'Email', 'Android',
+  'Smart Locker Network',
+])
 
-function looksFrench(t) {
-  const s = t.trim()
-  if (s.length < 4) return false
-  if (IGNORE.some((re) => re.test(s))) return false
-  if (ACCENT.test(s)) return true
-  return s.split(/\s+/).length >= 2 && STOP.test(s)
-}
+// Remplace un commentaire par autant de lignes vides, pour ne pas decaler les
+// numeros de ligne rapportes.
+const blankOut = (m) => m.split('\n').map(() => '').join('\n')
 
-function stripComments(src) {
+function stripNoise(src) {
   return src
-    .replace(/\{\s*\/\*[\s\S]*?\*\/\s*\}/g, ' ') // {/* ... */}
-    .replace(/\/\*[\s\S]*?\*\//g, ' ')            // /* ... */
-    .replace(/^\s*\/\/.*$/gm, ' ')                // // ... en debut de ligne
-    .replace(/([^:])\/\/[^\n'"`]*$/gm, '$1')      // // en fin de ligne
+    .replace(/\{\s*\/\*[\s\S]*?\*\/\s*\}/g, blankOut)
+    .replace(/\/\*[\s\S]*?\*\//g, blankOut)
+    .replace(/^\s*\/\/.*$/gm, '')
+    // Attributs techniques : leurs valeurs ne sont pas du texte d'interface.
+    .replace(
+      /\b(className|class|style|href|src|id|key|type|rel|target|viewBox|d|fill|stroke|variant|size|name|value|htmlFor|autoComplete|inputMode|role|width|height|sizes|blurDataURL|priority|loading)\s*=\s*(\{[^}]*\}|"[^"]*"|'[^']*'|`[^`]*`)/g,
+      ' ',
+    )
+    // Chaines de classes utilitaires restees dans des template literals.
+    .replace(/`[^`]*(?:flex|grid|text-|bg-|px-|py-|mt-|mb-|rounded|border|absolute|relative|hidden|w-|h-)[^`]*`/g, ' ')
 }
 
-function walk(dir, acc = []) {
+function isUiText(s) {
+  const t = s.trim()
+  if (t.length < 3) return false
+  if (BRANDS.has(t)) return false
+  if (!/[A-Za-zÀ-ÿ]/.test(t)) return false
+  if (/^https?:/.test(t)) return false
+  if (/^[/#@.]/.test(t) || t.includes('/')) return false          // URL, chemin, import
+  if (/^use (client|server)$/.test(t)) return false
+  if (/^[a-z][a-zA-Z0-9]*$/.test(t)) return false                  // identifiant camelCase
+  if (/^[a-z0-9-]+$/.test(t)) return false                         // slug
+  if (/^[A-Z][A-Z0-9_]*$/.test(t) && !/\s/.test(t)) return false   // CONSTANTE
+  if (/^#[0-9a-f]{3,8}$/i.test(t)) return false
+  if (/min-width|max-width|\dpx|rgba?\(/.test(t)) return false     // CSS
+  if (/^[\w$]+\??\s*:\s*(string|number|boolean|React|\(|'|"|\[)/.test(t)) return false // type TS
+  // Doit ressembler a un libelle : espace, majuscule initiale, apostrophe, ou
+  // ponctuation finale.
+  return /\s/.test(t) || /^[A-ZÀ-Þ]/.test(t) || /['’]/.test(t) || /[.!?…]$/.test(t)
+}
+
+function walk(dir, acc) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name)
     if (SKIP.test(p)) continue
@@ -46,39 +70,49 @@ function walk(dir, acc = []) {
   return acc
 }
 
+const files = []
+for (const r of ROOTS) if (fs.existsSync(r)) walk(r, files)
+
 const findings = []
-for (const file of ROOTS.flatMap((r) => (fs.existsSync(r) ? walk(r) : []))) {
-  const raw = fs.readFileSync(file, 'utf8')
-  const src = stripComments(raw)
-  const lines = src.split('\n')
+for (const file of files) {
+  if (ALLOW_FILES.test(file)) continue
+  const lines = stripNoise(fs.readFileSync(file, 'utf8')).split('\n')
 
   lines.forEach((line, i) => {
-    const hits = []
+    const hits = new Set()
 
-    // 1) Attributs textuels
     for (const m of line.matchAll(/\b(alt|aria-label|placeholder|title)="([^"]+)"/g)) {
-      if (looksFrench(m[2])) hits.push(`${m[1]}="${m[2]}"`)
+      if (isUiText(m[2])) hits.add(m[1] + '="' + m[2] + '"')
     }
-    // 2) Litteraux de chaine
     for (const m of line.matchAll(/'((?:[^'\\\n]|\\.)*)'|"((?:[^"\\\n]|\\.)*)"/g)) {
-      const v = m[1] ?? m[2] ?? ''
-      if (looksFrench(v) && !hits.some((h) => h.includes(v))) hits.push(`'${v}'`)
+      const v = m[1] !== undefined ? m[1] : m[2] !== undefined ? m[2] : ''
+      if (isUiText(v)) hits.add("'" + v + "'")
     }
-    // 3) Texte JSX nu (ligne sans balise ni accolade)
+    // Texte JSX nu : la ligne ne doit contenir aucune syntaxe de code.
     const bare = line.trim()
-    if (bare && !/[<>{}=]/.test(bare) && looksFrench(bare)) hits.push(bare)
+    const isCode =
+      /[<>{}=();]/.test(bare) ||
+      /\b(import|export|return|const|let|function|await|async)\b/.test(bare) ||
+      /^[\w$]+\??\s*:/.test(bare) ||
+      /^['"`].*['"`],?$/.test(bare) ||        // directive ou chaine isolee
+      /^[A-Z][a-zA-Z0-9]*,?$/.test(bare)      // element de liste d'import
+    if (bare && !isCode && isUiText(bare)) hits.add(bare)
 
     for (const h of hits) findings.push({ file, line: i + 1, text: h })
   })
 }
 
 if (findings.length === 0) {
-  console.log('Aucun francais en dur dans les composants.')
+  console.log('Aucun texte en dur dans les composants — tout passe par les dictionnaires.')
 } else {
-  console.log(`${findings.length} chaine(s) francaise(s) en dur :\n`)
+  console.log(findings.length + ' texte(s) en dur a verifier :\n')
   let last = ''
   for (const f of findings) {
-    if (f.file !== last) { console.log(`  ${f.file}`); last = f.file }
-    console.log(`      L${f.line}  ${f.text.slice(0, 95)}`)
+    if (f.file !== last) {
+      console.log('  ' + f.file)
+      last = f.file
+    }
+    console.log('      L' + f.line + '  ' + f.text.slice(0, 95))
   }
+  console.log('\n(Marques et termes techniques identiques dans les deux langues : ignores.)')
 }

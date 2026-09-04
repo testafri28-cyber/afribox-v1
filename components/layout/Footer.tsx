@@ -90,7 +90,7 @@ export default function Footer() {
                   type="submit"
                   className="btn-fill [--fill:#1B5E20] px-5 py-2 rounded-full bg-green-primary text-white text-sm font-semibold disabled:opacity-60 transition-transform flex items-center gap-1.5"
                 >
-                  S&apos;abonner →
+                  {d.ui.footer.subscribe} →
                 </button>
               </div>
             </form>
@@ -104,7 +104,7 @@ export default function Footer() {
           {/* Suivre — span 1 */}
           <div className="lg:col-span-1">
             <div className="text-[10px] font-bold tracking-[0.22em] uppercase text-white/50 mb-5">
-              Suivre
+              {d.ui.footer.follow}
             </div>
             <div className="flex flex-row lg:flex-col gap-3">
               {socials.map(({ icon: Icon, label, href }) => (

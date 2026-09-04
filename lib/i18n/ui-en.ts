@@ -148,6 +148,8 @@ export const uiEn: UiStrings = {
   footer: {
     tagline: 'Smart connected lockers for individuals, operators and cities. Logistics infrastructure built for what comes next.',
     newsletterTitle: 'Stay informed',
+    subscribe: 'Subscribe',
+    follow: 'Follow',
     emailPlaceholder: 'you@email.com',
     legal: ['Legal notice', 'Privacy', 'Cookies'],
     rights: 'All rights reserved.',
@@ -189,6 +191,7 @@ export const uiEn: UiStrings = {
     summaryTitle: 'Summary',
     summaryLocker: 'Locker',
     summarySize: 'Size',
+    lockerAddress: 'Locker address',
     summaryTotal: 'Total incl. tax',
     paymentLabels: ['Orange Money', 'Wave', 'MTN Mobile Money', 'Bank card'],
 
@@ -245,8 +248,11 @@ export const uiEn: UiStrings = {
     lockersLede: 'Pilot network in Abidjan — with Bouaké next. Pre-book and we will let you know as soon as a locker opens.',
     pricingLede: 'One flat price per 48-hour drop-off. Merchant and business accounts: volume discounts.',
     faqLabel: 'Questions',
+    faqTitle: 'The essentials, quickly.',
     contactTitle: 'A question? We reply fast.',
     whatsappAria: 'Message us on WhatsApp',
+    popularBadge: 'Popular',
+    smsFromTo: 'Merchant → Courier',
   },
 
   lockersMap: {
@@ -258,6 +264,7 @@ export const uiEn: UiStrings = {
 
   appMock: {
     parcelReady: 'Parcel ready for pickup',
+    lockerRef: 'Plateau locker · Compartment M-04',
     codeValidity: 'Valid 72h · single use',
   },
 
@@ -276,6 +283,7 @@ export const uiEn: UiStrings = {
     required: 'Required',
     invalidEmail: 'Invalid email',
     submit: 'Send message',
+    sending: 'Sending…',
     sentTitle: 'Message received.',
     sentLede: 'Our team replies within 24 working hours. For an immediate answer, carry on over WhatsApp.',
     continueWhatsApp: 'Continue on WhatsApp',

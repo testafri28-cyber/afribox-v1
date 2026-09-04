@@ -35,7 +35,7 @@ export default function MobilePricing({ locale }: { locale: Locale }) {
                 <h3 className="font-heading text-[16px] font-bold text-brand-gray">{tier.name}</h3>
                 {tier.popular && (
                   <span className="rounded-full bg-green-dark px-2 py-0.5 text-[9.5px] font-semibold uppercase tracking-wide text-white">
-                    Populaire
+                    {d.ui.mobileUi.popularBadge}
                   </span>
                 )}
               </div>

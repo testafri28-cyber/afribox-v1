@@ -134,7 +134,7 @@ export default function AppDownloadSection() {
                   </h3>
                   <p className="mt-2 flex items-center gap-1 font-body text-[12px] text-brand-sub">
                     <MapPin size={12} className="text-green-primary" />
-                    Locker Plateau · Casier M-04
+                    {d.ui.appMock.lockerRef}
                   </p>
 
                   {/* Code de retrait */}

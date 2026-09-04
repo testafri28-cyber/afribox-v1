@@ -18,7 +18,7 @@ export default function MobileHowItWorks({ locale }: { locale: Locale }) {
       <div className="flex flex-col gap-2.5">
         <div className="max-w-[84%] self-start rounded-2xl rounded-bl-md border border-brand-border bg-brand-white px-3.5 py-3 text-sm leading-snug text-brand-gray">
           <div className="mb-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-brand-sub">
-            Marchand → Livreur
+            {d.ui.mobileUi.smsFromTo}
           </div>
           {d.ui.mobileUi.smsCourier}
           <span className="mt-1 block font-mono text-lg font-semibold tracking-wider text-green-dark">
