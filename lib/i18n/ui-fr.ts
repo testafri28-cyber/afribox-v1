@@ -160,6 +160,51 @@ export const uiFr = {
     pilotLabel: 'Phase pilote',
     pilotText: "— réservez votre créneau, vous serez notifié dès l'ouverture du casier.",
   },
+  reserveForm: {
+    steps: ['Locker', 'Configurer', 'Paiement', 'Confirmation'],
+    backToStep: "Revenir à l'étape",
+    prev: 'Précédent',
+    next: 'Suivant',
+    confirm: 'Confirmer la demande',
+
+    step1Title: 'Choisissez un locker',
+    step1Lede: "Sélectionnez le casier le plus proche de vous ou de votre destinataire — vous passerez directement à l'étape suivante.",
+
+    step2Title: 'Configurez votre réservation',
+    step2Lede: 'Taille, durée et informations du destinataire.',
+    durationLabel: 'Durée',
+    duration48: '48 heures',
+    durationUnique: 'durée unique',
+    phoneLabel: 'Téléphone destinataire *',
+    phonePlaceholder: '+225 07 00 00 00 00',
+    messageLabel: 'Message (optionnel)',
+    messagePlaceholder: 'Bonjour, votre colis est prêt',
+
+    step3Title: 'Paiement',
+    step3Lede: 'Indiquez votre moyen de paiement préféré. Le règlement est finalisé avec notre équipe à la confirmation de votre créneau.',
+    paidOnConfirm: 'Réglé à la confirmation',
+    summaryTitle: 'Récapitulatif',
+    summaryLocker: 'Locker',
+    summarySize: 'Taille',
+    summaryTotal: 'Total TTC',
+    paymentLabels: ['Orange Money', 'Wave', 'MTN Mobile Money', 'Carte bancaire'],
+
+    step4Title: 'Votre demande est envoyée.',
+    step4Lede: 'Finalisez votre réservation en un clic sur WhatsApp : notre équipe confirme votre créneau et vous envoie le code de dépôt.',
+    requestNumber: 'Numéro de demande',
+    finishWhatsApp: 'Finaliser sur WhatsApp',
+    newBooking: 'Nouvelle réservation',
+
+    wa: {
+      greeting: 'Bonjour Afribox 👋',
+      intro: 'Je souhaite finaliser ma réservation de locker :',
+      locker: 'Locker',
+      size: 'Taille',
+      duration: 'Durée',
+      phone: 'Tél. destinataire',
+      ref: 'Réf. demande',
+    },
+  },
 }
 
 export type UiStrings = typeof uiFr

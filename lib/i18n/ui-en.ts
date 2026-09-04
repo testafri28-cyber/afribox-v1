@@ -162,4 +162,50 @@ export const uiEn: UiStrings = {
     pilotLabel: 'Pilot phase',
     pilotText: '— book your slot and we will let you know as soon as the locker opens.',
   },
+
+  reserveForm: {
+    steps: ['Locker', 'Set up', 'Payment', 'Confirmation'],
+    backToStep: 'Back to step',
+    prev: 'Back',
+    next: 'Next',
+    confirm: 'Confirm request',
+
+    step1Title: 'Choose a locker',
+    step1Lede: 'Pick the locker closest to you or to your recipient — you will move straight on to the next step.',
+
+    step2Title: 'Set up your booking',
+    step2Lede: 'Size, duration and recipient details.',
+    durationLabel: 'Duration',
+    duration48: '48 hours',
+    durationUnique: 'single duration',
+    phoneLabel: 'Recipient phone *',
+    phonePlaceholder: '+225 07 00 00 00 00',
+    messageLabel: 'Message (optional)',
+    messagePlaceholder: 'Hello, your parcel is ready',
+
+    step3Title: 'Payment',
+    step3Lede: 'Tell us how you would rather pay. Payment is settled with our team when your slot is confirmed.',
+    paidOnConfirm: 'Paid on confirmation',
+    summaryTitle: 'Summary',
+    summaryLocker: 'Locker',
+    summarySize: 'Size',
+    summaryTotal: 'Total incl. tax',
+    paymentLabels: ['Orange Money', 'Wave', 'MTN Mobile Money', 'Bank card'],
+
+    step4Title: 'Your request is on its way.',
+    step4Lede: 'Finish your booking in one click on WhatsApp: our team confirms your slot and sends you the drop-off code.',
+    requestNumber: 'Request number',
+    finishWhatsApp: 'Finish on WhatsApp',
+    newBooking: 'New booking',
+
+    wa: {
+      greeting: 'Hello Afribox 👋',
+      intro: 'I would like to finalise my locker booking:',
+      locker: 'Locker',
+      size: 'Size',
+      duration: 'Duration',
+      phone: 'Recipient phone',
+      ref: 'Request ref.',
+    },
+  },
 }

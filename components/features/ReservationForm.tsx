@@ -24,7 +24,7 @@ const LockersMap = dynamic(() => import('@/components/features/LockersMap'), {
   ssr: false,
 })
 import { submitLead, whatsappUrl } from '@/lib/leads'
-import { useLocalePath, useDict } from '@/lib/i18n/LocaleProvider'
+import { useLocalePath, useDict, useContent } from '@/lib/i18n/LocaleProvider'
 
 type Duration = '48h'
 type Payment = 'orange' | 'wave' | 'mtn' | 'card'
@@ -40,26 +40,32 @@ type Reservation = {
 
 // Dimensions, poids et tarif viennent de `pricing` : une seule source pour la
 // grille tarifaire et le formulaire (index 0/1/2 = S/M/L).
-const sizesInfo: Record<
-  LockerSize,
-  { label: string; icon: typeof Package; desc: string; dims: string; weight: string; price: string }
-> = {
-  S: { label: 'Petit', icon: Package,     desc: 'Documents, accessoires',  dims: pricing[0].dims, weight: pricing[0].weight, price: '500 FCFA' },
-  M: { label: 'Moyen', icon: PackageOpen, desc: 'Vêtements, électronique', dims: pricing[1].dims, weight: pricing[1].weight, price: '750 FCFA' },
-  L: { label: 'Grand', icon: Boxes,       desc: 'Équipements volumineux',  dims: pricing[2].dims, weight: pricing[2].weight, price: '1 250 FCFA' },
+type SizeInfo = { label: string; icon: typeof Package; desc: string; dims: string; weight: string; price: string }
+
+// Libellés et descriptions viennent de la grille tarifaire traduite ; les
+// icônes restent locales. « 500 FCFA / 48h » → « 500 FCFA ».
+function useSizesInfo(): Record<LockerSize, SizeInfo> {
+  const { pricing } = useContent()
+  const icons = [Package, PackageOpen, Boxes]
+  const build = (i: number): SizeInfo => ({
+    label: pricing[i].size,
+    icon: icons[i],
+    desc: pricing[i].use,
+    dims: pricing[i].dims,
+    weight: pricing[i].weight,
+    price: pricing[i].price.split('/')[0].trim(),
+  })
+  return { S: build(0), M: build(1), L: build(2) }
 }
 
 // Durée unique : dépôt de 48h (tarif fixe par taille).
-const durationsInfo: Record<Duration, { label: string; multiplier: number }> = {
-  '48h': { label: '48 heures', multiplier: 1 },
+function useDurationsInfo(): Record<Duration, { label: string; multiplier: number }> {
+  const d = useDict()
+  return { '48h': { label: d.ui.reserveForm.duration48, multiplier: 1 } }
 }
 
-const paymentMethods: { id: Payment; label: string; icon: typeof Smartphone }[] = [
-  { id: 'orange', label: 'Orange Money', icon: Smartphone },
-  { id: 'wave', label: 'Wave', icon: Smartphone },
-  { id: 'mtn', label: 'MTN Mobile Money', icon: Smartphone },
-  { id: 'card', label: 'Carte bancaire', icon: CreditCard },
-]
+const paymentIds: Payment[] = ['orange', 'wave', 'mtn', 'card']
+const paymentIcons = [Smartphone, Smartphone, Smartphone, CreditCard]
 
 function generateCode(): string {
   // Code de dépôt simulé — 6 chiffres groupés 3 par 3
@@ -69,6 +75,9 @@ function generateCode(): string {
 
 export default function ReservationForm() {
   const lp = useLocalePath()
+  const d = useDict()
+  const sizesInfo = useSizesInfo()
+  const durationsInfo = useDurationsInfo()
   const [step, setStep] = useState(1)
   const [reservation, setReservation] = useState<Reservation>({
     locker: null,
@@ -154,7 +163,7 @@ export default function ReservationForm() {
                 type="button"
                 onClick={() => n < step && setStep(n)}
                 disabled={n >= step}
-                aria-label={`Revenir à l'étape ${n}`}
+                aria-label={`${d.ui.reserveForm.backToStep} ${n}`}
                 className={`w-9 h-9 rounded-full flex items-center justify-center font-mono font-bold text-sm transition ${
                   step >= n
                     ? 'bg-green-primary text-white'
@@ -174,7 +183,7 @@ export default function ReservationForm() {
           ))}
         </div>
         <div className="flex items-center justify-between max-w-2xl mx-auto mt-3">
-          {['Locker', 'Configurer', 'Paiement', 'Confirmation'].map((l, i) => (
+          {d.ui.reserveForm.steps.map((l, i) => (
             <p
               key={l}
               className={`font-mono text-[10px] tracking-widest uppercase ${
@@ -236,14 +245,14 @@ export default function ReservationForm() {
             className="btn-fill [--fill:#F7F9F7] inline-flex min-h-[48px] items-center gap-2 px-5 rounded-full text-sm font-body text-brand-gray transition-transform"
           >
             <ArrowLeft size={16} />
-            Précédent
+            {d.ui.reserveForm.prev}
           </button>
           <button
             onClick={handleNext}
             disabled={!canProceed()}
             className="btn-fill [--fill:#1B5E20] inline-flex min-h-[48px] items-center gap-2 px-6 rounded-full bg-green-primary text-white text-sm font-body font-medium disabled:opacity-40 disabled:cursor-not-allowed transition-transform"
           >
-            {step === 3 ? 'Confirmer la demande' : 'Suivant'}
+            {step === 3 ? d.ui.reserveForm.confirm : d.ui.reserveForm.next}
             <ArrowRight size={16} />
           </button>
         </div>
@@ -267,11 +276,10 @@ function StepLocker({
   return (
     <div>
       <h2 className="font-heading font-bold text-2xl md:text-3xl text-brand-gray mb-2">
-        Choisissez un locker
+        {d.ui.reserveForm.step1Title}
       </h2>
       <p className="font-body text-brand-sub mb-8">
-        Sélectionnez le casier le plus proche de vous ou de votre destinataire —
-        vous passerez directement à l&apos;étape suivante.
+        {d.ui.reserveForm.step1Lede}
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -355,13 +363,16 @@ function StepConfigure({
   reservation: Reservation
   setReservation: (r: Reservation) => void
 }) {
+  const d = useDict()
+  const sizesInfo = useSizesInfo()
+
   return (
     <div>
       <h2 className="font-heading font-bold text-2xl md:text-3xl text-brand-gray mb-2">
-        Configurez votre réservation
+        {d.ui.reserveForm.step2Title}
       </h2>
       <p className="font-body text-brand-sub mb-6">
-        Taille, durée et informations du destinataire.
+        {d.ui.reserveForm.step2Lede}
       </p>
 
       {/* Rappel du locker choisi (utile après « Réserver ce locker »). */}
@@ -420,12 +431,12 @@ function StepConfigure({
 
       {/* Durée — unique : dépôt de 48h. */}
       <p className="font-mono text-xs tracking-widest text-brand-mid uppercase mb-3">
-        Durée
+        {d.ui.reserveForm.durationLabel}
       </p>
       <div className="mb-8 inline-flex items-center gap-2.5 rounded-xl border border-green-primary bg-green-bg px-4 py-3">
-        <span className="font-body font-medium text-green-dark">48 heures</span>
+        <span className="font-body font-medium text-green-dark">{d.ui.reserveForm.duration48}</span>
         <span className="font-mono text-[10px] uppercase tracking-widest text-brand-mid">
-          durée unique
+          {d.ui.reserveForm.durationUnique}
         </span>
       </div>
 
@@ -436,7 +447,7 @@ function StepConfigure({
             htmlFor="tel-destinataire"
             className="font-mono text-xs tracking-widest text-brand-mid uppercase mb-2 block"
           >
-            Téléphone destinataire *
+            {d.ui.reserveForm.phoneLabel}
           </label>
           <input
             id="tel-destinataire"
@@ -447,19 +458,19 @@ function StepConfigure({
             autoComplete="tel"
             value={reservation.phone}
             onChange={(e) => setReservation({ ...reservation, phone: e.target.value })}
-            placeholder="+225 07 00 00 00 00"
+            placeholder={d.ui.reserveForm.phonePlaceholder}
             className="w-full px-4 py-3 rounded-xl border border-brand-border bg-white font-body text-base text-brand-gray focus:border-green-primary focus:outline-none transition"
           />
         </div>
         <div>
           <label className="font-mono text-xs tracking-widest text-brand-mid uppercase mb-2 block">
-            Message (optionnel)
+            {d.ui.reserveForm.messageLabel}
           </label>
           <input
             type="text"
             value={reservation.message}
             onChange={(e) => setReservation({ ...reservation, message: e.target.value })}
-            placeholder="Bonjour, votre colis est prêt"
+            placeholder={d.ui.reserveForm.messagePlaceholder}
             className="w-full px-4 py-3 rounded-xl border border-brand-border bg-white font-body text-brand-gray focus:border-green-primary focus:outline-none transition"
           />
         </div>
@@ -480,14 +491,22 @@ function StepPayment({
   setReservation: (r: Reservation) => void
   total: number
 }) {
+  const d = useDict()
+  const sizesInfo = useSizesInfo()
+  const durationsInfo = useDurationsInfo()
+  const paymentMethods = paymentIds.map((id, i) => ({
+    id,
+    label: d.ui.reserveForm.paymentLabels[i],
+    icon: paymentIcons[i],
+  }))
+
   return (
     <div>
       <h2 className="font-heading font-bold text-2xl md:text-3xl text-brand-gray mb-2">
-        Paiement
+        {d.ui.reserveForm.step3Title}
       </h2>
       <p className="font-body text-brand-sub mb-8">
-        Indiquez votre moyen de paiement préféré. Le règlement est finalisé avec
-        notre équipe à la confirmation de votre créneau.
+        {d.ui.reserveForm.step3Lede}
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -515,7 +534,7 @@ function StepPayment({
                 <div className="flex-1">
                   <p className="font-body font-semibold text-brand-gray">{m.label}</p>
                   <p className="font-mono text-[11px] text-brand-mid uppercase tracking-widest">
-                    Réglé à la confirmation
+                    {d.ui.reserveForm.paidOnConfirm}
                   </p>
                 </div>
                 <div
@@ -535,22 +554,22 @@ function StepPayment({
         {/* Récapitulatif */}
         <aside className="bg-brand-off rounded-2xl p-6 border border-brand-border h-fit">
           <p className="font-mono text-xs tracking-widest text-brand-mid uppercase mb-4">
-            Récapitulatif
+            {d.ui.reserveForm.summaryTitle}
           </p>
-          <Summary label="Locker" value={reservation.locker?.name ?? '—'} />
+          <Summary label={d.ui.reserveForm.summaryLocker} value={reservation.locker?.name ?? '—'} />
           <Summary
-            label="Taille"
+            label={d.ui.reserveForm.summarySize}
             value={reservation.size ? sizesInfo[reservation.size].label : '—'}
           />
           <Summary
-            label="Durée"
+            label={d.ui.reserveForm.durationLabel}
             value={
               reservation.duration ? durationsInfo[reservation.duration].label : '—'
             }
           />
           <div className="border-t border-brand-border my-4" />
           <div className="flex items-center justify-between">
-            <p className="font-body font-semibold text-brand-gray">Total TTC</p>
+            <p className="font-body font-semibold text-brand-gray">{d.ui.reserveForm.summaryTotal}</p>
             <p className="font-heading font-bold text-2xl text-green-primary">
               {total.toLocaleString('fr-FR')} FCFA
             </p>
@@ -583,18 +602,21 @@ function StepConfirmation({
   total: number
 }) {
   const lp = useLocalePath()
+  const d = useDict()
+  const sizesInfo = useSizesInfo()
+  const durationsInfo = useDurationsInfo()
 
   // Message WhatsApp pré-rempli pour finaliser la demande avec un conseiller.
   const waText = [
-    'Bonjour Afribox 👋',
-    'Je souhaite finaliser ma réservation de locker :',
-    `• Locker : ${reservation.locker?.name} — ${reservation.locker?.address}`,
-    `• Taille : ${reservation.size ? sizesInfo[reservation.size].label : '—'}`,
-    `• Durée : ${reservation.duration ? durationsInfo[reservation.duration].label : '—'}`,
+    d.ui.reserveForm.wa.greeting,
+    d.ui.reserveForm.wa.intro,
+    `• ${d.ui.reserveForm.wa.locker} : ${reservation.locker?.name} — ${reservation.locker?.address}`,
+    `• ${d.ui.reserveForm.wa.size} : ${reservation.size ? sizesInfo[reservation.size].label : '—'}`,
+    `• ${d.ui.reserveForm.wa.duration} : ${reservation.duration ? durationsInfo[reservation.duration].label : '—'}`,
     `• Total : ${total.toLocaleString('fr-FR')} FCFA`,
-    `• Tél. destinataire : ${reservation.phone}`,
+    `• ${d.ui.reserveForm.wa.phone} : ${reservation.phone}`,
     reservation.message ? `• Message : ${reservation.message}` : null,
-    `• Réf. demande : ${code}`,
+    `• ${d.ui.reserveForm.wa.ref} : ${code}`,
   ]
     .filter((l) => l !== null)
     .join('\n')
@@ -605,16 +627,15 @@ function StepConfirmation({
         <Check size={32} />
       </div>
       <h2 className="font-heading font-bold text-3xl md:text-4xl text-brand-gray mb-3">
-        Votre demande est envoyée.
+        {d.ui.reserveForm.step4Title}
       </h2>
       <p className="font-body text-brand-sub mb-8">
-        Finalisez votre réservation en un clic sur WhatsApp : notre équipe
-        confirme votre créneau et vous envoie le code de dépôt.
+        {d.ui.reserveForm.step4Lede}
       </p>
 
       <div className="bg-green-bg border border-green-soft rounded-2xl p-8 mb-6">
         <p className="font-mono text-xs tracking-widest text-green-dark uppercase mb-4">
-          Numéro de demande
+          {d.ui.reserveForm.requestNumber}
         </p>
         <p className="font-mono text-5xl md:text-6xl font-bold text-green-primary tracking-widest">
           {code}
@@ -646,7 +667,7 @@ function StepConfirmation({
           height={20}
           className="w-5 h-5 flex-shrink-0"
         />
-        Finaliser sur WhatsApp
+        {d.ui.reserveForm.finishWhatsApp}
       </a>
 
       <div className="mt-5">
@@ -654,7 +675,7 @@ function StepConfirmation({
           href={lp('/reserver')}
           className="font-body text-sm text-brand-sub hover:text-green-primary underline transition"
         >
-          Nouvelle réservation
+          {d.ui.reserveForm.newBooking}
         </a>
       </div>
     </div>
