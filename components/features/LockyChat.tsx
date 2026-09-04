@@ -6,6 +6,8 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, ArrowRight } from 'lucide-react'
+import { useDict, useLocalePath, useLocale } from '@/lib/i18n/LocaleProvider'
+import { stripLocale } from '@/lib/i18n/config'
 
 const WA_URL = 'https://wa.me/2250789444441'
 
@@ -16,25 +18,28 @@ type Quick =
   | { label: string; prompt: string }
   | { label: string; href: string; external?: boolean }
 
-const QUICKS: Quick[] = [
-  { label: 'Comment ça marche', prompt: 'Comment fonctionne Afribox, en bref ?' },
-  { label: 'Tarifs', prompt: 'Quels sont vos tarifs ?' },
-  { label: 'Moyens de paiement', prompt: 'Comment puis-je payer ?' },
-  { label: 'Trouver un locker', prompt: 'Comment trouver le locker le plus proche de moi ?' },
-  { label: 'Réserver un locker', href: '/reserver' },
-  { label: 'Parler à un humain', href: WA_URL, external: true },
-]
-
-const GREETING: Msg = {
-  role: 'assistant',
-  content:
-    'Bonjour, je suis Locky 👋 votre concierge Afribox. Une question sur les lockers, les tarifs ou une livraison ? Je suis là pour vous aider.',
-}
+// Raccourcis et message d'accueil sont construits dans le composant : leur
+// texte dépend de la langue, connue seulement à l'exécution.
 
 export default function LockyChat() {
+  const d = useDict()
+  const locale = useLocale()
+  const lp = useLocalePath()
+
+  const QUICKS: Quick[] = [
+    { label: d.ui.locky.quicks[0], prompt: d.ui.locky.prompts[0] },
+    { label: d.ui.locky.quicks[1], prompt: d.ui.locky.prompts[1] },
+    { label: d.ui.locky.quicks[2], prompt: d.ui.locky.prompts[2] },
+    { label: d.ui.locky.quicks[3], prompt: d.ui.locky.prompts[3] },
+    { label: d.ui.locky.quicks[4], href: lp('/reserver') },
+    { label: d.ui.locky.quicks[5], href: WA_URL, external: true },
+  ]
+
   const [open, setOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [messages, setMessages] = useState<Msg[]>([GREETING])
+  const [messages, setMessages] = useState<Msg[]>(() => [
+    { role: 'assistant', content: d.ui.locky.greeting },
+  ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -44,7 +49,7 @@ export default function LockyChat() {
   // en bas (sticky) : sur mobile, le lanceur venait se poser dessus et
   // interceptait les taps — impossible de valider une étape. On le retire donc
   // sous md sur /reserver ; le desktop, plus large, le conserve.
-  const dansTunnel = usePathname()?.startsWith('/reserver') ?? false
+  const dansTunnel = stripLocale(usePathname() ?? '/').startsWith('/reserver')
 
   // Le tiroir burger (Navbar) émet cet événement : on masque le lanceur tant
   // qu'il est ouvert pour éviter le chevauchement avec son CTA « Réserver ».
@@ -78,7 +83,10 @@ export default function LockyChat() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // On n'envoie pas le message de bienvenue (rôle assistant initial).
-        body: JSON.stringify({ messages: history.filter((m, i) => !(i === 0 && m === GREETING)) }),
+        body: JSON.stringify({
+          locale,
+          messages: history.filter((m, i) => !(i === 0 && m.role === 'assistant')),
+        }),
       })
 
       if (!res.body) throw new Error('no body')
@@ -100,8 +108,7 @@ export default function LockyChat() {
         const copy = [...prev]
         copy[copy.length - 1] = {
           role: 'assistant',
-          content:
-            'Souci de connexion 😅 Réessayez, ou écrivez-nous sur WhatsApp au +225 07 89 44 44 41.',
+          content: d.ui.locky.connError,
         }
         return copy
       })
@@ -124,7 +131,7 @@ export default function LockyChat() {
             exit={{ opacity: 0, scale: 0.7, y: 20 }}
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
             onClick={() => setOpen(true)}
-            aria-label="Ouvrir le chat avec Locky"
+            aria-label={d.ui.locky.openAria}
             // data-locky-fab : cible CSS pour remonter la bulle au-dessus de la
             // barre de réservation, sur l'accueil mobile uniquement.
             data-locky-fab
@@ -190,12 +197,12 @@ export default function LockyChat() {
                 <span className="block font-heading font-bold text-[15px]">Locky</span>
                 <span className="flex items-center gap-1.5 font-body text-[11px] text-white/75">
                   <span className="h-1.5 w-1.5 rounded-full bg-green-light animate-pulse" />
-                  Concierge Afribox · en ligne
+                  {d.ui.locky.subtitle}
                 </span>
               </span>
               <button
                 onClick={() => setOpen(false)}
-                aria-label="Fermer le chat"
+                aria-label={d.ui.locky.closeAria}
                 className="rounded-full p-1.5 text-white/80 hover:bg-white/15 hover:text-white transition-colors"
               >
                 <X size={20} />
@@ -214,7 +221,7 @@ export default function LockyChat() {
                     }`}
                   >
                     {m.content || (
-                      <span className="inline-flex gap-1 py-0.5" aria-label="Locky écrit…">
+                      <span className="inline-flex gap-1 py-0.5" aria-label={d.ui.locky.writingAria}>
                         <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-green-primary/60 [animation-delay:-0.2s]" />
                         <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-green-primary/60 [animation-delay:-0.1s]" />
                         <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-green-primary/60" />
@@ -266,14 +273,14 @@ export default function LockyChat() {
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Écrivez votre question…"
-                aria-label="Votre message"
+                placeholder={d.ui.locky.inputPlaceholder}
+                aria-label={d.ui.locky.yourMessageAria}
                 className="min-w-0 flex-1 rounded-full bg-brand-off px-4 py-2.5 font-body text-sm text-brand-gray placeholder:text-brand-mid outline-none focus:ring-2 focus:ring-green-primary/30"
               />
               <button
                 type="submit"
                 disabled={!input.trim() || loading}
-                aria-label="Envoyer"
+                aria-label={d.ui.locky.sendAria}
                 className="btn-fill [--fill:#1B5E20] flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-green-primary text-white transition-transform disabled:opacity-40 disabled:cursor-not-allowed active:scale-95"
               >
                 <Send size={17} />
@@ -281,7 +288,7 @@ export default function LockyChat() {
             </form>
 
             <p className="bg-white px-4 pb-2 text-center font-body text-[10px] text-brand-mid">
-              Locky peut se tromper — vérifiez les infos importantes.
+              {d.ui.locky.disclaimer}
             </p>
           </motion.div>
         )}

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import { Check, Loader2, Send, MessageCircle, ChevronDown, ShieldCheck } from 'lucide-react'
 import { submitLead, whatsappUrl } from '@/lib/leads'
+import { useDict } from '@/lib/i18n/LocaleProvider'
 
 type FormValues = {
   firstName: string
@@ -15,25 +16,12 @@ type FormValues = {
   message: string
 }
 
-const roles = [
-  'Particulier',
-  'Marchand / E-commerce',
-  'Entreprise',
-  'Partenaire / Investisseur',
-  'Presse',
-  'Autre',
-]
-
-const subjects = [
-  'Question générale',
-  'Devenir partenaire',
-  'Support technique',
-  'Demande de devis',
-  'Presse / Communication',
-  'Autre',
-]
+// Rôles et sujets viennent du dictionnaire (voir plus bas dans le composant).
 
 export default function ContactForm() {
+  const d = useDict()
+  const roles = d.ui.contactForm.roles
+  const subjects = d.ui.contactForm.subjects
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>(
     'idle',
   )
@@ -54,7 +42,7 @@ export default function ContactForm() {
       'Nouvelle demande depuis le site :',
       `• Nom : ${data.firstName} ${data.lastName}`,
       `• Email : ${data.email}`,
-      data.phone ? `• Téléphone : ${data.phone}` : null,
+      data.phone ? `• ${d.ui.contactForm.phone} : ${data.phone}` : null,
       `• Profil : ${data.role}`,
       `• Sujet : ${data.subject}`,
       '',
@@ -78,11 +66,10 @@ export default function ContactForm() {
           <Check size={28} />
         </div>
         <h3 className="font-heading font-bold text-2xl text-brand-gray mb-2">
-          Message bien reçu.
+          {d.ui.contactForm.sentTitle}
         </h3>
         <p className="font-body text-brand-sub mb-6">
-          Notre équipe vous répond sous 24h ouvrées. Pour une réponse immédiate,
-          continuez sur WhatsApp.
+          {d.ui.contactForm.sentLede}
         </p>
         <a
           href={waHref}
@@ -91,14 +78,14 @@ export default function ContactForm() {
           className="btn-fill [--fill:#1B5E20] inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-green-primary text-white font-body font-medium"
         >
           <MessageCircle size={16} />
-          Continuer sur WhatsApp
+          {d.ui.contactForm.continueWhatsApp}
         </a>
         <div className="mt-5">
           <button
             onClick={() => setStatus('idle')}
             className="font-body text-sm font-medium text-green-primary hover:text-green-dark underline transition"
           >
-            Envoyer un autre message
+            {d.ui.contactForm.sendAnother}
           </button>
         </div>
       </div>
@@ -111,46 +98,46 @@ export default function ContactForm() {
       className="bg-white border border-brand-border rounded-2xl p-6 md:p-8 space-y-5 shadow-[0_28px_70px_-38px_rgba(11,61,27,0.45)]"
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <Field label="Prénom *" error={errors.firstName?.message}>
+        <Field label={d.ui.contactForm.firstName} error={errors.firstName?.message}>
           <input
-            {...register('firstName', { required: 'Requis' })}
+            {...register('firstName', { required: d.ui.contactForm.required })}
             className="input"
           />
         </Field>
-        <Field label="Nom *" error={errors.lastName?.message}>
+        <Field label={d.ui.contactForm.lastName} error={errors.lastName?.message}>
           <input
-            {...register('lastName', { required: 'Requis' })}
+            {...register('lastName', { required: d.ui.contactForm.required })}
             className="input"
           />
         </Field>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <Field label="Email *" error={errors.email?.message}>
+        <Field label={d.ui.contactForm.email} error={errors.email?.message}>
           <input
             type="email"
             {...register('email', {
-              required: 'Requis',
-              pattern: { value: /\S+@\S+\.\S+/, message: 'Email invalide' },
+              required: d.ui.contactForm.required,
+              pattern: { value: /\S+@\S+\.\S+/, message: d.ui.contactForm.invalidEmail },
             })}
             className="input"
           />
         </Field>
-        <Field label="Téléphone" error={errors.phone?.message}>
+        <Field label={d.ui.contactForm.phone} error={errors.phone?.message}>
           <input type="tel" {...register('phone')} className="input" />
         </Field>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <Field label="Vous êtes *" error={errors.role?.message}>
+        <Field label={d.ui.contactForm.role} error={errors.role?.message}>
           <div className="relative">
             <select
-              {...register('role', { required: 'Requis' })}
+              {...register('role', { required: d.ui.contactForm.required })}
               className="input select"
               defaultValue=""
             >
               <option value="" disabled>
-                Choisir…
+                {d.ui.contactForm.choose}
               </option>
               {roles.map((r) => (
                 <option key={r}>{r}</option>
@@ -162,15 +149,15 @@ export default function ContactForm() {
             />
           </div>
         </Field>
-        <Field label="Sujet *" error={errors.subject?.message}>
+        <Field label={d.ui.contactForm.subject} error={errors.subject?.message}>
           <div className="relative">
             <select
-              {...register('subject', { required: 'Requis' })}
+              {...register('subject', { required: d.ui.contactForm.required })}
               className="input select"
               defaultValue=""
             >
               <option value="" disabled>
-                Choisir…
+                {d.ui.contactForm.choose}
               </option>
               {subjects.map((s) => (
                 <option key={s}>{s}</option>
@@ -184,18 +171,18 @@ export default function ContactForm() {
         </Field>
       </div>
 
-      <Field label="Message *" error={errors.message?.message}>
+      <Field label={d.ui.contactForm.message} error={errors.message?.message}>
         <textarea
-          {...register('message', { required: 'Requis', minLength: 10 })}
+          {...register('message', { required: d.ui.contactForm.required, minLength: 10 })}
           rows={5}
-          placeholder="Dites-nous comment nous pouvons vous aider…"
+          placeholder={d.ui.contactForm.messagePlaceholder}
           className="input resize-none"
         />
       </Field>
 
       {status === 'error' && (
         <p className="font-body text-sm text-red-600">
-          Une erreur est survenue. Merci de réessayer.
+          {d.ui.contactForm.error}
         </p>
       )}
 
@@ -212,14 +199,14 @@ export default function ContactForm() {
             </>
           ) : (
             <>
-              Envoyer le message
+              {d.ui.contactForm.submit}
               <Send size={17} className="transition-transform group-hover:translate-x-0.5" />
             </>
           )}
         </button>
         <p className="mt-3.5 flex items-center gap-1.5 font-body text-xs text-brand-mid">
           <ShieldCheck size={14} className="text-green-primary" />
-          Réponse sous 24h ouvrées · infos confidentielles
+          {d.ui.contactForm.footnote}
         </p>
       </div>
 
