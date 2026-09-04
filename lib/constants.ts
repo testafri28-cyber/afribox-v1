@@ -1,3 +1,13 @@
+// ---------------------------------------------------------------------------
+// STRUCTURE du site — coordonnées GPS, icônes, liens, images, identifiants,
+// dimensions, tarifs numériques.
+//
+// ⚠️ Le TEXTE AFFICHÉ ne vient plus d'ici : il vit dans les dictionnaires
+// `lib/i18n/content-{fr,en}.ts` et `lib/i18n/ui-{fr,en}.ts`, et `lib/content.ts`
+// le superpose à cette structure. Les libellés français encore présents dans ce
+// fichier servent de valeurs de repli et ne s'affichent pas : pour changer un
+// texte visible, éditez le dictionnaire, pas ce fichier.
+// ---------------------------------------------------------------------------
 import type { LucideIcon } from 'lucide-react'
 import {
   Smartphone, Store, MessageSquare, Package, CheckCircle2,
@@ -24,19 +34,6 @@ export const lockers: Locker[] = [
   { id: 2, name: 'Sococé 2 Plateaux', address: 'Les 2 Plateaux, Cocody',       lat: 5.3660, lng: -3.9970, available: true, sizes: ['S','M','L'] },
   { id: 3, name: "Mairie d'Abobo",    address: 'Abobo, Abidjan',               lat: 5.4180, lng: -4.0160, available: true, sizes: ['S','M'] },
   { id: 4, name: 'Cosmos Yopougon',   address: 'Yopougon, Abidjan',            lat: 5.3450, lng: -4.0850, available: true, sizes: ['S','M','L'] },
-]
-
-// ---------------------------------------------------------------------------
-// Le casier — caractéristiques (source : présentation technique AFRIBOX)
-// ---------------------------------------------------------------------------
-export type LockerSpec = { value: string; label: string }
-export const lockerSpecs: LockerSpec[] = [
-  { value: '≈ 35', label: 'compartiments par casier' },
-  { value: '3 tailles', label: 'Petit · Moyen · Grand' },
-  { value: '21″', label: 'écran tactile Android' },
-  { value: '2 caméras', label: 'vidéosurveillance continue' },
-  { value: 'Code unique', label: 'RFID + serrure à solénoïde' },
-  { value: '24h/24 · 48h', label: 'accès libre & garde du colis' },
 ]
 
 // ---------------------------------------------------------------------------
@@ -186,14 +183,6 @@ export const appFeatures = [
 // ---------------------------------------------------------------------------
 // Valeurs
 // ---------------------------------------------------------------------------
-// Présentation de la société — partagée par « À propos » (desktop et mobile).
-export const aboutMission =
-  "AFRIBOX SARL est une société ivoirienne qui déploie le premier réseau de casiers colis intelligents de Côte d'Ivoire : des points de retrait et de dépôt sécurisés, automatisés et accessibles 24h/24, installés au plus près des habitants. Notre mission — démocratiser l'accès à une logistique efficace et flexible."
-
-// Version courte pour le mobile : le paragraphe complet y forme un bloc dense.
-// On garde l'essentiel — qui, quoi, et le bénéfice.
-export const aboutMissionCourte =
-  "Le premier réseau de casiers colis intelligents de Côte d'Ivoire : des points de retrait sécurisés et automatisés, ouverts 24h/24, au plus près des habitants."
 
 export type Value = { icon: LucideIcon; title: string; text: string }
 export const values: Value[] = [
@@ -215,22 +204,6 @@ export const team: TeamMember[] = [
 ]
 
 // ---------------------------------------------------------------------------
-// FAQ
-// ---------------------------------------------------------------------------
-export type FaqItem = { q: string; a: string }
-export const faq: FaqItem[] = [
-  { q: "Combien de temps mon colis reste-t-il dans le casier ?",         a: "Votre colis reste disponible 48h dans le casier. Vous recevez des rappels automatiques avant la fin du délai. Au-delà : prolongation payante ou annulation remboursée — vous êtes toujours prévenu avant." },
-  { q: "Mon colis est-il en sécurité dans le casier ?",                  a: "Oui. Chaque casier est verrouillé électroniquement (serrure à solénoïde et lecteur RFID) et ne s'ouvre qu'avec le code à usage unique envoyé par SMS. Deux caméras filment la façade en continu, et chaque dépôt comme chaque retrait est horodaté et tracé." },
-  { q: "Comment se passe le retrait ?",                                  a: "Vous vous présentez au casier au moment de votre choix, 24h/24. Sur l'écran tactile, vous saisissez le code reçu par SMS : le compartiment s'ouvre, vous récupérez votre colis. C'est tout." },
-  { q: "Combien ça coûte ?",                                             a: "Le tarif dépend de la taille du casier, pour une garde de 48h : 500 FCFA (Petit), 750 FCFA (Moyen), 1 250 FCFA (Grand)." },
-  { q: "Est-ce qu'on peut utiliser Afribox sans smartphone ?",            a: "Oui. Le code de retrait arrive par SMS simple. Pas besoin d'application ni de connexion internet." },
-  { q: "Où et quand puis-je utiliser un casier ?",                       a: "Nous lançons notre réseau pilote à Abidjan : premiers casiers à Cap Sud (Marcory), Sococé (2 Plateaux), la Mairie d'Abobo et Cosmos (Yopougon) — et bientôt Bouaké. Vous pouvez déjà pré-réserver votre créneau : vous serez notifié dès l'ouverture d'un casier près de chez vous." },
-  { q: "Quelles tailles de colis peut-on déposer ?",                     a: "Nos casiers existent en trois tailles, jusqu'à 15 kg par colis : Petit (35 × 10 × 49 cm) pour documents et accessoires, Moyen (35 × 20 × 49 cm) pour vêtements et électronique, Grand (35 × 30 × 49 cm) pour les articles plus volumineux." },
-  { q: "Comment payer ?",                                                 a: "Le paiement se fait à la réservation, jamais à la collecte : par carte VISA ou par Mobile Money — Orange Money, Wave, MTN. La confirmation est instantanée." },
-  { q: "Puis-je aussi envoyer un colis ou faire un retour ?",             a: "Oui. Au-delà de la réception d'achats en ligne, vous pouvez déposer un colis à expédier ou un retour marchand dans un casier — et même organiser une remise entre particuliers. Vous réservez, vous déposez, et le destinataire ou le coursier récupère avec son code." },
-]
-
-// ---------------------------------------------------------------------------
 // Témoignages
 // ---------------------------------------------------------------------------
 export type Testimonial = { quote: string; name: string; initials: string; role: string }
@@ -249,28 +222,6 @@ export const pricing = [
   { size: 'Petit',  use: 'Documents, accessoires',  dims: '35 × 10 × 49 cm', weight: '0 – 5 kg',        price: '500 FCFA / 48h' },
   { size: 'Moyen',  use: 'Vêtements, électronique', dims: '35 × 20 × 49 cm', weight: '5 – 10 kg',       price: '750 FCFA / 48h' },
   { size: 'Grand',  use: 'Équipements volumineux',  dims: '35 × 30 × 49 cm', weight: "jusqu'à 15 kg",   price: '1 250 FCFA / 48h' },
-]
-
-// ---------------------------------------------------------------------------
-// Avantages marchands
-// ---------------------------------------------------------------------------
-export const merchantBenefits: string[] = [
-  'Intégration API en quelques heures',
-  'Tableau de bord temps réel',
-  'Notification automatique du client à chaque étape',
-  'Facturation mensuelle simplifiée',
-  'Support dédié 7j/7',
-]
-
-// ---------------------------------------------------------------------------
-// Avantages consommateurs
-// ---------------------------------------------------------------------------
-export const consumerBenefits: string[] = [
-  'Disponible 24h/24, 7j/7',
-  'Code SMS à usage unique',
-  'Sans inscription obligatoire',
-  'Paiement Mobile Money ou carte bancaire',
-  'Récupération en moins de 60 secondes',
 ]
 
 // ---------------------------------------------------------------------------
