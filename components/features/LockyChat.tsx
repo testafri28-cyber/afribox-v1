@@ -146,9 +146,9 @@ export default function LockyChat() {
               style={{ backgroundImage: 'linear-gradient(135deg, #0B3D1B 0%, #1B5E20 100%)' }}
             >
               <span className="block text-left font-heading font-bold text-[13px] leading-tight">
-                Comment puis-je
+                {d.ui.locky.bubble1}
                 <br />
-                vous aider&nbsp;?
+                {d.ui.locky.bubble2}
               </span>
               <span
                 className="absolute -right-1 bottom-2.5 h-3 w-3 rotate-45 rounded-[2px]"

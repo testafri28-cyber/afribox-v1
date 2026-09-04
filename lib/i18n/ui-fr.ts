@@ -288,6 +288,8 @@ export const uiFr = {
     greeting: 'Bonjour, je suis Locky 👋 votre concierge Afribox. Une question sur les lockers, les tarifs ou une livraison ? Je suis là pour vous aider.',
     connError: 'Souci de connexion 😅 Réessayez, ou écrivez-nous sur WhatsApp au +225 07 89 44 44 41.',
     subtitle: 'Concierge Afribox · en ligne',
+    bubble1: 'Comment puis-je',
+    bubble2: 'vous aider ?',
     openAria: 'Ouvrir le chat avec Locky',
     closeAria: 'Fermer le chat',
     writingAria: 'Locky écrit…',

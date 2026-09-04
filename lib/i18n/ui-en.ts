@@ -295,6 +295,8 @@ export const uiEn: UiStrings = {
     greeting: 'Hello, I am Locky 👋 your Afribox concierge. A question about lockers, pricing or a delivery? I am here to help.',
     connError: 'Connection hiccup 😅 Try again, or message us on WhatsApp at +225 07 89 44 44 41.',
     subtitle: 'Afribox concierge · online',
+    bubble1: 'How can I',
+    bubble2: 'help you?',
     openAria: 'Open the chat with Locky',
     closeAria: 'Close the chat',
     writingAria: 'Locky is typing…',
