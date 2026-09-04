@@ -248,4 +248,16 @@ export const uiEn: UiStrings = {
     contactTitle: 'A question? We reply fast.',
     whatsappAria: 'Message us on WhatsApp',
   },
+
+  lockersMap: {
+    label: 'Pilot network',
+    title: 'Our first lockers are arriving in Abidjan.',
+    lede: 'These are the sites in our Abidjan pilot network — with Bouaké next. Book your slot now and we will let you know as soon as the locker opens.',
+    prebook: 'Pre-book',
+  },
+
+  appMock: {
+    parcelReady: 'Parcel ready for pickup',
+    codeValidity: 'Valid 72h · single use',
+  },
 }

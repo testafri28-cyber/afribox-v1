@@ -70,7 +70,7 @@ export default function AppDownloadSection() {
               >
                 <AppleGlyph className="w-6 h-6" />
                 <span className="text-left leading-none">
-                  <span className="block font-body text-[10px] text-white/70">Télécharger sur</span>
+                  <span className="block font-body text-[10px] text-white/70">{d.ui.mobileUi.downloadOn}</span>
                   <span className="block font-heading font-semibold text-sm mt-0.5">App Store</span>
                 </span>
               </a>
@@ -127,7 +127,7 @@ export default function AppDownloadSection() {
                   </div>
 
                   <p className="font-mono text-[9px] uppercase tracking-widest text-green-primary">
-                    Colis prêt à retirer
+                    {d.ui.appMock.parcelReady}
                   </p>
                   <h3 className="mt-1.5 font-heading text-xl font-bold leading-tight text-brand-gray">
                     Votre colis vous attend.
@@ -150,7 +150,7 @@ export default function AppDownloadSection() {
                     <ScanLine size={16} />
                     Ouvrir le casier
                   </div>
-                  <p className="mt-3 font-body text-[10px] text-brand-mid">Valide 72h · à usage unique</p>
+                  <p className="mt-3 font-body text-[10px] text-brand-mid">{d.ui.appMock.codeValidity}</p>
                 </div>
               </div>
             </div>

@@ -35,13 +35,12 @@ export default function LockersMapSection() {
           variants={fadeInUp}
           className="mb-10"
         >
-          <SectionLabel className="mb-4">Réseau pilote</SectionLabel>
+          <SectionLabel className="mb-4">{d.ui.lockersMap.label}</SectionLabel>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
-            Nos premiers casiers arrivent à Abidjan.
+            {d.ui.lockersMap.title}
           </h2>
           <p className="font-body text-base md:text-lg text-brand-sub max-w-xl">
-            Voici les sites de notre réseau pilote à Abidjan — et bientôt Bouaké.
-            Réservez votre créneau dès maintenant : vous serez notifié dès
+            {d.ui.lockersMap.lede}
             l&apos;ouverture du casier.
           </p>
         </motion.div>
@@ -153,7 +152,7 @@ function LockerCard({
             style={{ '--fill': '#1B5E20' } as React.CSSProperties}
             className="btn-fill inline-flex items-center gap-1.5 rounded-full bg-green-primary px-4 py-2 font-body text-sm font-medium text-white"
           >
-            Pré-réserver
+            {d.ui.lockersMap.prebook}
             <ArrowRight size={15} />
           </Link>
         ) : (

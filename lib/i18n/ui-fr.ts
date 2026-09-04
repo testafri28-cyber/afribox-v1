@@ -243,6 +243,17 @@ export const uiFr = {
     contactTitle: 'Une question ? On répond vite.',
     whatsappAria: 'Nous écrire sur WhatsApp',
   },
+  lockersMap: {
+    label: 'Réseau pilote',
+    title: 'Nos premiers casiers arrivent à Abidjan.',
+    lede: "Voici les sites de notre réseau pilote à Abidjan — et bientôt Bouaké. Réservez votre créneau dès maintenant : vous serez notifié dès l'ouverture du casier.",
+    prebook: 'Pré-réserver',
+  },
+
+  appMock: {
+    parcelReady: 'Colis prêt à retirer',
+    codeValidity: 'Valide 72h · à usage unique',
+  },
 }
 
 export type UiStrings = typeof uiFr
