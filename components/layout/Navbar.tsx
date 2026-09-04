@@ -169,6 +169,7 @@ export default function Navbar() {
   }))
 
   return (
+    <>
     <header
       ref={headerRef}
       // Aucun fond sur le conteneur : seule la pastille est visible, elle
@@ -233,6 +234,16 @@ export default function Navbar() {
         </div>
       </div>
 
+    </header>
+
+    {/* Tiroir mobile — rendu HORS du <header> À DESSEIN.
+
+        Le header porte un transform (translate-y, pour le masquage au
+        défilement). Or un ancêtre transformé devient le bloc conteneur des
+        descendants `position: fixed` : à l'intérieur, le tiroir se
+        positionnait par rapport à la navbar (56px de haut) au lieu du
+        viewport — son fond blanc ne couvrait que cette bande et le menu
+        débordait sur la page. Le laisser ici le garde ancré au viewport. */}
       {/* Drawer mobile */}
       <AnimatePresence>
         {open && (
@@ -300,6 +311,6 @@ export default function Navbar() {
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   )
 }
