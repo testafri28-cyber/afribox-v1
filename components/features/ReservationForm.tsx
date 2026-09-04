@@ -16,7 +16,7 @@ import {
 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import LazyMount from '@/components/ui/LazyMount'
-import { lockers, pricing, type Locker, type LockerSize } from '@/lib/constants'
+import { type Locker, type LockerSize } from '@/lib/constants'
 
 // Chargée à la demande : la carte (Leaflet + tuiles) ne pèse plus sur l'entrée
 // dans le tunnel, surtout en données mobiles.
@@ -76,6 +76,7 @@ function generateCode(): string {
 export default function ReservationForm() {
   const lp = useLocalePath()
   const d = useDict()
+  const { lockers } = useContent()
   const sizesInfo = useSizesInfo()
   const durationsInfo = useDurationsInfo()
   const [step, setStep] = useState(1)
@@ -272,6 +273,7 @@ function StepLocker({
   onSelect: (l: Locker) => void
 }) {
   const d = useDict()
+  const { lockers } = useContent()
 
   return (
     <div>
