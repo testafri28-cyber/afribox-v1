@@ -5,7 +5,7 @@ import { motion, useInView } from 'framer-motion'
 import { MapPin, ScanLine, LockOpen, Signal, Wifi, BatteryFull } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { appFeatures } from '@/lib/constants'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Glyphes plateformes (badges de téléchargement).
@@ -25,6 +25,8 @@ function PlayGlyph({ className = '' }: { className?: string }) {
 }
 
 export default function AppDownloadSection() {
+  const d = useDict()
+  const { appFeatures } = useContent()
   const phoneRef = useRef<HTMLDivElement>(null)
   const inView = useInView(phoneRef, { once: true, amount: 0.3 })
 
@@ -40,13 +42,12 @@ export default function AppDownloadSection() {
             variants={staggerContainer}
           >
             <motion.div variants={fadeInUp}>
-              <SectionLabel className="mb-4">L&apos;application</SectionLabel>
+              <SectionLabel className="mb-4">{d.ui.app.label}</SectionLabel>
               <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
-                Vos lockers dans votre poche.
+                {d.ui.app.title}
               </h2>
               <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed mb-8">
-                Gérez vos envois, suivez vos colis et récupérez vos codes
-                directement depuis l&apos;appli Afribox.
+                {d.ui.app.lede}
               </p>
             </motion.div>
 
@@ -69,7 +70,7 @@ export default function AppDownloadSection() {
               >
                 <AppleGlyph className="w-6 h-6" />
                 <span className="text-left leading-none">
-                  <span className="block font-body text-[10px] text-white/70">Télécharger sur</span>
+                  <span className="block font-body text-[10px] text-white/70">{d.ui.mobileUi.downloadOn}</span>
                   <span className="block font-heading font-semibold text-sm mt-0.5">App Store</span>
                 </span>
               </a>
@@ -126,7 +127,7 @@ export default function AppDownloadSection() {
                   </div>
 
                   <p className="font-mono text-[9px] uppercase tracking-widest text-green-primary">
-                    Colis prêt à retirer
+                    {d.ui.appMock.parcelReady}
                   </p>
                   <h3 className="mt-1.5 font-heading text-xl font-bold leading-tight text-brand-gray">
                     Votre colis vous attend.
@@ -149,7 +150,7 @@ export default function AppDownloadSection() {
                     <ScanLine size={16} />
                     Ouvrir le casier
                   </div>
-                  <p className="mt-3 font-body text-[10px] text-brand-mid">Valide 72h · à usage unique</p>
+                  <p className="mt-3 font-body text-[10px] text-brand-mid">{d.ui.appMock.codeValidity}</p>
                 </div>
               </div>
             </div>

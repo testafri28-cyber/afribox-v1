@@ -7,6 +7,9 @@ import { Menu, X, ArrowRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Button from '@/components/ui/Button'
 import { TubelightNavbar } from '@/components/ui/TubelightNavbar'
+import LocaleSwitch from '@/components/layout/LocaleSwitch'
+import { useLocalePath, useDict } from '@/lib/i18n/LocaleProvider'
+import { stripLocale } from '@/lib/i18n/config'
 
 /* ⚠️ Doit rester dans l'ordre d'apparition des sections sur la page :
    le scroll-spy retient la DERNIÈRE section dont le haut a franchi la ligne
@@ -96,8 +99,13 @@ function useActiveSection(enabled: boolean) {
 }
 
 export default function Navbar() {
+  const lp = useLocalePath()
+  const d = useDict()
+  // ids et icônes restent au module ; seuls les libellés sont traduits.
+  const links = navLinks.map((l, i) => ({ ...l, label: d.ui.nav.links[i] }))
   const pathname = usePathname()
-  const isHome = pathname === '/'
+  // Vrai sur « / » comme sur « /en » : la langue ne change pas la nature de la page.
+  const isHome = stripLocale(pathname ?? '/') === '/'
 
   const [scrolled, setScrolled] = useState(false)
   const [overHero, setOverHero] = useState(isHome)
@@ -153,9 +161,9 @@ export default function Navbar() {
 
   /* On the home page the sections are in the DOM, so we scroll to them.
      Anywhere else, navigate back to the home page anchor instead. */
-  const tubelightItems = navLinks.map((link) => ({
+  const tubelightItems = links.map((link) => ({
     name: link.label,
-    url: isHome ? '' : `/#${link.id}`,
+    url: isHome ? '' : lp(`/#${link.id}`),
     icon: link.icon,
     onClick: isHome ? () => { selectManually(link.id); scrollTo(link.id) } : undefined,
   }))
@@ -182,7 +190,7 @@ export default function Navbar() {
         }`}>
 
         {/* Logo */}
-        <Link href="/" className="flex flex-col flex-shrink-0" aria-label="Afribox">
+        <Link href={lp('/')} className="flex flex-col flex-shrink-0" aria-label="Afribox">
           <span className={`font-heading font-bold text-lg md:text-xl leading-none transition-colors ${
             overHero ? 'text-white' : 'text-green-dark'
           }`}>Afribox</span>
@@ -197,23 +205,24 @@ export default function Navbar() {
         <div className="hidden lg:flex items-center justify-center flex-1">
           <TubelightNavbar
             items={tubelightItems}
-            activeTab={navLinks.find((l) => l.id === activeId)?.label ?? ''}
+            activeTab={links.find((l) => l.id === activeId)?.label ?? ''}
             tone={overHero ? 'light' : 'dark'}
             className="gap-1"
           />
         </div>
 
-        {/* CTA — desktop */}
-        <div className="hidden lg:flex items-center flex-shrink-0">
-          <Button href="/reserver" variant={overHero ? 'white' : 'primary'} size="sm">
-            Réserver un locker
+        {/* CTA + sélecteur de langue — desktop */}
+        <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
+          <LocaleSwitch />
+          <Button href={lp('/reserver')} variant={overHero ? 'white' : 'primary'} size="sm">
+            {d.ui.nav.book}
             <ArrowRight size={16} className="ml-1.5" />
           </Button>
         </div>
 
         {/* Hamburger — mobile */}
         <button
-          aria-label="Ouvrir le menu"
+          aria-label={d.ui.nav.openMenu}
           onClick={() => setOpen(true)}
           className={`lg:hidden p-2 -mr-2 flex-shrink-0 transition-colors ${
             overHero ? 'text-white' : 'text-brand-gray'
@@ -240,13 +249,13 @@ export default function Navbar() {
             >
               <div className="flex items-center justify-between h-16 px-6 border-b border-brand-border">
                 <span className="font-heading font-bold text-xl text-green-dark">Afribox</span>
-                <button aria-label="Fermer" onClick={() => setOpen(false)} className="p-2 -mr-2 text-brand-gray">
+                <button aria-label={d.ui.nav.closeMenu} onClick={() => setOpen(false)} className="p-2 -mr-2 text-brand-gray">
                   <X size={24} />
                 </button>
               </div>
 
               <nav className="flex flex-col gap-1 px-6 py-6 flex-1">
-                {navLinks.map((link) => {
+                {links.map((link) => {
                   const isActive = isHome && activeId === link.id
                   const className = `flex items-center gap-3 font-body text-lg py-3 border-b border-brand-border transition-colors text-left bg-transparent border-x-0 border-t-0 cursor-pointer w-full ${
                     isActive ? 'text-green-primary font-medium' : 'text-brand-gray hover:text-green-primary'
@@ -269,7 +278,7 @@ export default function Navbar() {
                   ) : (
                     <Link
                       key={link.id}
-                      href={`/#${link.id}`}
+                      href={lp(`/#${link.id}`)}
                       onClick={() => setOpen(false)}
                       className={className}
                     >
@@ -280,9 +289,10 @@ export default function Navbar() {
                 })}
               </nav>
 
-              <div className="px-6 pb-8">
-                <Button href="/reserver" variant="primary" fullWidth onClick={() => setOpen(false)}>
-                  Réserver un locker
+              <div className="px-6 pb-8 flex flex-col gap-4">
+                <LocaleSwitch className="self-start" />
+                <Button href={lp('/reserver')} variant="primary" fullWidth onClick={() => setOpen(false)}>
+                  {d.ui.nav.book}
                   <ArrowRight size={16} className="ml-1" />
                 </Button>
               </div>

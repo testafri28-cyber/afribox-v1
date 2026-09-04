@@ -6,7 +6,7 @@ import { ArrowRight, Check, Package, Undo2, Archive, Network } from 'lucide-reac
 import Image from 'next/image'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { services } from '@/lib/constants'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 
 // Pose de Locky par service (même ordre que `services` : Marchands, Particuliers,
 // PME). Dimensions réelles des WebP pour conserver le bon ratio.
@@ -17,24 +17,24 @@ const mascots = [
 ]
 
 // Le casier sert quatre usages, et se commande par six canaux (source : dossiers AFRIBOX).
-const usages = [
-  { icon: Package, title: 'E-commerce',         text: 'Le coursier dépose, vous retirez avec votre code.' },
-  { icon: Undo2,   title: 'Envoi & retours',     text: 'Vous déposez, le coursier ou le marchand collecte.' },
-  { icon: Archive, title: 'Entre particuliers',  text: 'Une remise locale, sans passer par un coursier.' },
-  { icon: Network, title: 'Relais casier',       text: 'Des flux casier-à-casier — bientôt.' },
-]
-const channels = ['Site web', 'Application', 'WhatsApp', 'Au checkout marchand', 'Portail pro', 'Kiosque — sans compte']
+// Icônes des quatre usages — les libellés viennent du dictionnaire.
+const usageIcons = [Package, Undo2, Archive, Network]
 
 export default function ServicesAccordion() {
+  const d = useDict()
+  // Icônes au module, libellés au dictionnaire : on recompose ici.
+  const usages = usageIcons.map((icon, i) => ({ icon, ...d.ui.services.usages[i] }))
+  const channels = d.ui.services.channels
+  const { services } = useContent()
   const [active, setActive] = useState(0)
 
   return (
     <section id="services" className="bg-brand-off">
       <Container className="py-16 md:py-24">
         <div className="mb-12">
-          <SectionLabel className="mb-4">Nos services</SectionLabel>
+          <SectionLabel className="mb-4">{d.ui.services.label}</SectionLabel>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray">
-            Pour chaque besoin, une solution.
+            {d.ui.services.title}
           </h2>
         </div>
 
@@ -176,7 +176,7 @@ export default function ServicesAccordion() {
         {/* Un casier, quatre usages + les canaux de commande (dossiers AFRIBOX). */}
         <div className="mt-14 md:mt-20">
           <h3 className="mb-8 text-center font-heading text-xl font-bold text-brand-gray md:text-2xl">
-            Un casier, quatre usages.
+            {d.ui.services.usagesTitle}
           </h3>
           <div className="grid grid-cols-2 gap-3 md:gap-4 lg:grid-cols-4">
             {usages.map(({ icon: Icon, title, text }) => (
@@ -191,7 +191,7 @@ export default function ServicesAccordion() {
           </div>
 
           <div className="mt-9 flex flex-col items-center gap-3">
-            <p className="font-body text-sm text-brand-sub">Commandez comme ça vous arrange</p>
+            <p className="font-body text-sm text-brand-sub">{d.ui.services.orderHint}</p>
             <div className="flex flex-wrap justify-center gap-2">
               {channels.map((c) => (
                 <span

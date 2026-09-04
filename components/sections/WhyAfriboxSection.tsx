@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { whyAfribox } from '@/lib/constants'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Géométrie de la roue (cercle segmenté).
@@ -58,6 +58,8 @@ const segColors = ['#27AE60', '#14532A', '#43A047', '#0E4D1E', '#2E7D32']
 const hoverEase = 'transform 0.28s cubic-bezier(0.34, 1.4, 0.64, 1)'
 
 export default function WhyAfriboxSection() {
+  const { whyAfribox } = useContent()
+  const d = useDict()
   const [hovered, setHovered] = useState<number | null>(null)
 
   return (
@@ -70,9 +72,9 @@ export default function WhyAfriboxSection() {
           variants={fadeInUp}
           className="mb-10 md:mb-14 max-w-2xl"
         >
-          <SectionLabel className="mb-4">Pourquoi Afribox</SectionLabel>
+          <SectionLabel className="mb-4">{d.ui.why.label}</SectionLabel>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray">
-            Cinq raisons concrètes.
+            {d.ui.why.title}
           </h2>
         </motion.div>
 
@@ -131,7 +133,7 @@ export default function WhyAfriboxSection() {
             >
               <Image
                 src="/logo-tree.svg"
-                alt="Le réseau de lockers Afribox qui s'étend à travers l'Afrique"
+                alt={d.ui.why.networkAlt}
                 width={797}
                 height={838}
                 unoptimized
@@ -187,7 +189,7 @@ export default function WhyAfriboxSection() {
           <div className="mb-8 flex justify-center">
             <Image
               src="/logo.svg"
-              alt="Le réseau de lockers Afribox qui s'étend à travers l'Afrique"
+              alt={d.ui.why.networkAlt}
               width={797}
               height={1109}
               unoptimized

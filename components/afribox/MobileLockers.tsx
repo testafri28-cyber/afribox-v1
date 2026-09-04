@@ -1,16 +1,19 @@
 import Link from "next/link";
-import { lockerLocations } from "@/lib/afribox-data";
+import { getMobileData } from "@/lib/afribox-data";
+import { getDictionary } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n/config";
 
-export default function MobileLockers() {
+export default function MobileLockers({ locale }: { locale: Locale }) {
+  const { lockerLocations } = getMobileData(locale);
+  const d = getDictionary(locale);
   return (
     <section id="lockers" className="border-t border-brand-border px-4 py-9">
-      <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">Réseau pilote</p>
+      <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">{d.ui.mobileUi.lockersLabel}</p>
       <h2 className="mb-2.5 font-heading text-2xl font-bold leading-tight text-brand-gray">
-        Nos premiers casiers arrivent à Abidjan.
+        {d.ui.mobileUi.lockersTitle}
       </h2>
       <p className="mb-6 text-sm leading-relaxed text-brand-sub">
-        Réseau pilote à Abidjan — et bientôt Bouaké. Pré-réservez : vous serez notifié dès l&apos;ouverture du
-        casier.
+        {d.ui.mobileUi.lockersLede}
       </p>
 
       <div className="flex flex-col gap-2.5">

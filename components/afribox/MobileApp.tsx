@@ -1,13 +1,17 @@
-import { appFeatures, contact } from "@/lib/constants";
+import { getContent } from "@/lib/content";
+import { getDictionary } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n/config";
 
 // Badges de téléchargement — mêmes destinations que la section desktop
 // (« # » tant que l'application n'est pas publiée sur les stores).
 const stores = [
-  { surtitre: "Télécharger sur", nom: "App Store", href: "#", glyphe: <AppleGlyph /> },
-  { surtitre: "Disponible sur", nom: "Google Play", href: "#", glyphe: <PlayGlyph /> },
+  { key: "downloadOn" as const, nom: "App Store", href: "#", glyphe: <AppleGlyph /> },
+  { key: "availableOn" as const, nom: "Google Play", href: "#", glyphe: <PlayGlyph /> },
 ];
 
-export default function MobileApp() {
+export default function MobileApp({ locale }: { locale: Locale }) {
+  const { appFeatures, contact } = getContent(locale);
+  const d = getDictionary(locale);
   return (
     <section id="app-mobile" className="border-t border-brand-border px-4 py-9">
       <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">
@@ -17,7 +21,7 @@ export default function MobileApp() {
         Vos lockers dans votre poche.
       </h2>
       <p className="mb-6 text-sm leading-relaxed text-brand-sub">
-        Gérez vos envois, suivez vos colis et récupérez vos codes directement depuis l&apos;appli Afribox.
+        {d.ui.app.lede}
       </p>
 
       <ul className="mb-6 space-y-3">
@@ -40,7 +44,7 @@ export default function MobileApp() {
           >
             {s.glyphe}
             <span className="text-left leading-none">
-              <span className="block text-[10px] text-white/70">{s.surtitre}</span>
+              <span className="block text-[10px] text-white/70">{d.ui.mobileUi[s.key]}</span>
               <span className="mt-0.5 block font-heading text-sm font-semibold">{s.nom}</span>
             </span>
           </a>
@@ -50,7 +54,7 @@ export default function MobileApp() {
       {/* L'appli n'est pas encore publiée : WhatsApp est le canal disponible
           dès aujourd'hui, on ne laisse donc pas l'utilisateur sans solution. */}
       <p className="mt-4 text-center text-xs leading-relaxed text-brand-sub">
-        Application bientôt disponible. En attendant, réservez en quelques messages sur{" "}
+        {d.ui.mobileUi.appSoon}{" "}
         <a
           href={`https://wa.me/${contact.whatsapp}`}
           target="_blank"

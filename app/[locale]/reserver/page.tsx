@@ -7,21 +7,26 @@ import ReservationForm from '@/components/features/ReservationForm'
 import { buildMetadata } from '@/lib/metadata'
 import { breadcrumbJsonLd } from '@/lib/jsonld'
 import JsonLd from '@/components/seo/JsonLd'
+import { getDictionary } from '@/lib/i18n'
+import { isLocale, defaultLocale, localePath, type Locale } from '@/lib/i18n/config'
 
-export const metadata: Metadata = buildMetadata({
-  title: 'Réserver un locker — Afribox',
-  description:
-    "Réservez un casier Afribox près de chez vous en moins d'une minute. Paiement Mobile Money ou carte bancaire.",
-  path: '/reserver',
-})
+type LocaleParams = { params: { locale: string } }
 
-export default function ReservePage() {
+export function generateMetadata({ params }: LocaleParams): Metadata {
+  const locale: Locale = isLocale(params.locale) ? params.locale : defaultLocale
+  return buildMetadata(locale, 'reserver')
+}
+
+export default function ReservePage({ params }: LocaleParams) {
+  const locale: Locale = isLocale(params.locale) ? params.locale : defaultLocale
+  const d = getDictionary(locale)
+
   return (
     <>
       <JsonLd
-        data={breadcrumbJsonLd([
-          { name: 'Accueil', path: '/' },
-          { name: 'Réserver un locker', path: '/reserver' },
+        data={breadcrumbJsonLd(locale, [
+          { name: d.common.breadcrumbHome, path: '/' },
+          { name: d.common.breadcrumbReserver, path: '/reserver' },
         ])}
       />
       {/* En-tête resserré : bouton retour + titre compact, pour que le stepper
@@ -29,20 +34,19 @@ export default function ReservePage() {
       <section className="bg-white">
         <Container className="pt-5 pb-6 md:pt-8 md:pb-8">
           <Link
-            href="/"
+            href={localePath(locale, '/')}
             className="inline-flex items-center gap-1.5 font-body text-sm font-medium text-brand-sub hover:text-green-primary transition-colors mb-5 md:mb-6"
           >
             <ArrowLeft size={16} />
-            Retour à l&apos;accueil
+            {d.ui.reserve.back}
           </Link>
-          <SectionLabel className="mb-3">Réservation</SectionLabel>
+          <SectionLabel className="mb-3">{d.ui.reserve.label}</SectionLabel>
           <h1 className="font-heading font-bold text-3xl md:text-5xl leading-[1.05] tracking-tight text-brand-gray max-w-3xl mb-3">
-            Réservez votre locker en{' '}
-            <span className="text-green-primary">4 étapes.</span>
+            {d.ui.reserve.titleStart}{' '}
+            <span className="text-green-primary">{d.ui.reserve.titleAccent}</span>
           </h1>
           <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed max-w-2xl">
-            Choisissez un casier, configurez votre envoi, puis finalisez votre
-            demande sur WhatsApp en un clic.
+            {d.ui.reserve.lede}
           </p>
 
           {/* Statut phase pilote — la réservation est une pré-inscription. */}
@@ -52,8 +56,8 @@ export default function ReservePage() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-green-primary" />
             </span>
             <span className="font-body text-sm text-green-dark">
-              <span className="font-semibold">Phase pilote</span> — réservez votre
-              créneau, vous serez notifié dès l&apos;ouverture du casier.
+              <span className="font-semibold">{d.ui.reserve.pilotLabel}</span>{' '}
+              {d.ui.reserve.pilotText}
             </span>
           </div>
         </Container>

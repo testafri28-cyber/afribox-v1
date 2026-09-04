@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Package, PackageOpen, Boxes, ArrowRight } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { pricing } from '@/lib/constants'
+import { useContent, useLocalePath, useDict } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Icône + libellé d'accroche par taille (aligné sur l'ordre de `pricing`).
@@ -16,6 +16,9 @@ const meta = [
 ]
 
 export default function PricingSection() {
+  const d = useDict()
+  const lp = useLocalePath()
+  const { pricing } = useContent()
   return (
     <section id="tarifs" className="bg-white">
       <Container className="py-16 md:py-24">
@@ -26,13 +29,12 @@ export default function PricingSection() {
           variants={fadeInUp}
           className="mb-12 md:mb-16 max-w-2xl"
         >
-          <SectionLabel className="mb-4">Tarifs</SectionLabel>
+          <SectionLabel className="mb-4">{d.ui.pricing.label}</SectionLabel>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray">
-            Trois tailles. Trois prix. C&apos;est tout.
+            {d.ui.pricing.title}
           </h2>
           <p className="font-body text-lg text-brand-sub mt-5">
-            Tarif unique par dépôt de 48h. Les comptes marchand et entreprise
-            bénéficient de remises sur volume.
+            {d.ui.pricing.lede}
           </p>
         </motion.div>
 
@@ -124,14 +126,14 @@ export default function PricingSection() {
 
                 {/* CTA */}
                 <Link
-                  href="/reserver"
+                  href={lp('/reserver')}
                   className={`btn-fill mt-auto inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 font-body font-medium text-sm ${
                     featured
                       ? 'bg-green-primary text-white [--fill:#1B5E20]'
                       : 'bg-brand-off text-green-dark [--fill:#EBF7F0]'
                   }`}
                 >
-                  Réserver ce format
+                  {d.ui.pricing.bookThis}
                   <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
                 </Link>
               </motion.div>
@@ -140,8 +142,7 @@ export default function PricingSection() {
         </motion.div>
 
         <p className="font-body text-sm text-brand-mid mt-6">
-          Comptes marchand et entreprise : tarification dégressive selon le
-          volume.{' '}
+          {d.ui.pricing.note}{' '}
           <a
             href="#contact"
             className="text-green-primary hover:text-green-dark underline transition"

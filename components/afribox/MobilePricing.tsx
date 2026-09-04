@@ -1,16 +1,20 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { pricingTiers } from "@/lib/afribox-data";
+import { getMobileData } from "@/lib/afribox-data";
+import { getDictionary } from "@/lib/i18n";
+import { localePath, type Locale } from "@/lib/i18n/config";
 
-export default function MobilePricing() {
+export default function MobilePricing({ locale }: { locale: Locale }) {
+  const { pricingTiers } = getMobileData(locale);
+  const d = getDictionary(locale);
   return (
     <section id="tarifs" className="border-t border-brand-border px-4 py-9">
-      <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">Tarifs</p>
+      <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">{d.ui.pricing.label}</p>
       <h2 className="mb-2.5 font-heading text-2xl font-bold leading-tight text-brand-gray">
-        Trois tailles. Trois prix. C&apos;est tout.
+        {d.ui.pricing.title}
       </h2>
       <p className="mb-6 text-sm leading-relaxed text-brand-sub">
-        Tarif unique par dépôt de 48h. Comptes marchand et entreprise : remises sur volume.
+        {d.ui.mobileUi.pricingLede}
       </p>
 
       {/* Empilé plutôt qu'en carrousel : les trois offres sont visibles d'un
@@ -19,7 +23,7 @@ export default function MobilePricing() {
         {pricingTiers.map((tier) => (
           <Link
             key={tier.name}
-            href="/reserver"
+            href={localePath(locale, "/reserver")}
             className={`flex items-center gap-4 rounded-2xl border p-4 transition-colors active:bg-green-bg ${
               tier.popular
                 ? "border-green-dark/35 bg-gradient-to-br from-green-dark/[0.07] to-white"
@@ -58,10 +62,10 @@ export default function MobilePricing() {
       </div>
 
       <Link
-        href="/reserver"
+        href={localePath(locale, "/reserver")}
         className="mt-5 flex w-full items-center justify-center gap-2 rounded-2xl bg-green-dark py-3.5 text-[15px] font-bold text-white shadow-[0_8px_24px_-8px_rgba(27,94,32,0.45)] active:scale-[0.99]"
       >
-        Réserver un locker
+        {d.ui.nav.book}
         <ArrowRight size={16} />
       </Link>
     </section>

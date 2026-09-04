@@ -4,10 +4,12 @@ import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
-import { impact } from '@/lib/constants'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 export default function ImpactSection() {
+  const d = useDict()
+  const { impact } = useContent()
   return (
     <section className="bg-brand-off">
       {/* pt réduit : suit Pourquoi (gris) — évite le vide doublé au joint de même couleur */}
@@ -19,14 +21,12 @@ export default function ImpactSection() {
           variants={fadeInUp}
           className="mb-10 md:mb-14 max-w-2xl"
         >
-          <SectionLabel className="mb-4">Impact local</SectionLabel>
+          <SectionLabel className="mb-4">{d.ui.impact.label}</SectionLabel>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
-            Un service pour tout le quartier.
+            {d.ui.impact.title}
           </h2>
           <p className="font-body text-base md:text-lg text-brand-sub leading-relaxed">
-            Un casier est un équipement de proximité : il rend service aux
-            habitants, soutient les commerçants du quartier et réduit la
-            circulation liée aux livraisons.
+            {d.ui.impact.lede}
           </p>
         </motion.div>
 

@@ -1,12 +1,14 @@
 import type { MetadataRoute } from 'next'
-import { siteMetadata } from '@/lib/metadata'
+import { getDictionary } from '@/lib/i18n'
+import { defaultLocale } from '@/lib/i18n/config'
 
 // Généré à /manifest.webmanifest — installable + couleur de barre mobile.
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Afribox — Smart Lockers',
     short_name: 'Afribox',
-    description: siteMetadata.description,
+    // Le manifeste PWA est mono-langue : on prend la langue par défaut.
+    description: getDictionary(defaultLocale).meta.home.description,
     start_url: '/',
     display: 'standalone',
     background_color: '#F7F9F7',

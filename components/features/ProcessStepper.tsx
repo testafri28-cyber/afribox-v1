@@ -3,32 +3,14 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, MessageSquare, ShoppingBag, Package, CheckCircle2 } from 'lucide-react'
 import Link from 'next/link'
+import { useLocalePath, useDict } from '@/lib/i18n/LocaleProvider'
 
 // Les 6 étapes du parcours regroupées en 3 temps lisibles.
-const phases = [
-  {
-    n: '01',
-    icon: ShoppingBag,
-    title: 'Commande & réservation',
-    text: "Vous commandez chez un marchand partenaire ; il réserve le casier. Un seul paiement couvre le produit, la livraison et le locker.",
-    steps: ['Commande', 'Réservation & paiement'],
-  },
-  {
-    n: '02',
-    icon: Package,
-    title: 'Dépôt du colis',
-    text: "Le livreur reçoit un code d'ouverture par SMS, ouvre le casier, dépose le colis et referme — 60 secondes.",
-    steps: ['Code au livreur', 'Dépôt du colis'],
-    code: '842 631',
-  },
-  {
-    n: '03',
-    icon: CheckCircle2,
-    title: 'Retrait 24h/24',
-    text: "Vous recevez aussitôt votre code par SMS et retirez votre colis quand vous voulez, à toute heure.",
-    steps: ['Code au consommateur', 'Récupération'],
-    code: '975 214',
-  },
+// Numéro, icône et code SMS restent locaux ; titres et textes sont traduits.
+const phaseMeta = [
+  { n: '01', icon: ShoppingBag },
+  { n: '02', icon: Package, code: '842 631' },
+  { n: '03', icon: CheckCircle2, code: '975 214' },
 ]
 
 // Pastille numéro fine : numéro vert sur blanc, cerclé d'un trait léger.
@@ -52,6 +34,10 @@ const badgeFill = [
 ]
 
 export default function ProcessStepper() {
+  const d = useDict()
+  // Métadonnées locales + textes traduits, appariés par index.
+  const phases = phaseMeta.map((m, i) => ({ ...m, ...d.ui.howItWorks.phases[i] }))
+  const lp = useLocalePath()
   return (
     <div>
       {/* ---------- Desktop : filet reliant les 3 phases ---------- */}
@@ -154,11 +140,11 @@ export default function ProcessStepper() {
       {/* CTA final */}
       <div className="mt-10 flex justify-center">
         <Link
-          href="/reserver"
+          href={lp('/reserver')}
           style={{ '--fill': '#1B5E20' } as React.CSSProperties}
           className="btn-fill inline-flex items-center gap-2 rounded-full bg-green-primary px-6 py-3 font-body font-medium text-white"
         >
-          Réserver un locker
+          {d.ui.nav.book}
           <ArrowRight size={16} />
         </Link>
       </div>

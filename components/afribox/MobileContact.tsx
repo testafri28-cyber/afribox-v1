@@ -1,7 +1,11 @@
 import Image from "next/image";
-import { contactInfo } from "@/lib/afribox-data";
+import { getMobileData } from "@/lib/afribox-data";
+import { getDictionary } from "@/lib/i18n";
+import type { Locale } from "@/lib/i18n/config";
 
-export default function MobileContact() {
+export default function MobileContact({ locale }: { locale: Locale }) {
+  const { contactInfo } = getMobileData(locale);
+  const d = getDictionary(locale);
   // Chaque ligne est actionnable : sur mobile, on tape pour écrire, discuter ou
   // ouvrir l'itinéraire — plutôt que de recopier une adresse à la main.
   const rows = [
@@ -25,7 +29,7 @@ export default function MobileContact() {
       ),
     },
     {
-      label: "Siège",
+      label: d.common.contactLabels.office,
       value: contactInfo.address,
       href: `https://maps.google.com/?q=${encodeURIComponent(contactInfo.address)}`,
       icon: (
@@ -38,9 +42,9 @@ export default function MobileContact() {
 
   return (
     <section className="border-t border-brand-border px-4 py-9">
-      <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">Contact</p>
+      <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">{d.ui.contact.label}</p>
       <h2 className="mb-6 font-heading text-2xl font-bold leading-tight text-brand-gray">
-        Une question ? On répond vite.
+        {d.ui.mobileUi.contactTitle}
       </h2>
 
       <div className="rounded-2xl border border-brand-border bg-brand-white p-5">

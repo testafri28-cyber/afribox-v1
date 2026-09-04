@@ -5,13 +5,15 @@ import { type LucideIcon } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import BentoTriple from '@/components/features/BentoTriple'
-import { values, team, lockerSpecs, aboutMission } from '@/lib/constants'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Section équipe désactivée pour le moment — repasser à true pour la réafficher.
 const SHOW_TEAM = false
 
 export default function AboutSection() {
+  const d = useDict()
+  const { values, team, lockerSpecs, aboutMission } = useContent()
   return (
     <section id="a-propos" className="bg-brand-off">
       {/* pt réduit : suit la FAQ (gris) — évite le vide doublé au joint de même couleur */}
@@ -24,9 +26,9 @@ export default function AboutSection() {
           variants={fadeInUp}
           className="mb-12 max-w-2xl"
         >
-          <SectionLabel className="mb-4">À propos</SectionLabel>
+          <SectionLabel className="mb-4">{d.ui.about.label}</SectionLabel>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray">
-            Construire l&apos;infrastructure logistique de demain.
+            {d.ui.about.title}
           </h2>
           <p className="mt-5 font-body text-base md:text-lg text-brand-sub leading-relaxed">
             {aboutMission}
@@ -102,9 +104,9 @@ export default function AboutSection() {
           variants={staggerContainer}
         >
           <motion.div variants={fadeInUp} className="mb-10">
-            <SectionLabel className="mb-4">L&apos;équipe</SectionLabel>
+            <SectionLabel className="mb-4">{d.ui.about.teamLabel}</SectionLabel>
             <h3 className="font-heading font-bold text-xl sm:text-2xl md:text-4xl text-brand-gray">
-              Des gens qui s&apos;engagent.
+              {d.ui.about.teamTitle}
             </h3>
           </motion.div>
 

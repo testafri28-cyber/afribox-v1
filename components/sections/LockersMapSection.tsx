@@ -8,7 +8,8 @@ import { MapPin, ArrowRight } from 'lucide-react'
 import Container from '@/components/layout/Container'
 import SectionLabel from '@/components/ui/SectionLabel'
 import LazyMount from '@/components/ui/LazyMount'
-import { lockers, type Locker, type LockerSize } from '@/lib/constants'
+import { type Locker, type LockerSize } from '@/lib/constants'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp } from '@/lib/animations'
 
 // Chargée à la demande : combinée à LazyMount, la carte (Leaflet + tuiles)
@@ -19,6 +20,8 @@ const LockersMap = dynamic(() => import('@/components/features/LockersMap'), {
 })
 
 export default function LockersMapSection() {
+  const { lockers } = useContent()
+  const d = useDict()
   const [selected, setSelected] = useState<Locker | null>(null)
 
   return (
@@ -32,13 +35,12 @@ export default function LockersMapSection() {
           variants={fadeInUp}
           className="mb-10"
         >
-          <SectionLabel className="mb-4">Réseau pilote</SectionLabel>
+          <SectionLabel className="mb-4">{d.ui.lockersMap.label}</SectionLabel>
           <h2 className="font-heading font-bold text-2xl sm:text-3xl md:text-5xl leading-tight text-brand-gray mb-4">
-            Nos premiers casiers arrivent à Abidjan.
+            {d.ui.lockersMap.title}
           </h2>
           <p className="font-body text-base md:text-lg text-brand-sub max-w-xl">
-            Voici les sites de notre réseau pilote à Abidjan — et bientôt Bouaké.
-            Réservez votre créneau dès maintenant : vous serez notifié dès
+            {d.ui.lockersMap.lede}
             l&apos;ouverture du casier.
           </p>
         </motion.div>
@@ -90,6 +92,8 @@ function LockerCard({
   selected: boolean
   onSelect: () => void
 }) {
+  const d = useDict()
+
   return (
     <div
       onClick={onSelect}
@@ -115,7 +119,7 @@ function LockerCard({
               : 'bg-white text-brand-mid border border-brand-border'
           }`}
         >
-          {l.available ? 'Bientôt' : 'Complet'}
+          {l.available ? d.common.lockerStatus.soon : d.common.lockerStatus.full}
         </span>
       </div>
 
@@ -148,7 +152,7 @@ function LockerCard({
             style={{ '--fill': '#1B5E20' } as React.CSSProperties}
             className="btn-fill inline-flex items-center gap-1.5 rounded-full bg-green-primary px-4 py-2 font-body text-sm font-medium text-white"
           >
-            Pré-réserver
+            {d.ui.lockersMap.prebook}
             <ArrowRight size={15} />
           </Link>
         ) : (
