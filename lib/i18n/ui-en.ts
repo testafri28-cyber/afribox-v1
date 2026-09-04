@@ -231,4 +231,21 @@ export const uiEn: UiStrings = {
       },
     ],
   },
+
+  mobileUi: {
+    downloadOn: 'Download on',
+    availableOn: 'Available on',
+    appSoon: 'The app is coming soon. In the meantime, book in a few messages on',
+    hiwLede: 'Fully automated. No phone calls. No waiting.',
+    smsCourier: 'Code to open the Sococé locker, compartment M-04.',
+    smsSystem: 'System',
+    smsDeposited: 'Parcel dropped off. Locker closed and secured just now.',
+    lockersLabel: 'Pilot network',
+    lockersTitle: 'Our first lockers are arriving in Abidjan.',
+    lockersLede: 'Pilot network in Abidjan — with Bouaké next. Pre-book and we will let you know as soon as a locker opens.',
+    pricingLede: 'One flat price per 48-hour drop-off. Merchant and business accounts: volume discounts.',
+    faqLabel: 'Questions',
+    contactTitle: 'A question? We reply fast.',
+    whatsappAria: 'Message us on WhatsApp',
+  },
 }

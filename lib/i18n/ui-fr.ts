@@ -227,6 +227,22 @@ export const uiFr = {
       },
     ],
   },
+  mobileUi: {
+    downloadOn: 'Télécharger sur',
+    availableOn: 'Disponible sur',
+    appSoon: 'Application bientôt disponible. En attendant, réservez en quelques messages sur',
+    hiwLede: "Entièrement automatisé. Pas de coup de fil. Pas d'attente.",
+    smsCourier: 'Code pour ouvrir le casier Sococé, casier M-04.',
+    smsSystem: 'Système',
+    smsDeposited: "Colis déposé. Casier refermé et sécurisé à l'instant.",
+    lockersLabel: 'Réseau pilote',
+    lockersTitle: 'Nos premiers casiers arrivent à Abidjan.',
+    lockersLede: "Réseau pilote à Abidjan — et bientôt Bouaké. Pré-réservez : vous serez notifié dès l'ouverture du casier.",
+    pricingLede: 'Tarif unique par dépôt de 48h. Comptes marchand et entreprise : remises sur volume.',
+    faqLabel: 'Questions',
+    contactTitle: 'Une question ? On répond vite.',
+    whatsappAria: 'Nous écrire sur WhatsApp',
+  },
 }
 
 export type UiStrings = typeof uiFr

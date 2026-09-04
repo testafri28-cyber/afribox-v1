@@ -14,7 +14,7 @@ import MobileReserveBar from "./MobileReserveBar";
 export default function MobileHome({ locale }: { locale: Locale }) {
   return (
     <div className="bg-brand-off font-body text-brand-gray">
-      <MobileHowItWorks />
+      <MobileHowItWorks locale={locale} />
       <MobilePricing locale={locale} />
       <MobileLockers locale={locale} />
       <MobileApp locale={locale} />

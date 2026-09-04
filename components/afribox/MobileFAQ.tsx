@@ -2,15 +2,17 @@
 
 import { useState } from "react";
 import { getMobileData } from "@/lib/afribox-data";
+import { getDictionary } from "@/lib/i18n";
 import type { Locale } from "@/lib/i18n/config";
 
 export default function MobileFAQ({ locale }: { locale: Locale }) {
   const { faqItems } = getMobileData(locale);
+  const d = getDictionary(locale);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
     <section className="border-t border-brand-border px-4 py-9">
-      <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">Questions</p>
+      <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">{d.ui.mobileUi.faqLabel}</p>
       <h2 className="mb-6 font-heading text-2xl font-bold leading-tight text-brand-gray">
         L&apos;essentiel, vite fait.
       </h2>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
-import { useContent, useLocalePath } from '@/lib/i18n/LocaleProvider'
+import { useContent, useLocalePath, useDict } from '@/lib/i18n/LocaleProvider'
 
 /**
  * Barre d'action permanente sur mobile.
@@ -16,6 +16,7 @@ import { useContent, useLocalePath } from '@/lib/i18n/LocaleProvider'
 export default function MobileReserveBar() {
   const lp = useLocalePath()
   const { contact } = useContent()
+  const d = useDict()
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
@@ -50,7 +51,7 @@ export default function MobileReserveBar() {
           href={`https://wa.me/${contact.whatsapp}`}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Nous écrire sur WhatsApp"
+          aria-label={d.ui.mobileUi.whatsappAria}
           className="grid h-12 w-12 flex-shrink-0 place-items-center rounded-xl border border-brand-border bg-brand-white active:scale-[0.97]"
         >
           <Image
@@ -68,7 +69,7 @@ export default function MobileReserveBar() {
           tabIndex={visible ? undefined : -1}
           className="flex h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-green-dark text-[15px] font-bold text-white shadow-[0_8px_24px_-8px_rgba(27,94,32,0.45)] active:scale-[0.99]"
         >
-          Réserver un locker
+          {d.ui.nav.book}
           <ArrowRight size={16} />
         </Link>
       </div>
