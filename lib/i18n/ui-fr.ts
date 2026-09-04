@@ -205,6 +205,28 @@ export const uiFr = {
       ref: 'Réf. demande',
     },
   },
+  howItWorks: {
+    label: 'Comment ça marche',
+    title: 'De la commande à la récupération.',
+    lede: "De la commande au retrait, en 3 temps. Entièrement automatisé — pas de coup de fil, pas d'attente.",
+    phases: [
+      {
+        title: 'Commande & réservation',
+        text: 'Vous commandez chez un marchand partenaire ; il réserve le casier. Un seul paiement couvre le produit, la livraison et le locker.',
+        steps: ['Commande', 'Réservation & paiement'],
+      },
+      {
+        title: 'Dépôt du colis',
+        text: "Le livreur reçoit un code d'ouverture par SMS, ouvre le casier, dépose le colis et referme — 60 secondes.",
+        steps: ['Code au livreur', 'Dépôt du colis'],
+      },
+      {
+        title: 'Retrait 24h/24',
+        text: 'Vous recevez aussitôt votre code par SMS et retirez votre colis quand vous voulez, à toute heure.',
+        steps: ['Code au consommateur', 'Récupération'],
+      },
+    ],
+  },
 }
 
 export type UiStrings = typeof uiFr

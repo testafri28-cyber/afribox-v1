@@ -208,4 +208,27 @@ export const uiEn: UiStrings = {
       ref: 'Request ref.',
     },
   },
+
+  howItWorks: {
+    label: 'How it works',
+    title: 'From order to pickup.',
+    lede: 'From ordering to collecting, in three moves. Fully automated — no phone calls, no waiting.',
+    phases: [
+      {
+        title: 'Order & booking',
+        text: 'You order from a partner merchant; they book the locker. One payment covers the product, the delivery and the locker.',
+        steps: ['Order', 'Booking & payment'],
+      },
+      {
+        title: 'Parcel drop-off',
+        text: 'The courier gets an opening code by SMS, opens the locker, drops the parcel in and closes it — 60 seconds.',
+        steps: ['Code to the courier', 'Parcel drop-off'],
+      },
+      {
+        title: 'Pickup, around the clock',
+        text: 'Your code arrives by SMS straight away, and you collect your parcel whenever you like, at any hour.',
+        steps: ['Code to the recipient', 'Pickup'],
+      },
+    ],
+  },
 }
