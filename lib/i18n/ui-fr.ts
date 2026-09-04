@@ -288,6 +288,7 @@ export const uiFr = {
     greeting: 'Bonjour, je suis Locky 👋 votre concierge Afribox. Une question sur les lockers, les tarifs ou une livraison ? Je suis là pour vous aider.',
     connError: 'Souci de connexion 😅 Réessayez, ou écrivez-nous sur WhatsApp au +225 07 89 44 44 41.',
     subtitle: 'Concierge Afribox · en ligne',
+    photoAlt: 'Locky, votre concierge Afribox',
     bubble1: 'Comment puis-je',
     bubble2: 'vous aider ?',
     openAria: 'Ouvrir le chat avec Locky',
@@ -308,6 +309,21 @@ export const uiFr = {
     parcelWaiting: 'Votre colis vous attend.',
     pickupCode: 'Code de retrait',
     openLocker: 'Ouvrir le casier',
+  },
+  map: {
+    loading: 'Chargement de la carte…',
+    available: 'Disponible',
+    full: 'Complet',
+    selected: '✓ Sélectionné',
+  },
+
+  contactWa: {
+    greeting: 'Bonjour Afribox 👋',
+    intro: 'Nouvelle demande depuis le site :',
+    name: 'Nom',
+    email: 'Email',
+    profile: 'Profil',
+    subject: 'Sujet',
   },
 }
 

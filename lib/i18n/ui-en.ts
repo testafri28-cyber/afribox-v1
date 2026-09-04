@@ -295,6 +295,7 @@ export const uiEn: UiStrings = {
     greeting: 'Hello, I am Locky 👋 your Afribox concierge. A question about lockers, pricing or a delivery? I am here to help.',
     connError: 'Connection hiccup 😅 Try again, or message us on WhatsApp at +225 07 89 44 44 41.',
     subtitle: 'Afribox concierge · online',
+    photoAlt: 'Locky, your Afribox concierge',
     bubble1: 'How can I',
     bubble2: 'help you?',
     openAria: 'Open the chat with Locky',
@@ -316,5 +317,21 @@ export const uiEn: UiStrings = {
     parcelWaiting: 'Your parcel is waiting.',
     pickupCode: 'Pickup code',
     openLocker: 'Open the locker',
+  },
+
+  map: {
+    loading: 'Loading the map…',
+    available: 'Available',
+    full: 'Full',
+    selected: '✓ Selected',
+  },
+
+  contactWa: {
+    greeting: 'Hello Afribox 👋',
+    intro: 'New enquiry from the website:',
+    name: 'Name',
+    email: 'Email',
+    profile: 'Profile',
+    subject: 'Subject',
   },
 }

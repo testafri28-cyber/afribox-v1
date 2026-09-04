@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import dynamic from 'next/dynamic'
 import 'leaflet/dist/leaflet.css'
 import { type Locker } from '@/lib/constants'
-import { useContent } from '@/lib/i18n/LocaleProvider'
+import { useContent, useDict } from '@/lib/i18n/LocaleProvider'
 
 // React-Leaflet ne peut pas être rendu côté serveur (utilise window).
 // On charge dynamiquement avec ssr:false.
@@ -35,6 +35,7 @@ export default function LockersMap({
   height = '420px',
 }: LockersMapProps) {
   const { lockers } = useContent()
+  const d = useDict()
   const [mounted, setMounted] = useState(false)
   const [iconReady, setIconReady] = useState(false)
 
@@ -61,7 +62,7 @@ export default function LockersMap({
         className="w-full bg-green-bg border border-brand-border rounded-2xl flex items-center justify-center"
       >
         <p className="font-mono text-xs tracking-widest text-brand-mid uppercase">
-          Chargement de la carte…
+          {d.ui.map.loading}
         </p>
       </div>
     )
@@ -101,11 +102,11 @@ export default function LockersMap({
                       : 'bg-brand-off text-brand-mid'
                   }`}
                 >
-                  {l.available ? 'Disponible' : 'Complet'}
+                  {l.available ? d.ui.map.available : d.ui.map.full}
                 </span>
                 {selectedId === l.id && (
                   <p className="text-xs text-green-primary mt-2 font-medium">
-                    ✓ Sélectionné
+                    {d.ui.map.selected}
                   </p>
                 )}
               </div>

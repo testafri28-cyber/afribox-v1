@@ -14,14 +14,16 @@ import { stripLocale } from '@/lib/i18n/config'
 /* ⚠️ Doit rester dans l'ordre d'apparition des sections sur la page :
    le scroll-spy retient la DERNIÈRE section dont le haut a franchi la ligne
    de la navbar, en parcourant cette liste dans l'ordre. */
+// ids et icônes uniquement : les libellés viennent du dictionnaire (ui.nav.links),
+// dans le même ordre.
 const navLinks = [
-  { label: 'Services',       id: 'services',       icon: 'briefcase' as const },
-  { label: 'Fonctionnement', id: 'fonctionnement', icon: 'filetext' as const },
-  { label: 'Tarifs',         id: 'tarifs',         icon: 'creditcard' as const },
-  { label: "L'app",          id: 'app-mobile',     icon: 'home' as const },
-  { label: 'À propos',       id: 'a-propos',       icon: 'info' as const },
-  { label: 'Contact',        id: 'contact',        icon: 'phone' as const },
-  { label: 'FAQ',            id: 'faq',            icon: 'help' as const },
+  { id: 'services',       icon: 'briefcase' as const },
+  { id: 'fonctionnement', icon: 'filetext' as const },
+  { id: 'tarifs',         icon: 'creditcard' as const },
+  { id: 'app-mobile',     icon: 'home' as const },
+  { id: 'a-propos',       icon: 'info' as const },
+  { id: 'contact',        icon: 'phone' as const },
+  { id: 'faq',            icon: 'help' as const },
 ]
 
 /* Scroll to a section without putting a hash in the URL.

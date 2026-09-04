@@ -38,13 +38,13 @@ export default function ContactForm() {
 
     // Message WhatsApp pré-rempli (canal immédiat + secours).
     const waText = [
-      'Bonjour Afribox 👋',
-      'Nouvelle demande depuis le site :',
-      `• Nom : ${data.firstName} ${data.lastName}`,
-      `• Email : ${data.email}`,
+      d.ui.contactWa.greeting,
+      d.ui.contactWa.intro,
+      `• ${d.ui.contactWa.name} : ${data.firstName} ${data.lastName}`,
+      `• ${d.ui.contactWa.email} : ${data.email}`,
       data.phone ? `• ${d.ui.contactForm.phone} : ${data.phone}` : null,
-      `• Profil : ${data.role}`,
-      `• Sujet : ${data.subject}`,
+      `• ${d.ui.contactWa.profile} : ${data.role}`,
+      `• ${d.ui.contactWa.subject} : ${data.subject}`,
       '',
       data.message,
     ]

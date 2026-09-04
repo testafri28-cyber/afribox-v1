@@ -158,7 +158,7 @@ export default function LockyChat() {
             {/* Locky en pied */}
             <Image
               src="/locky.webp"
-              alt="Locky, votre concierge Afribox"
+              alt={d.ui.locky.photoAlt}
               width={146}
               height={320}
               priority
