@@ -300,6 +300,15 @@ export const uiFr = {
     fallbackNoKey: "Je ne suis pas encore tout à fait branché ici 🙈 Pour une réponse immédiate, écrivez-nous sur WhatsApp, ou réservez directement un locker depuis la page « Réserver ».",
     techIssue: "Désolé, j'ai un petit souci technique. Réessayez, ou écrivez-nous sur WhatsApp.",
   },
+  leaks: {
+    specsTitle: 'Le casier, en bref.',
+    pricingTaglines: ['L’essentiel', 'Le plus polyvalent', 'Grand volume'],
+    quote: 'Demander un devis',
+    smsPickup: 'Votre code de retrait. Colis disponible 48h.',
+    parcelWaiting: 'Votre colis vous attend.',
+    pickupCode: 'Code de retrait',
+    openLocker: 'Ouvrir le casier',
+  },
 }
 
 export type UiStrings = typeof uiFr

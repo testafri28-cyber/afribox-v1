@@ -9,11 +9,9 @@ import { useContent, useLocalePath, useDict } from '@/lib/i18n/LocaleProvider'
 import { fadeInUp, staggerContainer } from '@/lib/animations'
 
 // Icône + libellé d'accroche par taille (aligné sur l'ordre de `pricing`).
-const meta = [
-  { icon: Package,     tagline: 'L’essentiel' },
-  { icon: PackageOpen, tagline: 'Le plus polyvalent' },
-  { icon: Boxes,       tagline: 'Grand volume' },
-]
+// Icônes par taille (même ordre que la grille tarifaire) ; les accroches
+// viennent du dictionnaire.
+const metaIcons = [Package, PackageOpen, Boxes]
 
 export default function PricingSection() {
   const d = useDict()
@@ -46,7 +44,8 @@ export default function PricingSection() {
           className="grid grid-cols-1 lg:grid-cols-3 gap-5"
         >
           {pricing.map((p, i) => {
-            const { icon: Icon, tagline } = meta[i]
+            const Icon = metaIcons[i]
+            const tagline = d.ui.leaks.pricingTaglines[i]
             // Prix fixe (dépôt de 48h).
             const value = p.price.split(' / ')[0].replace(' FCFA', '')
             const featured = i === 1
@@ -147,7 +146,7 @@ export default function PricingSection() {
             href="#contact"
             className="text-green-primary hover:text-green-dark underline transition"
           >
-            Demander un devis
+            {d.ui.leaks.quote}
           </a>
           .
         </p>

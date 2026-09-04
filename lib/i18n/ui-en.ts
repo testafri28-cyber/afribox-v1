@@ -307,4 +307,14 @@ export const uiEn: UiStrings = {
     fallbackNoKey: 'I am not quite plugged in here yet 🙈 For an immediate answer, message us on WhatsApp, or book a locker straight from the Book page.',
     techIssue: 'Sorry, I am having a technical hiccup. Try again, or message us on WhatsApp.',
   },
+
+  leaks: {
+    specsTitle: 'The locker, in brief.',
+    pricingTaglines: ['The essentials', 'The most versatile', 'Large volume'],
+    quote: 'Request a quote',
+    smsPickup: 'Your pickup code. Parcel available for 48h.',
+    parcelWaiting: 'Your parcel is waiting.',
+    pickupCode: 'Pickup code',
+    openLocker: 'Open the locker',
+  },
 }

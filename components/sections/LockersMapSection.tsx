@@ -41,7 +41,6 @@ export default function LockersMapSection() {
           </h2>
           <p className="font-body text-base md:text-lg text-brand-sub max-w-xl">
             {d.ui.lockersMap.lede}
-            l&apos;ouverture du casier.
           </p>
         </motion.div>
 

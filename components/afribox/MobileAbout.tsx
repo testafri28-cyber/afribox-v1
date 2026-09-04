@@ -9,7 +9,7 @@ export default function MobileAbout({ locale }: { locale: Locale }) {
     <section id="a-propos" className="border-t border-brand-border px-4 py-9">
       <p className="mb-2 text-[11.5px] font-semibold uppercase tracking-wide text-green-dark">{d.ui.about.label}</p>
       <h2 className="mb-2.5 font-heading text-2xl font-bold leading-tight text-brand-gray">
-        Construire l&apos;infrastructure logistique de demain.
+        {d.ui.about.title}
       </h2>
       <p className="mb-6 text-sm leading-relaxed text-brand-sub">{aboutMission}</p>
 
@@ -28,7 +28,7 @@ export default function MobileAbout({ locale }: { locale: Locale }) {
       </div>
 
       <h3 className="mb-2.5 mt-6 font-heading text-[14.5px] font-semibold text-brand-gray">
-        Le casier, en bref.
+        {d.ui.leaks.specsTitle}
       </h3>
       {/* 3 colonnes : la bande compte 6 caractéristiques, en 4 colonnes la
           dernière ligne restait bancale. */}

@@ -35,7 +35,7 @@ export default function MobileHowItWorks({ locale }: { locale: Locale }) {
 
         <div className="max-w-[84%] self-end rounded-2xl rounded-br-md border border-green-dark/30 bg-green-dark/5 px-3.5 py-3 text-sm leading-snug text-brand-gray">
           <div className="mb-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-brand-sub">Vous</div>
-          Votre code de retrait. Colis disponible 48h.
+          {d.ui.leaks.smsPickup}
           <span className="mt-1 block font-mono text-lg font-semibold tracking-wider text-green-dark">
             975 214
           </span>

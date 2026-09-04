@@ -18,7 +18,7 @@ export default function MobileApp({ locale }: { locale: Locale }) {
         L&apos;application
       </p>
       <h2 className="mb-2.5 font-heading text-2xl font-bold leading-tight text-brand-gray">
-        Vos lockers dans votre poche.
+        {d.ui.app.title}
       </h2>
       <p className="mb-6 text-sm leading-relaxed text-brand-sub">
         {d.ui.app.lede}

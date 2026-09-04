@@ -78,7 +78,7 @@ export default function AboutSection() {
             variants={fadeInUp}
             className="font-heading font-bold text-xl sm:text-2xl md:text-4xl text-brand-gray mb-8"
           >
-            Le casier, en bref.
+            {d.ui.leaks.specsTitle}
           </motion.h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4">
             {lockerSpecs.map((s) => (

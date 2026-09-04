@@ -80,7 +80,7 @@ export default function AppDownloadSection() {
               >
                 <PlayGlyph className="w-[22px] h-[22px]" />
                 <span className="text-left leading-none">
-                  <span className="block font-body text-[10px] text-white/70">Disponible sur</span>
+                  <span className="block font-body text-[10px] text-white/70">{d.ui.mobileUi.availableOn}</span>
                   <span className="block font-heading font-semibold text-sm mt-0.5">Google Play</span>
                 </span>
               </a>
@@ -130,7 +130,7 @@ export default function AppDownloadSection() {
                     {d.ui.appMock.parcelReady}
                   </p>
                   <h3 className="mt-1.5 font-heading text-xl font-bold leading-tight text-brand-gray">
-                    Votre colis vous attend.
+                    {d.ui.leaks.parcelWaiting}
                   </h3>
                   <p className="mt-2 flex items-center gap-1 font-body text-[12px] text-brand-sub">
                     <MapPin size={12} className="text-green-primary" />
@@ -139,7 +139,7 @@ export default function AppDownloadSection() {
 
                   {/* Code de retrait */}
                   <div className="mt-5 w-full rounded-2xl border border-green-soft bg-green-bg p-3.5">
-                    <p className="font-mono text-[9px] uppercase tracking-widest text-brand-mid">Code de retrait</p>
+                    <p className="font-mono text-[9px] uppercase tracking-widest text-brand-mid">{d.ui.leaks.pickupCode}</p>
                     <p className="mt-1 font-mono text-[28px] font-bold leading-none tracking-[0.2em] text-green-primary">
                       842 631
                     </p>
@@ -148,7 +148,7 @@ export default function AppDownloadSection() {
                   {/* CTA */}
                   <div className="mt-3.5 flex w-full items-center justify-center gap-2 rounded-full bg-green-primary py-3 font-heading text-sm font-semibold text-white">
                     <ScanLine size={16} />
-                    Ouvrir le casier
+                    {d.ui.leaks.openLocker}
                   </div>
                   <p className="mt-3 font-body text-[10px] text-brand-mid">{d.ui.appMock.codeValidity}</p>
                 </div>
